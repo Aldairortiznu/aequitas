@@ -1,0 +1,17 @@
+{
+  "name": "reverdecer",
+  "version": "0.1.0",
+  "description": "Reverdecer — RPG pixel art: Abigail recorre 32 reinos de aprendizajes para volver a florecer y aprender a amarse.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "phaser": "^3.80.1"
+  }
+}

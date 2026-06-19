@@ -1,4 +1,4 @@
-# 🌿 CONTEXTO DEL PROYECTO — *El Jardín de los Miedos*
+# 🌱 CONTEXTO DEL PROYECTO — *Reverdecer* (La travesía de Abigail)
 
 > **Lee este archivo PRIMERO al iniciar cualquier sesión.** Resume qué es el juego,
 > las decisiones tomadas y dónde retomar. Mantenerlo actualizado al final de cada sesión.
@@ -18,7 +18,7 @@ la "armadura" capa por capa mediante autoconocimiento.
 
 ## 2. Personajes
 
-- **La Heroína** — protagonista. (Nombre configurable al inicio; por defecto: *Alma*.)
+- **Abigail** — la heroína protagonista.
 - **Jerónimo** 🐕 — perrito blanco **viejito y sabio**. Da pistas en puzzles y revela
   la debilidad de cada miedo. Voz calmada, reflexiva.
 - **Amanda** 🐶 — perrita blanca **joven y valiente**. Da **Valor** (impulso/poder extra)

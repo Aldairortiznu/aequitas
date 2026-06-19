@@ -1,4 +1,4 @@
-# 🗺️ PLAN MAESTRO — *El Jardín de los Miedos*
+# 🗺️ PLAN MAESTRO — *Reverdecer*
 
 > Roadmap por fases. Cada fase es un objetivo cerrable en una o varias sesiones.
 > Marca `[x]` lo completado. Al terminar una sesión, anota en `CHANGELOG.md`.
@@ -13,13 +13,14 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [x] Crear docs de seguimiento (CONTEXTO, PLAN, CHANGELOG, GDD_NIVELES)
 - [x] git init
 
-## FASE 1 — Andamiaje técnico ⬜
-- [ ] `npm create vite` + instalar **Phaser 3**
-- [ ] Estructura de carpetas (`src/scenes`, `src/systems`, `src/data`, `src/entities`)
-- [ ] `index.html` + `main.js` con config de Phaser (resolución, pixelArt:true, escalado)
-- [ ] Escena **Boot** (carga inicial) → **Menu** (pantalla de título)
-- [ ] Verificar `npm run dev` corriendo en navegador
-- [ ] `.gitignore` (node_modules, dist) + primer commit
+## FASE 1 — Andamiaje técnico ✅
+- [x] Proyecto Vite + instalar **Phaser 3** (v3.90)
+- [x] Estructura de carpetas (`src/scenes`, `src/systems`, `src/data`, `src/entities`)
+- [x] `index.html` + `main.js` con config de Phaser (resolución 480x270, pixelArt:true, escalado FIT)
+- [x] Escena **Boot** (placeholders) → **Menu** (pantalla de título con hojas y menú)
+- [x] Sistema de guardado básico (`systems/save.js`) + escena Placeholder con intro del prólogo
+- [x] Verificado `npm run dev` corriendo (Phaser arranca sin errores)
+- [x] `.gitignore` + commits
 
 ## FASE 2 — Movimiento y mundo base ⬜
 - [ ] Cargar un tilemap de prueba (Tiled .tmj) con tema verde
