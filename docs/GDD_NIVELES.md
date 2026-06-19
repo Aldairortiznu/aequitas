@@ -237,9 +237,17 @@
 - Las "Enseñanzas" se muestran al cerrar cada nivel y se guardan en el **Diario de Sabiduría**
   (consultable: las 32 frases + la del prólogo).
 - Jerónimo da la **pista del acertijo**; Amanda da el **empujón de Valor** antes del Guardián.
-- **Acertijos de libros reales** (la jugadora busca la respuesta fuera del juego):
-  niveles **5, 18, 22, 26, 30** (y opcionalmente el 31). En una pasada posterior definir
-  el libro/cita exacta de cada uno.
+- **Acertijos de libros reales** (la jugadora busca/recuerda la respuesta fuera del juego).
+  Juego **personal**: se citan obras reales de filosofía/literatura con enseñanzas.
+  Asignación por nivel (datos en `src/data/bookRiddles.js`):
+  - **Nivel 5** (reconocer lo que sí has hecho) → *Meditaciones*, Marco Aurelio.
+  - **Nivel 18** (vivir el presente) → *Sobre la brevedad de la vida*, Séneca.
+  - **Nivel 22** (saberte suficiente) → *Historia del buen brahmán*, Voltaire.
+  - **Nivel 26** (perdonarte / aceptar la dificultad) → *Elogio de la dificultad*, Estanislao Zuleta.
+  - **Nivel 30** (aceptar la finitud / legado) → *El Principito*, Antoine de Saint-Exupéry.
+  - **Nivel 31** (el sentido) → *El hombre en busca de sentido*, Viktor Frankl.
+  Cada acertijo plantea una pregunta cuya respuesta es una palabra/idea clave de la obra
+  (p. ej. "¿Qué es invisible a los ojos?" → *lo esencial*). Tono: español latino.
 - **Filosofía por acto:** Acto I (conócete), Acto II (estoicismo/desapego), Acto III
   (compasión, sentido, aceptación). Que los diálogos de Jerónimo citen ideas, no autores,
   para mantener el tono de cuento.
