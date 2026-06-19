@@ -202,6 +202,19 @@ export const SPRITES = {
     ],
   },
 
+  // Atril con libro abierto: pedestal de acertijo.
+  atril: {
+    w: 16, h: 20,
+    rects: [
+      r(6, 11, '#8a8f96', 4, 7), r(4, 17, '#6f747b', 8, 2), // pilar + base
+      r(3, 8, '#6b4a2f', 10, 2),                            // tapa del libro
+      r(3, 6, '#f3efe0', 5, 2), r(8, 6, '#f3efe0', 5, 2),   // páginas
+      r(7, 6, '#4a3322', 1, 2),                             // lomo
+      r(4, 6, '#9bb0c0', 3, 1), r(9, 6, '#9bb0c0', 3, 1),   // renglones
+      r(7, 2, '#e9c46a', 1, 2), r(6, 3, '#f6e6a8', 3, 1),   // chispa de saber
+    ],
+  },
+
   leaf: {
     w: 8, h: 8,
     rects: [

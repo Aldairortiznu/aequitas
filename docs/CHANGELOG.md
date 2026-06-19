@@ -130,6 +130,26 @@ o empezar Fase 8 (plantilla de niveles para construir los 32 reinos). Falta foto
 
 ---
 
+## Sesión 8 — 2026-06-19
+**Fase:** 6 (Acertijos) base ✅ + ampliación de libros.
+**Hecho:**
+- Ampliados los acertijos de libros reales (`src/data/bookRiddles.js`): ahora con **fuente**
+  (filosofía/Biblia/literatura), **dónde leer** (capítulo/versículo para leer la obra real),
+  pista, y 3 **tipos** de acertijo. Añadidas obras bíblicas (Eclesiastés 3, Mateo 6:34,
+  1 Corintios 13) y reserva (Tao Te Ching, Hesse, Fromm, Epicteto, Salmos, Rilke).
+- `src/systems/text.js`: normalización de respuestas (sin tildes/mayúsculas/signos) — testeado.
+- `src/scenes/RiddleScene.js`: acertijo jugable con tipos completar/ordenar/elección,
+  encabezado del libro, "dónde leer", pista, evaluación y pantalla de Aprendizaje.
+- En WorldScene: **atril** (pedestal) que lanza un acertijo demo (Eclesiastés, ordenar);
+  estado persistente en `save.riddlesSolved`. Burbujas/teclas E.
+- Verificado: normalización OK; RiddleScene activa con World pausado (forzando el bucle por
+  el throttling de rAF en pestaña de fondo); acertijo "ordenar" resuelto sin errores.
+
+**Pendiente / siguiente:** Fase 8 — plantilla de niveles (portal→acertijo→Guardián→enseñanza)
+y construir los 32 reinos. Falta la foto de Abigail.
+
+---
+
 ## Sesión 1 — 2026-06-18
 **Fase:** 0 (Planificación) ✅
 **Hecho:**

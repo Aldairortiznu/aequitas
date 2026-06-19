@@ -5,6 +5,7 @@
 import Phaser from 'phaser';
 import { COLORS } from '../config.js';
 import { CONVERSATIONS } from '../data/dialogues.js';
+import { RIDDLES } from '../data/bookRiddles.js';
 import { writeSave } from '../systems/save.js';
 
 const TILE = 16;
@@ -34,6 +35,7 @@ export default class WorldScene extends Phaser.Scene {
     this.createNpc();
     this.createCombat();
     this.createSavePoint();
+    this.createRiddlePedestal();
 
     // Físicas y cámara.
     this.physics.add.collider(this.player, this.solids);
@@ -272,6 +274,41 @@ export default class WorldScene extends Phaser.Scene {
     if (this.enemy.active) this.enemy.setTint(0xe9c46a);
   }
 
+  // -------------------------------------------------------- acertijo (demo)
+  createRiddlePedestal() {
+    const ax = (COLS / 2 - 2) * TILE;
+    const ay = (ROWS / 2 + 4) * TILE;
+    this.atril = this.add.image(ax, ay, 'atril').setOrigin(0.5, 1);
+    this.atril.setDepth(ay);
+    this.atril.riddle = RIDDLES.n14; // demo: Eclesiastés (ordenar)
+    this.atrilHint = this.add
+      .text(ax, ay - 30, 'Leer (E)', { fontFamily: 'monospace', fontSize: '7px', color: '#e9c46a' })
+      .setOrigin(0.5)
+      .setDepth(99999)
+      .setVisible(false);
+    this.atrilSolved = false;
+  }
+
+  openRiddle(riddle) {
+    if (this.talking) return;
+    this.talking = true;
+    this.player.setVelocity(0, 0);
+    this.scene.launch('Riddle', {
+      riddle,
+      returnScene: 'World',
+      onSolved: () => {
+        this.atrilSolved = true;
+        this.showFloat(this.atril.x, this.atril.y - 26, 'Comprendiste. El jardín respira.', '#9be8a6');
+        if (this.save) {
+          if (!this.save.riddlesSolved) this.save.riddlesSolved = [];
+          if (!this.save.riddlesSolved.includes(riddle.nivel)) this.save.riddlesSolved.push(riddle.nivel);
+          writeSave(this.save);
+        }
+      },
+    });
+    this.scene.pause();
+  }
+
   // ----------------------------------------------------------- guardado
   createSavePoint() {
     const fx = (COLS / 2 + 1) * TILE;
@@ -336,6 +373,11 @@ export default class WorldScene extends Phaser.Scene {
       this.saveGame();
       return;
     }
+    // El atril del acertijo.
+    if (near(this.atril) < 28) {
+      this.openRiddle(this.atril.riddle);
+      return;
+    }
     const options = [
       { obj: this.npc, convo: this.npc.convo },
       { obj: this.amanda, convo: CONVERSATIONS.amanda_valor },
@@ -392,6 +434,9 @@ export default class WorldScene extends Phaser.Scene {
     // Burbuja de guardado cuando está cerca de la fuente.
     const dF = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.fuente.x, this.fuente.y);
     this.fuenteHint.setVisible(dF < 28);
+    // Burbuja del atril del acertijo.
+    const dA = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.atril.x, this.atril.y);
+    this.atrilHint.setVisible(dA < 28);
 
     const left = this.cursors.left.isDown || this.keys.A.isDown;
     const right = this.cursors.right.isDown || this.keys.D.isDown;

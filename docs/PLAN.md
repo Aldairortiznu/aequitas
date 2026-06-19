@@ -54,10 +54,13 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [x] Feedback: shake, parpadeo, números flotantes, tinte; tutorial `sombra_aviso` y enseñanza `sombra_vencida`
 - [ ] (Pendiente futuro) Sonidos — en Fase 7 (audio)
 
-## FASE 6 — Sistema de puzzles / acertijos ⬜
-- [ ] Tipos de puzzle: recoger luces, placas de presión, orden de símbolos
-- [ ] **Acertijos de texto** con respuesta escrita (incluye los de "libros reales")
-- [ ] Estado de puzzle persistente (se guarda si se resolvió)
+## FASE 6 — Sistema de puzzles / acertijos ✅ (base)
+- [x] **RiddleScene** con 3 tipos: completar (escribir), **ordenar** (frase), elegir (opción)
+- [x] Acertijos de "libros reales" con fuente (filosofía/Biblia/literatura), "dónde leer" y pista
+- [x] Comparación flexible de respuestas (`systems/text.js`: sin tildes/mayúsculas/signos)
+- [x] Atril (pedestal) en el mundo que lanza un acertijo; estado persistente (`save.riddlesSolved`)
+- [x] Pantalla de "Aprendizaje" al resolver
+- [ ] (Futuro) Otros puzzles de mundo (placas de presión, recoger luces) por nivel en Fase 8
 
 ## FASE 7 — Arte y audio 🔧 (adelantada parcialmente)
 - [ ] Descargar e integrar packs CC0 (Kenney/LPC) — tilesets verdes, castillos
