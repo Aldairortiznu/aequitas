@@ -31,11 +31,12 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [x] HUD con nombre de zona y controles; Esc vuelve al menú
 - Nota: tilemap en Tiled (.tmj) se difiere; el mundo generado por código es suficiente por ahora.
 
-## FASE 3 — Sistema de diálogos ⬜
-- [ ] Caja de diálogo pixel (retrato + texto con efecto máquina de escribir)
-- [ ] Soporte para: NPC, Jerónimo, Amanda, reflexión propia (estilos distintos)
-- [ ] Diálogos ramificados simples (opciones)
-- [ ] Cargar textos desde `src/data/dialogues.js`
+## FASE 3 — Sistema de diálogos ✅
+- [x] Caja de diálogo pixel (retrato + nombre + texto con efecto máquina de escribir)
+- [x] Soporte para: NPC (Jardinero), Jerónimo, Amanda, reflexión propia (estilos/colores distintos)
+- [x] `DialogueScene` que se lanza sobre el mundo (pausa World, resume al cerrar)
+- [x] Textos en `src/data/dialogues.js`; intro del prólogo automática; NPC y perros hablables (E)
+- [ ] (Pendiente futuro) Diálogos ramificados con opciones — se hará cuando un nivel lo requiera
 
 ## FASE 4 — Sistema de guardado ⬜
 - [ ] Guardar/cargar en localStorage (nivel, vida, progreso, acertijos resueltos)

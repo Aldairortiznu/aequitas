@@ -131,6 +131,27 @@ export const SPRITES = {
     ],
   },
 
+  npc_guia: {
+    w: 16, h: 26,
+    rects: [
+      // sombrero de paja / jardinero
+      r(5, 0, '#c9a24b', 6, 3), r(3, 3, '#c9a24b', 10, 1), r(4, 2, '#dcb968', 8, 1),
+      // rostro
+      r(5, 4, PAL.skin, 6, 5),
+      r(6, 6, PAL.eye, 1, 1), r(9, 6, PAL.eye, 1, 1),
+      // barba canosa (anciano)
+      r(5, 8, PAL.grey, 6, 2), r(6, 9, '#e7e3d6', 4, 1),
+      // túnica verde terroso
+      r(4, 10, '#3f5c34', 8, 9), r(8, 10, '#34502c', 1, 9),
+      r(3, 11, '#3f5c34', 1, 5), r(12, 11, '#3f5c34', 1, 5),
+      r(4, 14, PAL.belt, 8, 1),
+      // bajo de la túnica + pies
+      r(4, 19, '#3f5c34', 8, 4), r(5, 23, PAL.boot, 2, 3), r(9, 23, PAL.boot, 2, 3),
+      // bastón
+      r(13, 4, '#6b4a2f', 1, 18), r(12, 3, '#3a9457', 3, 2),
+    ],
+  },
+
   leaf: {
     w: 8, h: 8,
     rects: [

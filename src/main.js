@@ -5,6 +5,7 @@ import BootScene from './scenes/BootScene.js';
 import MenuScene from './scenes/MenuScene.js';
 import PlaceholderScene from './scenes/PlaceholderScene.js';
 import WorldScene from './scenes/WorldScene.js';
+import DialogueScene from './scenes/DialogueScene.js';
 
 const config = {
   type: Phaser.AUTO,
@@ -22,7 +23,7 @@ const config = {
     default: 'arcade',
     arcade: { gravity: { y: 0 }, debug: false },
   },
-  scene: [BootScene, MenuScene, PlaceholderScene, WorldScene],
+  scene: [BootScene, MenuScene, PlaceholderScene, WorldScene, DialogueScene],
 };
 
 const game = new Phaser.Game(config);

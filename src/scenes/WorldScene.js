@@ -4,6 +4,7 @@
 
 import Phaser from 'phaser';
 import { COLORS } from '../config.js';
+import { CONVERSATIONS } from '../data/dialogues.js';
 
 const TILE = 16;
 const COLS = 50;
@@ -29,6 +30,7 @@ export default class WorldScene extends Phaser.Scene {
 
     this.createPlayer();
     this.createDogs();
+    this.createNpc();
 
     // Físicas y cámara.
     this.physics.add.collider(this.player, this.solids);
@@ -41,6 +43,18 @@ export default class WorldScene extends Phaser.Scene {
 
     this.setupInput();
     this.buildHud();
+
+    // Al volver de un diálogo, reactivar el control.
+    this.talking = false;
+    this.events.on('resume', () => {
+      this.talking = false;
+    });
+
+    // Diálogo de introducción la primera vez (prólogo).
+    if (this.save && this.save.level === 0 && !this.save.introSeen) {
+      this.save.introSeen = true;
+      this.time.delayedCall(400, () => this.startDialogue(CONVERSATIONS.intro));
+    }
   }
 
   // ----------------------------------------------------------- terreno
@@ -153,11 +167,51 @@ export default class WorldScene extends Phaser.Scene {
     return this.trail[0];
   }
 
+  createNpc() {
+    const nx = (COLS / 2 + 5) * TILE;
+    const ny = (ROWS / 2) * TILE;
+    this.npc = this.add.image(nx, ny, 'npc_guia').setOrigin(0.5, 1);
+    this.npc.setDepth(this.npc.y);
+    this.npc.convo = CONVERSATIONS.jardinero;
+    // Burbuja de aviso "hablar".
+    this.npcHint = this.add
+      .text(nx, ny - 30, '!', { fontFamily: 'monospace', fontSize: '12px', color: COLORS.gold })
+      .setOrigin(0.5)
+      .setDepth(99999)
+      .setVisible(false);
+  }
+
   // ----------------------------------------------------------- input/hud
   setupInput() {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.keys = this.input.keyboard.addKeys('W,A,S,D');
     this.input.keyboard.on('keydown-ESC', () => this.scene.start('Menu'));
+    this.input.keyboard.on('keydown-E', () => this.tryInteract());
+  }
+
+  // Habla con quien esté más cerca (NPC, Amanda o Jerónimo).
+  tryInteract() {
+    if (this.talking) return;
+    const near = (obj) => Phaser.Math.Distance.Between(this.player.x, this.player.y, obj.x, obj.y);
+    const options = [
+      { obj: this.npc, convo: this.npc.convo },
+      { obj: this.amanda, convo: CONVERSATIONS.amanda_valor },
+      { obj: this.jeronimo, convo: CONVERSATIONS.jeronimo_consejo },
+    ];
+    let best = null;
+    for (const o of options) {
+      const d = near(o.obj);
+      if (d < 30 && (!best || d < best.d)) best = { ...o, d };
+    }
+    if (best) this.startDialogue(best.convo);
+  }
+
+  startDialogue(convo) {
+    if (this.talking) return;
+    this.talking = true;
+    this.player.setVelocity(0, 0);
+    this.scene.launch('Dialogue', { convo, returnScene: 'World' });
+    this.scene.pause();
   }
 
   buildHud() {
@@ -172,7 +226,7 @@ export default class WorldScene extends Phaser.Scene {
     t.setShadow(1, 1, '#06100b', 2);
 
     const hint = this.add
-      .text(8, this.scale.height - 14, 'WASD / Flechas: moverte   ·   Esc: menú', {
+      .text(8, this.scale.height - 14, 'WASD/Flechas: moverte   ·   E: hablar   ·   Esc: menú', {
         fontFamily: 'monospace',
         fontSize: '8px',
         color: '#bfe0c8',
@@ -184,6 +238,15 @@ export default class WorldScene extends Phaser.Scene {
 
   // ----------------------------------------------------------- bucle
   update() {
+    if (this.talking) {
+      this.player.setVelocity(0, 0);
+      return;
+    }
+
+    // Burbuja "!" cuando Abigail está cerca del NPC.
+    const dNpc = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.npc.x, this.npc.y);
+    this.npcHint.setVisible(dNpc < 30);
+
     const left = this.cursors.left.isDown || this.keys.A.isDown;
     const right = this.cursors.right.isDown || this.keys.D.isDown;
     const up = this.cursors.up.isDown || this.keys.W.isDown;

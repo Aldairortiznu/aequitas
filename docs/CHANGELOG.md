@@ -74,6 +74,26 @@ reflexión propia) con caja pixel y efecto máquina de escribir.
 
 ---
 
+## Sesión 5 — 2026-06-19
+**Fase:** 3 (Diálogos) ✅ + correcciones.
+**Hecho:**
+- **Correcciones pedidas:** (1) los perros ya no se amontonan: seguimiento por
+  **rastro de distancia** (`trailPointBehind`) con separación fija (Amanda 16px,
+  Jerónimo 30px) y suavizado. (2) **Rediseño de la cara de Abigail**: ojos más grandes
+  con brillo, mejillas, sonrisa; **gafas como monturas redondas** con puente alto y
+  patillas y lentes transparentes (ya no parece antifaz).
+- **Sistema de diálogos:** `src/data/dialogues.js` (4 voces: abigail, pensamiento,
+  jeronimo, amanda, guia) + `src/scenes/DialogueScene.js` (caja pixel, retrato, nombre
+  coloreado, máquina de escribir, ▼ para continuar; se lanza sobre World que se pausa).
+- En World: NPC **El Jardinero** (sprite `npc_guia`) con burbuja "!", intro del prólogo
+  automática al empezar, y tecla **E** para hablar con quien esté cerca (NPC/Amanda/Jerónimo).
+- Verificado: consola sin errores; DialogueScene probada por eval (renderiza nombre/texto/typewriter).
+
+**Pendiente / siguiente:** Fase 4 — guardado completo (puntos de guardado, continuar)
+o Fase 5 — combate en tiempo real. Falta aún la foto real de Abigail.
+
+---
+
 ## Sesión 1 — 2026-06-18
 **Fase:** 0 (Planificación) ✅
 **Hecho:**
