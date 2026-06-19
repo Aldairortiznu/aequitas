@@ -26,21 +26,30 @@ export const SPRITES = {
       r(4, 1, PAL.hair, 10, 3), r(3, 3, PAL.hair, 12, 9),
       r(3, 9, PAL.hair, 3, 11), r(12, 9, PAL.hair, 3, 11),
       r(5, 1, PAL.hairHi, 3, 1),
-      // rostro
-      r(5, 5, PAL.skin, 8, 8), r(6, 12, PAL.skin, 6, 2), r(5, 11, PAL.skinSh, 8, 1),
-      // flequillo
-      r(5, 4, PAL.hair, 8, 2), r(5, 4, PAL.hair, 2, 4), r(11, 4, PAL.hair, 2, 4),
-      // ojos
-      r(7, 8, PAL.eye, 2, 2), r(10, 8, PAL.eye, 2, 2),
-      r(7, 8, PAL.white, 1, 1), r(10, 8, PAL.white, 1, 1),
-      // mejillas + boca
-      r(6, 10, PAL.blush, 1, 1), r(11, 10, PAL.blush, 1, 1), r(8, 11, PAL.mouth, 2, 1),
-      // gafas de marco azul, lentes transparentes (se ven los ojos)
-      r(6, 7, PAL.glass, 4, 1), r(6, 10, PAL.glass, 4, 1),   // aro izq: arriba/abajo
-      r(6, 8, PAL.glass, 1, 2), r(9, 8, PAL.glass, 1, 2),    // aro izq: lados (x9 = puente)
-      r(9, 7, PAL.glass, 4, 1), r(9, 10, PAL.glass, 4, 1),   // aro der: arriba/abajo
-      r(12, 8, PAL.glass, 1, 2),                              // aro der: lado externo
-      r(5, 8, PAL.glass, 1, 1), r(13, 8, PAL.glass, 1, 1),   // patillas hacia el pelo
+      // rostro (más suave y redondeado)
+      r(5, 5, PAL.skin, 8, 7), r(6, 12, PAL.skin, 6, 1), r(6, 11, PAL.skinSh, 6, 1),
+      r(4, 6, PAL.skin, 1, 4), r(13, 6, PAL.skin, 1, 4), // mejillas redondeadas
+      // flequillo con raya al medio
+      r(5, 4, PAL.hair, 8, 1), r(5, 5, PAL.hair, 2, 2), r(11, 5, PAL.hair, 2, 2),
+      r(8, 4, PAL.hair, 1, 1), r(9, 4, PAL.hair, 1, 1),
+      // ojos grandes y expresivos (blanco + pupila + brillo)
+      r(5, 8, PAL.white, 2, 2), r(11, 8, PAL.white, 2, 2),
+      r(6, 8, PAL.eye, 1, 2), r(11, 8, PAL.eye, 1, 2),   // pupilas hacia el centro
+      r(5, 8, PAL.white, 1, 1), r(12, 8, PAL.white, 1, 1), // chispa
+      r(5, 7, PAL.hair, 2, 1), r(11, 7, PAL.hair, 2, 1),  // pestañas
+      // nariz + sonrisa suave
+      r(8, 10, PAL.skinSh, 1, 1),
+      r(7, 11, PAL.mouth, 3, 1), r(7, 11, PAL.skin, 1, 1), r(9, 11, PAL.skin, 1, 1),
+      // mejillas sonrojadas
+      r(4, 9, PAL.blush, 1, 1), r(13, 9, PAL.blush, 1, 1),
+      // gafas: monturas redondas finas, lentes transparentes
+      r(4, 7, PAL.glass, 4, 1), r(4, 10, PAL.glass, 4, 1),   // aro izq arriba/abajo
+      r(4, 8, PAL.glass, 1, 2), r(7, 8, PAL.glass, 1, 2),    // aro izq lados
+      r(10, 7, PAL.glass, 4, 1), r(10, 10, PAL.glass, 4, 1), // aro der arriba/abajo
+      r(10, 8, PAL.glass, 1, 2), r(13, 8, PAL.glass, 1, 2),  // aro der lados
+      r(8, 7, PAL.glass, 2, 1),                              // puente alto entre lentes
+      r(3, 8, PAL.glass, 1, 1), r(14, 8, PAL.glass, 1, 1),   // patillas hacia el pelo
+      r(4, 7, PAL.glassHi, 1, 1), r(10, 7, PAL.glassHi, 1, 1), // brillo de cristal
       // túnica
       r(4, 14, PAL.dress, 10, 3), r(4, 17, PAL.dress, 10, 5),
       r(4, 16, PAL.trim, 10, 1), r(8, 17, PAL.dressSh, 2, 5),

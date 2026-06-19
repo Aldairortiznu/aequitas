@@ -126,16 +126,31 @@ export default class WorldScene extends Phaser.Scene {
   }
 
   createDogs() {
-    this.history = [];
-    const mk = (key, x) => {
-      const d = this.add.image(x, this.player.y, key).setOrigin(0.5, 1);
-      return d;
-    };
-    // Amanda más cerca (valiente, al frente del grupo de perros); Jerónimo detrás.
-    this.amanda = mk('amanda', this.player.x - 14);
-    this.jeronimo = mk('jeronimo', this.player.x - 28);
-    this.amandaLag = 10;
-    this.jeronimoLag = 22;
+    // Rastro de posiciones (puntos por los que pasó Abigail) para que los perros
+    // la sigan manteniendo una separación FIJA en píxeles (no se amontonan).
+    this.trail = [{ x: this.player.x, y: this.player.y }];
+    const mk = (key, x) => this.add.image(x, this.player.y, key).setOrigin(0.5, 1);
+    // Amanda más cerca (valiente, al frente); Jerónimo detrás.
+    this.amanda = mk('amanda', this.player.x - 16);
+    this.jeronimo = mk('jeronimo', this.player.x - 32);
+    this.amandaGap = 16;   // px detrás de Abigail
+    this.jeronimoGap = 30; // px detrás de Abigail
+  }
+
+  // Devuelve el punto del rastro a `gap` píxeles por detrás de Abigail.
+  trailPointBehind(gap) {
+    let dist = 0;
+    for (let i = this.trail.length - 1; i > 0; i--) {
+      const a = this.trail[i];
+      const b = this.trail[i - 1];
+      const seg = Math.hypot(a.x - b.x, a.y - b.y);
+      if (dist + seg >= gap) {
+        const t = (gap - dist) / seg;
+        return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
+      }
+      dist += seg;
+    }
+    return this.trail[0];
   }
 
   // ----------------------------------------------------------- input/hud
@@ -196,13 +211,15 @@ export default class WorldScene extends Phaser.Scene {
 
     this.player.setDepth(this.player.y);
 
-    // Registro de posiciones para que los perros sigan en fila.
-    this.history.push({ x: this.player.x, y: this.player.y, flip: this.player.flipX });
-    const maxLag = this.jeronimoLag + 2;
-    while (this.history.length > maxLag) this.history.shift();
+    // Añade un punto al rastro solo cuando Abigail se ha movido lo suficiente.
+    const last = this.trail[this.trail.length - 1];
+    if (Math.hypot(this.player.x - last.x, this.player.y - last.y) > 2) {
+      this.trail.push({ x: this.player.x, y: this.player.y });
+      if (this.trail.length > 80) this.trail.shift();
+    }
 
-    this.followDog(this.amanda, this.amandaLag);
-    this.followDog(this.jeronimo, this.jeronimoLag);
+    this.followDog(this.amanda, this.amandaGap);
+    this.followDog(this.jeronimo, this.jeronimoGap);
   }
 
   updateFacing(vx, vy) {
@@ -219,16 +236,13 @@ export default class WorldScene extends Phaser.Scene {
     }
   }
 
-  followDog(dog, lag) {
-    if (this.history.length < lag) {
-      dog.setDepth(dog.y);
-      return;
-    }
-    const p = this.history[this.history.length - lag];
+  followDog(dog, gap) {
+    const p = this.trailPointBehind(gap);
     const prevX = dog.x;
-    dog.x = p.x;
-    dog.y = p.y;
-    if (Math.abs(dog.x - prevX) > 0.1) dog.setFlipX(dog.x < prevX);
+    // Suaviza el movimiento hacia el punto objetivo.
+    dog.x = Phaser.Math.Linear(dog.x, p.x, 0.4);
+    dog.y = Phaser.Math.Linear(dog.y, p.y, 0.4);
+    if (Math.abs(dog.x - prevX) > 0.2) dog.setFlipX(dog.x < prevX);
     dog.setDepth(dog.y);
   }
 }
