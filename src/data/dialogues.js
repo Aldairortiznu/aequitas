@@ -36,7 +36,24 @@ export const CONVERSATIONS = {
   ],
 
   amanda_valor: [
-    { s: 'amanda', t: '¡Eh, eh! ¿Esa carita de duda? ¡Tú puedes con esto, y con lo que venga después!' },
+    { s: 'amanda', t: '¡Oye, oye! ¿Esa carita de duda? ¡Tú puedes con esto, y con lo que venga después!' },
     { s: 'amanda', t: 'Cuando llegue el miedo, respira y da UN paso. Solo uno. El siguiente lo damos juntas. ¡Vamos!' },
+  ],
+
+  sombra_aviso: [
+    { s: 'jeronimo', t: 'Cuidado, Abigail. Eso de ahí es una sombra: un miedo tuyo que tomó forma.' },
+    { s: 'amanda', t: '¡No te asustes! Con la barra espaciadora la golpeas. ¡Acércate y dale!' },
+    { s: 'jeronimo', t: 'Pero escucha bien: las sombras se defienden de los golpes a ciegas.' },
+    { s: 'jeronimo', t: 'Presiona B y usaré mi Sabiduría para mostrarte su punto débil. Solo entonces le harás daño de verdad.' },
+    { s: 'amanda', t: 'Y si te sientes flaquear, presiona V. ¡Yo te doy mi Valor y pegas mucho más fuerte!' },
+    { s: 'pensamiento', t: 'Muy bien... no estoy sola. Respiro. Doy un paso. Y enfrento lo que vine a enfrentar.' },
+  ],
+
+  sombra_vencida: [
+    { s: 'pensamiento', t: 'La sombra se deshizo... y no quedó un monstruo, sino un pedacito de mí.' },
+    { s: 'jeronimo', t: 'Así es. Nunca peleaste contra un enemigo: peleaste contra algo que no habías querido mirar.' },
+    { s: 'amanda', t: '¡Y lo lograste! ¿Viste? ¡Mirarlo de frente ya fue media batalla!' },
+    { s: 'jeronimo', t: 'Recuerda esto, Abigail: el miedo se hace gigante en la oscuridad y pequeño cuando lo enfrentas.' },
+    { s: 'abigail', t: 'Lo recordaré. Sigamos: el jardín tiene mucho por reverdecer.' },
   ],
 };

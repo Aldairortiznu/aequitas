@@ -31,6 +31,7 @@ export default class WorldScene extends Phaser.Scene {
     this.createPlayer();
     this.createDogs();
     this.createNpc();
+    this.createCombat();
 
     // Físicas y cámara.
     this.physics.add.collider(this.player, this.solids);
@@ -181,12 +182,103 @@ export default class WorldScene extends Phaser.Scene {
       .setVisible(false);
   }
 
+  // ----------------------------------------------------------- combate
+  createCombat() {
+    this.hp = this.save ? this.save.hp : 100;
+    this.maxHp = this.save ? this.save.maxHp : 100;
+
+    this.nextAttack = 0;
+    this.knockUntil = 0;
+    this.invulnUntil = 0;
+
+    // Estados de Valor (Amanda) y Sabiduría (Jerónimo).
+    this.valorUntil = 0;
+    this.valorReadyAt = 0;
+    this.revealUntil = 0;
+    this.revealReadyAt = 0;
+
+    // Enemigo: una sombra errante (primer combate del prólogo).
+    const ex = (COLS / 2 - 7) * TILE;
+    const ey = (ROWS / 2 - 3) * TILE;
+    this.enemy = this.physics.add.image(ex, ey, 'sombra');
+    this.enemy.setDepth(ey);
+    this.enemy.hp = 5;
+    this.enemy.maxHp = 5;
+    this.enemy.hitThisSwing = false;
+    this.physics.add.collider(this.enemy, this.solids);
+
+    // Núcleo (punto débil) oculto hasta usar Sabiduría.
+    this.core = this.add.image(ex, ey, 'sombra_core').setVisible(false).setDepth(99998);
+
+    // Barra de vida del enemigo (mundo).
+    this.enemyBar = this.add.graphics().setDepth(99997);
+
+    // HUD de vida de Abigail (fijo a cámara).
+    this.hpBar = this.add.graphics().setScrollFactor(0).setDepth(10001);
+    this.skillText = this.add
+      .text(8, 22, '', { fontFamily: 'monospace', fontSize: '8px', color: '#bfe0c8' })
+      .setScrollFactor(0)
+      .setDepth(10001);
+
+    this.sombraWarned = false;
+    this.enemyDefeated = false;
+  }
+
+  attack() {
+    if (this.talking) return;
+    const now = this.time.now;
+    if (now < this.nextAttack) return;
+    this.nextAttack = now + 340;
+    this.enemy.hitThisSwing = false;
+
+    // Punto frente a Abigail según su orientación.
+    const off = 14;
+    let dx = 0;
+    let dy = 0;
+    if (this.facing === 'up') dy = -off;
+    else if (this.facing === 'down') dy = off;
+    else if (this.facing === 'left') dx = -off;
+    else dx = off;
+    this.attackX = this.player.x + dx;
+    this.attackY = this.player.y - 14 + dy; // a la altura del torso
+
+    const slash = this.add
+      .image(this.attackX, this.attackY, 'slash')
+      .setDepth(this.player.y + 1)
+      .setFlipX(this.facing === 'left');
+    this.tweens.add({ targets: slash, alpha: 0, scale: 1.4, duration: 180, onComplete: () => slash.destroy() });
+
+    this.attackActiveUntil = now + 140;
+  }
+
+  useValor() {
+    if (this.talking) return;
+    const now = this.time.now;
+    if (now < this.valorReadyAt) return;
+    this.valorUntil = now + 5000;
+    this.valorReadyAt = now + 11000;
+    this.player.setTint(0x9be8a6);
+    this.cameras.main.flash(150, 120, 220, 140);
+  }
+
+  useSabiduria() {
+    if (this.talking || this.enemyDefeated) return;
+    const now = this.time.now;
+    if (now < this.revealReadyAt) return;
+    this.revealUntil = now + 6000;
+    this.revealReadyAt = now + 8500;
+    if (this.enemy.active) this.enemy.setTint(0xe9c46a);
+  }
+
   // ----------------------------------------------------------- input/hud
   setupInput() {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.keys = this.input.keyboard.addKeys('W,A,S,D');
     this.input.keyboard.on('keydown-ESC', () => this.scene.start('Menu'));
     this.input.keyboard.on('keydown-E', () => this.tryInteract());
+    this.input.keyboard.on('keydown-SPACE', () => this.attack());
+    this.input.keyboard.on('keydown-V', () => this.useValor());
+    this.input.keyboard.on('keydown-B', () => this.useSabiduria());
   }
 
   // Habla con quien esté más cerca (NPC, Amanda o Jerónimo).
@@ -226,7 +318,7 @@ export default class WorldScene extends Phaser.Scene {
     t.setShadow(1, 1, '#06100b', 2);
 
     const hint = this.add
-      .text(8, this.scale.height - 14, 'WASD/Flechas: moverte   ·   E: hablar   ·   Esc: menú', {
+      .text(8, this.scale.height - 14, 'Mover: WASD   Atacar: Espacio   Valor: V   Sabiduría: B   Hablar: E', {
         fontFamily: 'monospace',
         fontSize: '8px',
         color: '#bfe0c8',
@@ -260,9 +352,14 @@ export default class WorldScene extends Phaser.Scene {
     if (down) vy += 1;
 
     const moving = vx !== 0 || vy !== 0;
-    if (moving) {
+    const knocked = this.time.now < this.knockUntil;
+    if (knocked) {
+      // Durante el retroceso no se controla la velocidad (ya está fijada).
+    } else if (moving) {
+      const valor = this.time.now < this.valorUntil;
+      const spd = SPEED * (valor ? 1.3 : 1);
       const len = Math.hypot(vx, vy) || 1;
-      this.player.setVelocity((vx / len) * SPEED, (vy / len) * SPEED);
+      this.player.setVelocity((vx / len) * spd, (vy / len) * spd);
       this.updateFacing(vx, vy);
       // pasito (bob) vertical sutil
       this.bob += 0.25;
@@ -273,6 +370,7 @@ export default class WorldScene extends Phaser.Scene {
     }
 
     this.player.setDepth(this.player.y);
+    this.updateCombat();
 
     // Añade un punto al rastro solo cuando Abigail se ha movido lo suficiente.
     const last = this.trail[this.trail.length - 1];
@@ -297,6 +395,177 @@ export default class WorldScene extends Phaser.Scene {
       this.player.setFlipX(vx < 0);
       this.facing = vx < 0 ? 'left' : 'right';
     }
+  }
+
+  updateCombat() {
+    const now = this.time.now;
+
+    // Fin de Valor: quitar tinte.
+    if (this.player.tintTopLeft !== 0xffffff && now >= this.valorUntil) {
+      this.player.clearTint();
+    }
+
+    this.drawHpBar();
+
+    if (this.enemyDefeated || !this.enemy.active) {
+      this.enemyBar.clear();
+      this.core.setVisible(false);
+      return;
+    }
+
+    // Aviso/tutorial la primera vez que se acerca a la sombra.
+    const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
+    if (!this.sombraWarned && dist < 90) {
+      this.sombraWarned = true;
+      this.startDialogue(CONVERSATIONS.sombra_aviso);
+      return;
+    }
+
+    // IA: la sombra persigue a Abigail.
+    const ang = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, this.player.x, this.player.y);
+    this.enemy.setVelocity(Math.cos(ang) * 42, Math.sin(ang) * 42);
+    this.enemy.setDepth(this.enemy.y);
+
+    // Estado "revelado" (Sabiduría): núcleo visible y vulnerable.
+    const revealed = now < this.revealUntil;
+    this.core.setVisible(revealed);
+    if (revealed) {
+      this.core.setPosition(this.enemy.x, this.enemy.y - 9);
+    } else if (now >= this.revealUntil && this.enemy.tintTopLeft !== 0xffffff) {
+      this.enemy.clearTint();
+    }
+
+    // ¿El golpe de Abigail alcanza a la sombra?
+    if (now < this.attackActiveUntil && !this.enemy.hitThisSwing) {
+      const dHit = Phaser.Math.Distance.Between(this.attackX, this.attackY, this.enemy.x, this.enemy.y);
+      if (dHit < 14) {
+        this.enemy.hitThisSwing = true;
+        this.hitEnemy(revealed);
+      }
+    }
+
+    // Contacto: la sombra daña a Abigail.
+    if (dist < 12 && now >= this.invulnUntil) {
+      this.takeDamage(now);
+    }
+
+    this.drawEnemyBar();
+  }
+
+  hitEnemy(revealed) {
+    if (!revealed) {
+      // Sin Sabiduría, el golpe rebota: hay que ver su punto débil.
+      this.enemy.setTint(0x6b6b8a);
+      this.time.delayedCall(90, () => {
+        if (this.enemy.active && this.time.now >= this.revealUntil) this.enemy.clearTint();
+      });
+      this.showFloat(this.enemy.x, this.enemy.y - 14, '¿?', '#9a9ab0');
+      return;
+    }
+    const valor = this.time.now < this.valorUntil;
+    const dmg = valor ? 2 : 1;
+    this.enemy.hp -= dmg;
+    this.showFloat(this.enemy.x, this.enemy.y - 14, `-${dmg}`, '#e9c46a');
+    this.cameras.main.shake(80, 0.004);
+    this.tweens.add({ targets: this.enemy, alpha: 0.4, duration: 60, yoyo: true });
+    if (this.enemy.hp <= 0) this.defeatEnemy();
+  }
+
+  takeDamage(now) {
+    this.hp = Math.max(0, this.hp - 12);
+    this.invulnUntil = now + 950;
+    // Retroceso.
+    const ang = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, this.player.x, this.player.y);
+    this.player.setVelocity(Math.cos(ang) * 160, Math.sin(ang) * 160);
+    this.knockUntil = now + 160;
+    this.player.setTint(0xff8a8a);
+    this.time.delayedCall(220, () => {
+      if (this.time.now >= this.valorUntil) this.player.clearTint();
+    });
+    this.cameras.main.shake(120, 0.006);
+    if (this.hp <= 0) this.playerDown();
+  }
+
+  defeatEnemy() {
+    this.enemyDefeated = true;
+    this.enemy.setVelocity(0, 0);
+    this.core.setVisible(false);
+    this.enemyBar.clear();
+    this.tweens.add({
+      targets: this.enemy,
+      alpha: 0,
+      scaleX: 0.2,
+      scaleY: 0.2,
+      duration: 500,
+      onComplete: () => this.enemy.destroy(),
+    });
+    // Recompensa: cura y enseñanza.
+    this.hp = this.maxHp;
+    if (this.save) {
+      this.save.hp = this.hp;
+      this.save.firstShadowBeaten = true;
+    }
+    this.time.delayedCall(600, () => this.startDialogue(CONVERSATIONS.sombra_vencida));
+  }
+
+  playerDown() {
+    // Reaparece en el inicio con la vida restaurada.
+    this.cameras.main.fade(300, 10, 16, 12);
+    this.time.delayedCall(350, () => {
+      this.hp = this.maxHp;
+      this.player.setPosition((COLS / 2) * TILE, (ROWS / 2) * TILE);
+      this.player.clearTint();
+      this.cameras.main.fadeIn(300, 10, 16, 12);
+      this.showFloat(this.player.x, this.player.y - 24, 'Respira y vuelve a intentarlo', '#bfe0c8');
+    });
+  }
+
+  showFloat(x, y, text, color) {
+    const t = this.add
+      .text(x, y, text, { fontFamily: 'monospace', fontSize: '9px', color })
+      .setOrigin(0.5)
+      .setDepth(99999);
+    this.tweens.add({ targets: t, y: y - 12, alpha: 0, duration: 700, onComplete: () => t.destroy() });
+  }
+
+  drawHpBar() {
+    const g = this.hpBar;
+    g.clear();
+    const x = 8;
+    const y = 22;
+    const w = 64;
+    const h = 6;
+    g.fillStyle(0x06100b, 0.8);
+    g.fillRect(x - 1, y - 1, w + 2, h + 2);
+    g.fillStyle(0x2a1414, 1);
+    g.fillRect(x, y, w, h);
+    const pct = Phaser.Math.Clamp(this.hp / this.maxHp, 0, 1);
+    g.fillStyle(0x5bbf6a, 1);
+    g.fillRect(x, y, Math.round(w * pct), h);
+
+    // Estado de habilidades.
+    const now = this.time.now;
+    const valor = now < this.valorUntil ? 'ACTIVO' : now < this.valorReadyAt ? 'recargando' : 'listo (V)';
+    const sab = now < this.revealUntil ? 'ACTIVA' : now < this.revealReadyAt ? 'recargando' : 'lista (B)';
+    this.skillText.setText(`Valor: ${valor}    Sabiduría: ${sab}`).setY(32);
+    this.skillText.setX(8);
+  }
+
+  drawEnemyBar() {
+    const g = this.enemyBar;
+    g.clear();
+    if (!this.enemy.active) return;
+    const w = 18;
+    const h = 3;
+    const x = this.enemy.x - w / 2;
+    const y = this.enemy.y - 16;
+    g.fillStyle(0x06100b, 0.8);
+    g.fillRect(x - 1, y - 1, w + 2, h + 2);
+    g.fillStyle(0x3a3152, 1);
+    g.fillRect(x, y, w, h);
+    const pct = Phaser.Math.Clamp(this.enemy.hp / this.enemy.maxHp, 0, 1);
+    g.fillStyle(0xc3a9ec, 1);
+    g.fillRect(x, y, Math.round(w * pct), h);
   }
 
   followDog(dog, gap) {

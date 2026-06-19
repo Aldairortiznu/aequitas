@@ -152,6 +152,40 @@ export const SPRITES = {
     ],
   },
 
+  sombra: {
+    w: 18, h: 18,
+    rects: [
+      // cuerpo de sombra (morado muy oscuro)
+      r(5, 3, '#2a2438', 8, 3), r(3, 5, '#2a2438', 12, 7), r(4, 12, '#2a2438', 10, 3),
+      r(2, 8, '#2a2438', 1, 3), r(15, 8, '#2a2438', 1, 3),
+      // tentáculos inferiores
+      r(4, 15, '#2a2438', 2, 2), r(8, 15, '#2a2438', 2, 2), r(12, 15, '#2a2438', 2, 2),
+      // bruma interior
+      r(5, 6, '#3a3152', 8, 5),
+      // ojos brillantes (lavanda)
+      r(6, 7, '#c3a9ec', 2, 2), r(10, 7, '#c3a9ec', 2, 2),
+      r(7, 8, '#ffffff', 1, 1), r(11, 8, '#ffffff', 1, 1),
+    ],
+  },
+
+  // Núcleo / punto débil, visible cuando Jerónimo usa Sabiduría.
+  sombra_core: {
+    w: 6, h: 6,
+    rects: [
+      r(1, 0, '#e9c46a', 4, 1), r(0, 1, '#f6e6a8', 6, 4), r(1, 5, '#e9c46a', 4, 1),
+      r(2, 2, '#ffffff', 2, 2),
+    ],
+  },
+
+  // Destello del ataque de Abigail.
+  slash: {
+    w: 14, h: 14,
+    rects: [
+      r(8, 1, '#f3efe0', 2, 2), r(10, 3, '#ffffff', 2, 3), r(11, 6, '#f3efe0', 2, 3),
+      r(10, 9, '#ffffff', 2, 2), r(8, 11, '#f3efe0', 2, 2),
+    ],
+  },
+
   leaf: {
     w: 8, h: 8,
     rects: [

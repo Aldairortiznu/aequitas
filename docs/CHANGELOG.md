@@ -94,6 +94,24 @@ o Fase 5 — combate en tiempo real. Falta aún la foto real de Abigail.
 
 ---
 
+## Sesión 6 — 2026-06-19
+**Fase:** 5 (Combate en tiempo real) ✅
+**Hecho:**
+- Sprites nuevos: `sombra` (enemigo), `sombra_core` (punto débil), `slash` (destello).
+- Combate integrado en WorldScene:
+  - Ataque con **Espacio** (hitbox según orientación), enemigo sombra que persigue,
+    daño por contacto con retroceso e i-frames, barras de vida (Abigail en HUD, sombra en mundo).
+  - **Valor (V)** de Amanda: +daño y +velocidad temporal con recarga.
+  - **Sabiduría (B)** de Jerónimo: revela el núcleo; sin revelar, los golpes "rebotan".
+  - Derrota de Abigail → reaparece curada con mensaje; victoria → cura + enseñanza.
+- Diálogos `sombra_aviso` (tutorial) y `sombra_vencida` (enseñanza), en español latino.
+- Verificado por eval: mundo+combate sin errores; cadena Sabiduría→golpes→derrota del enemigo OK.
+
+**Pendiente / siguiente:** Fase 4 (guardado completo: puntos de guardado, continuar real)
+o empezar Fase 8 (plantilla de niveles para construir los 32 reinos). Falta foto de Abigail.
+
+---
+
 ## Sesión 1 — 2026-06-18
 **Fase:** 0 (Planificación) ✅
 **Hecho:**

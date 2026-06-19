@@ -43,13 +43,14 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [ ] Menú de continuar / nueva partida
 - [ ] Puntos de guardado (ej. "hogueras" o "fuentes" en el mapa)
 
-## FASE 5 — Combate en tiempo real ⬜
-- [ ] Ataque de la heroína (golpe/hechizo) + hitbox
-- [ ] Enemigo "miedo" con IA básica (perseguir, atacar) y barra de vida
-- [ ] Vida/daño de la heroína + estado de derrota (reaparecer en último guardado)
-- [ ] **Valor de Amanda**: habilidad con cooldown (daño/escudo extra)
-- [ ] **Sabiduría de Jerónimo**: revela debilidad del miedo
-- [ ] Feedback: partículas, parpadeo, sonidos
+## FASE 5 — Combate en tiempo real ✅
+- [x] Ataque de Abigail (Espacio) con hitbox según orientación + destello `slash`
+- [x] Enemigo "sombra" con IA (persigue) y barra de vida; daño por contacto a Abigail
+- [x] Vida/daño de Abigail (barra HUD) + derrota → reaparece curada con mensaje
+- [x] **Valor de Amanda** (V): +daño y +velocidad por tiempo, con recarga
+- [x] **Sabiduría de Jerónimo** (B): revela el núcleo/punto débil; sin ella los golpes rebotan
+- [x] Feedback: shake, parpadeo, números flotantes, tinte; tutorial `sombra_aviso` y enseñanza `sombra_vencida`
+- [ ] (Pendiente futuro) Sonidos — en Fase 7 (audio)
 
 ## FASE 6 — Sistema de puzzles / acertijos ⬜
 - [ ] Tipos de puzzle: recoger luces, placas de presión, orden de símbolos
