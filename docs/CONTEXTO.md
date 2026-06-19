@@ -8,9 +8,10 @@
 ## 1. Qué es
 
 RPG pixel art (vista cenital / top-down) hecho con **Phaser 3 + Vite**.
-Una heroína recorre **31 reinos verdes** (uno por cada año que cumple). Cada reino
-esconde un **miedo o inseguridad interior** convertido en monstruo. Para salvar el
-mundo, debe enfrentar y *abrazar* cada uno de sus propios miedos.
+Una heroína recorre un **prólogo + 32 reinos verdes** (32 = la edad que cumple). Cada
+reino guarda un **aprendizaje** que ella debe conquistar; lo bloquea un **Guardián**
+(monstruo = la ilusión o miedo). Vence con combate en tiempo real + acertijo, y gana
+una enseñanza. Para salvar el mundo debe atravesar sus aprendizajes hasta el Amor Propio.
 
 Inspiración tonal: *El caballero de la armadura oxidada* (Robert Fisher) — desarmar
 la "armadura" capa por capa mediante autoconocimiento.
@@ -38,7 +39,8 @@ la "armadura" capa por capa mediante autoconocimiento.
 | Guardado | Sí — progreso persistente (localStorage; archivo de save) |
 | Arte | Packs **CC0** (Kenney / LPC) personalizados + sprites propios para heroína y perros |
 | Mapas | Editor **Tiled** (.tmj) cargados en Phaser |
-| Niveles | 31 (la edad que cumple) |
+| Niveles | Prólogo + 32 reinos de **aprendizajes** (32 = la edad que cumple) |
+| Tono | Filosófico y profundo; acertijos y combates exigentes pero entretenidos |
 | Estética | Mucho verde: plantas, castillos, paraísos, jardines |
 | Idioma del juego | Español |
 

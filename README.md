@@ -1,9 +1,10 @@
 # 🌿 El Jardín de los Miedos
 
-Un RPG pixel art (vista cenital) donde una heroína recorre **31 reinos verdes** —uno
-por cada año que cumple— enfrentando a los monstruos que son sus propios miedos e
-inseguridades. Para salvar el mundo, debe aprender a amarse. Inspirado en
-*El caballero de la armadura oxidada*.
+Un RPG pixel art (vista cenital) donde una heroína recorre un **prólogo + 32 reinos
+verdes** (32 = la edad que cumple). Cada reino guarda un **aprendizaje** que debe
+conquistar; lo bloquea un Guardián (un monstruo = la ilusión o el miedo). Para salvar
+el mundo, debe atravesar sus aprendizajes hasta el Amor Propio. Tono filosófico y
+profundo, inspirado en *El caballero de la armadura oxidada*.
 
 La acompañan dos perritos blancos: **Jerónimo** (viejito sabio, da pistas) y
 **Amanda** (joven valiente, da valor).

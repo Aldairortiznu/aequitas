@@ -24,3 +24,11 @@
 
 **Pendiente / siguiente:** Fase 1 — andamiar proyecto Phaser + Vite y dejar
 `npm run dev` corriendo. Hacer primer commit.
+
+**Ajuste posterior (misma sesión):**
+- Cambio de alcance: ahora **32 niveles** (cumple 32 años), enmarcados como
+  **aprendizajes** (no como miedos): cada reino guarda una sabiduría a conquistar y un
+  Guardián que la bloquea. Se añadió un **Prólogo "El Despertar"** (tutorial).
+- Tono reforzado: **filosófico y profundo** (estoicismo, Frankl, Jung, budismo),
+  acertijos multi-paso y combates que premian usar a Jerónimo (debilidad) y Amanda (Valor).
+- `GDD_NIVELES.md` reescrito completo. Actualizados CONTEXTO y PLAN.

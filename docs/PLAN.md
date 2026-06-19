@@ -58,10 +58,13 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [ ] Música ambiental + efectos (CC0)
 - [ ] Tinte/paleta distinto por reino según el miedo
 
-## FASE 8 — Contenido: los 31 niveles ⬜
-- [ ] Plantilla de nivel reutilizable (mapa + acertijo + jefe + enseñanza)
+## FASE 8 — Contenido: prólogo + 32 niveles ⬜
+- [ ] Plantilla de nivel reutilizable (mapa + acertijo + Guardián + enseñanza)
+- [ ] Prólogo "El Despertar" (tutorial)
 - [ ] Implementar niveles por lotes (ej. 1–5, 6–10, …) — ver `GDD_NIVELES.md`
-- [ ] Jefe final (Nivel 31: Amor Propio / Aceptación)
+- [ ] Acertijos "de libro real" (niveles 5, 18, 22, 26, 30)
+- [ ] Diario de Sabiduría (colección de enseñanzas)
+- [ ] Jefe final (Nivel 32: Amor Propio / Aceptación)
 
 ## FASE 9 — Pulido y cierre ⬜
 - [ ] Pantalla de título e intro narrativa
