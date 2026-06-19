@@ -6,6 +6,7 @@ import MenuScene from './scenes/MenuScene.js';
 import PlaceholderScene from './scenes/PlaceholderScene.js';
 import WorldScene from './scenes/WorldScene.js';
 import DialogueScene from './scenes/DialogueScene.js';
+import DiaryScene from './scenes/DiaryScene.js';
 
 const config = {
   type: Phaser.AUTO,
@@ -23,7 +24,7 @@ const config = {
     default: 'arcade',
     arcade: { gravity: { y: 0 }, debug: false },
   },
-  scene: [BootScene, MenuScene, PlaceholderScene, WorldScene, DialogueScene],
+  scene: [BootScene, MenuScene, PlaceholderScene, WorldScene, DialogueScene, DiaryScene],
 };
 
 const game = new Phaser.Game(config);

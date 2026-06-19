@@ -5,6 +5,7 @@
 import Phaser from 'phaser';
 import { COLORS } from '../config.js';
 import { CONVERSATIONS } from '../data/dialogues.js';
+import { writeSave } from '../systems/save.js';
 
 const TILE = 16;
 const COLS = 50;
@@ -32,6 +33,7 @@ export default class WorldScene extends Phaser.Scene {
     this.createDogs();
     this.createNpc();
     this.createCombat();
+    this.createSavePoint();
 
     // Físicas y cámara.
     this.physics.add.collider(this.player, this.solids);
@@ -130,8 +132,8 @@ export default class WorldScene extends Phaser.Scene {
 
   // ----------------------------------------------------------- personajes
   createPlayer() {
-    const startX = (COLS / 2) * TILE;
-    const startY = (ROWS / 2) * TILE;
+    const startX = this.save && this.save.px != null ? this.save.px : (COLS / 2) * TILE;
+    const startY = this.save && this.save.py != null ? this.save.py : (ROWS / 2) * TILE;
     this.player = this.physics.add.image(startX, startY, 'abigail');
     this.player.setOrigin(0.5, 1);
     this.player.body.setSize(10, 8);
@@ -270,6 +272,49 @@ export default class WorldScene extends Phaser.Scene {
     if (this.enemy.active) this.enemy.setTint(0xe9c46a);
   }
 
+  // ----------------------------------------------------------- guardado
+  createSavePoint() {
+    const fx = (COLS / 2 + 1) * TILE;
+    const fy = (ROWS / 2 + 3) * TILE;
+    this.fuente = this.add.image(fx, fy, 'fuente').setOrigin(0.5, 1);
+    this.fuente.setDepth(fy);
+    this.fuenteHint = this.add
+      .text(fx, fy - 30, 'Guardar (E)', { fontFamily: 'monospace', fontSize: '7px', color: '#bfe0f5' })
+      .setOrigin(0.5)
+      .setDepth(99999)
+      .setVisible(false);
+  }
+
+  saveGame() {
+    if (!this.save) return;
+    this.save.hp = this.hp;
+    this.save.maxHp = this.maxHp;
+    this.save.px = Math.round(this.player.x);
+    this.save.py = Math.round(this.player.y);
+    writeSave(this.save);
+    this.cameras.main.flash(180, 180, 220, 245);
+    this.showFloat(this.player.x, this.player.y - 26, 'Progreso guardado', '#bfe0f5');
+  }
+
+  // Suma una enseñanza al Diario de Sabiduría y guarda.
+  gainWisdom(id) {
+    if (!this.save) return;
+    if (!this.save.wisdomDiary) this.save.wisdomDiary = [];
+    if (!this.save.wisdomDiary.includes(id)) {
+      this.save.wisdomDiary.push(id);
+    }
+    writeSave(this.save);
+  }
+
+  openDiary() {
+    if (this.talking) return;
+    this.talking = true;
+    this.player.setVelocity(0, 0);
+    const ids = this.save && this.save.wisdomDiary ? this.save.wisdomDiary : [];
+    this.scene.launch('Diary', { ids, returnScene: 'World' });
+    this.scene.pause();
+  }
+
   // ----------------------------------------------------------- input/hud
   setupInput() {
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -279,12 +324,18 @@ export default class WorldScene extends Phaser.Scene {
     this.input.keyboard.on('keydown-SPACE', () => this.attack());
     this.input.keyboard.on('keydown-V', () => this.useValor());
     this.input.keyboard.on('keydown-B', () => this.useSabiduria());
+    this.input.keyboard.on('keydown-I', () => this.openDiary());
   }
 
   // Habla con quien esté más cerca (NPC, Amanda o Jerónimo).
   tryInteract() {
     if (this.talking) return;
     const near = (obj) => Phaser.Math.Distance.Between(this.player.x, this.player.y, obj.x, obj.y);
+    // La fuente tiene prioridad si estás muy cerca: guarda el progreso.
+    if (near(this.fuente) < 28) {
+      this.saveGame();
+      return;
+    }
     const options = [
       { obj: this.npc, convo: this.npc.convo },
       { obj: this.amanda, convo: CONVERSATIONS.amanda_valor },
@@ -318,7 +369,7 @@ export default class WorldScene extends Phaser.Scene {
     t.setShadow(1, 1, '#06100b', 2);
 
     const hint = this.add
-      .text(8, this.scale.height - 14, 'Mover: WASD   Atacar: Espacio   Valor: V   Sabiduría: B   Hablar: E', {
+      .text(8, this.scale.height - 14, 'WASD  Atacar:Espacio  Valor:V  Sabiduría:B  Hablar:E  Diario:I', {
         fontFamily: 'monospace',
         fontSize: '8px',
         color: '#bfe0c8',
@@ -338,6 +389,9 @@ export default class WorldScene extends Phaser.Scene {
     // Burbuja "!" cuando Abigail está cerca del NPC.
     const dNpc = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.npc.x, this.npc.y);
     this.npcHint.setVisible(dNpc < 30);
+    // Burbuja de guardado cuando está cerca de la fuente.
+    const dF = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.fuente.x, this.fuente.y);
+    this.fuenteHint.setVisible(dF < 28);
 
     const left = this.cursors.left.isDown || this.keys.A.isDown;
     const right = this.cursors.right.isDown || this.keys.D.isDown;
@@ -499,12 +553,13 @@ export default class WorldScene extends Phaser.Scene {
       duration: 500,
       onComplete: () => this.enemy.destroy(),
     });
-    // Recompensa: cura y enseñanza.
+    // Recompensa: cura, enseñanza al diario y guardado automático.
     this.hp = this.maxHp;
     if (this.save) {
       this.save.hp = this.hp;
       this.save.firstShadowBeaten = true;
     }
+    this.gainWisdom('prologo_sombra');
     this.time.delayedCall(600, () => this.startDialogue(CONVERSATIONS.sombra_vencida));
   }
 

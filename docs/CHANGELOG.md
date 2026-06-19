@@ -112,6 +112,24 @@ o empezar Fase 8 (plantilla de niveles para construir los 32 reinos). Falta foto
 
 ---
 
+## Sesión 7 — 2026-06-19
+**Fase:** 4 (Guardado completo) ✅
+**Hecho:**
+- Sprite `fuente` (punto de guardado). `src/data/wisdom.js` (registro de enseñanzas) y
+  `src/scenes/DiaryScene.js` (Diario de Sabiduría, tecla I), registrada en main.js.
+- En WorldScene: punto de guardado (fuente, E para guardar con destello + burbuja),
+  restauración de posición al cargar, guardado automático al vencer la sombra, y la
+  enseñanza se suma al diario (`gainWisdom`). HUD actualizado con todas las teclas.
+- `save.js` ya soportaba estos campos; ahora se usan px/py/wisdomDiary/firstShadowBeaten.
+- Verificado: guardado persiste posición/vida/diario en localStorage (eval); DiaryScene
+  renderiza la enseñanza. Nota: introspección de escenas por eval resulta poco fiable al
+  encadenar muchas; se valida por separado y probando en el navegador real.
+
+**Pendiente / siguiente:** Fase 8 — plantilla de niveles para construir los 32 reinos
+(portal → acertijo → Guardián → enseñanza). Falta la foto de Abigail.
+
+---
+
 ## Sesión 1 — 2026-06-18
 **Fase:** 0 (Planificación) ✅
 **Hecho:**

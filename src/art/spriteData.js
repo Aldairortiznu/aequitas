@@ -186,6 +186,22 @@ export const SPRITES = {
     ],
   },
 
+  // Fuente: punto de guardado.
+  fuente: {
+    w: 16, h: 20,
+    rects: [
+      // base de piedra
+      r(3, 13, '#8a8f96', 10, 5), r(3, 17, '#6f747b', 10, 2), r(2, 11, '#b7bcc2', 12, 2),
+      // agua del tazón
+      r(4, 12, '#3f86cf', 8, 2), r(5, 12, '#bfe0f5', 2, 1),
+      // pilar central
+      r(7, 6, '#b7bcc2', 2, 6),
+      // chorro / agua superior
+      r(6, 4, '#3f86cf', 4, 2), r(7, 2, '#bfe0f5', 2, 2),
+      r(5, 6, '#bfe0f5', 1, 3), r(10, 6, '#bfe0f5', 1, 3),
+    ],
+  },
+
   leaf: {
     w: 8, h: 8,
     rects: [

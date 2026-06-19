@@ -38,10 +38,12 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [x] Textos en `src/data/dialogues.js`; intro del prólogo automática; NPC y perros hablables (E)
 - [ ] (Pendiente futuro) Diálogos ramificados con opciones — se hará cuando un nivel lo requiera
 
-## FASE 4 — Sistema de guardado ⬜
-- [ ] Guardar/cargar en localStorage (nivel, vida, progreso, acertijos resueltos)
-- [ ] Menú de continuar / nueva partida
-- [ ] Puntos de guardado (ej. "hogueras" o "fuentes" en el mapa)
+## FASE 4 — Sistema de guardado ✅
+- [x] Guardar/cargar en localStorage (vida, posición, diario, banderas de progreso)
+- [x] Menú de continuar / nueva partida (Continuar carga la partida y restaura posición)
+- [x] Punto de guardado: **fuente** en el mapa (E para guardar) con burbuja y destello
+- [x] Guardado automático al vencer una sombra
+- [x] **Diario de Sabiduría** (tecla I): lista de enseñanzas recogidas (DiaryScene)
 
 ## FASE 5 — Combate en tiempo real ✅
 - [x] Ataque de Abigail (Espacio) con hitbox según orientación + destello `slash`
