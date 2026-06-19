@@ -1,5 +1,8 @@
 // Textos y voces de "Reverdecer".
 // Cada conversación es una lista de líneas { s: speakerKey, t: texto }.
+//
+// ESTILO DE REDACCIÓN: español latino / neutro latinoamericano. Trato de "tú"
+// (nunca "vosotros"/"os"), sin modismos de España. Tono cálido, sencillo y emotivo.
 
 export const SPEAKERS = {
   abigail:     { name: 'Abigail',               color: '#e9c46a', portrait: 'abigail',   italic: false },

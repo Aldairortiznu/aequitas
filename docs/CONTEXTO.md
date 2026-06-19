@@ -42,7 +42,7 @@ la "armadura" capa por capa mediante autoconocimiento.
 | Niveles | Prólogo + 32 reinos de **aprendizajes** (32 = la edad que cumple) |
 | Tono | Filosófico y profundo; acertijos y combates exigentes pero entretenidos |
 | Estética | Mucho verde: plantas, castillos, paraísos, jardines |
-| Idioma del juego | Español |
+| Idioma del juego | Español **latino / neutro** (trato de "tú", sin modismos de España) |
 
 ## 4. Estructura de carpetas (objetivo)
 
