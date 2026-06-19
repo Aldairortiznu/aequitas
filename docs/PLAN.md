@@ -70,13 +70,15 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [ ] Música ambiental + efectos (CC0)
 - [ ] Tinte/paleta distinto por reino según el miedo
 
-## FASE 8 — Contenido: prólogo + 32 niveles ⬜
-- [ ] Plantilla de nivel reutilizable (mapa + acertijo + Guardián + enseñanza)
-- [ ] Prólogo "El Despertar" (tutorial)
-- [ ] Implementar niveles por lotes (ej. 1–5, 6–10, …) — ver `GDD_NIVELES.md`
-- [ ] Acertijos "de libro real" (niveles 5, 18, 22, 26, 30)
-- [ ] Diario de Sabiduría (colección de enseñanzas)
-- [ ] Jefe final (Nivel 32: Amor Propio / Aceptación)
+## FASE 8 — Contenido: prólogo + 32 niveles 🔧 (plantilla lista)
+- [x] **Datos de los 33 reinos** (`src/data/reinos.js`): nombre, aprendizaje, Guardián, enseñanza, color, riddleId
+- [x] **Plantilla de reino reutilizable**: el mundo se tematiza por nivel (título, tinte,
+      Guardián, acertijo) y abre un **portal** al cumplir los retos → avanza de reino y guarda
+- [x] Acertijos "de libro real" enganchados por reino (5,14,18,19,22,26,27,30,31)
+- [x] Enseñanzas de sombra y acertijos quedan en el **Diario de Sabiduría**
+- [ ] Mapas/decorados únicos por reino (ahora comparten el jardín base re-tintado)
+- [ ] Diálogos propios de cada Guardián (ahora usan los genéricos del prólogo)
+- [ ] Jefe final especial (Nivel 32: Amor Propio / "abrazar" en vez de atacar)
 
 ## FASE 9 — Pulido y cierre ⬜
 - [ ] Pantalla de título e intro narrativa

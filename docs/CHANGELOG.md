@@ -150,6 +150,26 @@ y construir los 32 reinos. Falta la foto de Abigail.
 
 ---
 
+## Sesión 9 — 2026-06-19
+**Fase:** 8 (Contenido) — plantilla lista + Diario ampliado.
+**Hecho:**
+- Diario consultable AMPLIADO: ahora guarda enseñanzas completas {id,titulo,frase} y recoge
+  tanto la de la sombra como las de los acertijos (DiaryScene reescrito; `gainWisdom` por objeto).
+- `src/data/reinos.js`: los 33 reinos (prólogo + 32) con nombre, aprendizaje, Guardián,
+  enseñanza, color y riddleId.
+- WorldScene ahora es **consciente del reino** (getReino por save.level): título de HUD,
+  tinte de ambiente, Guardián y acertijo según el nivel. Nuevo sprite `portal` que se abre
+  al cumplir los retos (Guardián vencido + acertijo resuelto) y al entrar **avanza de reino**
+  (sube save.level, suma la enseñanza al diario, cura y reinicia la escena tematizada).
+- Verificado por eval (forzando el bucle por el throttling de rAF): Reino 1 y Reino 14 se
+  tematizan bien (Guardián/atril correctos); vencer al Guardián abre el portal; advanceReino
+  sube el nivel y agrega la enseñanza al diario. Sin errores en consola.
+
+**Pendiente / siguiente:** mapas/diálogos únicos por reino y el jefe final especial (nivel 32).
+Falta la foto de Abigail. (Aún sin alojamiento web: corre local con Vite.)
+
+---
+
 ## Sesión 1 — 2026-06-18
 **Fase:** 0 (Planificación) ✅
 **Hecho:**

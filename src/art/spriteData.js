@@ -202,6 +202,19 @@ export const SPRITES = {
     ],
   },
 
+  // Portal hacia el siguiente reino.
+  portal: {
+    w: 16, h: 24,
+    rects: [
+      r(2, 4, '#8a8f96', 12, 3),   // arco superior
+      r(2, 6, '#6f747b', 2, 16), r(12, 6, '#6f747b', 2, 16), // pilares
+      r(4, 7, '#2f7d45', 8, 15),   // brillo interior
+      r(5, 8, '#5bbf6a', 6, 13),
+      r(6, 9, '#9be8a6', 4, 11),   // núcleo luminoso
+      r(7, 3, '#e9c46a', 2, 1), r(6, 6, '#bfe0f5', 1, 2), r(9, 6, '#bfe0f5', 1, 2),
+    ],
+  },
+
   // Atril con libro abierto: pedestal de acertijo.
   atril: {
     w: 16, h: 20,

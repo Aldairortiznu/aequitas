@@ -6,6 +6,8 @@ import Phaser from 'phaser';
 import { COLORS } from '../config.js';
 import { CONVERSATIONS } from '../data/dialogues.js';
 import { RIDDLES } from '../data/bookRiddles.js';
+import { WISDOM } from '../data/wisdom.js';
+import { getReino } from '../data/reinos.js';
 import { writeSave } from '../systems/save.js';
 
 const TILE = 16;
@@ -26,7 +28,12 @@ export default class WorldScene extends Phaser.Scene {
     this.mapW = COLS * TILE;
     this.mapH = ROWS * TILE;
 
+    // Reino actual según el progreso.
+    const nivel = this.save ? this.save.level || 0 : 0;
+    this.reino = getReino(nivel);
+
     this.buildGround();
+    this.applyReinoTint();
     this.solids = this.physics.add.staticGroup();
     this.buildTreesAndPond();
 
@@ -36,6 +43,7 @@ export default class WorldScene extends Phaser.Scene {
     this.createCombat();
     this.createSavePoint();
     this.createRiddlePedestal();
+    this.createPortal();
 
     // Físicas y cámara.
     this.physics.add.collider(this.player, this.solids);
@@ -274,19 +282,77 @@ export default class WorldScene extends Phaser.Scene {
     if (this.enemy.active) this.enemy.setTint(0xe9c46a);
   }
 
-  // -------------------------------------------------------- acertijo (demo)
+  applyReinoTint() {
+    // Tinte emocional del reino sobre la base verde (capa sutil).
+    const c = Phaser.Display.Color.HexStringToColor(this.reino.color).color;
+    const tint = this.add.rectangle(0, 0, this.mapW, this.mapH, c, 0.18).setOrigin(0).setDepth(1);
+  }
+
+  // -------------------------------------------------------- acertijo del reino
   createRiddlePedestal() {
+    // Solo hay atril si el reino usa un acertijo de libro real.
+    const riddle = this.reino.riddleId ? RIDDLES[this.reino.riddleId] : null;
+    if (!riddle) {
+      this.atril = null;
+      this.atrilSolved = true; // sin acertijo, no bloquea el portal
+      return;
+    }
     const ax = (COLS / 2 - 2) * TILE;
     const ay = (ROWS / 2 + 4) * TILE;
     this.atril = this.add.image(ax, ay, 'atril').setOrigin(0.5, 1);
     this.atril.setDepth(ay);
-    this.atril.riddle = RIDDLES.n14; // demo: Eclesiastés (ordenar)
+    this.atril.riddle = riddle;
     this.atrilHint = this.add
       .text(ax, ay - 30, 'Leer (E)', { fontFamily: 'monospace', fontSize: '7px', color: '#e9c46a' })
       .setOrigin(0.5)
       .setDepth(99999)
       .setVisible(false);
     this.atrilSolved = false;
+  }
+
+  createPortal() {
+    const px = (COLS / 2 + 8) * TILE;
+    const py = (ROWS / 2) * TILE;
+    this.portal = this.add.image(px, py, 'portal').setOrigin(0.5, 1).setDepth(py);
+    this.portal.setVisible(false);
+    this.portalReady = false;
+    this.portalHint = this.add
+      .text(px, py - 34, 'Entrar al siguiente reino (E)', { fontFamily: 'monospace', fontSize: '7px', color: '#9be8a6' })
+      .setOrigin(0.5)
+      .setDepth(99999)
+      .setVisible(false);
+  }
+
+  // ¿Se cumplieron los retos del reino? (Guardián vencido y acertijo resuelto)
+  checkPortal() {
+    if (this.portalReady) return;
+    const done = this.enemyDefeated && this.atrilSolved;
+    if (done) {
+      this.portalReady = true;
+      this.portal.setVisible(true);
+      this.tweens.add({ targets: this.portal, alpha: 0.6, duration: 700, yoyo: true, repeat: -1 });
+      this.showFloat(this.portal.x, this.portal.y - 30, 'Un portal se abrió...', '#9be8a6');
+    }
+  }
+
+  advanceReino() {
+    // Recoge la enseñanza del reino y avanza al siguiente.
+    this.gainWisdom({
+      id: 'reino_' + this.reino.nivel,
+      titulo: `Reino ${this.reino.nivel} — ${this.reino.nombre}`,
+      frase: this.reino.ensenanza,
+    });
+    if (this.save) {
+      this.save.level = Math.min((this.save.level || 0) + 1, 32);
+      this.save.maxLevelReached = Math.max(this.save.maxLevelReached || 0, this.save.level);
+      this.save.hp = this.maxHp;
+      // Reinicia posición para el nuevo reino.
+      this.save.px = (COLS / 2) * TILE;
+      this.save.py = (ROWS / 2) * TILE;
+      writeSave(this.save);
+    }
+    this.cameras.main.fade(450, 8, 14, 10);
+    this.time.delayedCall(500, () => this.scene.restart({ save: this.save }));
   }
 
   openRiddle(riddle) {
@@ -298,12 +364,16 @@ export default class WorldScene extends Phaser.Scene {
       returnScene: 'World',
       onSolved: () => {
         this.atrilSolved = true;
-        this.showFloat(this.atril.x, this.atril.y - 26, 'Comprendiste. El jardín respira.', '#9be8a6');
         if (this.save) {
           if (!this.save.riddlesSolved) this.save.riddlesSolved = [];
           if (!this.save.riddlesSolved.includes(riddle.nivel)) this.save.riddlesSolved.push(riddle.nivel);
-          writeSave(this.save);
         }
+        // La enseñanza del acertijo queda consultable en el Diario.
+        this.gainWisdom({
+          id: 'libro_' + riddle.nivel,
+          titulo: `${riddle.libro} — ${riddle.autor}`,
+          frase: riddle.ensenanza,
+        });
       },
     });
     this.scene.pause();
@@ -333,12 +403,14 @@ export default class WorldScene extends Phaser.Scene {
     this.showFloat(this.player.x, this.player.y - 26, 'Progreso guardado', '#bfe0f5');
   }
 
-  // Suma una enseñanza al Diario de Sabiduría y guarda.
-  gainWisdom(id) {
-    if (!this.save) return;
+  // Suma una enseñanza (objeto {id, titulo, frase}) al Diario de Sabiduría y guarda.
+  gainWisdom(entry) {
+    if (!this.save || !entry) return;
     if (!this.save.wisdomDiary) this.save.wisdomDiary = [];
-    if (!this.save.wisdomDiary.includes(id)) {
-      this.save.wisdomDiary.push(id);
+    const exists = this.save.wisdomDiary.some((e) => e.id === entry.id);
+    if (!exists) {
+      this.save.wisdomDiary.push({ id: entry.id, titulo: entry.titulo, frase: entry.frase });
+      this.showFloat(this.player.x, this.player.y - 26, '✦ Nueva enseñanza (I)', '#e9c46a');
     }
     writeSave(this.save);
   }
@@ -347,8 +419,8 @@ export default class WorldScene extends Phaser.Scene {
     if (this.talking) return;
     this.talking = true;
     this.player.setVelocity(0, 0);
-    const ids = this.save && this.save.wisdomDiary ? this.save.wisdomDiary : [];
-    this.scene.launch('Diary', { ids, returnScene: 'World' });
+    const entries = this.save && this.save.wisdomDiary ? this.save.wisdomDiary : [];
+    this.scene.launch('Diary', { entries, returnScene: 'World' });
     this.scene.pause();
   }
 
@@ -373,8 +445,13 @@ export default class WorldScene extends Phaser.Scene {
       this.saveGame();
       return;
     }
+    // El portal (si ya está abierto).
+    if (this.portalReady && near(this.portal) < 30) {
+      this.advanceReino();
+      return;
+    }
     // El atril del acertijo.
-    if (near(this.atril) < 28) {
+    if (this.atril && near(this.atril) < 28) {
       this.openRiddle(this.atril.riddle);
       return;
     }
@@ -401,7 +478,7 @@ export default class WorldScene extends Phaser.Scene {
 
   buildHud() {
     const t = this.add
-      .text(8, 6, 'El Jardín del Despertar', {
+      .text(8, 6, `Reino ${this.reino.nivel} · ${this.reino.nombre}`, {
         fontFamily: 'Georgia, serif',
         fontSize: '11px',
         color: COLORS.cream,
@@ -434,9 +511,17 @@ export default class WorldScene extends Phaser.Scene {
     // Burbuja de guardado cuando está cerca de la fuente.
     const dF = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.fuente.x, this.fuente.y);
     this.fuenteHint.setVisible(dF < 28);
-    // Burbuja del atril del acertijo.
-    const dA = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.atril.x, this.atril.y);
-    this.atrilHint.setVisible(dA < 28);
+    // Burbuja del atril del acertijo (si este reino lo tiene).
+    if (this.atril) {
+      const dA = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.atril.x, this.atril.y);
+      this.atrilHint.setVisible(dA < 28);
+    }
+    // Portal: comprobar apertura y burbuja.
+    this.checkPortal();
+    if (this.portalReady) {
+      const dP = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.portal.x, this.portal.y);
+      this.portalHint.setVisible(dP < 30);
+    }
 
     const left = this.cursors.left.isDown || this.keys.A.isDown;
     const right = this.cursors.right.isDown || this.keys.D.isDown;
@@ -604,7 +689,7 @@ export default class WorldScene extends Phaser.Scene {
       this.save.hp = this.hp;
       this.save.firstShadowBeaten = true;
     }
-    this.gainWisdom('prologo_sombra');
+    this.gainWisdom(WISDOM.prologo_sombra);
     this.time.delayedCall(600, () => this.startDialogue(CONVERSATIONS.sombra_vencida));
   }
 
