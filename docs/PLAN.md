@@ -1,0 +1,80 @@
+# 🗺️ PLAN MAESTRO — *El Jardín de los Miedos*
+
+> Roadmap por fases. Cada fase es un objetivo cerrable en una o varias sesiones.
+> Marca `[x]` lo completado. Al terminar una sesión, anota en `CHANGELOG.md`.
+
+Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
+
+---
+
+## FASE 0 — Planificación y documentación ✅
+- [x] Definir concepto, personajes y tono
+- [x] Cerrar decisiones de diseño (combate, arte, perspectiva, guardado)
+- [x] Crear docs de seguimiento (CONTEXTO, PLAN, CHANGELOG, GDD_NIVELES)
+- [x] git init
+
+## FASE 1 — Andamiaje técnico ⬜
+- [ ] `npm create vite` + instalar **Phaser 3**
+- [ ] Estructura de carpetas (`src/scenes`, `src/systems`, `src/data`, `src/entities`)
+- [ ] `index.html` + `main.js` con config de Phaser (resolución, pixelArt:true, escalado)
+- [ ] Escena **Boot** (carga inicial) → **Menu** (pantalla de título)
+- [ ] Verificar `npm run dev` corriendo en navegador
+- [ ] `.gitignore` (node_modules, dist) + primer commit
+
+## FASE 2 — Movimiento y mundo base ⬜
+- [ ] Cargar un tilemap de prueba (Tiled .tmj) con tema verde
+- [ ] Heroína con sprite + animaciones de caminar (4 direcciones)
+- [ ] Colisiones con el mapa
+- [ ] Cámara que sigue a la heroína
+- [ ] **Jerónimo y Amanda** siguen a la heroína (follow con retardo)
+
+## FASE 3 — Sistema de diálogos ⬜
+- [ ] Caja de diálogo pixel (retrato + texto con efecto máquina de escribir)
+- [ ] Soporte para: NPC, Jerónimo, Amanda, reflexión propia (estilos distintos)
+- [ ] Diálogos ramificados simples (opciones)
+- [ ] Cargar textos desde `src/data/dialogues.js`
+
+## FASE 4 — Sistema de guardado ⬜
+- [ ] Guardar/cargar en localStorage (nivel, vida, progreso, acertijos resueltos)
+- [ ] Menú de continuar / nueva partida
+- [ ] Puntos de guardado (ej. "hogueras" o "fuentes" en el mapa)
+
+## FASE 5 — Combate en tiempo real ⬜
+- [ ] Ataque de la heroína (golpe/hechizo) + hitbox
+- [ ] Enemigo "miedo" con IA básica (perseguir, atacar) y barra de vida
+- [ ] Vida/daño de la heroína + estado de derrota (reaparecer en último guardado)
+- [ ] **Valor de Amanda**: habilidad con cooldown (daño/escudo extra)
+- [ ] **Sabiduría de Jerónimo**: revela debilidad del miedo
+- [ ] Feedback: partículas, parpadeo, sonidos
+
+## FASE 6 — Sistema de puzzles / acertijos ⬜
+- [ ] Tipos de puzzle: recoger luces, placas de presión, orden de símbolos
+- [ ] **Acertijos de texto** con respuesta escrita (incluye los de "libros reales")
+- [ ] Estado de puzzle persistente (se guarda si se resolvió)
+
+## FASE 7 — Arte y audio ⬜
+- [ ] Descargar e integrar packs CC0 (Kenney/LPC) — tilesets verdes, castillos
+- [ ] Sprites propios: heroína, Jerónimo, Amanda
+- [ ] Música ambiental + efectos (CC0)
+- [ ] Tinte/paleta distinto por reino según el miedo
+
+## FASE 8 — Contenido: los 31 niveles ⬜
+- [ ] Plantilla de nivel reutilizable (mapa + acertijo + jefe + enseñanza)
+- [ ] Implementar niveles por lotes (ej. 1–5, 6–10, …) — ver `GDD_NIVELES.md`
+- [ ] Jefe final (Nivel 31: Amor Propio / Aceptación)
+
+## FASE 9 — Pulido y cierre ⬜
+- [ ] Pantalla de título e intro narrativa
+- [ ] Pantalla final / créditos con dedicatoria de cumpleaños 🎂
+- [ ] Menú de pausa, ajustes de volumen
+- [ ] Balance de dificultad
+- [ ] Build de producción (`npm run build`) + cómo compartirlo
+
+---
+
+## Cómo retomar en una sesión nueva (protocolo)
+1. Leer `docs/CONTEXTO.md` y este `PLAN.md`.
+2. Mirar el último registro en `docs/CHANGELOG.md`.
+3. `git log --oneline -5` para ver los últimos commits.
+4. Continuar desde la primera casilla ⬜ pendiente.
+5. Al terminar: actualizar checklist, escribir entrada en CHANGELOG, commit.
