@@ -163,8 +163,7 @@ export default class MenuScene extends Phaser.Scene {
 
   startGame(isNew) {
     const save = isNew ? newSave(GAME.HEROINE) : loadSave() || newSave(GAME.HEROINE);
-    // La escena del mundo aún no existe (Fase 2). Por ahora mostramos un aviso.
-    this.scene.start('Placeholder', { save });
+    this.scene.start('World', { save });
   }
 
   update() {

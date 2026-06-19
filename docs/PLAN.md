@@ -22,12 +22,14 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [x] Verificado `npm run dev` corriendo (Phaser arranca sin errores)
 - [x] `.gitignore` + commits
 
-## FASE 2 — Movimiento y mundo base ⬜
-- [ ] Cargar un tilemap de prueba (Tiled .tmj) con tema verde
-- [ ] Heroína con sprite + animaciones de caminar (4 direcciones)
-- [ ] Colisiones con el mapa
-- [ ] Cámara que sigue a la heroína
-- [ ] **Jerónimo y Amanda** siguen a la heroína (follow con retardo)
+## FASE 2 — Movimiento y mundo base ✅
+- [x] Mundo verde generado por código (césped, flores, senderos, árboles, estanque) — `tiles.js`
+- [x] Abigail camina en 4 direcciones (frente/espalda + flip) con "pasito" (bob)
+- [x] Colisiones con árboles (solo tronco) y agua
+- [x] Cámara que sigue a Abigail con límites del mapa
+- [x] **Jerónimo y Amanda** la siguen en fila (retardo por historial de posiciones)
+- [x] HUD con nombre de zona y controles; Esc vuelve al menú
+- Nota: tilemap en Tiled (.tmj) se difiere; el mundo generado por código es suficiente por ahora.
 
 ## FASE 3 — Sistema de diálogos ⬜
 - [ ] Caja de diálogo pixel (retrato + texto con efecto máquina de escribir)

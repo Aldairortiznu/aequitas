@@ -54,6 +54,26 @@ colisiones, cámara, perros que siguen a Abigail).
 
 ---
 
+## Sesión 4 — 2026-06-19
+**Fase:** 2 (Movimiento y mundo base) ✅
+**Hecho:**
+- `src/art/tiles.js`: tiles por código (césped, flores, sendero, agua, árbol, arbusto).
+- `src/scenes/WorldScene.js`: jardín explorable 50x34 tiles. Abigail (física arcade)
+  camina en 4 direcciones (sprite frontal + de espaldas `abigail_back` + flip lateral)
+  con "pasito" (bob). Colisiones con árboles (cuerpo solo en el tronco, `refreshBody`)
+  y con el estanque. Cámara con seguimiento y límites. HUD (zona + controles).
+- **Jerónimo y Amanda** siguen a Abigail en fila usando un historial de posiciones
+  (Amanda más cerca con lag 10, Jerónimo detrás con lag 22).
+- `main.js` expone `window.__game` para pruebas; "Comenzar" ahora entra a `World`.
+- Añadido sprite `abigail_back` en spriteData.
+- Verificado: consola sin errores (318 entradas); World se crea sin fallos al iniciarla.
+  El previsualizador headless no captura WebGL; se probó abriendo el juego en el navegador.
+
+**Pendiente / siguiente:** Fase 3 — sistema de diálogos (NPCs, Jerónimo, Amanda,
+reflexión propia) con caja pixel y efecto máquina de escribir.
+
+---
+
 ## Sesión 1 — 2026-06-18
 **Fase:** 0 (Planificación) ✅
 **Hecho:**

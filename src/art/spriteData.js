@@ -102,6 +102,26 @@ export const SPRITES = {
     ],
   },
 
+  abigail_back: {
+    w: 18, h: 28,
+    rects: [
+      // cabello cubriendo toda la cabeza (de espaldas)
+      r(4, 1, PAL.hair, 10, 3), r(3, 3, PAL.hair, 12, 9),
+      r(3, 9, PAL.hair, 3, 11), r(12, 9, PAL.hair, 3, 11),
+      r(5, 5, PAL.hair, 8, 7), r(5, 1, PAL.hairHi, 3, 1),
+      r(6, 12, PAL.skin, 6, 1), // nuca
+      // túnica (igual que de frente)
+      r(4, 14, PAL.dress, 10, 3), r(4, 17, PAL.dress, 10, 5),
+      r(4, 16, PAL.trim, 10, 1), r(8, 17, PAL.dressSh, 2, 5),
+      r(3, 15, PAL.dress, 2, 4), r(13, 15, PAL.dress, 2, 4),
+      r(3, 19, PAL.skin, 2, 2), r(13, 19, PAL.skin, 2, 2),
+      r(4, 21, PAL.belt, 10, 1),
+      r(4, 22, PAL.dress, 10, 3), r(3, 24, PAL.dress, 12, 1),
+      r(3, 24, PAL.dressSh, 1, 1), r(14, 24, PAL.dressSh, 1, 1),
+      r(6, 25, PAL.boot, 2, 3), r(10, 25, PAL.boot, 2, 3),
+    ],
+  },
+
   leaf: {
     w: 8, h: 8,
     rects: [

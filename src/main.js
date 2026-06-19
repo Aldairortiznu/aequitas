@@ -4,6 +4,7 @@ import { GAME, COLORS } from './config.js';
 import BootScene from './scenes/BootScene.js';
 import MenuScene from './scenes/MenuScene.js';
 import PlaceholderScene from './scenes/PlaceholderScene.js';
+import WorldScene from './scenes/WorldScene.js';
 
 const config = {
   type: Phaser.AUTO,
@@ -21,8 +22,9 @@ const config = {
     default: 'arcade',
     arcade: { gravity: { y: 0 }, debug: false },
   },
-  scene: [BootScene, MenuScene, PlaceholderScene],
+  scene: [BootScene, MenuScene, PlaceholderScene, WorldScene],
 };
 
-// eslint-disable-next-line no-new
-new Phaser.Game(config);
+const game = new Phaser.Game(config);
+// Expuesto para depuración/pruebas en desarrollo.
+window.__game = game;

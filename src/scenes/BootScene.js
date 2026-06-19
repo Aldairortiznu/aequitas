@@ -3,6 +3,7 @@
 
 import Phaser from 'phaser';
 import { buildCharacterTextures } from '../art/characters.js';
+import { buildWorldTextures } from '../art/tiles.js';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -10,8 +11,9 @@ export default class BootScene extends Phaser.Scene {
   }
 
   create() {
-    // Dibuja por código los sprites de Abigail, Jerónimo, Amanda y la hoja.
+    // Dibuja por código los sprites y los tiles del mundo.
     buildCharacterTextures(this);
+    buildWorldTextures(this);
     this.scene.start('Menu');
   }
 }
