@@ -8,6 +8,7 @@ import { CONVERSATIONS } from '../data/dialogues.js';
 import { RIDDLES } from '../data/bookRiddles.js';
 import { WISDOM } from '../data/wisdom.js';
 import { getReino } from '../data/reinos.js';
+import { getBiome } from '../data/biomes.js';
 import { writeSave } from '../systems/save.js';
 
 const TILE = 16;
@@ -28,14 +29,20 @@ export default class WorldScene extends Phaser.Scene {
     this.mapW = COLS * TILE;
     this.mapH = ROWS * TILE;
 
-    // Reino actual según el progreso.
+    // Reino actual según el progreso, con su bioma y un RNG sembrado por nivel
+    // (así el mapa de cada reino es propio y estable entre sesiones).
     const nivel = this.save ? this.save.level || 0 : 0;
     this.reino = getReino(nivel);
+    this.biome = getBiome(nivel);
+    this.rng = new Phaser.Math.RandomDataGenerator(['reverdecer-' + nivel]);
 
+    this.solids = this.physics.add.staticGroup();
     this.buildGround();
     this.applyReinoTint();
-    this.solids = this.physics.add.staticGroup();
-    this.buildTreesAndPond();
+    this.buildWater();
+    this.buildBorder();
+    this.buildScenery();
+    this.buildAmbient();
 
     this.createPlayer();
     this.createDogs();
@@ -44,6 +51,7 @@ export default class WorldScene extends Phaser.Scene {
     this.createSavePoint();
     this.createRiddlePedestal();
     this.createPortal();
+    this.createTreasures();
 
     // Físicas y cámara.
     this.physics.add.collider(this.player, this.solids);
@@ -70,73 +78,204 @@ export default class WorldScene extends Phaser.Scene {
     }
   }
 
-  // ----------------------------------------------------------- terreno
+  // Zona central despejada (donde viven NPC, atril, fuente, portal): no se
+  // colocan decorados ni agua aquí para no bloquear el flujo del reino.
+  isCenterClear(tx, ty) {
+    const cx = COLS / 2;
+    const cy = ROWS / 2;
+    return Math.abs(tx - cx) <= 10 && Math.abs(ty - cy) <= 6;
+  }
+
+  // ----------------------------------------------------------- terreno (bioma)
   buildGround() {
+    const gk = 'g_' + this.biome.key;
+    const ak = gk + '_a';
+    const ac = this.biome.ground.accentChance;
     for (let y = 0; y < ROWS; y++) {
       for (let x = 0; x < COLS; x++) {
-        const key = Phaser.Math.Between(0, 9) === 0 ? 't_flower' : 't_grass';
+        const key = this.rng.frac() < ac ? ak : gk;
         this.add.image(x * TILE, y * TILE, key).setOrigin(0).setDepth(0);
       }
     }
-    // Sendero serpenteante horizontal a media altura.
-    const py = Math.floor(ROWS / 2);
-    for (let x = 2; x < COLS - 2; x++) {
-      const wobble = Math.round(Math.sin(x * 0.4) * 1.5);
-      this.add.image(x * TILE, (py + wobble) * TILE, 't_path').setOrigin(0).setDepth(0);
-    }
-    // Sendero vertical que cruza.
-    for (let y = 2; y < ROWS - 2; y++) {
-      this.add.image(Math.floor(COLS / 2) * TILE, y * TILE, 't_path').setOrigin(0).setDepth(0);
+    // Senderos con el color del bioma (si lo define).
+    if (this.biome.ground.path) {
+      const pk = 'p_' + this.biome.key;
+      const py = Math.floor(ROWS / 2);
+      for (let x = 2; x < COLS - 2; x++) {
+        const wobble = Math.round(Math.sin(x * 0.4) * 1.5);
+        this.add.image(x * TILE, (py + wobble) * TILE, pk).setOrigin(0).setDepth(0);
+      }
+      for (let y = 2; y < ROWS - 2; y++) {
+        this.add.image(Math.floor(COLS / 2) * TILE, y * TILE, pk).setOrigin(0).setDepth(0);
+      }
     }
   }
 
-  // -------------------------------------------------- árboles y estanque
-  buildTreesAndPond() {
-    const addTree = (tx, ty) => {
-      // Origen en los pies del árbol para ordenar profundidad por Y.
-      const tree = this.solids.create(tx * TILE + TILE / 2, ty * TILE + TILE, 't_tree');
-      tree.setOrigin(0.5, 1);
-      tree.refreshBody(); // recoloca el cuerpo estático tras cambiar el origen
-      tree.setDepth(tree.y);
-      // Cuerpo de colisión solo en el tronco (deja pasar bajo la copa).
-      tree.body.setSize(8, 8, false);
-      tree.body.setOffset(4, 16);
-      return tree;
-    };
+  // Coloca un decorado sólido con cuerpo solo en su base (deja pasar "por detrás").
+  addSolid(tex, px, py) {
+    const s = this.solids.create(px, py, tex);
+    s.setOrigin(0.5, 1);
+    s.refreshBody();
+    s.setDepth(py);
+    const bw = Math.min(10, s.width - 2);
+    s.body.setSize(bw, 6, false);
+    s.body.setOffset((s.width - bw) / 2, s.height - 6);
+    return s;
+  }
 
-    // Borde de árboles alrededor del mapa.
-    for (let x = 0; x < COLS; x += 1) {
-      if (x % 2 === 0) {
-        addTree(x, 1);
-        addTree(x, ROWS - 1);
-      }
+  // -------------------------------------------------------------- borde del mapa
+  buildBorder() {
+    const tex = this.biome.border;
+    if (!tex) return;
+    for (let x = 0; x < COLS; x += 2) {
+      this.addSolid(tex, x * TILE + TILE / 2, 1 * TILE + TILE);
+      this.addSolid(tex, x * TILE + TILE / 2, (ROWS - 1) * TILE + TILE);
     }
     for (let y = 1; y < ROWS; y += 2) {
-      addTree(0, y);
-      addTree(COLS - 1, y);
+      this.addSolid(tex, 0 * TILE + TILE / 2, y * TILE + TILE);
+      this.addSolid(tex, (COLS - 1) * TILE + TILE / 2, y * TILE + TILE);
     }
+  }
 
-    // Algunos bosquecillos interiores (evitando los senderos centrales).
-    const clusters = [
-      [8, 6], [10, 7], [9, 9],
-      [38, 8], [40, 9], [41, 7],
-      [12, 26], [14, 27], [13, 24],
-      [36, 25], [38, 26], [40, 24],
-    ];
-    clusters.forEach(([x, y]) => addTree(x, y));
-
-    // Arbustos decorativos (sin colisión).
-    [[20, 10], [30, 22], [16, 18], [34, 14]].forEach(([x, y]) => {
-      this.add.image(x * TILE + 8, y * TILE + 8, 't_bush').setDepth(y * TILE);
-    });
-
-    // Estanque (agua, con colisión) en una esquina tranquila.
-    for (let y = 5; y <= 8; y++) {
-      for (let x = 5; x <= 9; x++) {
-        const w = this.solids.create(x * TILE, y * TILE, 't_water');
-        w.setOrigin(0).setDepth(1);
-        w.refreshBody();
+  // -------------------------------------------------------------------- agua
+  buildWater() {
+    const w = this.biome.water;
+    if (!w) return;
+    if (w.style === 'cienaga') {
+      // Charcos de ciénaga dispersos por el reino.
+      for (let i = 0; i < 6; i++) {
+        const bx = this.rng.between(4, COLS - 8);
+        const by = this.rng.between(4, ROWS - 6);
+        if (this.isCenterClear(bx, by)) continue;
+        for (let y = by; y < by + this.rng.between(2, 3); y++) {
+          for (let x = bx; x < bx + this.rng.between(3, 5); x++) {
+            const t = this.solids.create(x * TILE, y * TILE, w.tex);
+            t.setOrigin(0).setDepth(1);
+            t.refreshBody();
+          }
+        }
       }
+    } else if (w.style === 'mar') {
+      // Franja de mar en el borde inferior (acantilado).
+      for (let y = ROWS - 4; y < ROWS; y++) {
+        for (let x = 0; x < COLS; x++) {
+          const t = this.solids.create(x * TILE, y * TILE, w.tex);
+          t.setOrigin(0).setDepth(1);
+          t.refreshBody();
+        }
+      }
+    } else {
+      // Estanque en una esquina tranquila.
+      for (let y = 5; y <= 8; y++) {
+        for (let x = 5; x <= 9; x++) {
+          const t = this.solids.create(x * TILE, y * TILE, w.tex);
+          t.setOrigin(0).setDepth(1);
+          t.refreshBody();
+        }
+      }
+    }
+  }
+
+  // ----------------------------------------------------- decorados del bioma
+  buildScenery() {
+    const place = (tex, collide) => {
+      // Busca una casilla libre (fuera del centro y no sobre el sendero medio).
+      for (let intento = 0; intento < 12; intento++) {
+        const tx = this.rng.between(2, COLS - 3);
+        const ty = this.rng.between(3, ROWS - 3);
+        if (this.isCenterClear(tx, ty)) continue;
+        const px = tx * TILE + TILE / 2;
+        const py = ty * TILE + TILE;
+        if (collide) this.addSolid(tex, px, py);
+        else this.add.image(px, py, tex).setOrigin(0.5, 1).setDepth(py);
+        return;
+      }
+    };
+    for (const d of this.biome.decor) {
+      for (let i = 0; i < d.count; i++) place(d.tex, d.collide);
+    }
+  }
+
+  // ----------------------------------------------- partículas ambientales místicas
+  buildAmbient() {
+    const a = this.biome.ambient;
+    if (!a) return;
+    this.ambient = this.add.particles(0, 0, 'p_soft', {
+      x: { min: 0, max: this.mapW },
+      y: { min: 0, max: this.mapH },
+      lifespan: 5000,
+      speedX: { min: -a.drift, max: a.drift },
+      speedY: { min: a.rise - 4, max: a.rise + 4 },
+      scale: { start: a.size, end: 0 },
+      alpha: { start: 0.85, end: 0 },
+      tint: a.color,
+      frequency: Math.max(40, 1600 / a.count),
+      quantity: 1,
+      blendMode: 'ADD',
+    });
+    this.ambient.setDepth(50000);
+  }
+
+  // -------------------------------------------------------------- tesoros del reino
+  createTreasures() {
+    this.treasures = [];
+    if (!this.save) return;
+    if (!this.save.treasuresByReino) this.save.treasuresByReino = {};
+    const nivel = this.reino.nivel;
+    const collected = this.save.treasuresByReino[nivel] || [];
+    const tint = Phaser.Display.Color.HexStringToColor(this.reino.color).color;
+    const total = 4;
+    for (let i = 0; i < total; i++) {
+      if (collected.includes(i)) continue;
+      // Posición sembrada (estable) en una casilla apartada del centro.
+      let tx;
+      let ty;
+      for (let intento = 0; intento < 20; intento++) {
+        tx = this.rng.between(3, COLS - 4);
+        ty = this.rng.between(3, ROWS - 4);
+        if (!this.isCenterClear(tx, ty)) break;
+      }
+      const orb = this.add.image(tx * TILE + 8, ty * TILE + 8, 'd_orb').setDepth(60000);
+      orb.setTint(0xffffff);
+      orb.idx = i;
+      // Latido luminoso (color cálido tirando al del reino).
+      orb.setTintFill(0xfff2c8);
+      this.tweens.add({ targets: orb, scale: 1.3, alpha: 0.7, duration: 700, yoyo: true, repeat: -1 });
+      this.treasures.push(orb);
+    }
+    this.treasureTotal = total;
+    this.treasureBiomeTint = tint;
+  }
+
+  collectTreasure(orb) {
+    const nivel = this.reino.nivel;
+    if (!this.save.treasuresByReino[nivel]) this.save.treasuresByReino[nivel] = [];
+    if (!this.save.treasuresByReino[nivel].includes(orb.idx)) {
+      this.save.treasuresByReino[nivel].push(orb.idx);
+    }
+    this.save.treasuresTotal = (this.save.treasuresTotal || 0) + 1;
+    // Recompensa: un poco de vida y un destello.
+    this.hp = Math.min(this.maxHp, this.hp + 10);
+    this.showFloat(orb.x, orb.y - 8, '✦ Tesoro +10', '#ffe9a0');
+    this.cameras.main.flash(120, 240, 230, 170);
+    for (let i = 0; i < 6; i++) {
+      const sp = this.add.image(orb.x, orb.y, 'p_soft').setTint(0xffe9a0).setDepth(60001);
+      const ang = (Math.PI * 2 * i) / 6;
+      this.tweens.add({
+        targets: sp,
+        x: orb.x + Math.cos(ang) * 14,
+        y: orb.y + Math.sin(ang) * 14,
+        alpha: 0,
+        duration: 380,
+        onComplete: () => sp.destroy(),
+      });
+    }
+    orb.destroy();
+    this.treasures = this.treasures.filter((o) => o !== orb);
+    writeSave(this.save);
+    const left = this.treasureTotal - (this.save.treasuresByReino[nivel].length);
+    if (left === 0) {
+      this.showFloat(this.player.x, this.player.y - 30, '¡Todos los tesoros del reino!', '#9be8a6');
     }
   }
 
@@ -209,13 +348,16 @@ export default class WorldScene extends Phaser.Scene {
     this.revealUntil = 0;
     this.revealReadyAt = 0;
 
-    // Enemigo: una sombra errante (primer combate del prólogo).
+    // Guardián: el monstruo del bioma, con stats propios (vida/velocidad/tamaño).
     const ex = (COLS / 2 - 7) * TILE;
     const ey = (ROWS / 2 - 3) * TILE;
-    this.enemy = this.physics.add.image(ex, ey, 'sombra');
+    const st = this.biome.stats;
+    this.enemy = this.physics.add.image(ex, ey, this.biome.monster);
     this.enemy.setDepth(ey);
-    this.enemy.hp = 5;
-    this.enemy.maxHp = 5;
+    this.enemy.setScale(st.scale);
+    this.enemySpeed = st.speed;
+    this.enemy.hp = st.hp;
+    this.enemy.maxHp = st.hp;
     this.enemy.hitThisSwing = false;
     this.physics.add.collider(this.enemy, this.solids);
 
@@ -516,6 +658,15 @@ export default class WorldScene extends Phaser.Scene {
       const dA = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.atril.x, this.atril.y);
       this.atrilHint.setVisible(dA < 28);
     }
+    // Tesoros: se recogen al tocarlos.
+    if (this.treasures && this.treasures.length) {
+      for (const orb of this.treasures) {
+        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, orb.x, orb.y) < 14) {
+          this.collectTreasure(orb);
+        }
+      }
+    }
+
     // Portal: comprobar apertura y burbuja.
     this.checkPortal();
     if (this.portalReady) {
@@ -607,7 +758,8 @@ export default class WorldScene extends Phaser.Scene {
 
     // IA: la sombra persigue a Abigail.
     const ang = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, this.player.x, this.player.y);
-    this.enemy.setVelocity(Math.cos(ang) * 42, Math.sin(ang) * 42);
+    const spd = this.enemySpeed || 42;
+    this.enemy.setVelocity(Math.cos(ang) * spd, Math.sin(ang) * spd);
     this.enemy.setDepth(this.enemy.y);
 
     // Estado "revelado" (Sabiduría): núcleo visible y vulnerable.

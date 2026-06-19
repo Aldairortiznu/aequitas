@@ -170,6 +170,32 @@ Falta la foto de Abigail. (Aún sin alojamiento web: corre local con Vite.)
 
 ---
 
+## Sesión 10 — 2026-06-19
+**Fase:** 8 + 7 — **Sistema de biomas** (cada reino se siente distinto).
+**Hecho:**
+- `src/data/biomes.js`: **13 biomas** (jardín, bosque, ruinas, pradera, cripta, pantano,
+  niebla, nieve, seto, cristal, costa, nocturno, paraíso) con paleta de suelo, sendero,
+  borde, agua, decorados, monstruo, stats (vida/velocidad/tamaño) y partículas ambientales.
+  Mapa nivel→bioma para los 33 reinos (`getBiome`).
+- `src/art/biomeTextures.js`: texturas por código de **suelos por bioma**, **decorados**
+  (pino, árbol muerto, roca, columna rota, seto, cristal, hongo, junco, farol místico,
+  mata florida), **5 monstruos** (sombra/bestia/espectro/enredadera/reflejo), **orbe-tesoro**
+  y mota de partícula. Registradas en `BootScene`.
+- `WorldScene` reescrita para ser **consciente del bioma**: suelo, senderos, borde, agua
+  (estanque/ciénaga/mar), decorados y partículas se generan según el bioma; **RNG sembrado
+  por nivel** → cada reino tiene su mapa propio y estable entre sesiones. El Guardián usa
+  el monstruo y stats del bioma (la velocidad de persecución sale de `stats.speed`).
+- **Tesoros**: 4 orbes de luz por reino, posición sembrada; al tocarlos curan +10, sueltan
+  destellos y se guardan en `save.treasuresByReino` (no reaparecen). Mensaje al juntarlos todos.
+- Verificado en navegador (¡el WebGL ahora sí se captura!): biomas bosque/pantano/cristal/
+  nocturno/paraíso se construyen sin errores; el nocturno (azul estrellado) y el paraíso
+  (verde radiante) se ven radicalmente distintos. Consola limpia tras cambiar entre reinos.
+
+**Pendiente / siguiente:** diálogos propios por Guardián, jefe final del Nivel 32 (abrazar),
+y seguir afinando decorados/retos únicos por reino. Falta la foto de Abigail.
+
+---
+
 ## Sesión 1 — 2026-06-18
 **Fase:** 0 (Planificación) ✅
 **Hecho:**

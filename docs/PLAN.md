@@ -68,7 +68,7 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [ ] Animaciones de caminar (4 direcciones) para los 3 (en Fase 2)
 - [ ] Ajustar a Abigail según la foto real (pendiente: la foto no llegó adjunta)
 - [ ] Música ambiental + efectos (CC0)
-- [ ] Tinte/paleta distinto por reino según el miedo
+- [x] Tinte/paleta distinto por reino según el bioma (Sesión 10)
 
 ## FASE 8 — Contenido: prólogo + 32 niveles 🔧 (plantilla lista)
 - [x] **Datos de los 33 reinos** (`src/data/reinos.js`): nombre, aprendizaje, Guardián, enseñanza, color, riddleId
@@ -76,7 +76,10 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
       Guardián, acertijo) y abre un **portal** al cumplir los retos → avanza de reino y guarda
 - [x] Acertijos "de libro real" enganchados por reino (5,14,18,19,22,26,27,30,31)
 - [x] Enseñanzas de sombra y acertijos quedan en el **Diario de Sabiduría**
-- [ ] Mapas/decorados únicos por reino (ahora comparten el jardín base re-tintado)
+- [x] **Sistema de biomas** (`biomes.js` + `biomeTextures.js`): 13 biomas con suelo,
+      decorados, monstruo, stats y partículas propios; mapa procedural sembrado por nivel
+- [x] **Tesoros** coleccionables por reino (orbes de luz que curan y se guardan)
+- [ ] Mapas/decorados aún MÁS únicos (estructuras a medida por reino emblemático)
 - [ ] Diálogos propios de cada Guardián (ahora usan los genéricos del prólogo)
 - [ ] Jefe final especial (Nivel 32: Amor Propio / "abrazar" en vez de atacar)
 

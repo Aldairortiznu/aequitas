@@ -4,6 +4,7 @@
 import Phaser from 'phaser';
 import { buildCharacterTextures } from '../art/characters.js';
 import { buildWorldTextures } from '../art/tiles.js';
+import { buildBiomeTextures } from '../art/biomeTextures.js';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -14,6 +15,7 @@ export default class BootScene extends Phaser.Scene {
     // Dibuja por código los sprites y los tiles del mundo.
     buildCharacterTextures(this);
     buildWorldTextures(this);
+    buildBiomeTextures(this);
     this.scene.start('Menu');
   }
 }
