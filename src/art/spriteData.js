@@ -13,6 +13,7 @@ export const PAL = {
   dress: '#2f6b3f', dressSh: '#214d2e', trim: '#6cc77a',
   belt: '#6b4a2f', boot: '#4a3322',
   fur: '#f6f3ea', furSh: '#ded8c8', grey: '#c7c1b1', nose: '#2a2530',
+  glass: '#3b82d6', glassHi: '#8fc1f0',
 };
 
 const r = (x, y, c, w = 1, h = 1) => ({ x, y, w, h, c });
@@ -34,6 +35,12 @@ export const SPRITES = {
       r(7, 8, PAL.white, 1, 1), r(10, 8, PAL.white, 1, 1),
       // mejillas + boca
       r(6, 10, PAL.blush, 1, 1), r(11, 10, PAL.blush, 1, 1), r(8, 11, PAL.mouth, 2, 1),
+      // gafas de marco azul, lentes transparentes (se ven los ojos)
+      r(6, 7, PAL.glass, 4, 1), r(6, 10, PAL.glass, 4, 1),   // aro izq: arriba/abajo
+      r(6, 8, PAL.glass, 1, 2), r(9, 8, PAL.glass, 1, 2),    // aro izq: lados (x9 = puente)
+      r(9, 7, PAL.glass, 4, 1), r(9, 10, PAL.glass, 4, 1),   // aro der: arriba/abajo
+      r(12, 8, PAL.glass, 1, 2),                              // aro der: lado externo
+      r(5, 8, PAL.glass, 1, 1), r(13, 8, PAL.glass, 1, 1),   // patillas hacia el pelo
       // túnica
       r(4, 14, PAL.dress, 10, 3), r(4, 17, PAL.dress, 10, 5),
       r(4, 16, PAL.trim, 10, 1), r(8, 17, PAL.dressSh, 2, 5),
