@@ -53,9 +53,11 @@ Leyenda: ⬜ pendiente · 🔧 en curso · ✅ hecho
 - [ ] **Acertijos de texto** con respuesta escrita (incluye los de "libros reales")
 - [ ] Estado de puzzle persistente (se guarda si se resolvió)
 
-## FASE 7 — Arte y audio ⬜
+## FASE 7 — Arte y audio 🔧 (adelantada parcialmente)
 - [ ] Descargar e integrar packs CC0 (Kenney/LPC) — tilesets verdes, castillos
-- [ ] Sprites propios: heroína, Jerónimo, Amanda
+- [x] Sprites propios frontales: **Abigail, Jerónimo, Amanda** (datos en `src/art/spriteData.js`)
+- [ ] Animaciones de caminar (4 direcciones) para los 3 (en Fase 2)
+- [ ] Ajustar a Abigail según la foto real (pendiente: la foto no llegó adjunta)
 - [ ] Música ambiental + efectos (CC0)
 - [ ] Tinte/paleta distinto por reino según el miedo
 

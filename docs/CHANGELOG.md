@@ -30,6 +30,30 @@ caminar (4 direcciones), colisiones, cámara, y que Jerónimo y Amanda la sigan.
 
 ---
 
+## Sesión 3 — 2026-06-19
+**Fase:** 7 (Arte) parcial — diseño de personajes.
+**Hecho:**
+- Creados los sprites pixel art frontales de **Abigail** (pelo negro liso, piel clara,
+  túnica verde), **Jerónimo** (perro viejo blanco/gris, orejas caídas) y **Amanda**
+  (perra joven blanca, orejas en punta). Dibujados por código.
+- Arquitectura del arte: datos puros en `src/art/spriteData.js` (rects + paleta,
+  sin Phaser) reutilizados por `src/art/characters.js` (hornea texturas Phaser) y por
+  la vista previa `personajes.html` (canvas 2D). Sin duplicación.
+- `BootScene` ahora genera estos sprites; `MenuScene` muestra el trío con nombres y
+  una animación de "respiración".
+- Verificado sin errores en consola. Vista previa abierta en el navegador.
+
+**Notas:**
+- ⚠️ La **foto de Abigail no llegó adjunta**; se diseñó según la descripción (pelo negro
+  liso, caucásica). Ajustar cuando llegue la imagen.
+- El previsualizador headless no captura canvas WebGL y se colgó; se verifica por consola
+  y por `personajes.html` abierto en el navegador real.
+
+**Pendiente / siguiente:** Fase 2 — mundo jugable (tilemap, caminar 4 direcciones,
+colisiones, cámara, perros que siguen a Abigail).
+
+---
+
 ## Sesión 1 — 2026-06-18
 **Fase:** 0 (Planificación) ✅
 **Hecho:**

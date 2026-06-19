@@ -46,10 +46,32 @@ export default class MenuScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    // Heroína + perritos (placeholders) caminando bajo el título.
-    this.add.image(WIDTH / 2 - 22, 168, 'abigail').setScale(1.4);
-    this.add.image(WIDTH / 2, 172, 'jeronimo');
-    this.add.image(WIDTH / 2 + 20, 172, 'amanda');
+    // Trío protagonista con nombres.
+    const trio = [
+      { key: 'jeronimo', name: 'Jerónimo', x: WIDTH / 2 - 46, y: 172, s: 1.6 },
+      { key: 'abigail', name: 'Abigail', x: WIDTH / 2, y: 168, s: 1.8 },
+      { key: 'amanda', name: 'Amanda', x: WIDTH / 2 + 46, y: 173, s: 1.6 },
+    ];
+    trio.forEach((c) => {
+      const spr = this.add.image(c.x, c.y, c.key).setScale(c.s).setOrigin(0.5, 1);
+      // leve "respiración" para dar vida
+      this.tweens.add({
+        targets: spr,
+        y: c.y - 2,
+        duration: 1200,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.inOut',
+        delay: Phaser.Math.Between(0, 600),
+      });
+      this.add
+        .text(c.x, c.y + 6, c.name, {
+          fontFamily: 'Georgia, serif',
+          fontSize: '8px',
+          color: c.key === 'abigail' ? COLORS.gold : COLORS.cream,
+        })
+        .setOrigin(0.5, 0);
+    });
 
     // Opciones de menú.
     this.buildMenu();

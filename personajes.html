@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reverdecer — Personajes</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at 50% 30%, #1b4029, #0b1410);
+        color: #f3efe0;
+        font-family: Georgia, serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+      }
+      h1 { color: #6cc77a; margin: 8px 0 0; font-size: 40px; }
+      .sub { color: #e9c46a; font-style: italic; margin: 2px 0 24px; }
+      .row { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
+      .card {
+        background: rgba(0,0,0,0.25);
+        border: 2px solid #2f6b3f;
+        border-radius: 10px;
+        padding: 16px 24px;
+        text-align: center;
+      }
+      canvas { image-rendering: pixelated; display: block; margin: 0 auto 8px; }
+      .name { font-size: 20px; color: #f3efe0; margin-top: 6px; }
+      .role { font-size: 13px; color: #9be8a6; }
+    </style>
+  </head>
+  <body>
+    <h1>Reverdecer</h1>
+    <div class="sub">Personajes — la travesía de Abigail</div>
+    <div class="row" id="row"></div>
+
+    <script type="module">
+      import { SPRITES } from '/src/art/spriteData.js';
+
+      const META = {
+        abigail:  { name: 'Abigail',  role: 'La heroína · pelo negro liso', scale: 9 },
+        jeronimo: { name: 'Jerónimo', role: 'Perrito viejo y sabio',        scale: 9 },
+        amanda:   { name: 'Amanda',   role: 'Perrita joven y valiente',     scale: 9 },
+      };
+
+      const row = document.getElementById('row');
+      for (const key of ['jeronimo', 'abigail', 'amanda']) {
+        const def = SPRITES[key];
+        const meta = META[key];
+        const s = meta.scale;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const cv = document.createElement('canvas');
+        cv.width = def.w * s;
+        cv.height = def.h * s;
+        const ctx = cv.getContext('2d');
+        def.rects.forEach((rc) => {
+          ctx.fillStyle = rc.c;
+          ctx.fillRect(rc.x * s, rc.y * s, rc.w * s, rc.h * s);
+        });
+
+        const name = document.createElement('div');
+        name.className = 'name';
+        name.textContent = meta.name;
+        const role = document.createElement('div');
+        role.className = 'role';
+        role.textContent = meta.role;
+
+        card.append(cv, name, role);
+        row.append(card);
+      }
+    </script>
+  </body>
+</html>
