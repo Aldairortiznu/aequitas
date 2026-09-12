@@ -443,6 +443,21 @@ export const PactoSchema = z.strictObject({
 export type Pacto = z.infer<typeof PactoSchema>;
 
 // ---------------------------------------------------------------------------
+// Interpelaciones (banco global)
+// ---------------------------------------------------------------------------
+
+export const InterpelacionSchema = z.strictObject({
+  id: IdSchema,
+  articulo: z.string(),
+  texto: z.string().min(1).max(MAX_DIALOGUE_TEXT),
+  opciones: z.array(z.string()).length(4),
+  acierto: z.string().min(1).max(300),
+  fallo: z.string().min(1).max(300),
+});
+export type Interpelacion = z.infer<typeof InterpelacionSchema>;
+export const InterpelacionesSchema = z.array(InterpelacionSchema);
+
+// ---------------------------------------------------------------------------
 // Cinemáticas (láminas)
 // ---------------------------------------------------------------------------
 

@@ -231,6 +231,40 @@ export class Session {
   private async onPatrol(e: { name: string; rank: string; articulo?: string }): Promise<void> {
     const outcome = await this.modals.interpelacion(e, this);
     this.bus.emit('world:patrolResolved', { name: e.name, outcome });
+    if (outcome === 'detenida') await this.detencion();
+  }
+
+  /**
+   * Detención: fundido, Renata reaparece en el Atril más cercano (spawn «atril» o el de
+   * entrada del mapa) con una nota en el Zurrón. Sin pérdida de progreso.
+   */
+  private async detencion(): Promise<void> {
+    const ep = this.episode;
+    if (!ep) return;
+    const nota = `${ep.manifest.id}-acta-detencion`;
+    if (ep.evidence[nota] && !this.state.evidence.includes(nota)) {
+      this.state = GS.addEvidence(this.state, nota);
+      this.bus.emit('ui:toast', {
+        text: `Nota en el zurrón: ${ep.evidence[nota]?.nombre ?? 'Acta de detención'}`,
+        kind: 'warn',
+      });
+    } else {
+      this.bus.emit('ui:toast', {
+        text: 'La llevan al Despacho y la sueltan sin explicación.',
+        kind: 'warn',
+      });
+    }
+    this.bus.emit('world:freeze', { frozen: true });
+    const map = ep.maps[this.state.map];
+    const objetos = map?.layers.find((l) => l.name === 'objetos')?.objects ?? [];
+    const hasAtril = objetos.some((o) => (o.class ?? o.type) === 'spawn' && o.name === 'atril');
+    const spawn = hasAtril
+      ? 'atril'
+      : this.state.map === ep.manifest.entry.map
+        ? ep.manifest.entry.spawn
+        : 'inicio';
+    this.startWorld(this.state.map, spawn);
+    this.bus.emit('state:changed', { reason: 'detencion' });
   }
 
   // ---------------------------------------------------------------------

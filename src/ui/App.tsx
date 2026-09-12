@@ -8,6 +8,7 @@ import { DialogueHost } from './DialogueBox';
 import { PanelBar, PanelHost } from './Panels';
 import { AudienciaHost } from './AudienciaView';
 import { PactoHost } from './PactoView';
+import { InterpelacionHost } from './InterpelacionView';
 import { anyModalOpen, ui } from './store';
 
 /**
@@ -68,6 +69,7 @@ export function App({ session }: { session: Session }) {
       <PanelHost session={session} />
       <AudienciaHost session={session} />
       <PactoHost session={session} />
+      <InterpelacionHost session={session} />
       {toast && (
         <div class={`ui-toast ui-toast--${toast.kind}`} role="status" aria-live="polite">
           {toast.text}

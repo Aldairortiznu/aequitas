@@ -1,6 +1,6 @@
 import { validateContent } from '../core/content/validate';
 import type { RawContent, RawEpisode, ValidatedEpisode } from '../core/content/validate';
-import type { CodiceEntry, ContentIndex, Personaje } from '../core/content/schema';
+import type { CodiceEntry, ContentIndex, Interpelacion, Personaje } from '../core/content/schema';
 
 /**
  * Carga perezosa de contenido con Vite. Cada JSON de `content/` es un módulo que se importa
@@ -15,6 +15,7 @@ export interface LoadedContent {
   index: ContentIndex;
   personajes: Personaje[];
   codice: Record<string, CodiceEntry>;
+  interpelaciones: Interpelacion[];
 }
 
 export class ContentLoadError extends Error {
@@ -71,6 +72,9 @@ async function loadRawGlobal(): Promise<Omit<RawContent, 'episodes'>> {
     index: await loadJson('/content/index.json'),
     personajes: await loadJson('/content/personajes.json'),
     codice: await loadDir('/content/codice/'),
+    interpelaciones: modules['/content/interpelaciones.json']
+      ? await loadJson('/content/interpelaciones.json')
+      : [],
   };
 }
 
@@ -107,7 +111,12 @@ export function loadGlobalContent(): Promise<LoadedContent> {
       }
       if (!result.index || !result.personajes || !result.codice)
         throw new ContentLoadError('Contenido global incompleto', []);
-      return { index: result.index, personajes: result.personajes, codice: result.codice };
+      return {
+        index: result.index,
+        personajes: result.personajes,
+        codice: result.codice,
+        interpelaciones: result.interpelaciones ?? [],
+      };
     })();
   }
   return globalCache;

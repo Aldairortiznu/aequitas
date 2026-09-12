@@ -1,0 +1,42 @@
+[
+  {
+    "id": "int-certificado",
+    "articulo": "cp-28",
+    "texto": "Alto. Muéstreme su certificado de existencia o la llevo al Despacho.",
+    "opciones": ["cp-28", "cp-14", "cp-34", "cp-29"],
+    "acierto": "Nadie puede ser detenido sin orden escrita de un juez. El alguacil mira el papel que no tiene y da un paso atrás.",
+    "fallo": "El alguacil no encuentra en eso ninguna razón para dejarla pasar. «Al Despacho.»"
+  },
+  {
+    "id": "int-bolso",
+    "articulo": "cp-28",
+    "texto": "Abra ese morral. Vamos a ver qué papeles carga.",
+    "opciones": ["cp-28", "cp-4", "cp-1", "cp-34"],
+    "acierto": "Registrar a una persona o sus cosas exige mandamiento judicial. El alguacil aparta la mano.",
+    "fallo": "«Eso no dice nada del morral.» Le quitan el morral un momento y la llevan."
+  },
+  {
+    "id": "int-incautar",
+    "articulo": "cp-34",
+    "texto": "Esa canoa queda incautada por la Oficina hasta que pague la cuota.",
+    "opciones": ["cp-34", "cp-28", "cp-1", "cp-4"],
+    "acierto": "Quedarse con los bienes de alguien como castigo, sin sentencia, es confiscación. Está prohibida. El alguacil suelta la cuerda.",
+    "fallo": "El alguacil amarra la canoa a su poste. «Reclame en el Despacho.»"
+  },
+  {
+    "id": "int-nombre",
+    "articulo": "cp-14",
+    "texto": "Sin folio usted no existe. Y lo que no existe no puede andar por aquí.",
+    "opciones": ["cp-14", "cp-4", "cp-29", "cp-34"],
+    "acierto": "Toda persona tiene derecho al reconocimiento de su personalidad jurídica. Existir no depende de un folio. El alguacil no sabe qué contestar.",
+    "fallo": "«Pues demuéstrelo en el Despacho.»"
+  },
+  {
+    "id": "int-sancion",
+    "articulo": "cp-29",
+    "texto": "El Despacho ya decidió su multa. Pague ahora o la llevo.",
+    "opciones": ["cp-29", "cp-1", "cp-28", "cp-4"],
+    "acierto": "Nadie puede ser sancionado sin ser oído y sin un procedimiento previo. El alguacil no tiene ninguna citación que mostrar.",
+    "fallo": "«Eso se lo cuenta al Despacho.»"
+  }
+]

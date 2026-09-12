@@ -9,6 +9,7 @@ import {
   DialogueSchema,
   EpisodeManifestSchema,
   EvidencesSchema,
+  InterpelacionesSchema,
   OBJECT_LAYER,
   OBJECT_TYPES,
   PersonajesSchema,
@@ -29,6 +30,7 @@ import type {
   Dialogue,
   EpisodeManifest,
   Evidence,
+  Interpelacion,
   Pacto,
   Personaje,
   TiledMap,
@@ -64,6 +66,7 @@ export interface RawContent {
   index: unknown;
   personajes: unknown;
   codice: Record<string, unknown>;
+  interpelaciones?: unknown;
   episodes: RawEpisode[];
 }
 
@@ -84,6 +87,7 @@ export interface ValidationResult {
   index?: ContentIndex;
   personajes?: Personaje[];
   codice?: Record<string, CodiceEntry>;
+  interpelaciones?: Interpelacion[];
   episodes: Record<string, ValidatedEpisode>;
 }
 
@@ -152,6 +156,23 @@ export function validateContent(raw: RawContent): ValidationResult {
   result.index = index;
   result.personajes = personajes;
   result.codice = codice;
+  const interpelaciones =
+    raw.interpelaciones === undefined
+      ? []
+      : (col.parse(InterpelacionesSchema, raw.interpelaciones, 'content/interpelaciones.json') ??
+        []);
+  for (const i of interpelaciones) {
+    if (!codice[i.articulo])
+      col.error('content/interpelaciones.json', `${i.id}: artículo desconocido ${i.articulo}`);
+    if (!i.opciones.includes(i.articulo))
+      col.error(
+        'content/interpelaciones.json',
+        `${i.id}: el artículo correcto no está entre las opciones`,
+      );
+    for (const o of i.opciones)
+      if (!codice[o]) col.error('content/interpelaciones.json', `${i.id}: opción desconocida ${o}`);
+  }
+  result.interpelaciones = interpelaciones;
 
   const g: GlobalRefs = {
     codice: new Set(Object.keys(codice)),

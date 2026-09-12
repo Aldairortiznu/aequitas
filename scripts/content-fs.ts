@@ -41,6 +41,9 @@ export function readContentDir(root: string): RawContent {
     index: readJson(join(root, 'index.json')),
     personajes: readJson(join(root, 'personajes.json')),
     codice: readDirJson(join(root, 'codice')),
+    interpelaciones: existsSync(join(root, 'interpelaciones.json'))
+      ? readJson(join(root, 'interpelaciones.json'))
+      : [],
     episodes,
   };
 }
