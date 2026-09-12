@@ -21,7 +21,7 @@
     "check": "npm run lint && npm run typecheck && npm run test && npm run validate:content",
     "assets:scan": "tsx scripts/assets-scan.ts",
     "assets:normalize": "tsx scripts/assets-normalize.ts",
-    "gym:map": "tsx scripts/gen-gym-map.ts"
+    "gen:maps": "tsx scripts/gen-maps.ts"
   },
   "dependencies": {
     "@preact/signals": "^2.11.2",

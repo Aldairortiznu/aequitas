@@ -1,0 +1,230 @@
+{
+  "id": "ep01-pacto",
+  "titulo": "Acta de Altamar",
+  "region": "altamar",
+  "partes": [
+    {
+      "id": "vecinos",
+      "nombre": "Los vecinos de Altamar",
+      "pide": "Que Marrugo se vaya y vuelva el agua hoy.",
+      "necesita": "Agua, nombre y una administración que rinda cuentas."
+    },
+    {
+      "id": "marrugo",
+      "nombre": "Fulgencio Marrugo",
+      "pide": "Seguir administrando y que le reconozcan diez años.",
+      "necesita": "No ser expulsado de la torre que sostuvo."
+    },
+    {
+      "id": "torre",
+      "nombre": "La copropiedad",
+      "pide": "Que se paguen las expensas.",
+      "necesita": "Presupuesto, contabilidad y una asamblea que funcione."
+    }
+  ],
+  "puntos": [
+    {
+      "id": "p-administra",
+      "pregunta": "¿Quién administra Altamar?",
+      "clausulas": [
+        {
+          "id": "c-asamblea",
+          "texto": "La asamblea, convocada en regla, elige administrador por un año. Marrugo puede postularse.",
+          "textoActa": "La asamblea general, convocada con quince días de antelación y con quórum, elegirá administrador por un período de un año. Fulgencio Marrugo podrá postularse.",
+          "legal": true,
+          "intereses": { "vecinos": 1, "marrugo": 1, "torre": 2 },
+          "justicia": 3
+        },
+        {
+          "id": "c-vitalicio",
+          "texto": "Marrugo sigue como administrador vitalicio, con la licencia de la Oficina.",
+          "textoActa": "Se reconoce a Fulgencio Marrugo como administrador vitalicio, conforme a la licencia de la Oficina de Registro.",
+          "legal": false,
+          "nula": {
+            "norma": "l675-38",
+            "explicacion": "El administrador se nombra por períodos determinados y lo elige la asamblea, no una oficina externa."
+          },
+          "intereses": { "vecinos": -2, "marrugo": 2, "torre": -1 },
+          "justicia": 0
+        },
+        {
+          "id": "c-pilar",
+          "texto": "Pilar Cantillo será la administradora, por decisión de la jurista.",
+          "textoActa": "Se designa administradora a Pilar Cantillo por decisión de la relatora.",
+          "legal": false,
+          "nula": {
+            "norma": "l675-50",
+            "explicacion": "Al administrador lo designa la asamblea de propietarios, no una jurista ni una mesa de conciliación."
+          },
+          "intereses": { "vecinos": 1, "marrugo": -2, "torre": 0 },
+          "justicia": 1
+        },
+        {
+          "id": "c-cada-piso",
+          "texto": "Cada piso se administra solo. No más administrador.",
+          "textoActa": "Cada piso se administrará de forma independiente; se suprime el cargo de administrador.",
+          "legal": true,
+          "intereses": { "vecinos": -1, "marrugo": -1, "torre": -2 },
+          "justicia": 0
+        }
+      ]
+    },
+    {
+      "id": "p-expensas",
+      "pregunta": "¿Qué pasa con las expensas cobradas en trabajo y comida?",
+      "clausulas": [
+        {
+          "id": "c-reliquidar",
+          "texto": "Se reliquidan con el presupuesto que apruebe la asamblea; el trabajo hecho se abona a cada cuenta.",
+          "textoActa": "Las expensas se reliquidarán conforme al presupuesto que apruebe la asamblea. Las jornadas y bienes ya entregados se abonarán a la cuenta de cada unidad.",
+          "legal": true,
+          "intereses": { "vecinos": 1, "marrugo": 0, "torre": 2 },
+          "justicia": 3
+        },
+        {
+          "id": "c-condonar",
+          "texto": "Se condonan todas las deudas por expensas.",
+          "textoActa": "Se condonan todas las deudas por expensas causadas hasta la fecha.",
+          "legal": true,
+          "intereses": { "vecinos": 2, "marrugo": 0, "torre": -2 },
+          "justicia": 1
+        },
+        {
+          "id": "c-como-estan",
+          "texto": "Quedan como las anotó Marrugo en su cuaderno.",
+          "textoActa": "Se reconocen las expensas tal como constan en el cuaderno de la administración.",
+          "legal": true,
+          "intereses": { "vecinos": -2, "marrugo": 1, "torre": 0 },
+          "justicia": 0
+        },
+        {
+          "id": "c-doble",
+          "texto": "Marrugo devuelve el doble de lo cobrado, como castigo.",
+          "textoActa": "Fulgencio Marrugo restituirá el doble de lo cobrado en especie, a título de sanción.",
+          "legal": false,
+          "nula": {
+            "norma": "l675-60",
+            "explicacion": "Es una sanción impuesta sin procedimiento ni derecho de defensa; la mesa no puede castigar."
+          },
+          "intereses": { "vecinos": 2, "marrugo": -2, "torre": 0 },
+          "justicia": 0
+        }
+      ]
+    },
+    {
+      "id": "p-nombres",
+      "pregunta": "¿Qué pasa con los vecinos sin carné, los «no inscritos» de la torre?",
+      "clausulas": [
+        {
+          "id": "c-reconocer",
+          "texto": "Recuperan carné y nombre de inmediato; el Registro de Voces certifica los nacimientos de la torre.",
+          "textoActa": "Todos los residentes recuperan de inmediato su carné y su reconocimiento. Los nacimientos ocurridos en la torre se certificarán con el Registro de Voces y la libreta de la partera.",
+          "legal": true,
+          "intereses": { "vecinos": 2, "marrugo": 0, "torre": 1 },
+          "justicia": 3
+        },
+        {
+          "id": "c-si-pagan",
+          "texto": "Recuperan el carné cuando paguen lo que deben.",
+          "textoActa": "Los residentes en mora recuperarán su carné al ponerse al día.",
+          "legal": false,
+          "nula": {
+            "norma": "cp-14",
+            "explicacion": "La personalidad jurídica y el nombre no se compran ni se condicionan a un pago."
+          },
+          "intereses": { "vecinos": -1, "marrugo": 1, "torre": 1 },
+          "justicia": 0
+        },
+        {
+          "id": "c-se-van",
+          "texto": "Los que no pagaron se van del conjunto.",
+          "textoActa": "Los residentes en mora abandonarán el conjunto en el plazo de un mes.",
+          "legal": false,
+          "nula": {
+            "norma": "cp-29",
+            "explicacion": "Es un desalojo sin proceso: nadie puede ser expulsado de su vivienda sin ser oído ante quien tenga competencia."
+          },
+          "intereses": { "vecinos": -2, "marrugo": 1, "torre": 0 },
+          "justicia": 0
+        }
+      ]
+    },
+    {
+      "id": "p-marrugo",
+      "pregunta": "¿Qué pasa con Marrugo?",
+      "clausulas": [
+        {
+          "id": "c-cuentas",
+          "texto": "Rinde cuentas ante la asamblea y conserva su apartamento.",
+          "textoActa": "Fulgencio Marrugo rendirá cuentas de su gestión ante la asamblea y conservará su unidad privada y sus derechos como copropietario.",
+          "legal": true,
+          "intereses": { "vecinos": 1, "marrugo": 1, "torre": 2 },
+          "justicia": 3
+        },
+        {
+          "id": "c-expulsado",
+          "texto": "Expulsado de Altamar.",
+          "textoActa": "Fulgencio Marrugo abandonará el conjunto.",
+          "legal": false,
+          "nula": {
+            "norma": "cp-29",
+            "explicacion": "Expulsar a una persona de su vivienda sin proceso viola el debido proceso, también cuando ella lo negó a otros."
+          },
+          "intereses": { "vecinos": 1, "marrugo": -2, "torre": -1 },
+          "justicia": 0
+        },
+        {
+          "id": "c-trabajo",
+          "texto": "Trabajo obligatorio en la piscina hasta que la siembre entera.",
+          "textoActa": "Fulgencio Marrugo trabajará en la piscina hasta completar su siembra.",
+          "legal": false,
+          "nula": {
+            "norma": "cp-17",
+            "explicacion": "El trabajo forzado como castigo es servidumbre y está prohibido."
+          },
+          "intereses": { "vecinos": 1, "marrugo": -2, "torre": 0 },
+          "justicia": 0
+        },
+        {
+          "id": "c-olvido",
+          "texto": "Se olvida todo. Nadie rinde cuentas de nada.",
+          "textoActa": "Las partes renuncian a toda reclamación por la gestión anterior.",
+          "legal": true,
+          "intereses": { "vecinos": -1, "marrugo": 2, "torre": -2 },
+          "justicia": 1
+        }
+      ]
+    },
+    {
+      "id": "p-agua",
+      "pregunta": "¿Y el agua?",
+      "clausulas": [
+        {
+          "id": "c-agua-todos",
+          "texto": "Bien común esencial: se retira el candado y se restablece a todos los pisos mañana.",
+          "textoActa": "El agua es un bien común esencial. La administración retirará el candado de la válvula del piso 4 y restablecerá el servicio a todas las unidades a más tardar mañana.",
+          "legal": true,
+          "intereses": { "vecinos": 2, "marrugo": 0, "torre": 1 },
+          "justicia": 3,
+          "efectos": [{ "type": "setFlag", "flag": "ep01.valvula", "value": true }]
+        },
+        {
+          "id": "c-agua-pago",
+          "texto": "Agua solo para quien esté al día en expensas.",
+          "textoActa": "El suministro de agua se restablecerá únicamente a las unidades al día en sus expensas.",
+          "legal": false,
+          "nula": {
+            "norma": "l675-59",
+            "explicacion": "El uso de bienes comunes esenciales no puede restringirse en ningún caso como sanción."
+          },
+          "intereses": { "vecinos": -2, "marrugo": 1, "torre": 0 },
+          "justicia": 0
+        }
+      ]
+    }
+  ],
+  "acta": {
+    "encabezado": "En la piscina del Conjunto Altamar, reunidos los vecinos de la torre principal, Fulgencio Marrugo y Renata Iriarte como relatora, acuerdan:",
+    "cierre": "Lo pactado obliga a quienes lo firman y se someterá a la asamblea general para lo que sea de su competencia. Se leyó en voz alta ante los presentes y nadie objetó."
+  }
+}

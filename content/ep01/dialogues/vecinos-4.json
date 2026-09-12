@@ -1,0 +1,19 @@
+{
+  "id": "ep01-vecino-p3",
+  "nodes": [
+    {
+      "id": "v1",
+      "speaker": "vecino-2",
+      "portrait": "neutra",
+      "text": "Quiero poner una reja en el pasillo frente a mi apartamento. Es mi piso, mi pasillo. Marrugo dice que si le pago, me deja. ¿Puedo?",
+      "consulta": "ep01-consulta-pasillo",
+      "next": "v2"
+    },
+    {
+      "id": "v2",
+      "speaker": "vecino-2",
+      "portrait": "neutra",
+      "text": "De todos. Ya. Es que aquí uno se acostumbra a que todo se compra."
+    }
+  ]
+}

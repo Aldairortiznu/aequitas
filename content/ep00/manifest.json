@@ -1,0 +1,197 @@
+{
+  "id": "ep00",
+  "title": "El códice que no ardió",
+  "region": "cienaga",
+  "entry": {
+    "map": "estacion",
+    "spawn": "inicio"
+  },
+  "maps": [
+    "estacion",
+    "laboratorio",
+    "herbario"
+  ],
+  "flagsInit": {
+    "ep00.prologo-visto": false,
+    "ep00.primer-paso": false,
+    "ep00.nepomuceno": false,
+    "ep00.eladio": false,
+    "ep00.casimiro-listo": false,
+    "ep00.encargo": false,
+    "ep00.pacto": false,
+    "ep00.final": false
+  },
+  "beats": [
+    {
+      "id": "ep00-inicio",
+      "trigger": {
+        "type": "episodeStart"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "cutscene",
+          "id": "ep00-prologo"
+        },
+        {
+          "type": "setFlag",
+          "flag": "ep00.prologo-visto",
+          "value": true
+        },
+        {
+          "type": "dialogue",
+          "id": "ep00-despertar"
+        }
+      ]
+    },
+    {
+      "id": "ep00-primer-paso",
+      "trigger": {
+        "type": "interact",
+        "object": "trigger-claro"
+      },
+      "once": true,
+      "requires": [
+        {
+          "flag": "ep00.primer-paso",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "actions": [
+        {
+          "type": "setFlag",
+          "flag": "ep00.primer-paso",
+          "value": true
+        },
+        {
+          "type": "toast",
+          "text": "Z: zurrón · C: Códice · N: cuaderno. Habla con la gente y recoge los folios."
+        }
+      ]
+    },
+    {
+      "id": "ep00-entra-oficina",
+      "trigger": {
+        "type": "interact",
+        "object": "trigger-oficina"
+      },
+      "once": true,
+      "requires": [
+        {
+          "flag": "audiencia.ep00-simulada.ganada",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "dialogue",
+          "id": "ep00-oficina"
+        }
+      ]
+    },
+    {
+      "id": "ep00-audiencia-ganada",
+      "trigger": {
+        "type": "audienciaWon",
+        "id": "ep00-simulada"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "legitimidad",
+          "delta": 5,
+          "fuente": "audiencia"
+        },
+        {
+          "type": "dialogue",
+          "id": "ep00-tras-audiencia"
+        }
+      ]
+    },
+    {
+      "id": "ep00-pacto-firmado",
+      "trigger": {
+        "type": "pactoSigned",
+        "id": "ep00-pacto"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "setFlag",
+          "flag": "ep00.pacto",
+          "value": true
+        },
+        {
+          "type": "dialogue",
+          "id": "ep00-tras-pacto"
+        }
+      ]
+    },
+    {
+      "id": "ep00-muelle-final",
+      "trigger": {
+        "type": "interact",
+        "object": "trigger-muelle-final"
+      },
+      "once": true,
+      "requires": [
+        {
+          "flag": "ep00.encargo",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "flag": "ep00.pacto",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "setFlag",
+          "flag": "ep00.final",
+          "value": true
+        },
+        {
+          "type": "dialogue",
+          "id": "ep00-muelle"
+        },
+        {
+          "type": "cutscene",
+          "id": "ep00-final"
+        },
+        {
+          "type": "save"
+        },
+        {
+          "type": "endEpisode"
+        }
+      ]
+    }
+  ],
+  "legitimidad": {
+    "start": 80,
+    "hitos": [
+      {
+        "at": 25,
+        "mapState": "brote"
+      },
+      {
+        "at": 50,
+        "mapState": "verdor"
+      },
+      {
+        "at": 75,
+        "mapState": "floracion"
+      }
+    ]
+  },
+  "party": [],
+  "codice": [],
+  "ending": {
+    "cutscene": "ep00-final",
+    "nextEpisode": "ep01"
+  }
+}

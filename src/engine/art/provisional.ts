@@ -30,6 +30,7 @@ const P = {
   tierra1: '#b5773f',
   tierra2: '#d9a66b',
   sal0: '#f2c9d6',
+  sal1: '#e69ab8',
   papel: '#f3ead8',
   papel2: '#eadfc6',
   linea: '#cfc2a3',
@@ -44,13 +45,6 @@ type Ctx = CanvasRenderingContext2D;
 function px(ctx: Ctx, x: number, y: number, color: string, w = 1, h = 1): void {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, w, h);
-}
-
-/** Ruido determinista (para no depender de Math.random y que el arte sea estable). */
-function hash(x: number, y: number, seed = 0): number {
-  let h = (x * 374761393 + y * 668265263 + seed * 1442695041) >>> 0;
-  h = (h ^ (h >>> 13)) * 1274126177;
-  return ((h ^ (h >>> 16)) >>> 0) / 4294967295;
 }
 
 // Tilesets provisionales: ver tilesetProvisional.ts (64 celdas por región y estado).
@@ -174,6 +168,90 @@ export const LOOKS: Record<string, CharacterLook> = {
     top: P.tierra2,
     bottom: P.ceniza2,
     accent: P.papel,
+    pelo: 'corto',
+  },
+  'vecino-1': {
+    skin: P.piel1,
+    hair: '#2a1a12',
+    top: P.sal1,
+    bottom: P.ceniza2,
+    accent: P.papel,
+    pelo: 'largo',
+  },
+  'vecino-2': {
+    skin: P.piel3,
+    hair: '#1a1210',
+    top: P.agua0,
+    bottom: P.tierra0,
+    accent: P.papel,
+    pelo: 'corto',
+  },
+  'vecino-3': {
+    skin: P.piel2,
+    hair: '#c9c2b2',
+    top: P.papel2,
+    bottom: P.ceniza2,
+    accent: P.tierra1,
+    pelo: 'recogido',
+  },
+  'vecino-4': {
+    skin: P.piel1,
+    hair: '#1a1a1a',
+    top: P.verde2,
+    bottom: P.ceniza1,
+    accent: P.papel,
+    pelo: 'corto',
+  },
+  eladio: {
+    skin: P.piel2,
+    hair: '#2a1a12',
+    top: P.tierra2,
+    bottom: P.ceniza2,
+    accent: P.tierra1,
+    accesorio: 'sombrero',
+    pelo: 'corto',
+  },
+  'estudiante-2': {
+    skin: P.piel2,
+    hair: '#3a2a1a',
+    top: P.agua2,
+    bottom: P.ceniza2,
+    accent: P.papel,
+    pelo: 'largo',
+  },
+  marrugo: {
+    skin: P.piel1,
+    hair: '#4a4850',
+    top: P.papel2,
+    bottom: P.ceniza1,
+    accent: P.oro1,
+    accesorio: 'canasto',
+    pelo: 'calvo',
+  },
+  tomas: {
+    skin: P.piel2,
+    hair: '#1a1210',
+    top: P.oro2,
+    bottom: P.ceniza2,
+    accent: P.papel,
+    pelo: 'corto',
+  },
+  zoraida: {
+    skin: P.piel2,
+    hair: '#a29ea8',
+    top: P.agua0,
+    bottom: P.papel,
+    accent: P.papel,
+    accesorio: 'panuelo',
+    pelo: 'recogido',
+  },
+  vigilante: {
+    skin: P.piel1,
+    hair: '#2a2a2a',
+    top: P.ceniza2,
+    bottom: P.ceniza1,
+    accent: P.oro0,
+    accesorio: 'baston',
     pelo: 'corto',
   },
 };

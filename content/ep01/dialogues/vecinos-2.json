@@ -1,0 +1,19 @@
+{
+  "id": "ep01-joven",
+  "nodes": [
+    {
+      "id": "j1",
+      "speaker": "vecino-4",
+      "portrait": "neutra",
+      "text": "Oiga, una pregunta. A mi tía le quitaron el carné. Marrugo le dijo que ya no existe ni para la Oficina. ¿Eso es así? ¿Se le borra el nombre?",
+      "consulta": "ep01-consulta-carne",
+      "next": "j2"
+    },
+    {
+      "id": "j2",
+      "speaker": "vecino-4",
+      "portrait": "cordial",
+      "text": "Se lo voy a decir con esas mismas palabras. Aunque no sé si me crea a mí."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ep00-prologo",
+  "saltable": true,
+  "musica": "biblioteca",
+  "laminas": [
+    {
+      "imagen": "ep00-lamina-1",
+      "texto": "Hace nueve años, el mar entró en Puerto Baluarte y no volvió a salir. Se fue la luz, se fueron los juzgados, se fue el Estado. Eso lo recuerda todo el mundo."
+    },
+    {
+      "imagen": "ep00-lamina-2",
+      "texto": "Lo que casi nadie sabe es que, esa misma semana, alguien destruyó los registros. Todos. Las escrituras, los nacimientos, las sociedades. Sin registros no había deudas que cobrar. Tampoco había nada que fuera de nadie."
+    },
+    {
+      "imagen": "ep00-lamina-3",
+      "texto": "Cuatro años después, un antiguo secretario reabrió la Oficina de Registro con las cajas que dijo haber salvado. Vendía certeza: un papel que dice quién eres y qué es tuyo. Nadie lo eligió. Todos fueron."
+    },
+    {
+      "imagen": "ep00-lamina-4",
+      "texto": "En la ciénaga, unos profesores escondieron los libros de la ley. No las sentencias ni los títulos: la ley. La Constitución, los códigos. Durante diez años enseñaron a leerlos."
+    },
+    {
+      "imagen": "ep00-lamina-5",
+      "texto": "Este año, por primera vez, alguien va a salir a usarlos."
+    }
+  ]
+}

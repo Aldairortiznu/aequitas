@@ -1,0 +1,17 @@
+{
+  "id": "ep01-tumulto",
+  "nodes": [
+    {
+      "id": "t1",
+      "speaker": "narrador",
+      "text": "Alguien grita desde las gradas. Otro vuelca una banca. Marrugo recoge su carpeta y sube por la escalera del fondo, escoltado por dos vigilantes. La palabra se acabó.",
+      "next": "t2"
+    },
+    {
+      "id": "t2",
+      "speaker": "pilar",
+      "portrait": "tensa",
+      "text": "Así es como termina siempre aquí. Baje el tono. Presente lo que tiene, no lo que quisiera tener."
+    }
+  ]
+}

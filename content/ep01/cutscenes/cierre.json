@@ -1,0 +1,10 @@
+{
+  "id": "ep01-cierre",
+  "saltable": true,
+  "laminas": [
+    {
+      "imagen": "ep01-lamina-cierre",
+      "texto": "Quince días después, la asamblea de Altamar se reúne en la piscina vacía con quórum, orden del día y acta firmada. Al día siguiente vuelve el agua a los pisos bajos. A la semana, alguien siembra tomates en el fondo de la piscina. Nadie lo decidió: había tierra."
+    }
+  ]
+}

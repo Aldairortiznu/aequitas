@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Session } from '../app/session';
 import type { Action, Dialogue } from '../core/content/schema';
 import { getBus } from '../core/bus';
+import type { DialogueEvent } from '../core/dialogue/runtime';
 import { advance, availableChoices, currentNode, startDialogue } from '../core/dialogue/runtime';
 import type { DialogueState } from '../core/dialogue/runtime';
 import { ui } from './store';
@@ -40,8 +41,12 @@ export function DialogueBox({ session, dialogueId, onDone }: Props) {
     state: DialogueState | null;
     effects: Action[];
     deferred: Action[];
+    events?: DialogueEvent[];
   }): void => {
     deferred.current.push(...r.deferred);
+    for (const ev of r.events ?? []) {
+      if (ev.type === 'consulta' && ev.correcta) session.markConsultaResuelta(ev.id);
+    }
     if (r.effects.length) void session.applyNow(r.effects);
     if (!r.state) {
       finish();
@@ -61,7 +66,6 @@ export function DialogueBox({ session, dialogueId, onDone }: Props) {
     }
     apply(startDialogue(def, session.state));
     return () => getBus().emit('ui:closed', { panel: 'dialogo' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dialogueId]);
 
   const node = def && ds ? currentNode(def, ds) : null;
@@ -110,7 +114,6 @@ export function DialogueBox({ session, dialogueId, onDone }: Props) {
     if (hasChoices || node.consulta || node.testimonio) {
       apply(advance(def, ds, session.state, undefined, (id) => session.episode?.consultas[id]));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typing, ds?.phase, ds?.nodeId]);
 
   const choices =

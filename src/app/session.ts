@@ -1,5 +1,5 @@
 import type Phaser from 'phaser';
-import type { Action, MapState } from '../core/content/schema';
+import type { Action, MapState, Pacto } from '../core/content/schema';
 import type { ValidatedEpisode } from '../core/content/validate';
 import { getBus } from '../core/bus';
 import { matchBeats } from '../core/beats';
@@ -7,6 +7,7 @@ import { BALANCE } from '../core/balance';
 import type { BeatEvent } from '../core/beats';
 import { addLegitimidad, mapStateFor } from '../core/legitimidad/legitimidad';
 import type { LegitimidadState } from '../core/legitimidad/legitimidad';
+import type { Evaluacion } from '../core/pacto/engine';
 import * as GS from '../core/state/gameState';
 import type { GameState } from '../core/state/gameState';
 import { loadEpisode, loadGlobalContent } from './contentLoader';
@@ -193,6 +194,7 @@ export class Session {
     });
     this.legitimidad = { [m.region]: { valor: m.legitimidad.start, porFuente: {} } };
     this.actas = {};
+    for (const c of m.codice) this.state = GS.unlockCodice(this.state, c);
     this.bindListeners();
     ui.enTitulo.value = false;
     this.startWorld(m.entry.map, m.entry.spawn);
@@ -334,6 +336,13 @@ export class Session {
         break;
       case 'mesa': {
         const pacto = props.pacto;
+        const requiere = props.requiereFlag;
+        if (requiere && !this.state.flags[requiere]) {
+          this.bus.emit('ui:toast', {
+            text: props.textoBloqueo ?? 'Todavía no hay nada que firmar en esta mesa.',
+          });
+          break;
+        }
         if (pacto) await this.runActions([{ type: 'startPacto', id: pacto }]);
         break;
       }
@@ -514,11 +523,76 @@ export class Session {
         this.save(lastSlot(this.storage) ?? 1);
         break;
       case 'endEpisode':
-        this.bus.emit('ui:toast', { text: 'Fin del episodio.' });
+        await this.endEpisode();
         break;
       default:
         break;
     }
+  }
+
+  // ---------------------------------------------------------------------
+  // Fin de episodio
+  // ---------------------------------------------------------------------
+
+  /**
+   * Fin de episodio: si el manifiesto apunta a un episodio publicado, se continúa con el
+   * estado acumulado (zurrón, códice, voces, compañía, legitimidad, cuaderno). Si no hay
+   * siguiente, se vuelve al título con la partida ya guardada.
+   */
+  async endEpisode(): Promise<void> {
+    const ep = this.episode;
+    if (!ep) return;
+    const nextId = ep.manifest.ending.nextEpisode;
+    const entry = nextId ? this.content?.index.episodes.find((e) => e.id === nextId) : undefined;
+    if (nextId && entry?.released) {
+      await this.continueTo(nextId);
+      return;
+    }
+    this.returnToTitle(nextId ? 'Continuará en el próximo episodio.' : 'Fin del episodio.');
+  }
+
+  /** Carga el siguiente episodio conservando lo que Renata lleva consigo. */
+  private async continueTo(episodeId: string): Promise<void> {
+    const episode = await loadEpisode(episodeId);
+    const m = episode.manifest;
+    const prev = this.state;
+    this.episode = episode;
+    this.state = {
+      ...prev,
+      episode: m.id,
+      map: m.entry.map,
+      spawn: m.entry.spawn,
+      flags: { ...prev.flags, ...m.flagsInit },
+      party: [...new Set([...prev.party, ...m.party])],
+      legitimidad: {
+        ...prev.legitimidad,
+        [m.region]: prev.legitimidad[m.region] ?? m.legitimidad.start,
+      },
+      mapStates: {},
+      diaDeJuego: prev.diaDeJuego + 1,
+    };
+    for (const c of m.codice) this.state = GS.unlockCodice(this.state, c);
+    if (!this.legitimidad[m.region]) {
+      this.legitimidad = {
+        ...this.legitimidad,
+        [m.region]: { valor: m.legitimidad.start, porFuente: {} },
+      };
+    }
+    this.bus.emit('world:freeze', { frozen: true });
+    this.startWorld(m.entry.map, m.entry.spawn);
+    this.save(lastSlot(this.storage) ?? 1);
+    this.bus.emit('ui:toast', { text: `Episodio: ${m.title}`, kind: 'ok' });
+    await this.fire({ type: 'episodeStart' });
+    await this.fire({ type: 'enterMap', map: m.entry.map });
+  }
+
+  /** Cierra el mundo y vuelve al menú de título. */
+  private returnToTitle(text: string): void {
+    this.bus.emit('world:freeze', { frozen: true });
+    const scene = this.game.scene;
+    if (scene.isActive(WorldScene.KEY)) scene.stop(WorldScene.KEY);
+    scene.start('Title');
+    this.bus.emit('ui:toast', { text, kind: 'ok' });
   }
 
   /** Muestra un diálogo y espera a que se cierre (para paneles que encadenan diálogos). */
@@ -537,9 +611,9 @@ export class Session {
 
   /** Registra un pacto firmado: resultado, legitimidad e impugnación si hay nulas. */
   async registrarPacto(
-    def: import('../core/content/schema').Pacto,
+    def: Pacto,
     elegidas: Record<string, string>,
-    ev: import('../core/pacto/engine').Evaluacion,
+    ev: Evaluacion,
     acta: string,
   ): Promise<void> {
     const region = def.region ?? this.episode?.manifest.region ?? 'general';
@@ -569,6 +643,13 @@ export class Session {
     }
     this.state = GS.avanzarDia(this.state, 1);
     this.bus.emit('state:changed', { reason: 'pacto' });
+  }
+
+  /** Consulta respondida correctamente (para el Cuaderno y las estadísticas de aula). */
+  markConsultaResuelta(id: string): void {
+    const before = this.state;
+    this.state = GS.markConsultaResuelta(this.state, id);
+    if (this.state !== before) this.bus.emit('state:changed', { reason: 'consulta' });
   }
 
   markCodiceUsed(id: string, audienciaId: string): void {

@@ -1,0 +1,35 @@
+{
+  "id": "ep01-registrador",
+  "nodes": [
+    {
+      "id": "r1",
+      "speaker": "narrador",
+      "text": "Puerto Baluarte. Oficina de Registro. Un mensajero espera de pie mientras el Registrador termina de sellar una hoja.",
+      "next": "r2"
+    },
+    {
+      "id": "r2",
+      "speaker": "mensajero",
+      "text": "Altamar. Marrugo se allanó. Una jurista de la Biblioteca. Convocaron asamblea.",
+      "next": "r3"
+    },
+    {
+      "id": "r3",
+      "speaker": "moscote",
+      "portrait": "neutra",
+      "text": "La Oficina toma nota. ¿El apellido de la jurista?",
+      "next": "r4"
+    },
+    {
+      "id": "r4",
+      "speaker": "mensajero",
+      "text": "Iriarte. Renata Iriarte.",
+      "next": "r5"
+    },
+    {
+      "id": "r5",
+      "speaker": "narrador",
+      "text": "El Registrador deja el sello sobre la mesa. No lo levanta durante un rato largo."
+    }
+  ]
+}

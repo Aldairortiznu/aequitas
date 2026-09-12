@@ -1,0 +1,17 @@
+{
+  "id": "ep00-tras-audiencia",
+  "nodes": [
+    {
+      "id": "t1",
+      "speaker": "narrador",
+      "text": "La cohorte aplaude sin exagerar. Casimiro recoge sus papeles con la boca torcida. La Rectora, al fondo, no aplaude: anota.",
+      "next": "t2"
+    },
+    {
+      "id": "t2",
+      "speaker": "renata",
+      "portrait": "cordial",
+      "text": "Ahora la Rectora. Está en su oficina, al fondo del laboratorio."
+    }
+  ]
+}

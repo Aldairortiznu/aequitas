@@ -1,0 +1,38 @@
+{
+  "id": "ep01-tras-audiencia",
+  "nodes": [
+    {
+      "id": "f1",
+      "speaker": "narrador",
+      "text": "Marrugo se queda con la licencia en la mano. Nadie aplaude. Pilar mira a la gente, no a él.",
+      "next": "f2"
+    },
+    {
+      "id": "f2",
+      "speaker": "pilar",
+      "portrait": "tensa",
+      "text": "Ese sello. «La Oficina reconoce administrador vitalicio.» Yo lo he visto en Tres Bocas, en pagarés. Está en todas partes.",
+      "next": "f3"
+    },
+    {
+      "id": "f3",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Un papel no hace administrador. Lo hace la asamblea. Convóquenla en regla: quince días, orden del día, quórum. Y mientras tanto, la mesa.",
+      "next": "f4"
+    },
+    {
+      "id": "f4",
+      "speaker": "marrugo",
+      "portrait": "neutra",
+      "text": "¿Y entonces quién manda?",
+      "next": "f5"
+    },
+    {
+      "id": "f5",
+      "speaker": "renata",
+      "portrait": "cordial",
+      "text": "Nadie manda. Se administra. Siéntese, don Fulgencio. La mesa está junto a las gradas."
+    }
+  ]
+}

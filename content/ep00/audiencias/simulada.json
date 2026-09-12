@@ -1,0 +1,66 @@
+{
+  "id": "ep00-simulada",
+  "titulo": "Audiencia simulada de graduación",
+  "adversario": { "id": "casimiro", "nombre": "Casimiro (como administrador)", "posicion": 60 },
+  "tension": { "inicial": 10, "provocacionPorRonda": 0 },
+  "credibilidad": 3,
+  "facultades": {},
+  "rondas": [
+    {
+      "id": "r1",
+      "titulo": "El ejercicio",
+      "afirmaciones": [
+        {
+          "id": "af-certificado",
+          "texto": "Un certificado de la Oficina de Registro vale más que un libro viejo. Es lo que hay. Aquí está el mío.",
+          "solucion": { "tipo": "norma", "codice": ["cp-4"] },
+          "presionar": [
+            { "respuesta": "¿Que quién lo firma? La Oficina. ¿Que con qué autoridad? Con la que tiene: la única." }
+          ],
+          "respuestas": {
+            "plena": "Norma de normas. Sí. El certificado vale lo que valga quien lo expide, y la Oficina no está por encima de la Constitución.",
+            "fallida": "Eso no responde a lo que dije. Tengo un certificado con sello."
+          },
+          "nota": "Ningún documento vale por encima de la Constitución (Art. 4). Un sello no crea autoridad."
+        },
+        {
+          "id": "af-autoridad",
+          "texto": "Ustedes no tienen autoridad para llegar a un pueblo a decir qué es legal. ¿Quién los nombró?",
+          "solucion": { "tipo": "hecho", "evidencia": ["ep00-juramento"] },
+          "respuestas": {
+            "plena": "«No imponer. Convencer.» Ya. No vienen a mandar. Vienen a argumentar. Eso sí lo puede hacer cualquiera.",
+            "fallida": "Sigo sin saber quién los nombró."
+          },
+          "nota": "Un hecho también contradice: el juramento prueba que la Biblioteca no pretende imponer nada, solo convencer."
+        },
+        {
+          "id": "af-nadie",
+          "texto": "Sin registros no hay derechos. Un pescador sin folio no es nadie y no puede reclamar.",
+          "solucion": {
+            "tipo": "combinacion",
+            "evidencia": ["ep00-testimonio-eladio"],
+            "codice": ["cp-14"],
+            "parcial": { "evidencia": ["ep00-testimonio-eladio"], "respuesta": "Que nació aquí. Muy bien. Nacer no es constar." }
+          },
+          "derechoFundamental": true,
+          "respuestas": {
+            "plena": "Personalidad jurídica por el hecho de ser persona, y un testimonio que lo ubica. Está bien. Ese pescador reclama.",
+            "parcial": "Eso dice que existe. No dice que tenga derechos.",
+            "fallida": "No veo qué tiene que ver con el pescador."
+          },
+          "nota": "Hecho (el testimonio prueba que Eladio es una persona conocida) + norma (Art. 14: toda persona tiene personalidad jurídica) = alegato completo."
+        }
+      ]
+    }
+  ],
+  "invocacion": {
+    "afirmacion": "af-nadie",
+    "opciones": ["cp-14", "cp-4", "cp-29", "cp-1"],
+    "correcta": "cp-14"
+  },
+  "final": {
+    "allanamiento": "ep00-allanamiento",
+    "tumulto": "ep00-tumulto",
+    "sesionLevantada": "ep00-sesion"
+  }
+}

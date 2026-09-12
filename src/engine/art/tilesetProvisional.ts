@@ -528,6 +528,12 @@ function drawCell(
         } else if (k === 10) {
           t(0, 0, '#8fb0b6', 16, 16);
           t(0, 0, '#a9c7cc', 16, 8);
+        } else if (k === 11) {
+          // Escalerilla de la piscina
+          t(0, 0, '#8fb0b6', 16, 16);
+          t(4, 0, m.metal, 2, 16);
+          t(10, 0, m.metal, 2, 16);
+          for (let y = 2; y < 16; y += 4) t(6, y, m.metal, 4, 1);
         } else if (k === 12) {
           sueloBase();
           t(2, 1, m.metal, 12, 10);

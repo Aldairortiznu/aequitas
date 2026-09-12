@@ -1,0 +1,38 @@
+{
+  "id": "ep01-cierre",
+  "nodes": [
+    {
+      "id": "c1",
+      "speaker": "narrador",
+      "text": "Al terminar, Pilar saca del bolsillo un cuaderno de la escuela y lo abre en la primera página. Renata escribe: Tomás Cantillo, nacido en el piso 7 de Altamar, según testimonio de Zoraida, partera.",
+      "next": "c2"
+    },
+    {
+      "id": "c2",
+      "speaker": "tomas",
+      "portrait": "cordial",
+      "text": "Tomás Cantillo. Con la ce.",
+      "next": "c3"
+    },
+    {
+      "id": "c3",
+      "speaker": "pilar",
+      "portrait": "cordial",
+      "text": "Muy bonito el artículo. ¿Y el agua cuándo sube?",
+      "next": "c4"
+    },
+    {
+      "id": "c4",
+      "speaker": "renata",
+      "portrait": "cordial",
+      "text": "Mañana, cuando quiten el candado. Lo dice el acta.",
+      "next": "c5"
+    },
+    {
+      "id": "c5",
+      "speaker": "pilar",
+      "portrait": "neutra",
+      "text": "Entonces mañana veo si le creo. Y si le creo, voy con usted. Ese sello hay que seguirlo hasta donde salga."
+    }
+  ]
+}

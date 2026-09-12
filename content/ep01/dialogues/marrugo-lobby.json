@@ -1,0 +1,61 @@
+{
+  "id": "ep01-marrugo-lobby",
+  "nodes": [
+    {
+      "id": "m1",
+      "speaker": "marrugo",
+      "portrait": "cordial",
+      "text": "¿Renovación de existencia? Son dos jornadas o un bulto. Si es nueva, primero se inscribe. Bienvenida a Altamar.",
+      "requires": [{ "flag": "ep01.marrugo-lobby", "op": "eq", "value": false }],
+      "effects": [{ "type": "setFlag", "flag": "ep01.marrugo-lobby", "value": true }],
+      "choices": [
+        { "text": "Vengo de la Biblioteca. Quisiera hablar con usted.", "next": "m2" },
+        { "text": "¿Existencia? ¿Quién la certifica?", "next": "m3" }
+      ]
+    },
+    {
+      "id": "m2",
+      "speaker": "marrugo",
+      "portrait": "neutra",
+      "text": "De la Biblioteca. Me lo imaginé por el morral. Mire, señorita: diez años sosteniendo esta torre y ahora resulta que soy el problema.",
+      "next": "m4"
+    },
+    {
+      "id": "m3",
+      "speaker": "marrugo",
+      "portrait": "neutra",
+      "text": "La administración, con licencia de la Oficina de Registro. Sin carné aquí no hay agua, ni escuela, ni asamblea. Es lo que hay.",
+      "next": "m4"
+    },
+    {
+      "id": "m4",
+      "speaker": "marrugo",
+      "portrait": "tensa",
+      "text": "Si tiene algo que decirme, dígamelo delante de todos. Yo no me escondo. Pero le advierto: el acta del Año 1 está en el muro y la Oficina me respalda.",
+      "next": "m5"
+    },
+    {
+      "id": "m5",
+      "speaker": "marrugo",
+      "portrait": "cordial",
+      "text": "Ahora, si me disculpa, hay fila."
+    },
+    {
+      "id": "otra",
+      "speaker": "marrugo",
+      "portrait": "neutra",
+      "text": "Hay fila, señorita. Lo que sea, en público.",
+      "requires": [
+        { "flag": "ep01.marrugo-lobby", "op": "eq", "value": true },
+        { "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": false }
+      ]
+    },
+    {
+      "id": "despues",
+      "speaker": "marrugo",
+      "portrait": "neutra",
+      "text": "Ya dije lo que tenía que decir en la piscina. Ahora la asamblea decide. Veremos si me quieren.",
+      "requires": [{ "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": true }]
+    }
+  ]
+}

@@ -152,6 +152,7 @@ export const EpisodeManifestSchema = z.strictObject({
   beats: z.array(BeatSchema),
   legitimidad: LegitimidadConfigSchema,
   party: z.array(IdSchema).default([]),
+  /** Entradas del Códice que Renata ya conoce al empezar el episodio (base para empezar aquí). */
   codice: z.array(IdSchema).default([]),
   ending: z.strictObject({
     cutscene: IdSchema.optional(),

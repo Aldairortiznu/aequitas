@@ -1,0 +1,61 @@
+{
+  "id": "ep01-zoraida",
+  "nodes": [
+    {
+      "id": "z1",
+      "speaker": "zoraida",
+      "portrait": "neutra",
+      "text": "Suba, suba. Si viene por Pilar, siéntese. Si viene por Marrugo, también, pero hable bajito: las paredes de esta torre son de cartón.",
+      "requires": [{ "flag": "ep01.zoraida", "op": "eq", "value": false }],
+      "effects": [{ "type": "setFlag", "flag": "ep01.zoraida", "value": true }],
+      "next": "z2"
+    },
+    {
+      "id": "z2",
+      "speaker": "zoraida",
+      "portrait": "neutra",
+      "text": "Yo he recibido a ochenta y tres niños en esta torre. Todos anotados aquí, en la libreta: día, hora, madre. No hay Registraduría, pero hay libreta.",
+      "next": "z3"
+    },
+    {
+      "id": "z3",
+      "speaker": "zoraida",
+      "portrait": "cordial",
+      "text": "Tomás Cantillo. Doce años en mayo. Piso 7, apartamento de la esquina, un martes de madrugada. Su mamá no gritó ni una vez.",
+      "next": "z4"
+    },
+    {
+      "id": "z4",
+      "speaker": "narrador",
+      "text": "Zoraida abre la libreta por una página doblada. La letra es firme. Marrugo puede quitar carnés; no puede quitar esto.",
+      "testimonio": {
+        "id": "ep01-testimonio-zoraida",
+        "nombre": "Zoraida",
+        "hecho": "Atendió el nacimiento de Tomás en el piso 7 hace doce años; consta en su libreta con fecha, hora y madre.",
+        "fecha": "Año 9"
+      },
+      "next": "z5"
+    },
+    {
+      "id": "z5",
+      "speaker": "zoraida",
+      "portrait": "neutra",
+      "text": "Una pregunta, mija, ya que sabe de leyes. Si Marrugo corta el agua y no hay juez en cien kilómetros, ¿hay algún camino, o solo la paciencia?",
+      "consulta": "ep01-consulta-tutela",
+      "next": "z6"
+    },
+    {
+      "id": "z6",
+      "speaker": "zoraida",
+      "portrait": "cordial",
+      "text": "Preparar los hechos para cuando haya juez. Bueno. Mientras tanto, yo sigo anotando."
+    },
+    {
+      "id": "vuelve",
+      "speaker": "zoraida",
+      "portrait": "neutra",
+      "text": "Ya tiene lo que necesita. Dígale a Pilar que la libreta se la presto a la asamblea, pero que me la devuelva.",
+      "requires": [{ "flag": "ep01.zoraida", "op": "eq", "value": true }]
+    }
+  ]
+}

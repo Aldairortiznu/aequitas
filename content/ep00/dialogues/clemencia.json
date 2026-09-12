@@ -1,0 +1,89 @@
+{
+  "id": "ep00-clemencia",
+  "nodes": [
+    {
+      "id": "antes",
+      "speaker": "clemencia",
+      "portrait": "neutra",
+      "text": "Todavía no, Renata. Primero la audiencia con Casimiro. Después hablamos.",
+      "requires": [{ "flag": "audiencia.ep00-simulada.ganada", "op": "eq", "value": false }]
+    },
+    {
+      "id": "encargo",
+      "speaker": "clemencia",
+      "portrait": "cordial",
+      "text": "Siéntate. Te gradúas hoy y eres la primera que sale. Hay un conjunto en la playa, Altamar. Un administrador está expulsando familias.",
+      "requires": [
+        { "flag": "audiencia.ep00-simulada.ganada", "op": "eq", "value": true },
+        { "flag": "ep00.encargo", "op": "eq", "value": false }
+      ],
+      "next": "encargo2"
+    },
+    {
+      "id": "encargo2",
+      "speaker": "clemencia",
+      "portrait": "neutra",
+      "text": "No vas a llegar a citar artículos. Vas a escuchar. Las normas son para el final, cuando ya sepas qué pasó.",
+      "choices": [
+        { "text": "¿Y si no me escuchan a mí?", "next": "r1" },
+        { "text": "¿Por qué yo?", "next": "r2" }
+      ]
+    },
+    {
+      "id": "r1",
+      "speaker": "clemencia",
+      "portrait": "neutra",
+      "text": "Te van a escuchar cuando les demuestres que conoces sus hechos mejor que ellos. No antes.",
+      "next": "anillo"
+    },
+    {
+      "id": "r2",
+      "speaker": "clemencia",
+      "portrait": "tensa",
+      "text": "Porque eres la mejor argumentando y la peor esperando. Altamar te va a enseñar lo segundo.",
+      "next": "anillo"
+    },
+    {
+      "id": "anillo",
+      "speaker": "narrador",
+      "text": "La Rectora abre un cajón y saca la mitad de un anillo de bronce. Lo pone sobre la mesa sin ceremonia.",
+      "effects": [
+        { "type": "addEvidence", "id": "ep00-anillo" },
+        { "type": "addEvidence", "id": "ep00-encargo" },
+        { "type": "setFlag", "flag": "ep00.encargo", "value": true }
+      ],
+      "next": "anillo2"
+    },
+    {
+      "id": "anillo2",
+      "speaker": "clemencia",
+      "portrait": "neutra",
+      "text": "Era de tu madre. Lo encontraron en el edificio del Registro después de la Crecida. Te lo guardé hasta hoy.",
+      "choices": [
+        { "text": "¿Qué hacía mi madre ese día en el Registro?", "next": "evasiva" },
+        { "text": "Gracias.", "next": "juramento" }
+      ]
+    },
+    {
+      "id": "evasiva",
+      "speaker": "clemencia",
+      "portrait": "tensa",
+      "text": "Era la registradora. Estaba donde tenía que estar. (pausa) Vete antes del mediodía; Eladio sale para Altamar.",
+      "next": "juramento"
+    },
+    {
+      "id": "juramento",
+      "speaker": "clemencia",
+      "portrait": "cordial",
+      "text": "Cuando vuelvas, quiero que me cuentes qué hiciste. No qué lograste. Y pasa por el herbario: Nepomuceno necesita que dejes resuelto lo del riego.",
+      "effects": [{ "type": "legitimidad", "delta": 3, "fuente": "evento" }]
+    },
+    {
+      "id": "despues",
+      "speaker": "clemencia",
+      "portrait": "neutra",
+      "text": "Eladio te espera en el muelle. Lo del herbario primero, si no lo has hecho.",
+      "requires": [{ "flag": "ep00.encargo", "op": "eq", "value": true }]
+    }
+  ]
+}

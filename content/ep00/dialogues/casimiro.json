@@ -1,0 +1,47 @@
+{
+  "id": "ep00-casimiro",
+  "nodes": [
+    {
+      "id": "listo",
+      "speaker": "casimiro",
+      "portrait": "neutra",
+      "text": "Renata. Tengo un acta, un certificado y un pescador imaginario. Yo soy el administrador de una torre y tú vienes a decirme qué es legal. ¿Empezamos?",
+      "requires": [
+        { "flag": "audiencia.ep00-simulada.ganada", "op": "eq", "value": false },
+        { "hasEvidence": "ep00-testimonio-eladio" },
+        { "hasEvidence": "ep00-juramento" }
+      ],
+      "choices": [
+        { "text": "Empecemos.", "effects": [{ "type": "startAudiencia", "id": "ep00-simulada" }] },
+        { "text": "Un momento.", "next": "espera" }
+      ]
+    },
+    {
+      "id": "falta",
+      "speaker": "casimiro",
+      "portrait": "neutra",
+      "text": "Todavía no. Para el ejercicio necesitas el juramento del atril y un testigo de verdad. Eladio está en el muelle; el juramento, en el laboratorio.",
+      "requires": [{ "flag": "audiencia.ep00-simulada.ganada", "op": "eq", "value": false }]
+    },
+    {
+      "id": "espera",
+      "speaker": "casimiro",
+      "portrait": "neutra",
+      "text": "Cuando quieras. El acta no se va a firmar sola."
+    },
+    {
+      "id": "despues",
+      "speaker": "casimiro",
+      "portrait": "tensa",
+      "text": "Estuviste bien. Pero afuera nadie se allana porque lo contradigan con elegancia. Se allanan cuando les conviene. Acuérdate de eso.",
+      "requires": [{ "flag": "audiencia.ep00-simulada.ganada", "op": "eq", "value": true }],
+      "next": "despues2"
+    },
+    {
+      "id": "despues2",
+      "speaker": "casimiro",
+      "portrait": "neutra",
+      "text": "Y otra cosa: la Oficina no es el enemigo. Es lo único que funciona. Yo negociaría antes de pelear."
+    }
+  ]
+}

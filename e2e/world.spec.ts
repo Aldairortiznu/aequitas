@@ -159,7 +159,16 @@ test.describe('mundo (episodio de prueba)', () => {
     await hold(page, 'ArrowUp', 450);
     await expect.poll(async () => (await state(page)).map, { timeout: 8000 }).toBe('sotano');
     await expect(page.locator('.hud__map')).toHaveText('Sótano del gimnasio');
-    await hold(page, 'ArrowDown', 700);
+    // El disparador de entrada puede abrir un diálogo al aparecer: se cierra antes de salir.
+    for (let i = 0; i < 6 && (await page.locator('.dlg').count()) > 0; i++) {
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(250);
+    }
+    await page.waitForTimeout(250);
+    for (let i = 0; i < 4 && (await state(page)).map === 'sotano'; i++) {
+      await hold(page, 'ArrowDown', 500);
+      await page.waitForTimeout(300);
+    }
     await expect.poll(async () => (await state(page)).map, { timeout: 8000 }).toBe('plaza');
   });
 });

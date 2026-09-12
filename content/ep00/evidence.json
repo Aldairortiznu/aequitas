@@ -1,0 +1,42 @@
+[
+  {
+    "id": "ep00-juramento",
+    "nombre": "Juramento de la Escuela",
+    "tipo": "documento",
+    "descripcion": "Una tarjeta escrita a mano, sin adornos: «No imponer. Convencer. No inventar. Recordar.» La firma cada cohorte al graduarse.",
+    "icono": "documento",
+    "autentico": true
+  },
+  {
+    "id": "ep00-testimonio-eladio",
+    "nombre": "Testimonio de Eladio",
+    "tipo": "testimonio",
+    "descripcion": "Eladio, pescador de la ciénaga, nació aquí antes de la Crecida. Nunca tuvo un papel que lo dijera. Todo el mundo lo conoce.",
+    "icono": "testimonio",
+    "autentico": true
+  },
+  {
+    "id": "ep00-certificado-casimiro",
+    "nombre": "Certificado de existencia (ejercicio)",
+    "tipo": "documento",
+    "descripcion": "Un certificado con sello de la Oficina de Registro a nombre de un administrador imaginario. Casimiro lo trajo para el ejercicio: «para que veas cómo se ven».",
+    "icono": "documento",
+    "autentico": true
+  },
+  {
+    "id": "ep00-anillo",
+    "nombre": "Anillo de sello partido",
+    "tipo": "objeto",
+    "descripcion": "La mitad de un anillo de sello de bronce. Se encontró en el edificio del Registro después de la Crecida. Tiene grabados tres números en romanos que Renata siempre creyó una fecha.",
+    "icono": "objeto",
+    "autentico": true
+  },
+  {
+    "id": "ep00-encargo",
+    "nombre": "Encargo de la Rectora",
+    "tipo": "documento",
+    "descripcion": "«Conjunto Altamar. Un administrador expulsa familias. Escucha antes de citar una norma. Vuelve a contarme qué hiciste, no qué lograste.»",
+    "icono": "documento",
+    "autentico": true
+  }
+]

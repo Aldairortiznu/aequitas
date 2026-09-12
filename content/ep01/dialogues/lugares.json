@@ -1,0 +1,17 @@
+{
+  "id": "ep01-muro",
+  "nodes": [
+    {
+      "id": "w1",
+      "speaker": "narrador",
+      "text": "El muro de carnés. Cientos de tarjetas colgadas con clavos, ordenadas por piso. Las de la franja tachada están aparte, abajo, como en un cementerio.",
+      "next": "w2"
+    },
+    {
+      "id": "w2",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Al lado hay una hoja con membrete: «Acta de Asamblea, Año 1». Es su título. Conviene leerla despacio."
+    }
+  ]
+}

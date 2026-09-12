@@ -1,0 +1,19 @@
+{
+  "id": "ep01-tomas-piscina",
+  "nodes": [
+    {
+      "id": "t1",
+      "speaker": "tomas",
+      "portrait": "neutra",
+      "text": "Me dejaron subir a ver. Si Marrugo pregunta, yo soy el que cuida los tanques.",
+      "requires": [{ "flag": "pacto.ep01-pacto.firmado", "op": "eq", "value": false }]
+    },
+    {
+      "id": "t2",
+      "speaker": "tomas",
+      "portrait": "cordial",
+      "text": "Tomás Cantillo. Piso 7. Lo anotó Zoraida y ahora lo anotó usted. Dos veces ya no se borra.",
+      "requires": [{ "flag": "pacto.ep01-pacto.firmado", "op": "eq", "value": true }]
+    }
+  ]
+}

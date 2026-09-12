@@ -1,0 +1,17 @@
+{
+  "id": "ep01-tomas-casa",
+  "nodes": [
+    {
+      "id": "h1",
+      "speaker": "tomas",
+      "portrait": "cordial",
+      "text": "Volví a la casa. Mi mamá dice que ya puedo, que ahora consto. Mañana voy a la escuela.",
+      "requires": [{ "flag": "pacto.ep01-pacto.firmado", "op": "eq", "value": true }]
+    },
+    {
+      "id": "h0",
+      "speaker": "narrador",
+      "text": "El apartamento de Pilar. Un catre, una mesa, un cuaderno de la escuela con el nombre de Tomás en la tapa. Nadie en casa."
+    }
+  ]
+}

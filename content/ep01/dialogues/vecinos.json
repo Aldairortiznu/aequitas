@@ -1,0 +1,19 @@
+{
+  "id": "ep01-ligia",
+  "nodes": [
+    {
+      "id": "g1",
+      "speaker": "vecino-3",
+      "portrait": "neutra",
+      "text": "Usted tiene cara de saber. El perro del 5B ladra toda la noche y Marrugo dice que si me quejo me quita el carné. ¿Qué hago?",
+      "consulta": "ep01-consulta-perro",
+      "next": "g2"
+    },
+    {
+      "id": "g2",
+      "speaker": "vecino-3",
+      "portrait": "cordial",
+      "text": "Por escrito. Nadie aquí escribe nada hace años. Voy a buscar papel."
+    }
+  ]
+}

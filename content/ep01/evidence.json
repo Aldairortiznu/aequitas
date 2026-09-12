@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ep01-acta-ano-1",
+    "nombre": "Acta de Asamblea del Año 1",
+    "tipo": "documento",
+    "descripcion": "Clavada junto al muro de carnés. Dice que «la asamblea» nombró administrador a Fulgencio Marrugo. No tiene lista de asistentes, ni coeficientes, ni firma de presidente ni de secretario. Firman Marrugo y su primo.",
+    "icono": "documento",
+    "autentico": true
+  },
+  {
+    "id": "ep01-reglamento",
+    "nombre": "Reglamento de propiedad horizontal",
+    "tipo": "documento",
+    "descripcion": "Copia de la escritura pública del reglamento de Altamar, anterior a la Crecida. El administrador lo elige la asamblea por períodos de un año; las expensas se fijan por presupuesto aprobado.",
+    "icono": "documento",
+    "autentico": true
+  },
+  {
+    "id": "ep01-libro-actas",
+    "nombre": "Libro de actas",
+    "tipo": "documento",
+    "descripcion": "El libro oficial de actas de la asamblea. La última acta con firmas y asistentes es del Año −1. Después, páginas en blanco.",
+    "icono": "documento",
+    "autentico": true
+  },
+  {
+    "id": "ep01-carne-tomas",
+    "nombre": "Carné retirado de Tomás",
+    "tipo": "objeto",
+    "descripcion": "Un carné de residente con una franja tachada a mano: «Cancelado por mora. Administración». Con él, Tomás no puede entrar a la escuela de la torre ni ser inscrito en la Oficina.",
+    "icono": "objeto",
+    "autentico": true
+  },
+  {
+    "id": "ep01-cuaderno-expensas",
+    "nombre": "Cuaderno de expensas en especie",
+    "tipo": "documento",
+    "descripcion": "Cobros anotados a mano: jornadas de trabajo, bultos de arroz, gallinas. Sin presupuesto, sin coeficientes, sin firma de nadie más que Marrugo.",
+    "icono": "documento",
+    "autentico": true
+  },
+  {
+    "id": "ep01-testimonio-zoraida",
+    "nombre": "Testimonio de Zoraida",
+    "tipo": "testimonio",
+    "descripcion": "Zoraida, partera, atendió el parto de Tomás en el piso 7 hace doce años. Lo anotó en su libreta: fecha, hora, madre Pilar Cantillo. Todo el piso lo sabe.",
+    "icono": "testimonio",
+    "autentico": true
+  },
+  {
+    "id": "ep01-valvula",
+    "nombre": "Válvula del piso 4 con candado",
+    "tipo": "nota",
+    "descripcion": "La válvula que alimenta los pisos 1 a 3 está cerrada con un candado de la administración. Es la única entrada de agua para esos pisos.",
+    "icono": "nota",
+    "autentico": true
+  },
+  {
+    "id": "ep01-licencia",
+    "nombre": "Licencia de la Oficina de Registro",
+    "tipo": "documento",
+    "descripcion": "«La Oficina reconoce a Fulgencio Marrugo como administrador vitalicio del Conjunto Altamar.» Folio, sello y una firma ilegible. Marrugo la exhibió en la Audiencia.",
+    "icono": "documento",
+    "autentico": true
+  },
+  {
+    "id": "ep01-acta-detencion",
+    "nombre": "Acta de detención",
+    "tipo": "nota",
+    "descripcion": "Copia del acta que dejó el vigilante: «retenida por circular sin carné». No cita ninguna orden judicial ni ningún procedimiento.",
+    "icono": "nota",
+    "autentico": true
+  }
+]

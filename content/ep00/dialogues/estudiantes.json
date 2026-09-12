@@ -1,0 +1,19 @@
+{
+  "id": "ep00-estudiante-a",
+  "nodes": [
+    {
+      "id": "a1",
+      "speaker": "estudiante",
+      "portrait": "neutra",
+      "text": "Renata, una duda antes de tu audiencia. Si la Oficina de Registro saca un decreto que choca con la Constitución, ¿cuál manda?",
+      "consulta": "ep00-consulta-decreto",
+      "next": "a2"
+    },
+    {
+      "id": "a2",
+      "speaker": "estudiante",
+      "portrait": "cordial",
+      "text": "Ya. Lo difícil no es saberlo. Es decírselo a alguien que tiene el sello en la mano."
+    }
+  ]
+}

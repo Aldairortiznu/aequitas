@@ -1,0 +1,24 @@
+{
+  "id": "ep00-despertar",
+  "nodes": [
+    {
+      "id": "n1",
+      "speaker": "narrador",
+      "text": "Estación de la ciénaga. Año 9. Día de graduación de la quinta cohorte.",
+      "next": "n2"
+    },
+    {
+      "id": "n2",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Audiencia simulada a las diez. Casimiro hace de contraparte. Y después la Rectora quiere verme, sin decir para qué.",
+      "next": "n3"
+    },
+    {
+      "id": "n3",
+      "speaker": "renata",
+      "portrait": "cordial",
+      "text": "Primero, el claro. Nepomuceno anda por las huertas y los folios de práctica están donde siempre: donde el concepto se ve."
+    }
+  ]
+}

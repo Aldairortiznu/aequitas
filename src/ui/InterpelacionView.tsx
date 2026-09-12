@@ -31,7 +31,6 @@ export function InterpelacionView({ session, name, rank, articulo, onDone }: Pro
     const out: Interpelacion[] = [];
     for (let i = 0; i < total && pool.length; i++) out.push(pool[i % pool.length]!);
     return out;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
   const [paso, setPaso] = useState(0);
   const [resultado, setResultado] = useState<null | { ok: boolean; texto: string }>(null);
@@ -60,7 +59,6 @@ export function InterpelacionView({ session, name, rank, articulo, onDone }: Pro
       });
     }, 1000);
     return () => window.clearInterval(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paso, resultado]);
 
   const terminar = (r: 'interpelada' | 'detenida'): void => {

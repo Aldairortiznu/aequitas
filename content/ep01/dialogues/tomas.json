@@ -1,0 +1,54 @@
+{
+  "id": "ep01-tomas",
+  "nodes": [
+    {
+      "id": "t1",
+      "speaker": "tomas",
+      "portrait": "neutra",
+      "text": "¿Usted es la de la Biblioteca? Mi mamá dijo que iba a venir alguien. Pensé que sería más grande.",
+      "requires": [{ "flag": "ep01.tomas", "op": "eq", "value": false }],
+      "effects": [{ "type": "setFlag", "flag": "ep01.tomas", "value": true }],
+      "choices": [
+        { "text": "¿Qué haces aquí abajo?", "next": "t2" },
+        { "text": "¿Por qué no estás en la escuela?", "next": "t3" }
+      ]
+    },
+    {
+      "id": "t2",
+      "speaker": "tomas",
+      "portrait": "neutra",
+      "text": "Aquí mandan a los que no tienen carné. Cuido los tanques. Están vacíos, pero los cuido.",
+      "next": "t4"
+    },
+    {
+      "id": "t3",
+      "speaker": "tomas",
+      "portrait": "tensa",
+      "text": "Sin carné no dejan entrar. Dicen que no consto. Yo sí consto: me llamo Tomás Cantillo y nací arriba, en el piso 7.",
+      "next": "t4"
+    },
+    {
+      "id": "t4",
+      "speaker": "tomas",
+      "portrait": "neutra",
+      "text": "El carné viejo lo tiré por ahí, junto a la banca. Dice «cancelado». Lléveselo si le sirve. A mí ya no."
+    },
+    {
+      "id": "vuelve",
+      "speaker": "tomas",
+      "portrait": "neutra",
+      "text": "Si va a hablar con Marrugo, dígale que los tanques están vacíos. Él lo sabe, pero dígaselo.",
+      "requires": [
+        { "flag": "ep01.tomas", "op": "eq", "value": true },
+        { "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": false }
+      ]
+    },
+    {
+      "id": "despues",
+      "speaker": "tomas",
+      "portrait": "cordial",
+      "text": "Mi mamá dice que hubo una audiencia y que Marrugo se quedó sin palabras. Yo no lo he visto callado nunca.",
+      "requires": [{ "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": true }]
+    }
+  ]
+}

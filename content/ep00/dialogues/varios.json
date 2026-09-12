@@ -1,0 +1,11 @@
+{
+  "id": "ep00-oficina",
+  "nodes": [
+    {
+      "id": "o1",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "La oficina de la Rectora. Siempre huele a papel húmedo y a tanque de peces."
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "id": "ep00-eladio",
+  "nodes": [
+    {
+      "id": "e1",
+      "speaker": "eladio",
+      "portrait": "neutra",
+      "text": "Usted es la que se gradúa hoy. Nepomuceno me dijo. Yo traigo el pescado de los jueves; no sé de leyes.",
+      "requires": [{ "flag": "ep00.eladio", "op": "eq", "value": false }],
+      "effects": [{ "type": "setFlag", "flag": "ep00.eladio", "value": true }],
+      "choices": [
+        { "text": "¿Usted es de aquí, Eladio?", "next": "e2" },
+        { "text": "¿Nunca le pidieron un papel?", "next": "e3" }
+      ]
+    },
+    {
+      "id": "e2",
+      "speaker": "eladio",
+      "portrait": "neutra",
+      "text": "Nací en la ciénaga, en la casa de mi mamá, antes de la Crecida. Todo el mundo me conoce. Papel nunca tuve; el que había se lo llevó el agua.",
+      "next": "e4"
+    },
+    {
+      "id": "e3",
+      "speaker": "eladio",
+      "portrait": "tensa",
+      "text": "En Tres Bocas, el año pasado. Un alguacil me pidió el certificado. Le dije que yo era Eladio, el de la canoa verde. Me contestó que eso no constaba.",
+      "next": "e4"
+    },
+    {
+      "id": "e4",
+      "speaker": "narrador",
+      "text": "Eladio amarra la canoa con un nudo que ha hecho diez mil veces. No le interesa el papel; le interesa que le crean.",
+      "testimonio": {
+        "id": "ep00-testimonio-eladio",
+        "nombre": "Eladio",
+        "hecho": "Nació en la ciénaga antes de la Crecida; todos lo conocen; nunca tuvo documento.",
+        "fecha": "Año 9, día de la graduación"
+      },
+      "next": "e5"
+    },
+    {
+      "id": "e5",
+      "speaker": "eladio",
+      "portrait": "neutra",
+      "text": "Un pescador sin papel que reclama su canoa. Dígame usted, doctora: ¿puede o no puede?",
+      "consulta": "ep00-consulta-eladio",
+      "next": "e6"
+    },
+    {
+      "id": "e6",
+      "speaker": "eladio",
+      "portrait": "cordial",
+      "text": "Eso mismo pienso yo. Pero bueno, yo no sé de leyes."
+    },
+    {
+      "id": "vuelve",
+      "speaker": "eladio",
+      "portrait": "neutra",
+      "text": "Cuando quiera salir para Altamar, avíseme. Voy hacia allá los martes.",
+      "requires": [{ "flag": "ep00.eladio", "op": "eq", "value": true }]
+    }
+  ]
+}

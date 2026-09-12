@@ -1,0 +1,112 @@
+[
+  {
+    "id": "ep01-consulta-perro",
+    "pregunta": "El perro del vecino ladra toda la noche. Marrugo dice que si me quejo me quita el carné. ¿Qué hago con el perro?",
+    "opciones": [
+      {
+        "texto": "Pedir por escrito a la administración que aplique el reglamento de convivencia; si no, la asamblea.",
+        "correcta": true,
+        "respuesta": "Eso. La convivencia se arregla con el reglamento y la asamblea, no con amenazas de carné. Y su queja no es una falta."
+      },
+      {
+        "texto": "Aguantar, porque quejarse es peor.",
+        "correcta": false,
+        "respuesta": "Aguantar no es una obligación legal. Es miedo, y el miedo no está en el reglamento."
+      },
+      {
+        "texto": "Envenenar al perro.",
+        "correcta": false,
+        "respuesta": "Eso sí es una falta, y grave. No confunda su derecho con una venganza."
+      }
+    ],
+    "codice": "l675-2"
+  },
+  {
+    "id": "ep01-consulta-pasillo",
+    "pregunta": "Quiero cerrar con reja el pasillo frente a mi apartamento para que nadie pase. Es mi piso. ¿Puedo?",
+    "opciones": [
+      {
+        "texto": "No: el pasillo es un bien común esencial y todos tienen derecho a circular por él.",
+        "correcta": true,
+        "respuesta": "Exacto. Su apartamento es suyo; el pasillo es de todos y sirve para llegar a los demás."
+      },
+      {
+        "texto": "Sí, si pago más expensas.",
+        "correcta": false,
+        "respuesta": "Las expensas no compran lo común. Pagar más no lo convierte en dueño del pasillo."
+      },
+      {
+        "texto": "Sí, si Marrugo lo autoriza.",
+        "correcta": false,
+        "respuesta": "Marrugo no puede autorizar lo que la ley prohíbe. Ni una asamblea podría quitarle el paso a un vecino."
+      }
+    ],
+    "codice": "l675-3"
+  },
+  {
+    "id": "ep01-consulta-carne",
+    "pregunta": "Me quitaron el carné del conjunto. Marrugo dice que sin carné no existo ni para la Oficina. ¿Dejé de tener nombre?",
+    "opciones": [
+      {
+        "texto": "No. El nombre y la personalidad jurídica son suyos por ley; el carné es un papel interno.",
+        "correcta": true,
+        "respuesta": "Así es. Puede que le cierren una puerta con ese carné. Lo que no pueden es borrarlo a usted."
+      },
+      {
+        "texto": "Sí, hasta que pague la mora.",
+        "correcta": false,
+        "respuesta": "Ningún pago compra la personalidad jurídica. Se tiene por ser persona."
+      },
+      {
+        "texto": "Depende de lo que diga la Oficina.",
+        "correcta": false,
+        "respuesta": "La Oficina anota; no crea personas ni las borra. Eso está por encima de cualquier oficina."
+      }
+    ],
+    "codice": "d1260-3"
+  },
+  {
+    "id": "ep01-consulta-expensas",
+    "pregunta": "Marrugo me cobra dos jornadas de trabajo al mes «de expensas». ¿Tengo que pagar expensas?",
+    "opciones": [
+      {
+        "texto": "Sí, pero según el presupuesto que apruebe la asamblea, no según lo que él decida.",
+        "correcta": true,
+        "respuesta": "Las expensas existen y hay que pagarlas: son los gastos comunes. Lo que no existe es un administrador que las fije solo y las cobre en jornadas."
+      },
+      {
+        "texto": "No, porque no hay Estado.",
+        "correcta": false,
+        "respuesta": "El edificio sigue necesitando agua, luz y escaleras. Las expensas no dependen del Estado; dependen de vivir juntos."
+      },
+      {
+        "texto": "Solo si me dan un recibo con sello de la Oficina.",
+        "correcta": false,
+        "respuesta": "El sello de la Oficina no tiene nada que ver. Lo que importa es el presupuesto aprobado y la contabilidad."
+      }
+    ],
+    "codice": "l675-29"
+  },
+  {
+    "id": "ep01-consulta-tutela",
+    "pregunta": "Si un administrador corta el agua a una familia y no hay juez cerca, ¿existe algún camino legal?",
+    "opciones": [
+      {
+        "texto": "Sí: la acción de tutela, que procede incluso contra particulares cuando la persona está indefensa.",
+        "correcta": true,
+        "respuesta": "Correcto. Que hoy no haya juez cerca no borra el camino; y lo que hoy hacemos aquí es preparar los hechos para cuando lo haya."
+      },
+      {
+        "texto": "No, la tutela es solo contra el Estado.",
+        "correcta": false,
+        "respuesta": "La Constitución y el decreto que la desarrolla la admiten contra particulares cuando hay subordinación o indefensión."
+      },
+      {
+        "texto": "Solo si la familia tiene abogado.",
+        "correcta": false,
+        "respuesta": "La tutela se puede presentar sin abogado. Es preferente y sumaria: rápida y sin formalismos."
+      }
+    ],
+    "codice": "d2591-42"
+  }
+]

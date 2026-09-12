@@ -1,0 +1,19 @@
+{
+  "id": "ep00-estudiante-b",
+  "nodes": [
+    {
+      "id": "b1",
+      "speaker": "estudiante-2",
+      "portrait": "neutra",
+      "text": "¿Supiste? A Ramón lo quieren sancionar por faltar a clase. La Rectora dice que primero hay que hacer algo. ¿Qué?",
+      "consulta": "ep00-consulta-descargos",
+      "next": "b2"
+    },
+    {
+      "id": "b2",
+      "speaker": "estudiante-2",
+      "portrait": "cordial",
+      "text": "Oírlo. Claro. Aquí lo hacemos hasta con un estudiante que se quedó dormido. Afuera no lo hacen ni con una familia."
+    }
+  ]
+}

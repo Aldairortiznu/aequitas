@@ -22,6 +22,15 @@ export function TitleMenu({ session, visible }: { session: Session; visible: boo
     if (visible) setSaves(listSaves(session.storage));
   }, [visible, vista, session.storage]);
 
+  // Al volver al título (fin de episodio), el menú arranca de nuevo en la lista.
+  useEffect(() => {
+    if (visible) {
+      setVista('menu');
+      setBusy(false);
+      setError(null);
+    }
+  }, [visible]);
+
   if (!visible) return null;
   const ultimo = session.lastSave();
   const episodios = session.content?.index.episodes.filter((e) => !e.hidden) ?? [];

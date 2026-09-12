@@ -1,0 +1,18 @@
+{
+  "id": "ep01-allanamiento",
+  "nodes": [
+    {
+      "id": "a1",
+      "speaker": "marrugo",
+      "portrait": "tensa",
+      "text": "Está bien. No puedo sostener el acta, ni las sanciones, ni el candado. Pero alguien tiene que administrar esta torre.",
+      "next": "a2"
+    },
+    {
+      "id": "a2",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Alguien elegido. Por un período. Con cuentas. Puede ser usted, don Fulgencio. Pero elegido."
+    }
+  ]
+}

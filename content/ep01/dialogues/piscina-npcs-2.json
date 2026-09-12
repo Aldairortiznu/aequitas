@@ -1,0 +1,19 @@
+{
+  "id": "ep01-vecinos-piscina",
+  "nodes": [
+    {
+      "id": "v1",
+      "speaker": "vecino-1",
+      "portrait": "neutra",
+      "text": "Vinimos a oír. Si esto termina como siempre, volvemos a la fila. Si no, bueno. Habrá que aprender a hacer asambleas otra vez.",
+      "requires": [{ "flag": "pacto.ep01-pacto.firmado", "op": "eq", "value": false }]
+    },
+    {
+      "id": "v2",
+      "speaker": "vecino-1",
+      "portrait": "cordial",
+      "text": "Quince días para la asamblea. Doña Ligia ya está escribiendo el orden del día. A mano, en papel de bulto.",
+      "requires": [{ "flag": "pacto.ep01-pacto.firmado", "op": "eq", "value": true }]
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "id": "ep01-pilar",
+  "nodes": [
+    {
+      "id": "p1",
+      "speaker": "pilar",
+      "portrait": "tensa",
+      "text": "Usted es de la Biblioteca. Se le nota en el morral. ¿Qué va a hacer que no hayamos hecho ya?",
+      "requires": [{ "flag": "ep01.pilar", "op": "eq", "value": false }],
+      "effects": [{ "type": "setFlag", "flag": "ep01.pilar", "value": true }],
+      "choices": [
+        { "text": "Primero, entender qué pasa aquí.", "next": "p2" },
+        { "text": "Hacer que Marrugo cumpla la ley.", "next": "p2b" }
+      ]
+    },
+    {
+      "id": "p2b",
+      "speaker": "pilar",
+      "portrait": "tensa",
+      "text": "Muy bonito. ¿Y el agua cuándo sube? Llevamos ocho meses sin agua en los pisos bajos.",
+      "next": "p2"
+    },
+    {
+      "id": "p2",
+      "speaker": "pilar",
+      "portrait": "neutra",
+      "text": "Pilar Cantillo. Era la conserje antes de la Crecida. Marrugo era el administrador. Él se quedó porque nadie más quiso; eso se lo reconozco.",
+      "next": "p3"
+    },
+    {
+      "id": "p3",
+      "speaker": "pilar",
+      "portrait": "tensa",
+      "text": "Después se le ocurrió lo del carné. Quien no paga, lo pierde. Y quien lo pierde no existe: ni para la escuela de la torre ni para la Oficina de Registro. A mi hijo Tomás se lo quitaron hace un año.",
+      "next": "p4"
+    },
+    {
+      "id": "p4",
+      "speaker": "pilar",
+      "portrait": "neutra",
+      "text": "Si quiere hacer algo útil, traiga papeles. El acta con la que manda está en el muro. Su oficina vieja tiene el resto. Y la válvula del piso 4 tiene un candado: eso no es un papel, pero cuenta.",
+      "next": "p5"
+    },
+    {
+      "id": "p5",
+      "speaker": "pilar",
+      "portrait": "neutra",
+      "text": "Zoraida, la partera del piso 7, sabe quién nació aquí. Y Tomás está en los sótanos: allá los mandan a los que no tienen carné."
+    },
+    {
+      "id": "listos",
+      "speaker": "pilar",
+      "portrait": "cordial",
+      "text": "Trajo el acta, el libro, el carné, la nota de la válvula y la palabra de Zoraida. Con eso yo convoco a la gente. La piscina, esta tarde. Marrugo va a ir: le encanta el público.",
+      "requires": [
+        { "flag": "ep01.convocada", "op": "eq", "value": false },
+        { "hasEvidence": "ep01-acta-ano-1" },
+        { "hasEvidence": "ep01-libro-actas" },
+        { "hasEvidence": "ep01-carne-tomas" },
+        { "hasEvidence": "ep01-valvula" },
+        { "hasEvidence": "ep01-testimonio-zoraida" }
+      ],
+      "effects": [
+        { "type": "setFlag", "flag": "ep01.convocada", "value": true },
+        { "type": "legitimidad", "delta": 4, "fuente": "evento" }
+      ],
+      "next": "listos2"
+    },
+    {
+      "id": "listos2",
+      "speaker": "pilar",
+      "portrait": "tensa",
+      "text": "Una cosa. Cuando lo tenga contra la pared, no lo humille. Aquí todos lo conocemos desde hace veinte años. Vamos a seguir viviendo con él."
+    },
+    {
+      "id": "convocada",
+      "speaker": "pilar",
+      "portrait": "neutra",
+      "text": "La gente ya está en la piscina. Salga por la puerta del fondo.",
+      "requires": [
+        { "flag": "ep01.convocada", "op": "eq", "value": true },
+        { "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": false }
+      ]
+    },
+    {
+      "id": "faltan",
+      "speaker": "pilar",
+      "portrait": "neutra",
+      "text": "Todavía faltan papeles. El acta del muro, el libro de actas de la oficina, el carné de Tomás, la válvula del piso 4 y lo que diga Zoraida. Con menos, Marrugo se ríe.",
+      "requires": [{ "flag": "ep01.pilar", "op": "eq", "value": true }]
+    }
+  ]
+}

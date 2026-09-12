@@ -1,0 +1,18 @@
+{
+  "id": "ep01-sesion",
+  "nodes": [
+    {
+      "id": "s1",
+      "speaker": "marrugo",
+      "portrait": "cordial",
+      "text": "Tres veces me muestra papeles que no vienen al caso. Con permiso: tengo fila.",
+      "next": "s2"
+    },
+    {
+      "id": "s2",
+      "speaker": "pilar",
+      "portrait": "neutra",
+      "text": "Lea la afirmación dos veces antes de sacar algo del morral. ¿Qué hecho la contradice? ¿Qué norma la invalida?"
+    }
+  ]
+}

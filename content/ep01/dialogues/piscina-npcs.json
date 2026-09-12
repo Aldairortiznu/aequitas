@@ -1,0 +1,29 @@
+{
+  "id": "ep01-pilar-piscina",
+  "nodes": [
+    {
+      "id": "a1",
+      "speaker": "pilar",
+      "portrait": "tensa",
+      "text": "Ahí está, con su carpeta. La gente quiere verlo caer. Yo quiero verlo sentarse. No es lo mismo.",
+      "requires": [{ "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": false }]
+    },
+    {
+      "id": "a2",
+      "speaker": "pilar",
+      "portrait": "neutra",
+      "text": "Ahora la mesa. Yo pido por los pisos bajos: agua y el nombre de los niños. Lo demás, negóciense.",
+      "requires": [
+        { "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": true },
+        { "flag": "pacto.ep01-pacto.firmado", "op": "eq", "value": false }
+      ]
+    },
+    {
+      "id": "a3",
+      "speaker": "pilar",
+      "portrait": "cordial",
+      "text": "Voy con usted. A donde sea que siga esto. Ese sello de la Oficina yo lo he visto en Tres Bocas.",
+      "requires": [{ "flag": "pacto.ep01-pacto.firmado", "op": "eq", "value": true }]
+    }
+  ]
+}

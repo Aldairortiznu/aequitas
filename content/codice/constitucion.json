@@ -10,7 +10,10 @@
     "usoEnAudiencia": "Contra una afirmación que trate a una persona como un trámite, una cifra o un estorbo.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": ["principios", "dignidad"]
+    "etiquetas": [
+      "principios",
+      "dignidad"
+    ]
   },
   {
     "id": "cp-4",
@@ -24,7 +27,10 @@
     "ejemplo": "Una «licencia» de la Oficina de Registro no puede autorizar lo que la Constitución prohíbe.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": ["supremacia", "jerarquia"]
+    "etiquetas": [
+      "supremacia",
+      "jerarquia"
+    ]
   },
   {
     "id": "cp-14",
@@ -37,7 +43,11 @@
     "usoEnAudiencia": "Contra la idea de que alguien sin certificado, carné o folio «no es nadie» y no puede reclamar.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": ["personalidad", "nombre", "no-inscritos"]
+    "etiquetas": [
+      "personalidad",
+      "nombre",
+      "no-inscritos"
+    ]
   },
   {
     "id": "cp-28",
@@ -50,7 +60,11 @@
     "usoEnAudiencia": "Contra una detención, retención o registro ordenados por quien no es juez.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": ["libertad", "detencion", "interpelacion"]
+    "etiquetas": [
+      "libertad",
+      "detencion",
+      "interpelacion"
+    ]
   },
   {
     "id": "cp-29",
@@ -63,7 +77,10 @@
     "usoEnAudiencia": "Contra sanciones, desalojos o decisiones tomadas sin oír a la persona afectada.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": ["debido-proceso", "defensa"]
+    "etiquetas": [
+      "debido-proceso",
+      "defensa"
+    ]
   },
   {
     "id": "cp-34",
@@ -76,6 +93,171 @@
     "usoEnAudiencia": "Contra incautaciones de lanchas, herramientas o tierras hechas por alguaciles o por un acreedor sin proceso.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": ["confiscacion", "incautacion", "interpelacion"]
+    "etiquetas": [
+      "confiscacion",
+      "incautacion",
+      "interpelacion"
+    ]
+  },
+  {
+    "id": "cp-2",
+    "libro": "constitucion",
+    "referencia": "Art. 2 C.P.",
+    "titulo": "Fines del Estado",
+    "textoLiteral": "Son fines esenciales del Estado: servir a la comunidad, promover la prosperidad general y garantizar la efectividad de los principios, derechos y deberes consagrados en la Constitución; facilitar la participación de todos en las decisiones que los afectan y en la vida económica, política, administrativa y cultural de la Nación; defender la independencia nacional, mantener la integridad territorial y asegurar la convivencia pacífica y la vigencia de un orden justo.",
+    "esExtracto": true,
+    "enPalabrasSimples": "El orden no es un fin en sí mismo: el Estado existe para garantizar derechos y un orden justo. Un orden sin derechos no cumple su razón de ser.",
+    "usoEnAudiencia": "Contra quien defiende que cualquier orden es mejor que ningún orden.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "fines",
+      "orden-justo"
+    ]
+  },
+  {
+    "id": "cp-12",
+    "libro": "constitucion",
+    "referencia": "Art. 12 C.P.",
+    "titulo": "Prohibición de tratos crueles",
+    "textoLiteral": "Nadie será sometido a desaparición forzada, a torturas ni a tratos o penas crueles, inhumanos o degradantes.",
+    "esExtracto": false,
+    "enPalabrasSimples": "Ninguna sanción puede humillar ni degradar a una persona.",
+    "usoEnAudiencia": "Contra castigos que humillan o privan de lo básico.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "dignidad",
+      "penas"
+    ]
+  },
+  {
+    "id": "cp-15",
+    "libro": "constitucion",
+    "referencia": "Art. 15 C.P.",
+    "titulo": "Intimidad y habeas data",
+    "textoLiteral": "Todas las personas tienen derecho a su intimidad personal y familiar y a su buen nombre, y el Estado debe respetarlos y hacerlos respetar. De igual modo, tienen derecho a conocer, actualizar y rectificar las informaciones que se hayan recogido sobre ellas en bancos de datos y en archivos de entidades públicas y privadas.",
+    "esExtracto": true,
+    "enPalabrasSimples": "Cada persona tiene derecho a saber qué dicen de ella los archivos y a corregirlo. Registrar sus cosas o revisar sus papeles sin orden viola su intimidad.",
+    "usoEnAudiencia": "Contra registros de pertenencias y contra archivos secretos sobre las personas.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "intimidad",
+      "habeas-data",
+      "interpelacion"
+    ]
+  },
+  {
+    "id": "cp-17",
+    "libro": "constitucion",
+    "referencia": "Art. 17 C.P.",
+    "titulo": "Prohibición de esclavitud y servidumbre",
+    "textoLiteral": "Se prohíben la esclavitud, la servidumbre y la trata de seres humanos en todas sus formas.",
+    "esExtracto": false,
+    "enPalabrasSimples": "Nadie puede ser obligado a trabajar para pagar una deuda ni quedar atado a otro por ella.",
+    "usoEnAudiencia": "Contra deudas que se pagan con trabajo forzado o que se heredan.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "servidumbre",
+      "trabajo"
+    ]
+  },
+  {
+    "id": "cp-20",
+    "libro": "constitucion",
+    "referencia": "Art. 20 C.P.",
+    "titulo": "Libertad de expresión e información",
+    "textoLiteral": "Se garantiza a toda persona la libertad de expresar y difundir su pensamiento y opiniones, la de informar y recibir información veraz e imparcial, y la de fundar medios masivos de comunicación.",
+    "esExtracto": true,
+    "enPalabrasSimples": "Todos pueden expresar lo que piensan y recibir información. No se le puede prohibir hablar a nadie, ni siquiera a quien perdió.",
+    "usoEnAudiencia": "Contra prohibiciones de hablar o de informar.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "expresion"
+    ]
+  },
+  {
+    "id": "cp-24",
+    "libro": "constitucion",
+    "referencia": "Art. 24 C.P.",
+    "titulo": "Libertad de circulación",
+    "textoLiteral": "Todo colombiano, con las limitaciones que establezca la ley, tiene derecho a circular libremente por el territorio nacional, a entrar y salir de él, y a permanecer y residenciarse en Colombia.",
+    "esExtracto": false,
+    "enPalabrasSimples": "Nadie necesita un permiso ni un papel para andar por el país.",
+    "usoEnAudiencia": "Contra puestos de control que exigen certificados para pasar.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "circulacion",
+      "interpelacion"
+    ]
+  },
+  {
+    "id": "cp-33",
+    "libro": "constitucion",
+    "referencia": "Art. 33 C.P.",
+    "titulo": "Nadie está obligado a declarar contra sí mismo",
+    "textoLiteral": "Nadie podrá ser obligado a declarar contra sí mismo o contra su cónyuge, compañero permanente o parientes dentro del cuarto grado de consanguinidad, segundo de afinidad o primero civil.",
+    "esExtracto": false,
+    "enPalabrasSimples": "Nadie tiene que confesar ni delatar a su familia.",
+    "usoEnAudiencia": "Contra un alguacil que exige que la persona se acuse a sí misma.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "declaracion",
+      "interpelacion"
+    ]
+  },
+  {
+    "id": "cp-37",
+    "libro": "constitucion",
+    "referencia": "Art. 37 C.P.",
+    "titulo": "Derecho de reunión",
+    "textoLiteral": "Toda parte del pueblo puede reunirse y manifestarse pública y pacíficamente. Sólo la ley podrá establecer de manera expresa los casos en los cuales se podrá limitar el ejercicio de este derecho.",
+    "esExtracto": false,
+    "enPalabrasSimples": "La gente puede reunirse y protestar en paz. Solo la ley, no un administrador ni un alguacil, puede limitarlo.",
+    "usoEnAudiencia": "Contra quien disuelve una reunión de vecinos o prohíbe una asamblea.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "reunion",
+      "interpelacion"
+    ]
+  },
+  {
+    "id": "cp-84",
+    "libro": "constitucion",
+    "referencia": "Art. 84 C.P.",
+    "titulo": "Prohibición de exigir requisitos adicionales",
+    "textoLiteral": "Cuando un derecho o una actividad hayan sido reglamentados de manera general, las autoridades públicas no podrán establecer ni exigir permisos, licencias o requisitos adicionales para su ejercicio.",
+    "esExtracto": false,
+    "enPalabrasSimples": "Nadie puede inventar requisitos, permisos o carnés que la ley no exige.",
+    "usoEnAudiencia": "Contra oficinas que exigen certificados inventados para existir, pasar o reclamar.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "requisitos",
+      "interpelacion"
+    ]
+  },
+  {
+    "id": "cp-86",
+    "libro": "constitucion",
+    "referencia": "Art. 86 C.P.",
+    "titulo": "Acción de tutela",
+    "textoLiteral": "Toda persona tendrá acción de tutela para reclamar ante los jueces, en todo momento y lugar, mediante un procedimiento preferente y sumario, por sí misma o por quien actúe a su nombre, la protección inmediata de sus derechos constitucionales fundamentales, cuando quiera que éstos resulten vulnerados o amenazados por la acción o la omisión de cualquier autoridad pública. […] La ley establecerá los casos en los que la acción de tutela procede contra particulares encargados de la prestación de un servicio público o cuya conducta afecte grave y directamente el interés colectivo, o respecto de quienes el solicitante se halle en estado de subordinación o indefensión.",
+    "esExtracto": true,
+    "enPalabrasSimples": "Cualquier persona puede pedirle a un juez, rápido y sin abogado, que proteja sus derechos fundamentales. También contra particulares cuando está indefensa frente a ellos.",
+    "usoEnAudiencia": "Para mostrar que existe un camino legal rápido contra un abuso, y que nadie está sin recurso.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": [
+      "tutela",
+      "derechos-fundamentales"
+    ],
+    "ejemplo": "Una familia a la que le cortaron el agua en un conjunto puede acudir a la tutela contra la administración."
   }
 ]

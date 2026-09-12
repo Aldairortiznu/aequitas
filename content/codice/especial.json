@@ -1,0 +1,41 @@
+[
+  {
+    "id": "d2591-42",
+    "libro": "especial",
+    "referencia": "Art. 42 Decreto 2591/1991",
+    "titulo": "Tutela contra particulares",
+    "textoLiteral": "La acción de tutela procederá contra acciones u omisiones de particulares en los siguientes casos: […] 4. Cuando la solicitud fuere dirigida contra una organización privada, contra quien la controle efectivamente o fuere el beneficiario real de la situación que motivó la acción, siempre y cuando el solicitante tenga una relación de subordinación o indefensión con tal organización. […] 9. Cuando la solicitud sea para tutelar la vida o la integridad de quien se encuentre en situación de subordinación o indefensión respecto del particular contra el cual se interpuso la acción.",
+    "esExtracto": true,
+    "enPalabrasSimples": "La tutela también sirve contra personas u organizaciones privadas cuando alguien está bajo su poder y no puede defenderse de otro modo: por ejemplo, una administración que corta el agua a una familia.",
+    "usoEnAudiencia": "Para mostrar que la protección de derechos no depende de que el abusador sea una autoridad pública.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": ["tutela", "particulares", "indefension"]
+  },
+  {
+    "id": "d1260-3",
+    "libro": "especial",
+    "referencia": "Art. 3 Decreto 1260/1970",
+    "titulo": "Derecho al nombre",
+    "textoLiteral": "Toda persona tiene derecho a su individualidad, y por consiguiente, al nombre que por ley le corresponde. El nombre comprende, el nombre, los apellidos, y en su caso, el seudónimo.",
+    "esExtracto": true,
+    "enPalabrasSimples": "El nombre es de la persona por ley, no lo concede una oficina ni lo quita un administrador. Quien nació con él, lo tiene.",
+    "usoEnAudiencia": "Contra la idea de que quien perdió un carné o un folio perdió su nombre.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": ["nombre", "registro-civil", "no-inscritos"]
+  },
+  {
+    "id": "pr-buena-fe",
+    "libro": "principios",
+    "referencia": "Principio de buena fe",
+    "titulo": "Buena fe",
+    "textoLiteral": "Las actuaciones de los particulares y de las autoridades públicas deberán ceñirse a los postulados de la buena fe, la cual se presumirá en todas las gestiones que aquellos adelanten ante éstas. (Art. 83 C.P.)",
+    "esExtracto": true,
+    "enPalabrasSimples": "Se presume que la gente actúa honestamente. Quien afirme lo contrario tiene que probarlo.",
+    "usoEnAudiencia": "Contra quien trata a los vecinos como morosos o invasores sin prueba.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": ["principios", "buena-fe"]
+  }
+]

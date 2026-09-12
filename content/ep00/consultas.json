@@ -1,0 +1,42 @@
+[
+  {
+    "id": "ep00-consulta-margarita",
+    "pregunta": "Esta margarita crece en el borde del herbario y no en el patio, donde hay más sol. ¿Por qué?",
+    "opciones": [
+      { "texto": "Porque el patio no tiene riego constante y el suelo se salinizó.", "correcta": true, "respuesta": "Eso es. Necesita agua regular y sin sal. Aparece donde varios comparten el agua. Por eso la tomamos de emblema, no por bonita." },
+      { "texto": "Porque alguien la sembró ahí.", "correcta": false, "respuesta": "Nadie la siembra. Nace donde puede." },
+      { "texto": "Porque prefiere la sombra.", "correcta": false, "respuesta": "Le gusta el sol como a cualquiera. Lo que no aguanta es la sal." }
+    ],
+    "codice": "cp-1"
+  },
+  {
+    "id": "ep00-consulta-decreto",
+    "pregunta": "Si la Oficina de Registro publica un decreto que contradice la Constitución, ¿cuál se aplica?",
+    "opciones": [
+      { "texto": "La Constitución: es norma de normas.", "correcta": true, "respuesta": "Sí. El artículo 4 lo dice sin rodeos. Un sello no cambia eso." },
+      { "texto": "El decreto, porque es más reciente.", "correcta": false, "respuesta": "Lo reciente no manda sobre lo supremo. Si fuera así, cualquiera gobernaría con un papel nuevo." },
+      { "texto": "El que tenga más firmas.", "correcta": false, "respuesta": "Las firmas no son jerarquía. La Constitución está arriba aunque nadie la firme hoy." }
+    ],
+    "codice": "cp-4"
+  },
+  {
+    "id": "ep00-consulta-eladio",
+    "pregunta": "Un pescador sin ningún documento reclama que le devuelvan su canoa. ¿Puede reclamar?",
+    "opciones": [
+      { "texto": "Sí: toda persona tiene personalidad jurídica, con o sin papel.", "correcta": true, "respuesta": "Exacto. Existir ante el derecho no es un trámite. Lo que faltará es probar que la canoa es suya, no que él es alguien." },
+      { "texto": "No, hasta que la Oficina lo inscriba.", "correcta": false, "respuesta": "Entonces la Oficina decidiría quién es persona. Eso es justo lo que la Constitución prohíbe." },
+      { "texto": "Solo si otro con documento reclama por él.", "correcta": false, "respuesta": "Puede pedir ayuda, pero no la necesita para ser sujeto de derechos." }
+    ],
+    "codice": "cp-14"
+  },
+  {
+    "id": "ep00-consulta-descargos",
+    "pregunta": "La Escuela quiere sancionar a un estudiante que faltó a clases. ¿Qué hay que hacer antes?",
+    "opciones": [
+      { "texto": "Oírlo y dejarlo explicar, con un procedimiento conocido de antemano.", "correcta": true, "respuesta": "Debido proceso. Aplica a toda clase de actuaciones, también a las de una escuela escondida en la ciénaga." },
+      { "texto": "Nada: la falta se ve sola.", "correcta": false, "respuesta": "Ver la falta no es lo mismo que decidir sin oír. Quizá tenía una razón." },
+      { "texto": "Publicar su nombre en el tablero.", "correcta": false, "respuesta": "Eso es una sanción, no un procedimiento. Primero se oye; después, si cabe, se sanciona." }
+    ],
+    "codice": "cp-29"
+  }
+]

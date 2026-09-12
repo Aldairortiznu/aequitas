@@ -1,0 +1,24 @@
+{
+  "id": "ep00-muelle",
+  "nodes": [
+    {
+      "id": "m1",
+      "speaker": "eladio",
+      "portrait": "neutra",
+      "text": "¿Lista? Altamar está a tres horas si el viento ayuda. Allá no me conocen. A usted tampoco.",
+      "next": "m2"
+    },
+    {
+      "id": "m2",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Mejor. Así nadie espera nada.",
+      "next": "m3"
+    },
+    {
+      "id": "m3",
+      "speaker": "narrador",
+      "text": "Renata sube a la canoa con el zurrón. Se toca el anillo partido sin pensarlo, como quien comprueba una llave."
+    }
+  ]
+}

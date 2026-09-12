@@ -1,0 +1,49 @@
+{
+  "id": "ep01-marrugo-piscina",
+  "nodes": [
+    {
+      "id": "convocada",
+      "speaker": "marrugo",
+      "portrait": "tensa",
+      "text": "Aquí estoy, con mis papeles. Y aquí está la gente que usted convocó sin ser de aquí. Diga lo que tenga que decir.",
+      "requires": [
+        { "flag": "ep01.convocada", "op": "eq", "value": true },
+        { "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": false }
+      ],
+      "choices": [
+        { "text": "Empecemos.", "effects": [{ "type": "startAudiencia", "id": "ep01-marrugo" }] },
+        { "text": "Un momento.", "next": "espera" }
+      ]
+    },
+    {
+      "id": "espera",
+      "speaker": "marrugo",
+      "portrait": "neutra",
+      "text": "No tengo todo el día. La fila sigue arriba."
+    },
+    {
+      "id": "antes",
+      "speaker": "marrugo",
+      "portrait": "neutra",
+      "text": "¿Vino a ver la piscina? Antes tenía agua. Ahora tiene grietas. Como todo.",
+      "requires": [{ "flag": "ep01.convocada", "op": "eq", "value": false }]
+    },
+    {
+      "id": "despues",
+      "speaker": "marrugo",
+      "portrait": "neutra",
+      "text": "Siéntese a la mesa cuando quiera. Yo firmo lo que la asamblea decida. No lo que decida usted.",
+      "requires": [
+        { "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": true },
+        { "flag": "pacto.ep01-pacto.firmado", "op": "eq", "value": false }
+      ]
+    },
+    {
+      "id": "firmado",
+      "speaker": "marrugo",
+      "portrait": "cordial",
+      "text": "Un año. Si me eligen, un año. Y cuentas. Está bien. Peor era cargar con la torre solo.",
+      "requires": [{ "flag": "pacto.ep01-pacto.firmado", "op": "eq", "value": true }]
+    }
+  ]
+}

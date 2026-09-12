@@ -1,0 +1,35 @@
+{
+  "id": "ep00-nepomuceno",
+  "nodes": [
+    {
+      "id": "saludo",
+      "speaker": "nepomuceno",
+      "portrait": "cordial",
+      "text": "La graduanda. ¿Nerviosa por Casimiro? No lo estés: discute como si supiera y eso se le nota.",
+      "requires": [{ "flag": "ep00.nepomuceno", "op": "eq", "value": false }],
+      "effects": [{ "type": "setFlag", "flag": "ep00.nepomuceno", "value": true }],
+      "next": "huerta"
+    },
+    {
+      "id": "huerta",
+      "speaker": "nepomuceno",
+      "portrait": "neutra",
+      "text": "Antes de que te vayas a cualquier parte, quiero que entiendas una cosa de estas matas. Mira la margarita del borde.",
+      "consulta": "ep00-consulta-margarita",
+      "next": "cierre"
+    },
+    {
+      "id": "cierre",
+      "speaker": "nepomuceno",
+      "portrait": "cordial",
+      "text": "Cuando llegues a un sitio, fíjate primero en el agua. Quién la tiene, quién la corta. Lo demás se deduce."
+    },
+    {
+      "id": "vuelve",
+      "speaker": "nepomuceno",
+      "portrait": "neutra",
+      "text": "Casimiro está en el claro. Y en el herbario hay una cosa pendiente: quién riega mientras no estés.",
+      "requires": [{ "flag": "ep00.nepomuceno", "op": "eq", "value": true }]
+    }
+  ]
+}

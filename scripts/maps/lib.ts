@@ -337,9 +337,21 @@ export class MapBuilder {
     return this.obj(name, 'atril', tx, ty);
   }
 
-  mesa(name: string, tx: number, ty: number, pacto?: string): this {
+  mesa(
+    name: string,
+    tx: number,
+    ty: number,
+    pacto?: string,
+    gate?: { requiereFlag: string; textoBloqueo?: string },
+  ): this {
     this.deco(tx, ty, T.mesa);
-    return this.obj(name, 'mesa', tx, ty, pacto ? { pacto } : {});
+    const props: Record<string, string> = {};
+    if (pacto) props.pacto = pacto;
+    if (gate) {
+      props.requiereFlag = gate.requiereFlag;
+      if (gate.textoBloqueo) props.textoBloqueo = gate.textoBloqueo;
+    }
+    return this.obj(name, 'mesa', tx, ty, props);
   }
 
   patrol(name: string, points: [number, number][], rango = 'alguacil', articulo?: string): this {

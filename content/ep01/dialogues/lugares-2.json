@@ -1,0 +1,17 @@
+{
+  "id": "ep01-oficina",
+  "nodes": [
+    {
+      "id": "o1",
+      "speaker": "narrador",
+      "text": "La oficina de administración de antes de la Crecida. Marrugo ya no la usa: atiende en el lobby, donde lo ven. Aquí quedaron el reglamento, el libro de actas y su cuaderno de cobros.",
+      "next": "o2"
+    },
+    {
+      "id": "o2",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Un administrador que no usa el reglamento. Eso ya dice algo."
+    }
+  ]
+}

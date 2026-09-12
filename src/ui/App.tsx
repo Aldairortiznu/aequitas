@@ -27,11 +27,14 @@ export function App({ session }: { session: Session }) {
     const onToast = (e: { text: string; kind?: string }): void =>
       setToast({ text: e.text, kind: e.kind ?? 'info' });
     const onReady = (): void => setInWorld(true);
+    const onTitle = (): void => setInWorld(false);
     bus.on('ui:toast', onToast);
     bus.on('world:ready', onReady);
+    bus.on('title:ready', onTitle);
     return () => {
       bus.off('ui:toast', onToast);
       bus.off('world:ready', onReady);
+      bus.off('title:ready', onTitle);
     };
   }, []);
 

@@ -1,0 +1,55 @@
+{
+  "id": "ep00-pacto",
+  "titulo": "Acta del riego del herbario",
+  "region": "cienaga",
+  "partes": [
+    { "id": "cohorte", "nombre": "La cohorte", "pide": "Que nadie cargue solo con el riego.", "necesita": "Turnos claros y justos." },
+    { "id": "nepomuceno", "nombre": "Nepomuceno", "pide": "Que las matas no se sequen.", "necesita": "Alguien responsable cada día." }
+  ],
+  "puntos": [
+    {
+      "id": "p-riego",
+      "pregunta": "¿Quién riega el herbario mientras Renata no está?",
+      "clausulas": [
+        {
+          "id": "c-turnos",
+          "texto": "Turnos semanales entre los estudiantes; Nepomuceno coordina y lleva la lista.",
+          "textoActa": "Los estudiantes regarán el herbario por turnos semanales. Nepomuceno coordinará los turnos y llevará la lista a la vista de todos.",
+          "legal": true,
+          "intereses": { "cohorte": 1, "nepomuceno": 2 },
+          "justicia": 3
+        },
+        {
+          "id": "c-uno",
+          "texto": "Ramón, por haber faltado a clase, riega todos los días hasta que Renata vuelva.",
+          "textoActa": "Ramón asumirá el riego diario hasta el regreso de Renata, en compensación por sus faltas.",
+          "legal": false,
+          "nula": { "norma": "cp-29", "explicacion": "Es una sanción impuesta sin oír a Ramón ni seguir un procedimiento: viola el debido proceso." },
+          "intereses": { "cohorte": 1, "nepomuceno": 1 },
+          "justicia": 0
+        },
+        {
+          "id": "c-castigo",
+          "texto": "El estudiante que falte a su turno pierde el derecho a comer ese día.",
+          "textoActa": "El estudiante que falte a su turno perderá el derecho a la comida del día.",
+          "legal": false,
+          "nula": { "norma": "cp-1", "explicacion": "Privar de alimento como castigo afecta la dignidad humana; ninguna asamblea puede pactarlo." },
+          "intereses": { "cohorte": -2, "nepomuceno": 1 },
+          "justicia": 0
+        },
+        {
+          "id": "c-nadie",
+          "texto": "Nepomuceno se encarga solo, como siempre.",
+          "textoActa": "Nepomuceno se encargará en exclusiva del riego del herbario.",
+          "legal": true,
+          "intereses": { "cohorte": 0, "nepomuceno": -2 },
+          "justicia": 1
+        }
+      ]
+    }
+  ],
+  "acta": {
+    "encabezado": "En el herbario de la estación de la ciénaga, reunidos los estudiantes de la quinta cohorte y el botánico Nepomuceno, con Renata como relatora, acuerdan:",
+    "cierre": "Lo pactado obliga a quienes lo firman. Se leyó en voz alta y nadie objetó."
+  }
+}

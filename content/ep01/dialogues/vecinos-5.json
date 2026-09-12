@@ -1,0 +1,25 @@
+{
+  "id": "ep01-vecino-sotano",
+  "nodes": [
+    {
+      "id": "s1",
+      "speaker": "vecino-2",
+      "portrait": "tensa",
+      "text": "Aquí abajo vivimos los que perdimos el carné. Once familias. Sin agua desde hace ocho meses; la subimos en baldes desde la playa.",
+      "next": "s2"
+    },
+    {
+      "id": "s2",
+      "speaker": "vecino-2",
+      "portrait": "neutra",
+      "text": "En diciembre murió doña Ester, del 2C. No fue el agua sola. Pero tampoco ayudó.",
+      "next": "s3"
+    },
+    {
+      "id": "s3",
+      "speaker": "renata",
+      "portrait": "tensa",
+      "text": "Lo anoto. No para conmover a nadie: para que conste."
+    }
+  ]
+}

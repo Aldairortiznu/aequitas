@@ -1,0 +1,159 @@
+{
+  "id": "ep01-marrugo",
+  "titulo": "Audiencia en la piscina",
+  "adversario": { "id": "marrugo", "nombre": "Fulgencio Marrugo", "posicion": 150 },
+  "tension": { "inicial": 30, "provocacionPorRonda": 5 },
+  "credibilidad": 3,
+  "facultades": {},
+  "rondas": [
+    {
+      "id": "r1",
+      "titulo": "Mi título",
+      "afirmaciones": [
+        {
+          "id": "af-acta",
+          "texto": "Soy el administrador de Altamar desde el Año 1. Lo dice el acta que está en el muro: la asamblea me eligió.",
+          "solucion": {
+            "tipo": "combinacion",
+            "evidencia": ["ep01-acta-ano-1"],
+            "codice": ["l675-47"],
+            "parcial": {
+              "evidencia": ["ep01-acta-ano-1"],
+              "respuesta": "Es mi acta. ¿Y? Tiene membrete y tiene fecha."
+            }
+          },
+          "presionar": [
+            {
+              "respuesta": "¿Que quiénes asistieron? Los que estaban. Era el Año 1; nadie andaba pasando lista."
+            }
+          ],
+          "respuestas": {
+            "plena": "Sin firmas de presidente ni secretario, sin asistentes, sin coeficientes. Bueno. Digamos que fue un borrador de acta.",
+            "parcial": "Es mi acta. ¿Y? Tiene membrete y tiene fecha.",
+            "fallida": "Eso no tiene nada que ver con el acta."
+          },
+          "nota": "Un acta sin las firmas y los datos que exige el artículo 47 de la Ley 675 no prueba la elección. El hecho (el documento) más la norma (los requisitos del acta) desmontan el título."
+        },
+        {
+          "id": "af-dueno",
+          "texto": "El administrador manda en el edificio. Es como el dueño de la casa: decide quién entra, quién paga y quién se va.",
+          "solucion": { "tipo": "norma", "codice": ["l675-50"] },
+          "presionar": [
+            {
+              "respuesta": "¿Que si soy propietario? Del 9A. Del resto, administrador. Es lo mismo aquí.",
+              "revela": { "afirmacion": "af-vitalicio" }
+            }
+          ],
+          "respuestas": {
+            "plena": "Representante legal designado por la asamblea, por el período del reglamento. Y respondo por los daños. Ya lo sé: yo firmé ese reglamento.",
+            "fallida": "Un papel más. Yo llevo diez años sosteniendo esto."
+          },
+          "nota": "El administrador es un mandatario de la copropiedad, elegido por la asamblea por un período, no un dueño (art. 50 Ley 675)."
+        },
+        {
+          "id": "af-vitalicio",
+          "texto": "Y aunque el acta fuera un borrador, la asamblea me eligió para siempre. Nadie ha dicho lo contrario en diez años.",
+          "oculta": true,
+          "solucion": {
+            "tipo": "combinacion",
+            "evidencia": ["ep01-libro-actas"],
+            "codice": ["l675-38"],
+            "parcial": {
+              "codice": ["l675-38"],
+              "respuesta": "Períodos determinados. Aquí el período lo determinó la Crecida."
+            }
+          },
+          "respuestas": {
+            "plena": "El libro de actas termina en el Año −1. Y la ley dice períodos determinados. Está bien: nadie me ha reelegido porque nadie ha votado.",
+            "parcial": "Períodos determinados. Aquí el período lo determinó la Crecida.",
+            "fallida": "Diez años sin que nadie proteste valen más que eso."
+          },
+          "nota": "El silencio de diez años no es una elección. El libro de actas prueba que no hubo asamblea; el artículo 38 exige nombrar por períodos determinados."
+        }
+      ]
+    },
+    {
+      "id": "r2",
+      "titulo": "Mis sanciones",
+      "afirmaciones": [
+        {
+          "id": "af-carne",
+          "texto": "El que no paga pierde el carné. Es una sanción como cualquiera. Sin carné no consta, y lo que no consta no reclama.",
+          "solucion": {
+            "tipo": "combinacion",
+            "evidencia": ["ep01-carne-tomas"],
+            "codice": ["l675-59"],
+            "parcial": {
+              "evidencia": ["ep01-carne-tomas"],
+              "respuesta": "Un carné cancelado. Los hay a cientos. ¿Cuál es el problema?"
+            }
+          },
+          "derechoFundamental": true,
+          "respuestas": {
+            "plena": "Publicar la lista, multar, cerrar el salón comunal. Eso dice la ley que puedo hacer. Quitar el carné no está. Ya.",
+            "parcial": "Un carné cancelado. Los hay a cientos. ¿Cuál es el problema?",
+            "fallida": "Con eso no me contradice nada."
+          },
+          "repasa": "ep00",
+          "nota": "Las sanciones en propiedad horizontal son solo las del artículo 59: publicar, multar, restringir bienes no esenciales. Cancelar un carné que borra a una persona no es sanción: es exclusión sin ley."
+        },
+        {
+          "id": "af-expensas",
+          "texto": "Las expensas se pagan como yo diga: en trabajo, en arroz o en lo que haya. No hay banco, no hay plata. Alguien tiene que decidir.",
+          "solucion": {
+            "tipo": "combinacion",
+            "evidencia": ["ep01-cuaderno-expensas"],
+            "codice": ["l675-29", "l675-38"],
+            "parcial": {
+              "evidencia": ["ep01-cuaderno-expensas"],
+              "respuesta": "Mi cuaderno. Ahí está todo anotado. Eso es contabilidad."
+            }
+          },
+          "respuestas": {
+            "plena": "Presupuesto aprobado por la asamblea, conforme a los coeficientes. Sin presupuesto, mi cuaderno es una lista de lo que se me ocurrió.",
+            "parcial": "Mi cuaderno. Ahí está todo anotado. Eso es contabilidad.",
+            "fallida": "Sin plata no hay expensas en plata. Eso es de sentido común."
+          },
+          "nota": "Las expensas se deben, pero según presupuesto aprobado por la asamblea y coeficientes (arts. 29 y 38). Cobrar en especie a voluntad no es administrar: es cobrar."
+        },
+        {
+          "id": "af-agua",
+          "texto": "Cortar el agua a los morosos es mi derecho. Si no pagan el agua, no tienen agua. Así funciona en todas partes.",
+          "solucion": {
+            "tipo": "combinacion",
+            "evidencia": ["ep01-valvula"],
+            "codice": ["l675-59", "l675-3"],
+            "parcial": {
+              "evidencia": ["ep01-valvula"],
+              "respuesta": "Sí, hay un candado. Lo puse yo. ¿Y?"
+            }
+          },
+          "respuestas": {
+            "plena": "Bienes comunes esenciales. El agua es esencial. En ningún caso. (pausa) Está en la ley que yo mismo hice firmar en el Año −3.",
+            "parcial": "Sí, hay un candado. Lo puse yo. ¿Y?",
+            "fallida": "Eso no dice nada del agua."
+          },
+          "nota": "El agua es un bien común esencial (art. 3) y su uso no puede restringirse en ningún caso como sanción (parágrafo del art. 59). El candado es el hecho; la ley, la norma."
+        }
+      ],
+      "maniobra": {
+        "id": "man-licencia",
+        "texto": "Marrugo saca de la carpeta una hoja con sello: «La Oficina de Registro reconoce a Fulgencio Marrugo como administrador vitalicio del Conjunto Altamar». La pone sobre la baldosa para que todos la vean.",
+        "respuestaNorma": "cp-4",
+        "costoTension": 25,
+        "objecionTexto": "No hay Objeción disponible en esta audiencia.",
+        "tras": "af-carne"
+      }
+    }
+  ],
+  "invocacion": {
+    "afirmacion": "af-carne",
+    "opciones": ["cp-14", "cp-20", "cp-37", "cp-86"],
+    "correcta": "cp-14"
+  },
+  "final": {
+    "allanamiento": "ep01-allanamiento",
+    "tumulto": "ep01-tumulto",
+    "sesionLevantada": "ep01-sesion"
+  }
+}

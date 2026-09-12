@@ -1,0 +1,17 @@
+{
+  "id": "ep01-piso4",
+  "nodes": [
+    {
+      "id": "c1",
+      "speaker": "narrador",
+      "text": "Piso 4. Un vigilante de Marrugo recorre el pasillo. Al fondo, el cuarto técnico: tuberías, un tanque y una válvula con candado.",
+      "next": "c2"
+    },
+    {
+      "id": "c2",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Nepomuceno tenía razón: fíjate primero en el agua."
+    }
+  ]
+}

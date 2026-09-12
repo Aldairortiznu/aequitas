@@ -53,7 +53,6 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
       codiceDefs: session.content?.codice ?? {},
       modo,
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audienciaId]);
 
   const [st, setSt] = useState<AudienciaState | null>(() =>
@@ -94,7 +93,6 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
       setLog(items);
     }
     return () => getBus().emit('ui:closed', { panel: 'audiencia' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audienciaId]);
 
   useEffect(() => {

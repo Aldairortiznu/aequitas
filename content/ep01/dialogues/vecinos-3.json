@@ -1,0 +1,43 @@
+{
+  "id": "ep01-vecina-fila",
+  "nodes": [
+    {
+      "id": "f1",
+      "speaker": "vecino-1",
+      "portrait": "neutra",
+      "text": "Llevo dos horas en esta fila para renovar mi existencia. Dos jornadas o un bulto de arroz. El año pasado era una jornada.",
+      "choices": [
+        { "text": "¿Y quién fijó ese precio?", "next": "f2" },
+        { "text": "¿Existencia?", "next": "f3" }
+      ]
+    },
+    {
+      "id": "f2",
+      "speaker": "vecino-1",
+      "portrait": "tensa",
+      "text": "Marrugo. Lo anota en un cuaderno. Presupuesto, asamblea… de eso no se habla desde la Crecida.",
+      "next": "f4"
+    },
+    {
+      "id": "f3",
+      "speaker": "vecino-1",
+      "portrait": "neutra",
+      "text": "El carné. Sin carné no existes: ni agua, ni escuela, ni Oficina. Así lo llama él: «renovar la existencia». Suena a chiste hasta que te toca.",
+      "next": "f4"
+    },
+    {
+      "id": "f4",
+      "speaker": "vecino-1",
+      "portrait": "neutra",
+      "text": "Dígame una cosa, ya que está. ¿Yo tengo que pagar expensas o no?",
+      "consulta": "ep01-consulta-expensas",
+      "next": "f5"
+    },
+    {
+      "id": "f5",
+      "speaker": "vecino-1",
+      "portrait": "cordial",
+      "text": "Con presupuesto. Eso mismo decía mi difunto, que era contador. Qué falta hace."
+    }
+  ]
+}

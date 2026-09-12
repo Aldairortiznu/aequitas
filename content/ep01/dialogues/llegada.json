@@ -1,0 +1,24 @@
+{
+  "id": "ep01-llegada",
+  "nodes": [
+    {
+      "id": "l1",
+      "speaker": "narrador",
+      "text": "Lobby de la torre principal. Una fila de personas espera frente a un mostrador. En la pared, cientos de carnés colgados con clavos.",
+      "next": "l2"
+    },
+    {
+      "id": "l2",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "«Escucha antes de citar una norma.» Está bien, Rectora. Escucho.",
+      "next": "l3"
+    },
+    {
+      "id": "l3",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Una mujer con pañuelo me mira desde la columna como si ya supiera a qué vine."
+    }
+  ]
+}

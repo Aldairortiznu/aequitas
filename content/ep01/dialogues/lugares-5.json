@@ -1,0 +1,17 @@
+{
+  "id": "ep01-piscina-entrada",
+  "nodes": [
+    {
+      "id": "p1",
+      "speaker": "narrador",
+      "text": "La piscina. Nunca tuvo agua: la Crecida llegó antes de que la llenaran. Ahora es un anfiteatro de baldosa agrietada. Los vecinos se sientan en los bordes.",
+      "next": "p2"
+    },
+    {
+      "id": "p2",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Un buen sitio para que todos oigan. Y para que todos vean quién se allana."
+    }
+  ]
+}

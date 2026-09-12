@@ -1,17 +1,29 @@
 [
-  { "id": "narrador", "nombre": "", "rol": "sistema" },
+  {
+    "id": "narrador",
+    "nombre": "",
+    "rol": "sistema"
+  },
   {
     "id": "renata",
     "nombre": "Renata",
     "rol": "protagonista",
-    "retratos": ["neutra", "tensa", "cordial"],
+    "retratos": [
+      "neutra",
+      "tensa",
+      "cordial"
+    ],
     "sprite": "renata"
   },
   {
     "id": "pilar",
     "nombre": "Pilar",
     "rol": "companero",
-    "retratos": ["neutra", "tensa", "cordial"],
+    "retratos": [
+      "neutra",
+      "tensa",
+      "cordial"
+    ],
     "sprite": "pilar",
     "facultad": "convocarTestigo"
   },
@@ -19,7 +31,11 @@
     "id": "prudencio",
     "nombre": "Prudencio",
     "rol": "companero",
-    "retratos": ["neutra", "tensa", "cordial"],
+    "retratos": [
+      "neutra",
+      "tensa",
+      "cordial"
+    ],
     "sprite": "prudencio",
     "facultad": "cotejo"
   },
@@ -27,7 +43,11 @@
     "id": "gerineldo",
     "nombre": "Gerineldo",
     "rol": "companero",
-    "retratos": ["neutra", "tensa", "cordial"],
+    "retratos": [
+      "neutra",
+      "tensa",
+      "cordial"
+    ],
     "sprite": "gerineldo",
     "facultad": "objecion"
   },
@@ -35,31 +55,141 @@
     "id": "clemencia",
     "nombre": "Clemencia",
     "rol": "biblioteca",
-    "retratos": ["neutra", "tensa", "cordial"],
+    "retratos": [
+      "neutra",
+      "tensa",
+      "cordial"
+    ],
     "sprite": "clemencia"
   },
   {
     "id": "nepomuceno",
     "nombre": "Nepomuceno",
     "rol": "biblioteca",
-    "retratos": ["neutra", "cordial"],
+    "retratos": [
+      "neutra",
+      "cordial"
+    ],
     "sprite": "nepomuceno"
   },
   {
     "id": "casimiro",
     "nombre": "Casimiro",
     "rol": "biblioteca",
-    "retratos": ["neutra", "tensa"],
+    "retratos": [
+      "neutra",
+      "tensa"
+    ],
     "sprite": "casimiro"
   },
-  { "id": "petra", "nombre": "Petra", "rol": "secundario" },
+  {
+    "id": "petra",
+    "nombre": "Petra",
+    "rol": "secundario"
+  },
   {
     "id": "moscote",
     "nombre": "El Registrador",
     "rol": "adversario",
-    "retratos": ["neutra", "tensa", "cordial"],
+    "retratos": [
+      "neutra",
+      "tensa",
+      "cordial"
+    ],
     "sprite": "moscote"
   },
-  { "id": "alguacil", "nombre": "Alguacil", "rol": "sistema", "sprite": "alguacil" },
-  { "id": "estudiante", "nombre": "Estudiante", "rol": "secundario", "sprite": "estudiante" }
+  {
+    "id": "alguacil",
+    "nombre": "Alguacil",
+    "rol": "sistema",
+    "sprite": "alguacil"
+  },
+  {
+    "id": "estudiante",
+    "nombre": "Estudiante",
+    "rol": "secundario",
+    "sprite": "estudiante"
+  },
+  {
+    "id": "eladio",
+    "nombre": "Eladio",
+    "rol": "secundario",
+    "retratos": [
+      "neutra"
+    ],
+    "sprite": "eladio"
+  },
+  {
+    "id": "estudiante-2",
+    "nombre": "Estudiante",
+    "rol": "secundario",
+    "sprite": "estudiante-2"
+  },
+  {
+    "id": "marrugo",
+    "nombre": "Fulgencio Marrugo",
+    "rol": "adversario",
+    "retratos": [
+      "neutra",
+      "tensa",
+      "cordial"
+    ],
+    "sprite": "marrugo"
+  },
+  {
+    "id": "tomas",
+    "nombre": "Tomás",
+    "rol": "secundario",
+    "retratos": [
+      "neutra",
+      "cordial"
+    ],
+    "sprite": "tomas"
+  },
+  {
+    "id": "zoraida",
+    "nombre": "Zoraida",
+    "rol": "secundario",
+    "retratos": [
+      "neutra",
+      "cordial"
+    ],
+    "sprite": "zoraida"
+  },
+  {
+    "id": "vigilante",
+    "nombre": "Vigilante",
+    "rol": "sistema",
+    "sprite": "vigilante"
+  },
+  {
+    "id": "vecino-1",
+    "nombre": "Vecina",
+    "rol": "secundario",
+    "sprite": "vecino-1"
+  },
+  {
+    "id": "vecino-2",
+    "nombre": "Vecino",
+    "rol": "secundario",
+    "sprite": "vecino-2"
+  },
+  {
+    "id": "vecino-3",
+    "nombre": "Doña Ligia",
+    "rol": "secundario",
+    "sprite": "vecino-3"
+  },
+  {
+    "id": "vecino-4",
+    "nombre": "Joven",
+    "rol": "secundario",
+    "sprite": "vecino-4"
+  },
+  {
+    "id": "mensajero",
+    "nombre": "Mensajero",
+    "rol": "sistema",
+    "sprite": "alguacil"
+  }
 ]

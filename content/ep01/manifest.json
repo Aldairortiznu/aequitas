@@ -1,0 +1,213 @@
+{
+  "id": "ep01",
+  "title": "Sin folio",
+  "region": "altamar",
+  "entry": {
+    "map": "lobby",
+    "spawn": "inicio"
+  },
+  "maps": ["lobby", "torre", "sotanos", "piscina"],
+  "flagsInit": {
+    "ep01.llegada": false,
+    "ep01.pilar": false,
+    "ep01.convocada": false,
+    "ep01.marrugo-lobby": false,
+    "ep01.tomas": false,
+    "ep01.zoraida": false,
+    "ep01.valvula": false,
+    "ep01.licencia": false,
+    "ep01.asamblea": false,
+    "ep01.cierre": false
+  },
+  "beats": [
+    {
+      "id": "ep01-inicio",
+      "trigger": {
+        "type": "episodeStart"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "cutscene",
+          "id": "ep01-llegada"
+        },
+        {
+          "type": "setFlag",
+          "flag": "ep01.llegada",
+          "value": true
+        },
+        {
+          "type": "dialogue",
+          "id": "ep01-llegada"
+        }
+      ]
+    },
+    {
+      "id": "ep01-muro-carnes",
+      "trigger": {
+        "type": "interact",
+        "object": "trigger-muro-carnes"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "dialogue",
+          "id": "ep01-muro"
+        }
+      ]
+    },
+    {
+      "id": "ep01-entra-oficina",
+      "trigger": {
+        "type": "interact",
+        "object": "trigger-oficina"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "dialogue",
+          "id": "ep01-oficina"
+        }
+      ]
+    },
+    {
+      "id": "ep01-piso4",
+      "trigger": {
+        "type": "interact",
+        "object": "trigger-piso4"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "dialogue",
+          "id": "ep01-piso4"
+        }
+      ]
+    },
+    {
+      "id": "ep01-sotanos",
+      "trigger": {
+        "type": "interact",
+        "object": "trigger-sotanos"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "dialogue",
+          "id": "ep01-sotanos-entrada"
+        }
+      ]
+    },
+    {
+      "id": "ep01-piscina",
+      "trigger": {
+        "type": "interact",
+        "object": "trigger-piscina"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "dialogue",
+          "id": "ep01-piscina-entrada"
+        }
+      ]
+    },
+    {
+      "id": "ep01-audiencia-ganada",
+      "trigger": {
+        "type": "audienciaWon",
+        "id": "ep01-marrugo"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "legitimidad",
+          "delta": 20,
+          "fuente": "audiencia"
+        },
+        {
+          "type": "addEvidence",
+          "id": "ep01-licencia"
+        },
+        {
+          "type": "setFlag",
+          "flag": "ep01.licencia",
+          "value": true
+        },
+        {
+          "type": "dialogue",
+          "id": "ep01-tras-audiencia"
+        },
+        {
+          "type": "setFlag",
+          "flag": "ep01.asamblea",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "ep01-pacto-firmado",
+      "trigger": {
+        "type": "pactoSigned",
+        "id": "ep01-pacto"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "setFlag",
+          "flag": "ep01.cierre",
+          "value": true
+        },
+        {
+          "type": "dialogue",
+          "id": "ep01-cierre"
+        },
+        {
+          "type": "joinParty",
+          "companion": "pilar"
+        },
+        {
+          "type": "confianza",
+          "companion": "pilar",
+          "delta": 1
+        },
+        {
+          "type": "cutscene",
+          "id": "ep01-cierre"
+        },
+        {
+          "type": "dialogue",
+          "id": "ep01-registrador"
+        },
+        {
+          "type": "save"
+        },
+        {
+          "type": "endEpisode"
+        }
+      ]
+    }
+  ],
+  "legitimidad": {
+    "start": 8,
+    "hitos": [
+      {
+        "at": 25,
+        "mapState": "brote"
+      },
+      {
+        "at": 50,
+        "mapState": "verdor"
+      },
+      {
+        "at": 75,
+        "mapState": "floracion"
+      }
+    ]
+  },
+  "party": [],
+  "codice": ["cp-1", "cp-4", "cp-14", "cp-29"],
+  "ending": {
+    "cutscene": "ep01-cierre"
+  }
+}

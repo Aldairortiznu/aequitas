@@ -1,0 +1,17 @@
+{
+  "id": "ep00-tumulto",
+  "nodes": [
+    {
+      "id": "t1",
+      "speaker": "narrador",
+      "text": "La cohorte se levanta de las bancas y habla toda a la vez. Casimiro sonríe: ganó sin argumentar.",
+      "next": "t2"
+    },
+    {
+      "id": "t2",
+      "speaker": "clemencia",
+      "portrait": "neutra",
+      "text": "Cuando la sala se calienta, nadie oye. Repite la ronda. Menos golpes, mejor puntería."
+    }
+  ]
+}
