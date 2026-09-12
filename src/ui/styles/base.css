@@ -1,0 +1,131 @@
+/*
+ * Estilos base de la capa DOM (interfaz de texto).
+ * El mundo se dibuja en el canvas de Phaser dentro de #game; la interfaz vive en #ui.
+ * Tokens de la paleta Bellium (docs/design/08-arte-audio.md).
+ */
+:root {
+  --ink: #1b1b1f;
+  --ink-2: #2e2d33;
+  --ink-3: #4a4850;
+  --muted: #6f6c76;
+  --muted-2: #a29ea8;
+  --paper: #f3ead8;
+  --paper-2: #eadfc6;
+  --line: #cfc2a3;
+  --bellium-1: #3b2a5c;
+  --bellium-2: #5a3f86;
+  --bellium-3: #8f6fc0;
+  --gold-1: #b8892e;
+  --gold-2: #e2b94a;
+  --gold-3: #f4dc8a;
+  --green-1: #2f5d3a;
+  --green-2: #4a8a4f;
+  --green-3: #7cc46b;
+  --green-4: #b9e39a;
+  --water-1: #1e6f7a;
+  --water-2: #2bb5b8;
+  --water-3: #8fe0de;
+  --earth-1: #7a4b2d;
+  --earth-2: #b5773f;
+  --earth-3: #d9a66b;
+
+  --font-body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Newsreader', 'Iowan Old Style', Georgia, serif;
+  --font-mono: 'Courier Prime', 'Courier New', Courier, monospace;
+  --text-scale: 1;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: calc(16px * var(--text-scale));
+  line-height: 1.5;
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#game canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+}
+
+#ui {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#ui > * {
+  pointer-events: auto;
+}
+
+.ui-version {
+  position: absolute;
+  right: 8px;
+  bottom: calc(6px + var(--safe-bottom));
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted-2);
+  opacity: 0.85;
+  user-select: none;
+}
+
+.ui-toast {
+  position: absolute;
+  left: 50%;
+  bottom: calc(28px + var(--safe-bottom));
+  transform: translateX(-50%);
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  max-width: min(90vw, 520px);
+  text-align: center;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold-2);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

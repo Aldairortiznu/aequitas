@@ -1,0 +1,18 @@
+{
+  "id": "gym-allanamiento",
+  "nodes": [
+    {
+      "id": "a1",
+      "speaker": "casimiro",
+      "portrait": "neutra",
+      "text": "Está bien. No puedo sostener el acta. ¿Y entonces quién manda en la torre?",
+      "next": "a2"
+    },
+    {
+      "id": "a2",
+      "speaker": "renata",
+      "portrait": "cordial",
+      "text": "Nadie manda. Se administra. Sentémonos."
+    }
+  ]
+}

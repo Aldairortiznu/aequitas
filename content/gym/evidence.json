@@ -1,0 +1,37 @@
+[
+  {
+    "id": "gym-acta-sin-firma",
+    "nombre": "Acta de asamblea del Año 1",
+    "tipo": "documento",
+    "descripcion": "Una hoja con membrete. Dice que la asamblea eligió administrador, pero no tiene lista de asistentes ni firma de presidente ni de secretario.",
+    "icono": "documento",
+    "autentico": true
+  },
+  {
+    "id": "gym-testimonio-eladio",
+    "nombre": "Testimonio de Eladio",
+    "tipo": "testimonio",
+    "descripcion": "Eladio, pescador de la ciénaga, declara que nació aquí, que todos lo conocen y que nunca tuvo un papel que lo dijera.",
+    "icono": "testimonio",
+    "autentico": true
+  },
+  {
+    "id": "gym-certificado-falso",
+    "nombre": "Certificado de existencia",
+    "tipo": "documento",
+    "descripcion": "Un certificado con sello de la Oficina de Registro a nombre de Casimiro. La tinta del folio y la de la firma no son la misma.",
+    "icono": "documento",
+    "autentico": false,
+    "cotejo": {
+      "revela": "El número de folio fue escrito después de la firma, con otra tinta. Este certificado se hizo para la ocasión."
+    }
+  },
+  {
+    "id": "gym-acta-detencion",
+    "nombre": "Acta de detención",
+    "tipo": "nota",
+    "descripcion": "Copia del acta que dejó el alguacil. No cita ninguna orden judicial.",
+    "icono": "nota",
+    "autentico": true
+  }
+]

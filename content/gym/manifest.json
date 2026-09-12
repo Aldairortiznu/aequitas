@@ -1,0 +1,67 @@
+{
+  "id": "gym",
+  "title": "Episodio de prueba",
+  "region": "gimnasio",
+  "entry": { "map": "plaza", "spawn": "inicio" },
+  "maps": ["plaza", "sotano"],
+  "flagsInit": {
+    "gym.bienvenida": false,
+    "gym.muelle": false,
+    "gym.sotano": false
+  },
+  "beats": [
+    {
+      "id": "gym-inicio",
+      "trigger": { "type": "episodeStart" },
+      "once": true,
+      "actions": [{ "type": "toast", "text": "Gimnasio de pruebas. Habla con Nepomuceno." }]
+    },
+    {
+      "id": "gym-muelle",
+      "trigger": { "type": "interact", "object": "trigger-muelle" },
+      "once": true,
+      "actions": [
+        { "type": "setFlag", "flag": "gym.muelle", "value": true },
+        { "type": "dialogue", "id": "gym-muelle" }
+      ]
+    },
+    {
+      "id": "gym-entra-sotano",
+      "trigger": { "type": "interact", "object": "trigger-sotano" },
+      "once": true,
+      "actions": [
+        { "type": "setFlag", "flag": "gym.sotano", "value": true },
+        { "type": "toast", "text": "El sótano. Hay algo en el estante." }
+      ]
+    },
+    {
+      "id": "gym-audiencia-ganada",
+      "trigger": { "type": "audienciaWon", "id": "gym-audiencia" },
+      "once": true,
+      "actions": [
+        { "type": "legitimidad", "delta": 20, "fuente": "audiencia" },
+        { "type": "toast", "text": "Casimiro se allana. La mesa está lista." }
+      ]
+    },
+    {
+      "id": "gym-pacto-firmado",
+      "trigger": { "type": "pactoSigned", "id": "gym-pacto" },
+      "once": true,
+      "actions": [
+        { "type": "setMapState", "map": "plaza", "state": "verdor" },
+        { "type": "dialogue", "id": "gym-cierre" }
+      ]
+    }
+  ],
+  "legitimidad": {
+    "start": 10,
+    "hitos": [
+      { "at": 25, "mapState": "brote" },
+      { "at": 50, "mapState": "verdor" },
+      { "at": 75, "mapState": "floracion" }
+    ]
+  },
+  "party": ["pilar", "prudencio", "gerineldo"],
+  "codice": ["cp-1", "cp-4", "cp-14", "cp-28", "cp-29", "cp-34"],
+  "ending": {}
+}

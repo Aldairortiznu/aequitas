@@ -1,0 +1,19 @@
+{
+  "id": "gym-estudiante",
+  "nodes": [
+    {
+      "id": "pregunta",
+      "speaker": "estudiante",
+      "portrait": "neutra",
+      "text": "Oye, a mi tía le quitaron el carné del conjunto. Dice que ya no existe para nadie. ¿Es así?",
+      "consulta": "gym-consulta-carne",
+      "next": "gracias"
+    },
+    {
+      "id": "gracias",
+      "speaker": "estudiante",
+      "portrait": "cordial",
+      "text": "Se lo voy a decir con esas palabras."
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "id": "gym-audiencia",
+  "titulo": "Audiencia simulada",
+  "adversario": { "id": "casimiro", "nombre": "Casimiro", "posicion": 80 },
+  "tension": { "inicial": 20, "provocacionPorRonda": 5 },
+  "credibilidad": 3,
+  "facultades": { "pilar": 1, "prudencio": 1, "gerineldo": 1 },
+  "rondas": [
+    {
+      "id": "r1",
+      "titulo": "El título",
+      "afirmaciones": [
+        {
+          "id": "af-acta",
+          "texto": "Soy el administrador porque la asamblea me eligió. Lo dice el acta del Año 1.",
+          "solucion": { "tipo": "hecho", "evidencia": ["gym-acta-sin-firma"] },
+          "presionar": [
+            { "respuesta": "¿Que si tiene firmas? Tiene membrete. Es lo que importa." }
+          ],
+          "respuestas": {
+            "plena": "Sin firmas de presidente ni secretario. Bueno. Digamos que es un borrador.",
+            "fallida": "Eso no tiene nada que ver con el acta."
+          },
+          "nota": "Un acta sin las firmas que exige la ley no prueba la decisión. El hecho (el documento mismo) contradice la afirmación."
+        },
+        {
+          "id": "af-certificado",
+          "texto": "Además, la Oficina de Registro certifica que existo como administrador. Aquí está el certificado.",
+          "solucion": { "tipo": "norma", "codice": ["cp-4"] },
+          "respuestas": {
+            "plena": "Norma de normas. Sí, lo sé. El certificado vale lo que valga quien lo firma.",
+            "fallida": "Un certificado con sello. ¿Con qué me lo contradice?"
+          },
+          "nota": "Ningún certificado vale por encima de la Constitución (Art. 4). La norma invalida la pretensión."
+        },
+        {
+          "id": "af-eladio",
+          "texto": "Y el pescador ese, Eladio, no puede reclamar nada: no está inscrito en ninguna parte. No es nadie.",
+          "solucion": {
+            "tipo": "combinacion",
+            "evidencia": ["gym-testimonio-eladio"],
+            "codice": ["cp-14"],
+            "parcial": {
+              "evidencia": ["gym-testimonio-eladio"],
+              "respuesta": "Que nació aquí. ¿Y? Nacer no es estar inscrito."
+            }
+          },
+          "derechoFundamental": true,
+          "respuestas": {
+            "plena": "Personalidad jurídica por el hecho de ser persona. Y un testimonio que lo ubica. Está bien.",
+            "parcial": "Eso solo dice que existe. No dice que tenga derechos.",
+            "fallida": "No veo qué tiene que ver."
+          },
+          "nota": "Hecho (el testimonio prueba que es persona conocida) + norma (Art. 14: toda persona tiene personalidad jurídica) = alegato completo."
+        },
+        {
+          "id": "af-cierta",
+          "texto": "Sin alguien que administre, la torre se cae. Eso es un hecho.",
+          "solucion": { "tipo": "cierta", "presionesNecesarias": 2, "efectoPosicion": 15 },
+          "presionar": [
+            { "respuesta": "¿Que si tiene que ser yo? No dije eso." },
+            { "respuesta": "Tiene que ser alguien elegido. Bien. Eso lo concedo." }
+          ],
+          "respuestas": {
+            "plena": "Eso lo concedo.",
+            "fallida": "Eso es cierto y usted lo sabe. No me contradiga lo que es verdad."
+          },
+          "nota": "No todo lo que dice el adversario es falso. Cuando una afirmación es cierta, se presiona para que precise; contradecirla cuesta credibilidad."
+        }
+      ],
+      "maniobra": {
+        "id": "man-certificado",
+        "texto": "Casimiro pone sobre la mesa un certificado de existencia con sello de la Oficina de Registro.",
+        "respuestaNorma": "cp-4",
+        "costoTension": 25,
+        "objecionTexto": "Ese documento no fue anunciado y no consta quién lo expidió. No se admite.",
+        "tras": "af-certificado"
+      }
+    }
+  ],
+  "invocacion": {
+    "afirmacion": "af-eladio",
+    "opciones": ["cp-14", "cp-28", "cp-29", "cp-34"],
+    "correcta": "cp-14"
+  },
+  "final": {
+    "allanamiento": "gym-allanamiento",
+    "tumulto": "gym-tumulto",
+    "sesionLevantada": "gym-sesion"
+  }
+}

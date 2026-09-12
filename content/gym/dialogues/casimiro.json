@@ -1,0 +1,29 @@
+{
+  "id": "gym-casimiro",
+  "nodes": [
+    {
+      "id": "reto",
+      "speaker": "casimiro",
+      "portrait": "tensa",
+      "text": "Renata. Digamos que yo soy el administrador de una torre y usted viene a decirme qué es legal. ¿Empezamos?",
+      "requires": [{ "flag": "audiencia.gym-audiencia.ganada", "op": "eq", "value": false }],
+      "choices": [
+        { "text": "Empecemos.", "effects": [{ "type": "startAudiencia", "id": "gym-audiencia" }] },
+        { "text": "Todavía no.", "next": "espera" }
+      ]
+    },
+    {
+      "id": "espera",
+      "speaker": "casimiro",
+      "portrait": "neutra",
+      "text": "Cuando quiera. El acta no se va a firmar sola."
+    },
+    {
+      "id": "despues",
+      "speaker": "casimiro",
+      "portrait": "neutra",
+      "text": "Ya discutimos. Ahora hay que sentarse a la mesa, que es lo difícil.",
+      "requires": [{ "flag": "audiencia.gym-audiencia.ganada", "op": "eq", "value": true }]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+dist/
+dist-standalone/
+node_modules/
+coverage/
+playwright-report/
+test-results/
+public/
+content/**/maps/*.json
+package-lock.json
+docs/design/

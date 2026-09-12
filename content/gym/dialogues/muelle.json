@@ -1,0 +1,23 @@
+{
+  "id": "gym-muelle",
+  "nodes": [
+    {
+      "id": "agua",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "El agua llega hasta aquí desde la Crecida. Antes esto era una calle.",
+      "next": "eladio"
+    },
+    {
+      "id": "eladio",
+      "speaker": "narrador",
+      "text": "Un pescador amarra la canoa y la mira sin curiosidad. Se llama Eladio. Nació aquí y nunca ha tenido un papel que lo diga.",
+      "testimonio": {
+        "id": "gym-testimonio-eladio",
+        "nombre": "Eladio",
+        "hecho": "Nació en la ciénaga; todos lo conocen; nunca tuvo documento.",
+        "fecha": "Año 9"
+      }
+    }
+  ]
+}

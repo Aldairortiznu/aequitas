@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "episodes": [
+    {
+      "id": "gym",
+      "title": "Episodio de prueba",
+      "region": "gimnasio",
+      "released": false,
+      "hidden": true
+    }
+  ],
+  "regiones": [
+    { "id": "gimnasio", "nombre": "Gimnasio de pruebas" },
+    { "id": "cienaga", "nombre": "Ciénaga de Bellium", "episodio": "ep00" },
+    { "id": "altamar", "nombre": "Conjunto Altamar", "episodio": "ep01" },
+    { "id": "tres-bocas", "nombre": "Tres Bocas", "episodio": "ep02" },
+    { "id": "sinuaco", "nombre": "Valle de Sinuaco", "episodio": "ep03" },
+    { "id": "salinas", "nombre": "Salinas de Galera", "episodio": "ep04" },
+    { "id": "bellavista", "nombre": "Hacienda Bellavista", "episodio": "ep05" },
+    { "id": "puerto-baluarte", "nombre": "Puerto Baluarte", "episodio": "ep06" }
+  ]
+}

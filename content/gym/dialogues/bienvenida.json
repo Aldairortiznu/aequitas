@@ -1,0 +1,49 @@
+{
+  "id": "gym-bienvenida",
+  "nodes": [
+    {
+      "id": "saludo",
+      "speaker": "nepomuceno",
+      "portrait": "cordial",
+      "text": "Llegaste. Este claro es para practicar: nada de lo que pase aquí cuenta.",
+      "requires": [{ "flag": "gym.bienvenida", "op": "eq", "value": false }],
+      "next": "explica"
+    },
+    {
+      "id": "explica",
+      "speaker": "nepomuceno",
+      "portrait": "neutra",
+      "text": "Hay un acta junto a los arbustos, dos folios sueltos y un pescador en el sótano. Después, Casimiro quiere discutir.",
+      "effects": [{ "type": "setFlag", "flag": "gym.bienvenida", "value": true }],
+      "choices": [
+        { "text": "¿Puedo preguntarle algo de la margarita?", "next": "consulta" },
+        { "text": "Voy a mirar.", "next": "despedida" }
+      ]
+    },
+    {
+      "id": "consulta",
+      "speaker": "nepomuceno",
+      "portrait": "cordial",
+      "text": "Pregunta. Yo respondo con plantas; usted traduzca.",
+      "consulta": "gym-consulta-margarita",
+      "next": "despedida"
+    },
+    {
+      "id": "vuelve",
+      "speaker": "nepomuceno",
+      "portrait": "neutra",
+      "text": "El acta, los folios, el sótano. Y Casimiro, cuando esté lista.",
+      "requires": [{ "flag": "gym.bienvenida", "op": "eq", "value": true }],
+      "choices": [
+        { "text": "Una pregunta más.", "next": "consulta" },
+        { "text": "Ya voy.", "next": "despedida" }
+      ]
+    },
+    {
+      "id": "despedida",
+      "speaker": "nepomuceno",
+      "portrait": "cordial",
+      "text": "Con calma. Aquí nadie la va a desalojar."
+    }
+  ]
+}

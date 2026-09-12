@@ -1,0 +1,17 @@
+{
+  "id": "gym-tumulto",
+  "nodes": [
+    {
+      "id": "t1",
+      "speaker": "narrador",
+      "text": "Los estudiantes se levantan de las bancas y hablan todos a la vez. Casimiro recoge sus papeles. La palabra se acabó.",
+      "next": "t2"
+    },
+    {
+      "id": "t2",
+      "speaker": "nepomuceno",
+      "portrait": "neutra",
+      "text": "Cuando la sala se calienta, nadie oye. Vuelva a empezar la ronda y baje el tono."
+    }
+  ]
+}

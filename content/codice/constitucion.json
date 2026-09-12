@@ -1,0 +1,81 @@
+[
+  {
+    "id": "cp-1",
+    "libro": "constitucion",
+    "referencia": "Art. 1 C.P.",
+    "titulo": "Estado social de derecho y dignidad humana",
+    "textoLiteral": "Colombia es un Estado social de derecho, organizado en forma de República unitaria, descentralizada, con autonomía de sus entidades territoriales, democrática, participativa y pluralista, fundada en el respeto de la dignidad humana, en el trabajo y la solidaridad de las personas que la integran y en la prevalencia del interés general.",
+    "esExtracto": false,
+    "enPalabrasSimples": "El Estado existe para las personas, no al revés. La dignidad de cada quien es el punto de partida de todo lo demás; ninguna regla puede pasar por encima de ella.",
+    "usoEnAudiencia": "Contra una afirmación que trate a una persona como un trámite, una cifra o un estorbo.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": ["principios", "dignidad"]
+  },
+  {
+    "id": "cp-4",
+    "libro": "constitucion",
+    "referencia": "Art. 4 C.P.",
+    "titulo": "La Constitución es norma de normas",
+    "textoLiteral": "La Constitución es norma de normas. En todo caso de incompatibilidad entre la Constitución y la ley u otra norma jurídica, se aplicarán las disposiciones constitucionales. Es deber de los nacionales y de los extranjeros en Colombia acatar la Constitución y las leyes, y respetar y obedecer a las autoridades.",
+    "esExtracto": false,
+    "enPalabrasSimples": "Ningún decreto, certificado, reglamento o acta vale más que la Constitución. Si chocan, gana la Constitución.",
+    "usoEnAudiencia": "Contra cualquier documento que pretenda valer por sí mismo aunque contradiga un derecho constitucional.",
+    "ejemplo": "Una «licencia» de la Oficina de Registro no puede autorizar lo que la Constitución prohíbe.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": ["supremacia", "jerarquia"]
+  },
+  {
+    "id": "cp-14",
+    "libro": "constitucion",
+    "referencia": "Art. 14 C.P.",
+    "titulo": "Personalidad jurídica",
+    "textoLiteral": "Toda persona tiene derecho al reconocimiento de su personalidad jurídica.",
+    "esExtracto": false,
+    "enPalabrasSimples": "Existir ante el derecho no depende de un papel. Toda persona es sujeto de derechos por el hecho de ser persona.",
+    "usoEnAudiencia": "Contra la idea de que alguien sin certificado, carné o folio «no es nadie» y no puede reclamar.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": ["personalidad", "nombre", "no-inscritos"]
+  },
+  {
+    "id": "cp-28",
+    "libro": "constitucion",
+    "referencia": "Art. 28 C.P.",
+    "titulo": "Libertad personal",
+    "textoLiteral": "Toda persona es libre. Nadie puede ser molestado en su persona o familia, ni reducido a prisión o arresto, ni detenido, ni su domicilio registrado, sino en virtud de mandamiento escrito de autoridad judicial competente, con las formalidades legales y por motivo previamente definido en la ley.",
+    "esExtracto": true,
+    "enPalabrasSimples": "Nadie puede detener a una persona ni entrar a su casa sin una orden escrita de un juez, con las formas de la ley y por un motivo que la ley ya definía.",
+    "usoEnAudiencia": "Contra una detención, retención o registro ordenados por quien no es juez.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": ["libertad", "detencion", "interpelacion"]
+  },
+  {
+    "id": "cp-29",
+    "libro": "constitucion",
+    "referencia": "Art. 29 C.P.",
+    "titulo": "Debido proceso",
+    "textoLiteral": "El debido proceso se aplicará a toda clase de actuaciones judiciales y administrativas. Nadie podrá ser juzgado sino conforme a leyes preexistentes al acto que se le imputa, ante juez o tribunal competente y con observancia de la plenitud de las formas propias de cada juicio.",
+    "esExtracto": true,
+    "enPalabrasSimples": "Antes de sancionar, desalojar o decidir sobre alguien hay que oírlo, dejarlo defenderse y seguir un procedimiento fijado de antemano. Aplica a todos, también a quien se lo negó a otros.",
+    "usoEnAudiencia": "Contra sanciones, desalojos o decisiones tomadas sin oír a la persona afectada.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": ["debido-proceso", "defensa"]
+  },
+  {
+    "id": "cp-34",
+    "libro": "constitucion",
+    "referencia": "Art. 34 C.P.",
+    "titulo": "Prohibición de destierro, prisión perpetua y confiscación",
+    "textoLiteral": "Se prohíben las penas de destierro, prisión perpetua y confiscación. No obstante, por sentencia judicial, se declarará extinguido el dominio sobre los bienes adquiridos mediante enriquecimiento ilícito, en perjuicio del Tesoro público o con grave deterioro de la moral social.",
+    "esExtracto": false,
+    "enPalabrasSimples": "Quitarle a alguien sus bienes como castigo, sin sentencia de un juez, es confiscación y está prohibido. Tampoco existen el destierro ni la prisión perpetua.",
+    "usoEnAudiencia": "Contra incautaciones de lanchas, herramientas o tierras hechas por alguaciles o por un acreedor sin proceso.",
+    "fechaConsulta": "2026-09-12",
+    "revisado": false,
+    "etiquetas": ["confiscacion", "incautacion", "interpelacion"]
+  }
+]

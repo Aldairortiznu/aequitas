@@ -1,0 +1,46 @@
+[
+  {
+    "id": "gym-consulta-margarita",
+    "pregunta": "¿Por qué esta margarita crece en el borde del herbario y no en el patio de atrás, donde hay más sol?",
+    "opciones": [
+      {
+        "texto": "Porque el patio no tiene riego constante y el suelo se salinizó.",
+        "correcta": true,
+        "respuesta": "Eso es. Necesita agua regular y sin sal. Donde varios comparten el agua, aparece sola."
+      },
+      {
+        "texto": "Porque la sembraron ahí a propósito.",
+        "correcta": false,
+        "respuesta": "No. Nadie la siembra; nace donde puede."
+      },
+      {
+        "texto": "Porque le gusta la sombra.",
+        "correcta": false,
+        "respuesta": "Le gusta el sol como a cualquiera. Lo que no aguanta es la sal."
+      }
+    ],
+    "codice": "cp-1"
+  },
+  {
+    "id": "gym-consulta-carne",
+    "pregunta": "Me quitaron el carné del conjunto por no pagar. ¿Dejé de existir para la ley?",
+    "opciones": [
+      {
+        "texto": "No. La personalidad jurídica no depende de un carné.",
+        "correcta": true,
+        "respuesta": "Usted sigue siendo persona ante el derecho. El carné es un documento interno, no su existencia."
+      },
+      {
+        "texto": "Sí, hasta que pague.",
+        "correcta": false,
+        "respuesta": "No hay pago que compre la personalidad jurídica. Se tiene por ser persona."
+      },
+      {
+        "texto": "Depende de lo que diga el reglamento.",
+        "correcta": false,
+        "respuesta": "Un reglamento no puede quitarle lo que la Constitución le reconoce."
+      }
+    ],
+    "codice": "cp-14"
+  }
+]

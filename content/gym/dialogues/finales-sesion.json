@@ -1,0 +1,18 @@
+{
+  "id": "gym-sesion",
+  "nodes": [
+    {
+      "id": "s1",
+      "speaker": "casimiro",
+      "portrait": "tensa",
+      "text": "Tres veces me presenta cosas que no vienen al caso. Se levanta la sesión.",
+      "next": "s2"
+    },
+    {
+      "id": "s2",
+      "speaker": "nepomuceno",
+      "portrait": "neutra",
+      "text": "Antes de presentar, lea la afirmación dos veces. ¿Qué hecho la contradice? ¿Qué norma la invalida?"
+    }
+  ]
+}
