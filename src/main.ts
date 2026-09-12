@@ -8,6 +8,7 @@ import { WorldScene } from './engine/world/WorldScene';
 import { applyIntegerScaling } from './engine/scale';
 import { mountUi } from './app/mount';
 import { Session } from './app/session';
+import { installModals } from './app/modals';
 import { loadGlobalContent } from './app/contentLoader';
 import { getBus } from './core/bus';
 
@@ -36,6 +37,7 @@ const game = new Phaser.Game({
 
 applyIntegerScaling(game);
 const session = new Session(game);
+installModals(session);
 mountUi(session);
 
 /** Tras el arranque: cargar el índice de contenido y precargar el arte real que exista. */

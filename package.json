@@ -24,6 +24,7 @@
     "gym:map": "tsx scripts/gen-gym-map.ts"
   },
   "dependencies": {
+    "@preact/signals": "^2.11.2",
     "mitt": "^3.0.1",
     "phaser": "^3.90.0",
     "preact": "^10.29.8",

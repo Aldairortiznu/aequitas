@@ -13,9 +13,9 @@ test.describe('arranque', () => {
     await expect(page.locator('#game canvas')).toBeVisible();
     await expect(page.locator('.ui-version')).toContainText(/v\d+\.\d+\.\d+/);
 
-    // Confirmar en el título emite un evento que la UI convierte en aviso.
+    // Confirmar en el título arranca el episodio de prueba y aparece el HUD.
     await page.keyboard.press('Enter');
-    await expect(page.locator('.ui-toast')).toBeVisible();
+    await expect(page.locator('.hud')).toBeVisible({ timeout: 10000 });
 
     expect(errors, `errores de consola: ${errors.join(' | ')}`).toEqual([]);
   });

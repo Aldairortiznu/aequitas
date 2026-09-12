@@ -275,7 +275,7 @@ function plaza() {
     obj('folio-cp4', 'folio', 33, 14, {}, { codice: 'cp-4' }),
     obj('folio-cp14', 'folio', 6, 18, {}, { codice: 'cp-14' }),
     obj('puerta-sotano', 'door', 8, 8, {}, { mapa: 'sotano', spawn: 'entrada' }),
-    obj('trigger-muelle', 'trigger', 18, 19, { width: 64, height: 16 }, { beat: 'gym-muelle' }),
+    obj('trigger-muelle', 'trigger', 18, 20, { width: 64, height: 16 }, { beat: 'gym-muelle' }),
     obj('atril-plaza', 'atril', 22, 14),
     obj('mesa-plaza', 'mesa', 26, 12, {}, { pacto: 'gym-pacto' }),
     obj(

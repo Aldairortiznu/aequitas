@@ -54,6 +54,8 @@ export class WorldScene extends Phaser.Scene {
   private focusIcon!: Phaser.GameObjects.Image;
   private uiOpen = false;
   private frozen = false;
+  /** Instante (performance.now) hasta el que se ignoran pulsaciones tras cerrar un panel. */
+  private ignoreInputBefore = 0;
   private unsubscribe: (() => void)[] = [];
 
   constructor() {
@@ -199,6 +201,7 @@ export class WorldScene extends Phaser.Scene {
     };
     const onUiClose = (): void => {
       this.uiOpen = false;
+      this.ignoreInputBefore = performance.now() + 150;
     };
     const onFreeze = (e: { frozen: boolean }): void => {
       this.frozen = e.frozen;
@@ -311,9 +314,10 @@ export class WorldScene extends Phaser.Scene {
 
   override update(_time: number, delta: number): void {
     const busy = this.uiOpen || this.frozen;
+    if (busy) this.keys?.pressed.clear();
     const input = busy
       ? { dx: 0, dy: 0, run: false, interact: false, cancel: false }
-      : readInput(this.keys);
+      : readInput(this.keys, this.ignoreInputBefore);
 
     // Movimiento
     let vx = input.dx;

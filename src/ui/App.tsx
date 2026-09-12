@@ -4,6 +4,7 @@ import { getBus } from '../core/bus';
 import type { Session } from '../app/session';
 import { Hud } from './Hud';
 import { Gamepad } from './Gamepad';
+import { DialogueHost } from './DialogueBox';
 
 /**
  * Raíz de la interfaz DOM. Muestra el HUD del mundo, los avisos breves y el mando táctil.
@@ -36,6 +37,7 @@ export function App({ session }: { session: Session }) {
     <>
       {inWorld && <Hud session={session} />}
       {inWorld && <Gamepad />}
+      <DialogueHost session={session} />
       {toast && (
         <div class={`ui-toast ui-toast--${toast.kind}`} role="status" aria-live="polite">
           {toast.text}

@@ -82,6 +82,17 @@ async function walkTo(page: Page, tx: number, ty: number, tolerance = 4): Promis
   );
 }
 
+/** Cierra un diálogo abierto eligiendo siempre la última opción. */
+async function closeDialogue(page: Page): Promise<void> {
+  for (let i = 0; i < 14 && (await page.locator('.dlg').count()) > 0; i++) {
+    const opts = page.locator('.dlg__opt');
+    if ((await opts.count()) > 0) await opts.last().click();
+    else await page.keyboard.press('Enter');
+    await page.waitForTimeout(250);
+  }
+  await expect(page.locator('.dlg')).toHaveCount(0);
+}
+
 async function waitForToast(page: Page, text: RegExp): Promise<void> {
   await expect(page.locator('.ui-toast')).toContainText(text, { timeout: 5000 });
 }
@@ -116,13 +127,15 @@ test.describe('mundo (episodio de prueba)', () => {
 
   test('habla con Nepomuceno y recoge el acta', async ({ page }) => {
     // Nepomuceno está en (23,10) tiles = centro (376,168); el jugador arranca en (19,14) = (312,240).
-    await walkTo(page, 312, 180);
-    await walkTo(page, 358, 180);
+    // A la altura y≈178 su cuerpo bloquea el paso: se camina hasta chocar y queda en rango.
+    await walkTo(page, 312, 178);
+    await hold(page, 'ArrowRight', 800);
     await page.keyboard.press('e');
-    await waitForToast(page, /Nepomuceno|Llegaste/);
+    await expect(page.locator('.dlg__text')).toContainText('Llegaste', { timeout: 5000 });
+    await closeDialogue(page);
 
     // El acta está en (16,16) = centro (264,264).
-    await walkTo(page, 264, 180);
+    await walkTo(page, 264, 178);
     await walkTo(page, 264, 258);
     await page.keyboard.press('e');
     await waitForToast(page, /Evidencia: Acta/);
@@ -131,9 +144,9 @@ test.describe('mundo (episodio de prueba)', () => {
   });
 
   test('un folio desbloquea el Códice y suma legitimidad', async ({ page }) => {
-    // Folio cp-14 en (6,18) = centro (104,296). Jugador en (312,240).
-    await walkTo(page, 312, 306);
-    await walkTo(page, 106, 306);
+    // Folio cp-14 en (6,18) = centro (104,296). Jugador en (312,240). Se evita la zona del muelle (y ≥ 304).
+    await walkTo(page, 312, 302, 2);
+    await walkTo(page, 106, 302, 2);
     await page.keyboard.press('e');
     await waitForToast(page, /Códice: Art\. 14/);
     const s = await state(page);

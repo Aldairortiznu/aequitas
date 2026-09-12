@@ -6,7 +6,11 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './e2e',
-  timeout: 60_000,
+  timeout: 90_000,
+  // El juego usa WebGL y física por cuadro: varias instancias en paralelo bajan la tasa de
+  // cuadros y vuelven inestables las pruebas. Siempre en serie.
+  workers: 1,
+  fullyParallel: false,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? 'github' : 'list',
   use: {

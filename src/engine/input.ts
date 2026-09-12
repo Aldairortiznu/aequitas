@@ -49,8 +49,9 @@ export interface KeyMap {
   run: Phaser.Input.Keyboard.Key[];
   interact: Phaser.Input.Keyboard.Key[];
   cancel: Phaser.Input.Keyboard.Key[];
-  /** Pulsaciones registradas por evento (no por sondeo): sobreviven a un keydown+keyup en el mismo cuadro. */
-  pressed: Set<'interact' | 'cancel'>;
+  /** Pulsaciones registradas por evento (no por sondeo), con su instante: sobreviven a un
+   *  keydown+keyup en el mismo cuadro y se pueden descartar si ocurrieron con un panel abierto. */
+  pressed: Map<'interact' | 'cancel', number>;
 }
 
 export function createKeyMap(scene: Phaser.Scene): KeyMap | null {
@@ -59,7 +60,7 @@ export function createKeyMap(scene: Phaser.Scene): KeyMap | null {
   const K = Phaser.Input.Keyboard.KeyCodes;
   const keys = (...codes: number[]): Phaser.Input.Keyboard.Key[] =>
     codes.map((c) => kb.addKey(c, false));
-  const pressed = new Set<'interact' | 'cancel'>();
+  const pressed = new Map<'interact' | 'cancel', number>();
   const map: KeyMap = {
     up: keys(K.W, K.UP),
     down: keys(K.S, K.DOWN),
@@ -70,8 +71,8 @@ export function createKeyMap(scene: Phaser.Scene): KeyMap | null {
     cancel: keys(K.ESC, K.BACKSPACE),
     pressed,
   };
-  for (const k of map.interact) k.on('down', () => pressed.add('interact'));
-  for (const k of map.cancel) k.on('down', () => pressed.add('cancel'));
+  for (const k of map.interact) k.on('down', () => pressed.set('interact', performance.now()));
+  for (const k of map.cancel) k.on('down', () => pressed.set('cancel', performance.now()));
   return map;
 }
 
@@ -79,7 +80,11 @@ function anyDown(keys: Phaser.Input.Keyboard.Key[]): boolean {
   return keys.some((k) => k.isDown);
 }
 
-export function readInput(map: KeyMap | null): InputFrame {
+/**
+ * Lee la entrada del cuadro. `ignoreBefore`: las pulsaciones anteriores a ese instante
+ * (performance.now) se descartan; sirve para no reaccionar a la tecla que cerró un panel.
+ */
+export function readInput(map: KeyMap | null, ignoreBefore = 0): InputFrame {
   let dx = 0;
   let dy = 0;
   let run = touch.run;
@@ -92,8 +97,10 @@ export function readInput(map: KeyMap | null): InputFrame {
     if (anyDown(map.up)) dy -= 1;
     if (anyDown(map.down)) dy += 1;
     run = run || anyDown(map.run);
-    interact = interact || map.pressed.has('interact');
-    cancel = cancel || map.pressed.has('cancel');
+    const ti = map.pressed.get('interact');
+    const tc = map.pressed.get('cancel');
+    interact = interact || (ti !== undefined && ti >= ignoreBefore);
+    cancel = cancel || (tc !== undefined && tc >= ignoreBefore);
     map.pressed.clear();
   }
   if (dx === 0 && dy === 0) {

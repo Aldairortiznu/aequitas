@@ -21,7 +21,7 @@ import type { WorldSceneData } from '../engine/world/WorldScene';
  * que la UI cumple al cerrarse; en E1 son marcadores que se completan en épicas posteriores.
  */
 export interface ModalHandlers {
-  dialogue: (id: string, session: Session) => Promise<void>;
+  dialogue: (id: string, session: Session) => Promise<{ deferred: Action[] }>;
   cutscene: (id: string, session: Session) => Promise<void>;
   audiencia: (id: string, session: Session) => Promise<void>;
   pacto: (id: string, session: Session) => Promise<void>;
@@ -32,7 +32,7 @@ export interface ModalHandlers {
 }
 
 const noopModals: ModalHandlers = {
-  dialogue: async () => undefined,
+  dialogue: async () => ({ deferred: [] }),
   cutscene: async () => undefined,
   audiencia: async () => undefined,
   pacto: async () => undefined,
@@ -49,7 +49,7 @@ export class Session {
   private modals: ModalHandlers = noopModals;
   private listenersBound = false;
 
-  constructor(private game: Phaser.Game) {
+  constructor(readonly game: Phaser.Game) {
     this.state = GS.createGameState({ episode: 'gym', map: 'plaza', spawn: 'inicio' });
   }
 
@@ -229,6 +229,14 @@ export class Session {
     }
   }
 
+  /**
+   * Ejecuta acciones de inmediato, aunque haya una cola en marcha (lo usan los paneles
+   * modales para efectos no modales: flags, evidencias, legitimidad).
+   */
+  async applyNow(actions: Action[]): Promise<void> {
+    for (const a of actions) await this.runAction(a);
+  }
+
   /** Ejecuta acciones en orden; si ya hay una cola en marcha, las encola detrás. */
   async runActions(actions: Action[]): Promise<void> {
     this.queue.push(actions);
@@ -250,9 +258,11 @@ export class Session {
     if (!ep) return;
     const region = ep.manifest.region;
     switch (a.type) {
-      case 'dialogue':
-        await this.modals.dialogue(a.id, this);
+      case 'dialogue': {
+        const r = await this.modals.dialogue(a.id, this);
+        for (const d of r.deferred) await this.runAction(d);
         break;
+      }
       case 'cutscene':
         await this.modals.cutscene(a.id, this);
         break;

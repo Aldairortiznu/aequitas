@@ -297,3 +297,107 @@ body {
   grid-column: span 2;
   justify-self: end;
 }
+
+/* ---------- Diálogo ---------- */
+.dlg {
+  position: absolute;
+  left: 50%;
+  bottom: calc(10px + var(--safe-bottom));
+  transform: translateX(-50%);
+  width: min(96vw, 720px);
+  font-size: calc(1rem * var(--text-scale));
+}
+.dlg__box {
+  display: flex;
+  gap: 14px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+  padding: 12px 14px;
+  min-height: 112px;
+  cursor: pointer;
+}
+.dlg__box--narrador {
+  background: var(--ink-2);
+  color: var(--paper);
+  border-color: var(--ink-3);
+  font-family: var(--font-display);
+  font-style: italic;
+}
+.dlg__portrait {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+  overflow: hidden;
+}
+.dlg__portrait img {
+  display: block;
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+}
+.dlg__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+}
+.dlg__name {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bellium-2);
+  margin-bottom: 4px;
+}
+.dlg__text {
+  margin: 0;
+  line-height: 1.45;
+  min-height: 2.9em;
+}
+.dlg__caret {
+  opacity: 0.6;
+}
+.dlg__more {
+  position: absolute;
+  right: 4px;
+  bottom: -4px;
+  font-size: 0.7em;
+  color: var(--muted);
+  animation: dlg-bob 1s infinite alternate;
+}
+@keyframes dlg-bob {
+  from { transform: translateY(0); }
+  to { transform: translateY(3px); }
+}
+.dlg__options {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+}
+.dlg__opt {
+  text-align: left;
+  font: inherit;
+  background: transparent;
+  color: inherit;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.dlg__opt.is-active,
+.dlg__opt:hover {
+  border-color: var(--gold-1);
+  background: rgba(226, 185, 74, 0.12);
+}
+.dlg__num {
+  font-family: var(--font-mono);
+  color: var(--muted);
+  margin-right: 4px;
+}
+@media (max-width: 600px) {
+  .dlg__portrait { flex-basis: 64px; width: 64px; height: 64px; }
+  .dlg__portrait img { width: 64px; height: 64px; }
+  .dlg__box { padding: 10px; min-height: 96px; }
+}
