@@ -1,7 +1,7 @@
 {
-  "name": "reverdecer",
+  "name": "aequitas",
   "version": "0.1.0",
-  "description": "Reverdecer — RPG pixel art: Abigail recorre 32 reinos de aprendizajes para volver a florecer y aprender a amarse.",
+  "description": "AEQUITAS: El Retorno del Equilibrio — RPG dialéctico y restaurativo basado en la ley colombiana. Bellium S.A.S.",
   "type": "module",
   "scripts": {
     "dev": "vite",
