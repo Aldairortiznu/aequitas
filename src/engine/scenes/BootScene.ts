@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 import { PALETTE } from '../../config';
+import { getBus } from '../../core/bus';
 
 /**
- * Arranque: fija el color de fondo y salta al título.
- * En E1 cargará atlas y horneará el arte provisional.
+ * Arranque: fija el color de fondo y avisa a la app, que decide qué precargar
+ * (la app conoce el contenido; el motor no).
  */
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -12,6 +13,6 @@ export class BootScene extends Phaser.Scene {
 
   create(): void {
     this.cameras.main.setBackgroundColor(PALETTE.ceniza[0]);
-    this.scene.start('Title');
+    getBus().emit('boot:ready');
   }
 }

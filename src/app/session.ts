@@ -1,0 +1,373 @@
+import type Phaser from 'phaser';
+import type { Action, MapState } from '../core/content/schema';
+import type { ValidatedEpisode } from '../core/content/validate';
+import { getBus } from '../core/bus';
+import { matchBeats } from '../core/beats';
+import type { BeatEvent } from '../core/beats';
+import { addLegitimidad, mapStateFor } from '../core/legitimidad/legitimidad';
+import type { LegitimidadState } from '../core/legitimidad/legitimidad';
+import * as GS from '../core/state/gameState';
+import type { GameState } from '../core/state/gameState';
+import { loadEpisode, loadGlobalContent } from './contentLoader';
+import type { LoadedContent } from './contentLoader';
+import { WorldScene } from '../engine/world/WorldScene';
+import type { WorldSceneData } from '../engine/world/WorldScene';
+
+/**
+ * Sesión de juego: une el estado (core), el contenido y las escenas (engine) a través
+ * del bus. Es la única pieza que conoce a las tres capas.
+ *
+ * Las acciones modales (diálogo, cinemática, audiencia, pacto) se resuelven con promesas
+ * que la UI cumple al cerrarse; en E1 son marcadores que se completan en épicas posteriores.
+ */
+export interface ModalHandlers {
+  dialogue: (id: string, session: Session) => Promise<void>;
+  cutscene: (id: string, session: Session) => Promise<void>;
+  audiencia: (id: string, session: Session) => Promise<void>;
+  pacto: (id: string, session: Session) => Promise<void>;
+  interpelacion: (
+    e: { name: string; rank: string; articulo?: string },
+    session: Session,
+  ) => Promise<'interpelada' | 'detenida'>;
+}
+
+const noopModals: ModalHandlers = {
+  dialogue: async () => undefined,
+  cutscene: async () => undefined,
+  audiencia: async () => undefined,
+  pacto: async () => undefined,
+  interpelacion: async () => 'interpelada',
+};
+
+export class Session {
+  state: GameState;
+  episode: ValidatedEpisode | null = null;
+  content: LoadedContent | null = null;
+  legitimidad: LegitimidadState = {};
+  private running = false;
+  private queue: Action[][] = [];
+  private modals: ModalHandlers = noopModals;
+  private listenersBound = false;
+
+  constructor(private game: Phaser.Game) {
+    this.state = GS.createGameState({ episode: 'gym', map: 'plaza', spawn: 'inicio' });
+  }
+
+  setModals(m: Partial<ModalHandlers>): void {
+    this.modals = { ...this.modals, ...m };
+  }
+
+  get bus() {
+    return getBus();
+  }
+
+  /** Empieza un episodio desde cero. */
+  async newGame(episodeId: string, playerName?: string): Promise<void> {
+    const [content, episode] = await Promise.all([loadGlobalContent(), loadEpisode(episodeId)]);
+    this.content = content;
+    this.episode = episode;
+    const m = episode.manifest;
+    this.state = GS.createGameState({
+      playerName,
+      episode: m.id,
+      map: m.entry.map,
+      spawn: m.entry.spawn,
+      flagsInit: m.flagsInit,
+      party: m.party,
+      legitimidadStart: { [m.region]: m.legitimidad.start },
+    });
+    this.legitimidad = { [m.region]: { valor: m.legitimidad.start, porFuente: {} } };
+    this.bindListeners();
+    this.startWorld(m.entry.map, m.entry.spawn);
+    await this.fire({ type: 'episodeStart' });
+    await this.fire({ type: 'enterMap', map: m.entry.map });
+  }
+
+  private bindListeners(): void {
+    if (this.listenersBound) return;
+    this.listenersBound = true;
+    const bus = this.bus;
+    bus.on('world:interact', (e) => void this.onInteract(e.kind, e.id, e.payload ?? {}));
+    bus.on('world:door', (e) => void this.onDoor(e.map, e.spawn));
+    bus.on('world:trigger', (e) => void this.fire({ type: 'interact', object: e.name }));
+    bus.on('world:patrol', (e) => void this.onPatrol(e));
+  }
+
+  // ---------------------------------------------------------------------
+  // Mundo
+  // ---------------------------------------------------------------------
+
+  private worldData(mapKey: string, spawn: string): WorldSceneData {
+    const ep = this.episode;
+    if (!ep) throw new Error('No hay episodio cargado');
+    const map = ep.maps[mapKey];
+    if (!map) throw new Error(`El mapa ${mapKey} no existe en ${ep.manifest.id}`);
+    const region = ep.manifest.region;
+    const mapState: MapState =
+      this.state.mapStates[mapKey] ??
+      mapStateFor(this.legitimidad[region]?.valor ?? 0, ep.manifest.legitimidad.hitos);
+    const hidden: string[] = [];
+    const characters = new Set<string>();
+    const objLayer = map.layers.find((l) => l.name === 'objetos');
+    for (const o of objLayer?.objects ?? []) {
+      const type = (o.class ?? o.type ?? '').trim();
+      const prop = (n: string): string | undefined =>
+        o.properties?.find((p) => p.name === n)?.value as string | undefined;
+      if (type === 'evidence' && this.state.evidence.includes(prop('evidencia') ?? ''))
+        hidden.push(o.name);
+      if (type === 'folio' && this.state.foliosLeidos.includes(o.name)) hidden.push(o.name);
+      if (type === 'npc' && prop('personaje')) characters.add(prop('personaje')!);
+    }
+    return {
+      episodeId: ep.manifest.id,
+      mapKey,
+      map,
+      spawn,
+      mapState,
+      party: this.state.party,
+      hidden,
+      characters: [...characters],
+      debug: import.meta.env.DEV,
+    };
+  }
+
+  startWorld(mapKey: string, spawn: string): void {
+    this.state = GS.setLocation(this.state, mapKey, spawn);
+    const data = this.worldData(mapKey, spawn);
+    const scene = this.game.scene;
+    if (
+      scene.isActive(WorldScene.KEY) ||
+      scene.isSleeping(WorldScene.KEY) ||
+      scene.isPaused(WorldScene.KEY)
+    ) {
+      scene.stop(WorldScene.KEY);
+    }
+    if (scene.isActive('Title')) scene.stop('Title');
+    scene.start(WorldScene.KEY, data);
+    this.bus.emit('state:changed', { reason: 'map' });
+  }
+
+  private async onDoor(mapKey: string, spawn: string): Promise<void> {
+    if (!this.episode?.maps[mapKey]) {
+      this.bus.emit('ui:toast', {
+        text: `Esa puerta lleva a ${mapKey}, que no existe todavía.`,
+        kind: 'warn',
+      });
+      return;
+    }
+    this.bus.emit('world:freeze', { frozen: true });
+    this.startWorld(mapKey, spawn);
+    await this.fire({ type: 'enterMap', map: mapKey });
+  }
+
+  private async onInteract(kind: string, id: string, props: Record<string, string>): Promise<void> {
+    const ep = this.episode;
+    if (!ep) return;
+    switch (kind) {
+      case 'npc': {
+        const dlg = props.dialogo;
+        if (dlg) await this.runActions([{ type: 'dialogue', id: dlg }]);
+        break;
+      }
+      case 'evidence': {
+        const evId = props.evidencia;
+        if (evId && !this.state.evidence.includes(evId)) {
+          this.bus.emit('world:hideObject', { name: id });
+          await this.runActions([{ type: 'addEvidence', id: evId }]);
+        }
+        break;
+      }
+      case 'folio': {
+        const codice = props.codice;
+        if (codice) {
+          this.state = GS.markFolioLeido(this.state, id);
+          this.bus.emit('world:hideObject', { name: id });
+          await this.runActions([
+            { type: 'unlockCodice', id: codice },
+            { type: 'legitimidad', delta: 1, fuente: 'folio' },
+          ]);
+        }
+        break;
+      }
+      case 'companion': {
+        const name = this.content?.personajes.find((p) => p.id === id)?.nombre ?? id;
+        this.bus.emit('ui:toast', {
+          text: `${name}: «Todavía no tengo nada que decirte. Sigue mirando.»`,
+        });
+        break;
+      }
+      case 'atril':
+        this.bus.emit('ui:toast', { text: 'Atril. Aquí se guardará la partida (E8).' });
+        break;
+      case 'mesa': {
+        const pacto = props.pacto;
+        if (pacto) await this.runActions([{ type: 'startPacto', id: pacto }]);
+        break;
+      }
+      default:
+        await this.fire({ type: 'interact', object: id });
+        break;
+    }
+  }
+
+  private async onPatrol(e: { name: string; rank: string; articulo?: string }): Promise<void> {
+    const outcome = await this.modals.interpelacion(e, this);
+    this.bus.emit('world:patrolResolved', { name: e.name, outcome });
+  }
+
+  // ---------------------------------------------------------------------
+  // Beats y acciones
+  // ---------------------------------------------------------------------
+
+  async fire(ev: BeatEvent): Promise<void> {
+    const ep = this.episode;
+    if (!ep) return;
+    const beats = matchBeats(ep.manifest.beats, this.state, ev);
+    for (const b of beats) {
+      if (b.once) this.state = GS.markBeatDone(this.state, b.id);
+      await this.runActions(b.actions);
+    }
+  }
+
+  /** Ejecuta acciones en orden; si ya hay una cola en marcha, las encola detrás. */
+  async runActions(actions: Action[]): Promise<void> {
+    this.queue.push(actions);
+    if (this.running) return;
+    this.running = true;
+    try {
+      while (this.queue.length) {
+        const batch = this.queue.shift()!;
+        for (const a of batch) await this.runAction(a);
+      }
+    } finally {
+      this.running = false;
+      this.bus.emit('world:freeze', { frozen: false });
+    }
+  }
+
+  private async runAction(a: Action): Promise<void> {
+    const ep = this.episode;
+    if (!ep) return;
+    const region = ep.manifest.region;
+    switch (a.type) {
+      case 'dialogue':
+        await this.modals.dialogue(a.id, this);
+        break;
+      case 'cutscene':
+        await this.modals.cutscene(a.id, this);
+        break;
+      case 'setFlag':
+        this.state = GS.setFlag(this.state, a.flag, a.value);
+        this.bus.emit('state:changed', { reason: 'flag' });
+        await this.fire({ type: 'flag', flag: a.flag, value: a.value });
+        break;
+      case 'addEvidence': {
+        const had = this.state.evidence.includes(a.id);
+        this.state = GS.addEvidence(this.state, a.id);
+        if (!had) {
+          const ev = ep.evidence[a.id];
+          this.bus.emit('ui:toast', { text: `Evidencia: ${ev?.nombre ?? a.id}`, kind: 'ok' });
+          this.bus.emit('state:changed', { reason: 'evidence' });
+          await this.fire({ type: 'evidence', id: a.id });
+        }
+        break;
+      }
+      case 'removeEvidence':
+        this.state = GS.removeEvidence(this.state, a.id);
+        this.bus.emit('state:changed', { reason: 'evidence' });
+        break;
+      case 'unlockCodice': {
+        const had = this.state.codice.includes(a.id);
+        this.state = GS.unlockCodice(this.state, a.id);
+        if (!had) {
+          const entry = this.content?.codice[a.id];
+          this.bus.emit('ui:toast', {
+            text: `Códice: ${entry?.referencia ?? a.id} · ${entry?.titulo ?? ''}`,
+            kind: 'ok',
+          });
+          this.bus.emit('state:changed', { reason: 'codice' });
+        }
+        break;
+      }
+      case 'registrarVoz': {
+        const ev = ep.evidence[a.id];
+        this.state = GS.registrarVoz(this.state, {
+          id: a.id,
+          nombre: ev?.nombre ?? a.id,
+          hecho: ev?.descripcion ?? '',
+          fecha: `Día ${this.state.diaDeJuego}`,
+        });
+        this.bus.emit('ui:toast', { text: `Registro de Voces: ${ev?.nombre ?? a.id}`, kind: 'ok' });
+        this.bus.emit('state:changed', { reason: 'voces' });
+        break;
+      }
+      case 'legitimidad':
+        this.addLegitimidad(a.region ?? region, a.delta, a.fuente ?? 'evento');
+        break;
+      case 'startAudiencia':
+        await this.modals.audiencia(a.id, this);
+        break;
+      case 'startPacto':
+        await this.modals.pacto(a.id, this);
+        break;
+      case 'setMapState':
+        this.state = GS.setMapState(this.state, a.map, a.state);
+        this.bus.emit('world:setMapState', { map: a.map, state: a.state });
+        break;
+      case 'teleport':
+        this.bus.emit('world:freeze', { frozen: true });
+        this.startWorld(a.map, a.spawn);
+        await this.fire({ type: 'enterMap', map: a.map });
+        break;
+      case 'joinParty':
+        this.state = GS.joinParty(this.state, a.companion);
+        this.bus.emit('state:changed', { reason: 'party' });
+        break;
+      case 'leaveParty':
+        this.state = GS.leaveParty(this.state, a.companion);
+        this.bus.emit('state:changed', { reason: 'party' });
+        break;
+      case 'confianza':
+        this.state = GS.addConfianza(this.state, a.companion, a.delta);
+        break;
+      case 'toast':
+        this.bus.emit('ui:toast', { text: a.text });
+        break;
+      case 'save':
+        this.bus.emit('ui:toast', { text: 'Guardado (E8 pendiente).' });
+        break;
+      case 'endEpisode':
+        this.bus.emit('ui:toast', { text: 'Fin del episodio.' });
+        break;
+      default:
+        break;
+    }
+  }
+
+  addLegitimidad(
+    region: string,
+    delta: number,
+    fuente: 'audiencia' | 'pacto' | 'consulta' | 'testimonio' | 'folio' | 'evento',
+  ): void {
+    const hitos = this.episode?.manifest.legitimidad.hitos;
+    const r = addLegitimidad(this.legitimidad, region, delta, fuente, hitos);
+    this.legitimidad = r.state;
+    this.state = { ...this.state, legitimidad: { ...this.state.legitimidad, [region]: r.despues } };
+    this.bus.emit('state:changed', { reason: 'legitimidad' });
+    if (r.hitoAlcanzado) {
+      this.bus.emit('legitimidad:hito', {
+        region,
+        estado: r.hitoAlcanzado.mapState,
+        valor: r.despues,
+      });
+      // El mapa actual de la región cambia de estado si no tiene uno fijado a mano.
+      const ep = this.episode;
+      if (ep && ep.manifest.region === region && !this.state.mapStates[this.state.map]) {
+        this.bus.emit('world:setMapState', {
+          map: this.state.map,
+          state: r.hitoAlcanzado.mapState,
+        });
+      }
+    }
+  }
+}

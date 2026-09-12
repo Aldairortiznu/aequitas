@@ -20,7 +20,10 @@ antes de tocar código. Las decisiones tomadas están en `docs/decisions.md`.
   `docs/design/02-narrativa.md` §1 y §12. Máximo tres líneas por globo.
 - Toda norma citada en contenido lleva `fechaConsulta` y `revisado: false` hasta que la
   revisión jurídica de Bellium la firme.
-- Arte provisional generado por código hasta que llegue el arte final (decisión de F0).
+- Arte provisional generado por código hasta que llegue el arte final (decisión de F0). El arte
+  real se produce con Antigravity + Nano Banana siguiendo `docs/arte/`; el motor lo carga por
+  `public/assets/manifest.json` sin cambios de código. No modifiques las claves de textura
+  (`char-<id>`, `tiles-<tileset>-<estado>`, `icon-<nombre>`): son el contrato con el arte.
 - Antes de cerrar una épica, escribe o actualiza `docs/engine/<sistema>.md`.
 
 ## Elenco (aprobado)
@@ -43,6 +46,9 @@ npm run validate:content # valida content/ (esquemas y referencias cruzadas)
 npm run e2e              # playwright (humo en navegador; requiere build previo)
 npm run check            # lint + typecheck + test + validate:content
 npm run standalone       # copia autónoma local en dist-standalone/
+npm run assets:scan      # qué arte real existe y qué falta; escribe public/assets/manifest.json
+npm run assets:normalize # convierte materia prima (art-src/) al contrato de public/assets/
+# Galería de arte: npm run dev y abrir http://localhost:5180/?escena=galeria
 npx tsx scripts/gen-gym-map.ts   # regenera los mapas del episodio de prueba
 ```
 
