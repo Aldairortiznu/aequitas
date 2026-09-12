@@ -9,10 +9,10 @@
 * **Título Oficial:** AEQUITAS: El Retorno del Equilibrio
 * **Género:** RPG Dialéctico / Aventura de Jurisprudencia Restaurativa (16-bit Retro Solarpunk & Botánico)
 * **Motor & Tecnologías:** Phaser 3.90.0 · Vite 5.4 · JavaScript ES Modules · Web Audio API · HTML5 / CSS3 Responsive Virtual Gamepad
-* **Repositorio GitHub Oficial:** [https://github.com/Aldairortiznu/reverdecer](https://github.com/Aldairortiznu/reverdecer)
-* **Despliegue Web Público (Multi-dispositivo):** [https://aldairortiznu.github.io/reverdecer/](https://aldairortiznu.github.io/reverdecer/)
+* **Repositorio GitHub Oficial:** [https://github.com/Aldairortiznu/aequitas](https://github.com/Aldairortiznu/aequitas)
+* **Despliegue Web Público (Multi-dispositivo):** [https://aldairortiznu.github.io/aequitas/](https://aldairortiznu.github.io/aequitas/)
 * **Ubicaciones Locales:**
-  * Código fuente de desarrollo: `C:\Users\Aldai\.gemini\antigravity\scratch\reverdecer-repo`
+  * Código fuente de desarrollo: `C:\Users\Aldai\.gemini\antigravity\scratch\aequitas-repo`
   * Compilación local autónoma: `C:\Users\Aldai\Documents\AEQUITAS_Piloto`
   * Lanzador Windows para un solo clic: `C:\Users\Aldai\Documents\JUGAR_AEQUITAS.bat`
 
@@ -104,7 +104,7 @@ Inspirado en las aperturas de **Mega Man X4** y **The Legend of Zelda**, con art
 El repositorio está organizado de forma modular sobre Vite + Phaser 3:
 
 ```text
-reverdecer-repo/
+aequitas-repo/
 ├── .github/workflows/deploy.yml   # Despliegue automático CI/CD a GitHub Pages
 ├── public/assets/intro/           # 6 ilustraciones maestras optimizadas (WebP/JPG ~80-110KB)
 │   ├── intro_1_fractura.jpg
@@ -165,7 +165,7 @@ Cuando abras una nueva sesión de trabajo y quieras continuar el proyecto sin pe
 ### Paso 1: Ubicación del Directorio de Trabajo
 El código fuente actualizado reside en:
 ```bash
-cd "C:\Users\Aldai\.gemini\antigravity\scratch\reverdecer-repo"
+cd "C:\Users\Aldai\.gemini\antigravity\scratch\aequitas-repo"
 ```
 
 ### Paso 2: Levantar el Servidor de Desarrollo Local
@@ -189,14 +189,14 @@ git commit -m "feat: [descripción de la mejora]"
 # 3. Enviar a GitHub (GitHub Actions compilará y desplegará en ~35 segundos)
 git push origin main
 ```
-*URL en vivo:* `https://aldairortiznu.github.io/reverdecer/`
+*URL en vivo:* `https://aldairortiznu.github.io/aequitas/`
 
 ### Paso 4: Actualizar la Copia Autónoma en Documentos
 Si deseas actualizar la carpeta ejecutable local sin necesidad de internet:
 ```bash
 python -c "
 import shutil, os
-src = r'C:\Users\Aldai\.gemini\antigravity\scratch\reverdecer-repo\dist'
+src = r'C:\Users\Aldai\.gemini\antigravity\scratch\aequitas-repo\dist'
 dest = r'C:\Users\Aldai\Documents\AEQUITAS_Piloto'
 shutil.copytree(src, dest, dirs_exist_ok=True)
 print('Actualizado en:', dest)
