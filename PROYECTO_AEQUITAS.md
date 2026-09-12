@@ -15,6 +15,7 @@
   * Código fuente de desarrollo: `C:\Users\Aldai\.gemini\antigravity\scratch\aequitas-repo`
   * Compilación local autónoma: `C:\Users\Aldai\Documents\AEQUITAS_Piloto`
   * Lanzador Windows para un solo clic: `C:\Users\Aldai\Documents\JUGAR_AEQUITAS.bat`
+* **Historial y Proyecto Base:** Código derivado e independizado de [https://github.com/Aldairortiznu/reverdecer](https://github.com/Aldairortiznu/reverdecer) (restaurado 100% a su estado original de Abigail y los 32 reinos).
 
 ---
 
