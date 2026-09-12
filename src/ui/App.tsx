@@ -5,6 +5,8 @@ import type { Session } from '../app/session';
 import { Hud } from './Hud';
 import { Gamepad } from './Gamepad';
 import { DialogueHost } from './DialogueBox';
+import { PanelBar, PanelHost } from './Panels';
+import { anyModalOpen, ui } from './store';
 
 /**
  * Raíz de la interfaz DOM. Muestra el HUD del mundo, los avisos breves y el mando táctil.
@@ -33,11 +35,35 @@ export function App({ session }: { session: Session }) {
     return () => window.clearTimeout(t);
   }, [toast]);
 
+  // Atajos de paneles desde el mundo (cuando no hay nada modal abierto).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent): void => {
+      if (!inWorld || anyModalOpen()) return;
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      const map: Record<string, 'zurron' | 'codice' | 'voces' | 'cuaderno' | 'mapa'> = {
+        z: 'zurron',
+        c: 'codice',
+        v: 'voces',
+        n: 'cuaderno',
+        m: 'mapa',
+      };
+      const p = map[e.key.toLowerCase()];
+      if (p) {
+        e.preventDefault();
+        ui.panel.value = p;
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [inWorld]);
+
   return (
     <>
       {inWorld && <Hud session={session} />}
+      {inWorld && !anyModalOpen() && <PanelBar />}
       {inWorld && <Gamepad />}
       <DialogueHost session={session} />
+      <PanelHost session={session} />
       {toast && (
         <div class={`ui-toast ui-toast--${toast.kind}`} role="status" aria-live="polite">
           {toast.text}

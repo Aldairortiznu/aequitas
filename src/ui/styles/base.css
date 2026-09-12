@@ -369,8 +369,12 @@ body {
   animation: dlg-bob 1s infinite alternate;
 }
 @keyframes dlg-bob {
-  from { transform: translateY(0); }
-  to { transform: translateY(3px); }
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(3px);
+  }
 }
 .dlg__options {
   display: grid;
@@ -397,7 +401,17 @@ body {
   margin-right: 4px;
 }
 @media (max-width: 600px) {
-  .dlg__portrait { flex-basis: 64px; width: 64px; height: 64px; }
-  .dlg__portrait img { width: 64px; height: 64px; }
-  .dlg__box { padding: 10px; min-height: 96px; }
+  .dlg__portrait {
+    flex-basis: 64px;
+    width: 64px;
+    height: 64px;
+  }
+  .dlg__portrait img {
+    width: 64px;
+    height: 64px;
+  }
+  .dlg__box {
+    padding: 10px;
+    min-height: 96px;
+  }
 }

@@ -1,0 +1,314 @@
+/* ---------- Paneles del jugador (Zurrón, Códice, Voces, Cuaderno, Litoral) ---------- */
+.panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(27, 27, 31, 0.55);
+  padding: 12px;
+  font-size: calc(0.95rem * var(--text-scale));
+}
+.panel__sheet {
+  width: min(96vw, 860px);
+  height: min(92vh, 560px);
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.45);
+}
+.panel__tabs {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-2);
+  overflow-x: auto;
+}
+.panel__tab {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--line);
+  padding: 10px 14px;
+  color: var(--ink-3);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.panel__tab kbd {
+  font-family: inherit;
+  font-size: 0.8em;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  padding: 0 4px;
+  margin-left: 4px;
+}
+.panel__tab.is-active {
+  background: var(--paper);
+  color: var(--bellium-1);
+  box-shadow: inset 0 -2px 0 var(--gold-1);
+}
+.panel__close {
+  margin-left: auto;
+  font: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0 14px;
+  cursor: pointer;
+  color: var(--ink-3);
+}
+.panel__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 16px;
+}
+.panel__empty {
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-style: italic;
+  margin: 8px 0;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(0, 2fr);
+  gap: 16px;
+  min-height: 0;
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0 8px 0 0;
+  border-right: 1px solid var(--line);
+  overflow: auto;
+  max-height: 420px;
+}
+.list__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--paper-2);
+  padding: 6px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.list__item.is-active {
+  background: rgba(90, 63, 134, 0.1);
+  color: var(--bellium-1);
+}
+.list__ref {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  color: var(--muted);
+  margin-right: 4px;
+}
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--line);
+  padding: 0 4px;
+  margin-right: 4px;
+  color: var(--muted);
+}
+.detail h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0 0 4px;
+  font-size: 1.3em;
+}
+.detail h4 {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 14px 0 4px;
+}
+.detail p {
+  margin: 0 0 8px;
+}
+.detail__meta {
+  color: var(--muted);
+  font-size: 0.85em;
+}
+.detail__ref {
+  font-family: var(--font-mono);
+  color: var(--bellium-2);
+  letter-spacing: 0.06em;
+}
+.detail__literal {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-left: 2px solid var(--gold-1);
+  background: rgba(226, 185, 74, 0.08);
+  font-family: var(--font-display);
+  font-size: 1.02em;
+}
+.detail__extracto {
+  color: var(--muted);
+  font-style: italic;
+}
+.detail__aviso {
+  color: var(--muted);
+  font-size: 0.8em;
+  border-top: 1px dashed var(--line);
+  padding-top: 6px;
+}
+.detail__cotejo {
+  background: rgba(90, 63, 134, 0.08);
+  padding: 8px;
+}
+.btn {
+  font: inherit;
+  background: var(--bellium-1);
+  color: var(--paper);
+  border: 0;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn--secundario {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.input {
+  font: inherit;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+.codice__tools {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.chip {
+  font: inherit;
+  font-size: 0.8em;
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 2px 8px;
+  cursor: pointer;
+  color: var(--ink-3);
+}
+.chip.is-active {
+  background: var(--bellium-1);
+  color: var(--paper);
+  border-color: var(--bellium-1);
+}
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+.tabla th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  padding: 4px 6px;
+}
+.tabla td {
+  border-bottom: 1px solid var(--paper-2);
+  padding: 6px;
+  vertical-align: top;
+}
+.notas {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.notas li {
+  margin: 4px 0;
+}
+.mapa__lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+.mapa__region {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  border-left-width: 4px;
+}
+.mapa__region--ceniza {
+  border-left-color: var(--ink-3);
+}
+.mapa__region--brote {
+  border-left-color: var(--green-1);
+}
+.mapa__region--verdor {
+  border-left-color: var(--green-2);
+}
+.mapa__region--floración {
+  border-left-color: var(--gold-2);
+}
+.mapa__nombre {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+.mapa__estado {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  color: var(--muted);
+}
+.mapa__ep {
+  font-size: 0.85em;
+}
+.panelbar {
+  position: absolute;
+  top: calc(8px + var(--safe-top));
+  right: 8px;
+  display: flex;
+  gap: 4px;
+}
+.panelbar__btn {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  background: rgba(27, 27, 31, 0.72);
+  color: var(--paper);
+  border: 1px solid rgba(207, 194, 163, 0.35);
+  padding: 4px 8px;
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+  .list {
+    border-right: 0;
+    max-height: 160px;
+  }
+  .panelbar {
+    top: auto;
+    bottom: calc(8px + var(--safe-bottom));
+    right: 8px;
+  }
+}

@@ -354,6 +354,24 @@ export class Session {
     }
   }
 
+  /** Busca una evidencia en el episodio actual (Ep. 7 ampliará al zurrón global). */
+  evidenceFromAnyEpisode(id: string) {
+    return this.episode?.evidence[id];
+  }
+
+  /** Cotejo de Prudencio: revela la autenticidad de un documento. */
+  cotejar(id: string): void {
+    if (!this.state.party.includes('prudencio')) return;
+    const ev = this.episode?.evidence[id];
+    if (!ev?.cotejo || this.state.evidenceCotejada.includes(id)) return;
+    this.state = GS.markCotejada(this.state, id);
+    this.bus.emit('ui:toast', {
+      text: ev.autentico ? `Cotejo: ${ev.nombre} es auténtico.` : `Cotejo: ${ev.nombre} es falso.`,
+      kind: ev.autentico ? 'ok' : 'warn',
+    });
+    this.bus.emit('state:changed', { reason: 'cotejo' });
+  }
+
   addLegitimidad(
     region: string,
     delta: number,
