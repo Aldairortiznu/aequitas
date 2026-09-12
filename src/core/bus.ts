@@ -40,6 +40,10 @@ export type BusEvents = {
   'legitimidad:hito': { region: string; estado: string; valor: number };
   /** Emitido por la sesión al cambiar el volumen en ajustes. */
   'audio:volume': { volumen: number };
+  /** Efecto de sonido por nombre (lo emiten las vistas). */
+  'audio:sfx': { name: string };
+  /** Cambio de pista musical (null detiene). */
+  'audio:music': { pista: string | null; capas?: number };
   /** Emitido por la escena de título al quedar lista (la app muestra el menú DOM). */
   'title:ready': undefined;
   /** Emitido por core cuando debe mostrarse una notificación breve. */

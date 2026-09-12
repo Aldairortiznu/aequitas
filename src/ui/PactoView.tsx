@@ -31,6 +31,7 @@ export function PactoView({ session, pactoId, onDone, previas }: Props) {
 
   useEffect(() => {
     getBus().emit('ui:opened', { panel: 'pacto' });
+    getBus().emit('audio:music', { pista: 'pacto', capas: 1 });
     return () => getBus().emit('ui:closed', { panel: 'pacto' });
   }, []);
 
@@ -68,6 +69,7 @@ export function PactoView({ session, pactoId, onDone, previas }: Props) {
   };
 
   const firmar = (): void => {
+    getBus().emit('audio:sfx', { name: 'firma' });
     setVista('resultado');
   };
 

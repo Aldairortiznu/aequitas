@@ -13,6 +13,7 @@ import { loadEpisode, loadGlobalContent } from './contentLoader';
 import { buildSave, importCode, lastSlot, readSave, writeSave } from '../core/save/save';
 import type { SaveV1, Storage } from '../core/save/save';
 import { hasLamina } from '../engine/art/registry';
+import { capasPara } from '../engine/audio/synth';
 import { ui } from '../ui/store';
 import type { LoadedContent } from './contentLoader';
 import { WorldScene } from '../engine/world/WorldScene';
@@ -207,6 +208,22 @@ export class Session {
     bus.on('world:door', (e) => void this.onDoor(e.map, e.spawn));
     bus.on('world:trigger', (e) => void this.fire({ type: 'interact', object: e.name }));
     bus.on('world:patrol', (e) => void this.onPatrol(e));
+    bus.on('ui:closed', (e) => {
+      if (e.panel === 'audiencia' || e.panel === 'pacto') this.emitWorldMusic();
+    });
+  }
+
+  /** Vuelve a la música de la región del mapa actual. */
+  private emitWorldMusic(): void {
+    const map = this.episode?.maps[this.state.map];
+    const musica = map?.properties?.find((p) => p.name === 'musica')?.value;
+    const region = this.episode?.manifest.region ?? '';
+    const estado = mapStateFor(
+      this.legitimidad[region]?.valor ?? 0,
+      this.episode?.manifest.legitimidad.hitos,
+    );
+    if (typeof musica === 'string')
+      this.bus.emit('audio:music', { pista: musica, capas: capasPara(estado) });
   }
 
   // ---------------------------------------------------------------------

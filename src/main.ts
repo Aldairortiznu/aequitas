@@ -12,6 +12,7 @@ import { installModals } from './app/modals';
 import { loadGlobalContent } from './app/contentLoader';
 import { getBus } from './core/bus';
 import { ui } from './ui/store';
+import { installAudio } from './engine/audio/synth';
 
 const params = new URLSearchParams(window.location.search);
 const escena = params.get('escena');
@@ -39,6 +40,7 @@ const game = new Phaser.Game({
 applyIntegerScaling(game);
 const session = new Session(game);
 installModals(session);
+installAudio();
 mountUi(session);
 
 /** Tras el arranque: cargar el índice de contenido y precargar el arte real que exista. */
@@ -69,6 +71,7 @@ getBus().on('boot:ready', onBoot);
 
 getBus().on('title:ready', () => {
   ui.enTitulo.value = true;
+  getBus().emit('audio:music', { pista: 'biblioteca', capas: 2 });
 });
 
 // Acceso de lectura para depuración y pruebas de navegador (no expone nada que el

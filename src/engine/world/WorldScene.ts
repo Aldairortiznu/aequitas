@@ -7,6 +7,7 @@ import { bakeAll, bakeCharacter } from '../art/provisional';
 import { createKeyMap, readInput } from '../input';
 import type { KeyMap } from '../input';
 import { Companions } from './Companions';
+import { capasPara } from '../audio/synth';
 import { Patrol } from './Patrol';
 import { findSpawn, parseObjects } from './objects';
 import type { WorldObject } from './objects';
@@ -237,6 +238,9 @@ export class WorldScene extends Phaser.Scene {
     });
 
     bus.emit('world:ready', { episodeId: d.episodeId, map: d.mapKey });
+    const musica = d.map.properties?.find((p) => p.name === 'musica')?.value;
+    if (typeof musica === 'string')
+      bus.emit('audio:music', { pista: musica, capas: capasPara(d.mapState) });
   }
 
   private addNpc(obj: WorldObject): void {

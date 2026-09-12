@@ -82,6 +82,7 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
 
   useEffect(() => {
     getBus().emit('ui:opened', { panel: 'audiencia' });
+    getBus().emit('audio:music', { pista: 'audiencia', capas: 2 });
     if (def && st) {
       const first = actual(def, st);
       const items: LogEntry[] = [
@@ -119,6 +120,7 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
             session.addNota(e.nota);
           }
           setFlash(e.resultado);
+          getBus().emit('audio:sfx', { name: e.resultado });
           window.setTimeout(() => setFlash(null), 600);
           break;
         case 'presion':
