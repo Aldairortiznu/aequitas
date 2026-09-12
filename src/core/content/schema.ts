@@ -418,6 +418,8 @@ export const PuntoSchema = z.strictObject({
   clausulas: z.array(ClausulaSchema).min(2).max(4),
 });
 
+export type Punto = z.infer<typeof PuntoSchema>;
+
 export const PactoSchema = z.strictObject({
   id: IdSchema,
   titulo: z.string().min(1).max(80),

@@ -3,6 +3,7 @@ import type { Action, MapState } from '../core/content/schema';
 import type { ValidatedEpisode } from '../core/content/validate';
 import { getBus } from '../core/bus';
 import { matchBeats } from '../core/beats';
+import { BALANCE } from '../core/balance';
 import type { BeatEvent } from '../core/beats';
 import { addLegitimidad, mapStateFor } from '../core/legitimidad/legitimidad';
 import type { LegitimidadState } from '../core/legitimidad/legitimidad';
@@ -59,6 +60,8 @@ export class Session {
   episode: ValidatedEpisode | null = null;
   content: LoadedContent | null = null;
   legitimidad: LegitimidadState = {};
+  /** Actas redactadas (texto) por id de pacto, para el Cuaderno. */
+  actas: Record<string, string> = {};
   private running = false;
   private queue: Action[][] = [];
   private modals: ModalHandlers = noopModals;
@@ -381,6 +384,42 @@ export class Session {
     const ep = this.episode?.manifest.id ?? 'general';
     this.state = GS.addNota(this.state, ep, nota);
     this.bus.emit('state:changed', { reason: 'nota' });
+  }
+
+  /** Registra un pacto firmado: resultado, legitimidad e impugnación si hay nulas. */
+  async registrarPacto(
+    def: import('../core/content/schema').Pacto,
+    elegidas: Record<string, string>,
+    ev: import('../core/pacto/engine').Evaluacion,
+    acta: string,
+  ): Promise<void> {
+    const region = def.region ?? this.episode?.manifest.region ?? 'general';
+    this.state = GS.setPactoResultado(this.state, def.id, {
+      equilibrio: ev.equilibrio,
+      clausulas: Object.entries(elegidas).map(([p, c]) => `${p}:${c}`),
+      impugnado: ev.nulasFirmadas.length > 0,
+      fechaJuego: `Día ${this.state.diaDeJuego}`,
+    });
+    this.state = GS.addNota(
+      this.state,
+      this.episode?.manifest.id ?? 'general',
+      `Acta «${def.titulo}»: Equilibrio ${ev.equilibrio}.`,
+    );
+    this.actas[def.id] = acta;
+    const delta = Math.round((ev.equilibrio / 100) * BALANCE.legitimidad.pactoMax);
+    this.addLegitimidad(region, delta, 'pacto');
+    if (ev.nulasFirmadas.length) {
+      this.addLegitimidad(region, -BALANCE.pacto.penalizacionImpugnacion, 'evento');
+    }
+    // Efectos de las cláusulas elegidas
+    for (const [puntoId, clausulaId] of Object.entries(elegidas)) {
+      const c = def.puntos
+        .find((p) => p.id === puntoId)
+        ?.clausulas.find((x) => x.id === clausulaId);
+      if (c?.efectos) await this.applyNow(c.efectos);
+    }
+    this.state = GS.avanzarDia(this.state, 1);
+    this.bus.emit('state:changed', { reason: 'pacto' });
   }
 
   markCodiceUsed(id: string, audienciaId: string): void {

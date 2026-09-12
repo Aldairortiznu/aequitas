@@ -1,0 +1,253 @@
+/* ---------- Conciliación (Pacto) ---------- */
+.pac {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: calc(0.95rem * var(--text-scale));
+}
+.pac__head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-2);
+}
+.pac__head h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  font-size: 1.3em;
+}
+.pac__partes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+.pac__parte {
+  border-left: 2px solid var(--gold-1);
+  padding-left: 8px;
+  font-size: 0.85em;
+}
+.pac__parte-nombre {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+.pac__k {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 4px;
+}
+.pac__main {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
+  gap: 14px;
+  padding: 12px 16px;
+  min-height: 0;
+  overflow: auto;
+}
+.pac__main--acta {
+  grid-template-columns: 1fr;
+}
+.pac__puntos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+.pac__punto {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.pac__punto.is-active {
+  border-color: var(--bellium-2);
+  background: rgba(90, 63, 134, 0.08);
+}
+.pac__punto.is-done .pac__num {
+  background: var(--green-2);
+  color: var(--paper);
+  border-color: var(--green-2);
+}
+.pac__num {
+  display: inline-block;
+  min-width: 1.6em;
+  text-align: center;
+  font-family: var(--font-mono);
+  border: 1px solid var(--line);
+  margin-right: 6px;
+  font-size: 0.85em;
+}
+.pac__bloque {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.pac__clausulas h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0 0 10px;
+  font-size: 1.2em;
+}
+.pac__lista {
+  display: grid;
+  gap: 8px;
+}
+.pac__clausula {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.pac__clausula.is-active {
+  border-color: var(--gold-1);
+  background: rgba(226, 185, 74, 0.1);
+}
+.pac__clausula.is-nula {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+.pac__elegir {
+  text-align: left;
+  font: inherit;
+  background: transparent;
+  border: 0;
+  padding: 10px 12px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.pac__elegir:disabled {
+  cursor: not-allowed;
+}
+.pac__asterisco {
+  color: #a33;
+  font-weight: 700;
+  margin-left: 4px;
+}
+.pac__nula,
+.pac__valida {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  margin-right: 8px;
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 2px 6px;
+  cursor: pointer;
+  color: var(--ink-3);
+}
+.pac__valida {
+  border-color: var(--green-2);
+  color: var(--green-1);
+}
+.pac__pistanula {
+  grid-column: 1 / -1;
+  font-size: 0.8em;
+  color: var(--muted);
+  padding: 0 12px 8px;
+}
+.pac__aviso {
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border-left: 2px solid var(--ink-3);
+}
+.pac__aviso--ok {
+  border-left-color: var(--green-2);
+  background: rgba(74, 138, 79, 0.1);
+}
+.pac__aviso--warn {
+  border-left-color: var(--gold-1);
+  background: rgba(226, 185, 74, 0.12);
+}
+.pac__foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px calc(10px + var(--safe-bottom));
+  border-top: 1px solid var(--line);
+  background: var(--paper-2);
+}
+.acta {
+  white-space: pre-wrap;
+  font-family: var(--font-display);
+  font-size: 1.02em;
+  line-height: 1.5;
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 18px 22px;
+  margin: 0;
+  max-width: 70ch;
+}
+.pac__resultado {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px 24px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.pac__equilibrio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid var(--gold-1);
+  padding: 8px 16px;
+}
+.pac__eq-num {
+  font-family: var(--font-display);
+  font-size: 2.2em;
+  font-weight: 600;
+  line-height: 1;
+}
+.pac__eq-label {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pac__desglose {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 2px 12px;
+  margin: 0;
+  font-size: 0.9em;
+}
+.pac__desglose dt {
+  color: var(--muted);
+}
+.pac__desglose dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.pac__impugnacion {
+  grid-column: 1 / -1;
+  border-left: 2px solid #a33;
+  background: rgba(170, 51, 51, 0.08);
+  padding: 8px 12px;
+}
+@media (max-width: 700px) {
+  .pac__head,
+  .pac__main {
+    grid-template-columns: 1fr;
+  }
+}

@@ -7,6 +7,7 @@ import { Gamepad } from './Gamepad';
 import { DialogueHost } from './DialogueBox';
 import { PanelBar, PanelHost } from './Panels';
 import { AudienciaHost } from './AudienciaView';
+import { PactoHost } from './PactoView';
 import { anyModalOpen, ui } from './store';
 
 /**
@@ -66,6 +67,7 @@ export function App({ session }: { session: Session }) {
       <DialogueHost session={session} />
       <PanelHost session={session} />
       <AudienciaHost session={session} />
+      <PactoHost session={session} />
       {toast && (
         <div class={`ui-toast ui-toast--${toast.kind}`} role="status" aria-live="polite">
           {toast.text}
