@@ -76,7 +76,11 @@ export class WorldScene extends Phaser.Scene {
 
   create(): void {
     const d = this.cfg;
-    bakeAll(this, ['renata', 'alguacil', ...d.characters, ...d.party]);
+    bakeAll(
+      this,
+      ['renata', 'alguacil', ...d.characters, ...d.party],
+      [d.map.tilesets[0]?.name ?? 'provisional'],
+    );
     this.cameras.main.setBackgroundColor(PALETTE.ceniza[0]);
     this.cameras.main.roundPixels = true;
 
@@ -288,9 +292,9 @@ export class WorldScene extends Phaser.Scene {
   /** Clave de textura del tileset: real si existe, provisional si no. */
   private tilesKey(name: string, state: MapState): string {
     const real = `tiles-${name}-${state}`;
-    if (this.textures.exists(real)) return real;
+    if (this.textures.exists(real)) return real; // real o provisional de la región
     const realCeniza = `tiles-${name}-ceniza`;
-    if (this.textures.exists(realCeniza)) return realCeniza; // hay arte real pero falta este estado
+    if (this.textures.exists(realCeniza)) return realCeniza;
     return `tiles-provisional-${state}`;
   }
 

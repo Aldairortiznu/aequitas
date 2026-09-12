@@ -114,7 +114,7 @@ export class PreloadScene extends Phaser.Scene {
       if (this.textures.exists(`icon-${icon}`)) markReal(`icon-${icon}`);
 
     // Todo lo que falte se hornea (las claves ya existentes se respetan).
-    bakeAll(this, this.cfg.sprites);
+    bakeAll(this, this.cfg.sprites, this.cfg.tilesets);
     this.scene.start(this.cfg.next, this.cfg.nextData);
   }
 }

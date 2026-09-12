@@ -1,5 +1,5 @@
 import type Phaser from 'phaser';
-import type { MapState } from '../../core/content/schema';
+import { bakeAllTilesets } from './tilesetProvisional';
 
 /**
  * Arte provisional horneado por código (decisión D4). Paleta definitiva, formas simples.
@@ -53,213 +53,7 @@ function hash(x: number, y: number, seed = 0): number {
   return ((h ^ (h >>> 16)) >>> 0) / 4294967295;
 }
 
-// ---------------------------------------------------------------------------
-// Tileset (16 tiles, 4 columnas). Índices según scripts/gen-gym-map.ts (GID = índice + 1).
-// ---------------------------------------------------------------------------
-
-interface StatePalette {
-  hierba: [string, string, string];
-  flores: boolean;
-  canalAgua: boolean;
-  arbusto: [string, string];
-  grieta: boolean;
-}
-
-const STATE_PALETTE: Record<MapState, StatePalette> = {
-  ceniza: {
-    hierba: [P.ceniza2, P.ceniza3, P.tierra0],
-    flores: false,
-    canalAgua: false,
-    arbusto: [P.ceniza3, P.ceniza2],
-    grieta: true,
-  },
-  brote: {
-    hierba: [P.ceniza2, P.verde0, P.tierra0],
-    flores: false,
-    canalAgua: false,
-    arbusto: [P.verde0, P.ceniza2],
-    grieta: true,
-  },
-  verdor: {
-    hierba: [P.verde0, P.verde1, P.tierra1],
-    flores: false,
-    canalAgua: true,
-    arbusto: [P.verde1, P.verde0],
-    grieta: false,
-  },
-  floracion: {
-    hierba: [P.verde1, P.verde2, P.tierra1],
-    flores: true,
-    canalAgua: true,
-    arbusto: [P.verde2, P.verde1],
-    grieta: false,
-  },
-};
-
-function drawTile(
-  ctx: Ctx,
-  index: number,
-  ox: number,
-  oy: number,
-  sp: StatePalette,
-  state: MapState,
-): void {
-  const t = (x: number, y: number, c: string, w = 1, h = 1): void =>
-    px(ctx, ox + x, oy + y, c, w, h);
-  const noise = (x: number, y: number): number => hash(x + ox, y + oy, index);
-  switch (index) {
-    case 0: // hierba
-      t(0, 0, sp.hierba[0], 16, 16);
-      for (let y = 0; y < 16; y++)
-        for (let x = 0; x < 16; x++) if (noise(x, y) > 0.72) t(x, y, sp.hierba[1]);
-      for (let y = 0; y < 16; y++)
-        for (let x = 0; x < 16; x++) if (noise(x + 7, y + 3) > 0.93) t(x, y, sp.hierba[2]);
-      if (sp.flores) {
-        t(3, 4, P.oro1);
-        t(11, 10, P.oro1);
-        t(12, 3, P.papel);
-      }
-      break;
-    case 1: // camino
-      t(0, 0, P.tierra1, 16, 16);
-      for (let y = 0; y < 16; y++)
-        for (let x = 0; x < 16; x++) if (noise(x, y) > 0.8) t(x, y, P.tierra2);
-      for (let y = 0; y < 16; y++)
-        for (let x = 0; x < 16; x++) if (noise(x + 3, y + 9) > 0.9) t(x, y, P.tierra0);
-      break;
-    case 2: // agua
-      t(0, 0, P.agua0, 16, 16);
-      for (let y = 0; y < 16; y += 4) t(((y / 4) * 3) % 16, y + 1, P.agua1, 5, 1);
-      t(9, 6, P.agua2, 3, 1);
-      t(2, 13, P.agua2, 2, 1);
-      break;
-    case 3: // muro
-      t(0, 0, P.ceniza1, 16, 16);
-      for (let row = 0; row < 4; row++) {
-        const off = row % 2 === 0 ? 0 : 4;
-        for (let col = -1; col < 3; col++) {
-          const x = col * 8 + off;
-          t(Math.max(0, x + 1), row * 4 + 1, P.ceniza3, Math.min(6, 16 - Math.max(0, x + 1)), 2);
-        }
-      }
-      t(0, 0, P.ceniza0, 16, 1);
-      break;
-    case 4: // arbusto (sobre hierba)
-      t(0, 0, sp.hierba[0], 16, 16);
-      t(3, 4, sp.arbusto[1], 10, 10);
-      t(4, 3, sp.arbusto[0], 8, 10);
-      t(2, 6, sp.arbusto[0], 12, 6);
-      t(5, 4, sp.arbusto[1], 3, 2);
-      t(6, 13, P.tierra0, 4, 1);
-      break;
-    case 5: // piso interior
-      t(0, 0, P.papel2, 16, 16);
-      t(0, 0, P.linea, 16, 1);
-      t(0, 0, P.linea, 1, 16);
-      t(8, 0, P.linea, 1, 16);
-      t(0, 8, P.linea, 16, 1);
-      break;
-    case 6: // mesa
-      t(0, 0, P.papel2, 16, 16);
-      t(1, 3, P.tierra0, 14, 8);
-      t(2, 2, P.tierra1, 12, 8);
-      t(2, 11, P.tierra0, 2, 4);
-      t(12, 11, P.tierra0, 2, 4);
-      t(5, 4, P.papel, 6, 4);
-      break;
-    case 7: // atril
-      t(0, 0, sp.hierba[0], 16, 16);
-      t(7, 6, P.tierra0, 2, 9);
-      t(4, 14, P.tierra0, 8, 1);
-      t(3, 3, P.tierra1, 10, 4);
-      t(4, 2, P.papel, 8, 4);
-      t(5, 3, P.linea, 6, 1);
-      t(5, 5, P.linea, 6, 1);
-      break;
-    case 8: // puerta
-      t(0, 0, P.ceniza1, 16, 16);
-      t(3, 0, P.tierra0, 10, 16);
-      t(4, 1, P.tierra1, 8, 15);
-      t(10, 8, P.oro1, 1, 2);
-      break;
-    case 9: // hierba con flores (siempre)
-      t(0, 0, sp.hierba[1], 16, 16);
-      for (let y = 0; y < 16; y++)
-        for (let x = 0; x < 16; x++) if (noise(x, y) > 0.75) t(x, y, sp.hierba[0]);
-      t(2, 3, P.oro1);
-      t(3, 3, P.oro1);
-      t(10, 9, P.oro1);
-      t(11, 9, P.oro1);
-      t(6, 12, P.papel);
-      t(13, 4, P.papel);
-      break;
-    case 10: // canal (seco o con agua según estado)
-      t(0, 0, sp.hierba[0], 16, 16);
-      t(0, 0, P.tierra0, 16, 16);
-      if (sp.canalAgua) {
-        t(2, 0, P.agua0, 12, 16);
-        t(4, 3, P.agua1, 6, 1);
-        t(6, 10, P.agua1, 6, 1);
-      } else {
-        t(2, 0, P.ceniza2, 12, 16);
-        for (let y = 0; y < 16; y++)
-          for (let x = 2; x < 14; x++) if (noise(x, y) > 0.85) t(x, y, P.ceniza3);
-        t(6, 2, P.ceniza1, 1, 5);
-        t(9, 8, P.ceniza1, 1, 6);
-      }
-      break;
-    case 11: // canal con agua (siempre)
-      t(0, 0, P.tierra0, 16, 16);
-      t(2, 0, P.agua0, 12, 16);
-      t(4, 3, P.agua1, 6, 1);
-      t(6, 10, P.agua1, 6, 1);
-      break;
-    case 12: // estante
-      t(0, 0, P.papel2, 16, 16);
-      t(1, 1, P.tierra0, 14, 14);
-      t(2, 2, P.tierra1, 12, 12);
-      for (let i = 0; i < 5; i++) t(3 + i * 2, 3, i % 2 ? P.bellium1 : P.verde0, 1, 4);
-      for (let i = 0; i < 5; i++) t(3 + i * 2, 9, i % 3 ? P.oro0 : P.agua0, 1, 4);
-      break;
-    case 13: // grieta (sobre hierba); en verdor desaparece
-      t(0, 0, sp.hierba[0], 16, 16);
-      if (sp.grieta) {
-        t(2, 3, P.ceniza0, 3, 1);
-        t(5, 4, P.ceniza0, 4, 1);
-        t(9, 5, P.ceniza0, 2, 1);
-        t(11, 6, P.ceniza0, 3, 1);
-        t(7, 8, P.ceniza0, 1, 3);
-      } else {
-        for (let y = 0; y < 16; y++)
-          for (let x = 0; x < 16; x++) if (noise(x, y) > 0.72) t(x, y, sp.hierba[1]);
-      }
-      break;
-    case 14: // brote (sobre tierra)
-      t(0, 0, P.tierra1, 16, 16);
-      t(7, 9, P.verde1, 2, 5);
-      t(5, 8, P.verde2, 2, 2);
-      t(9, 7, P.verde2, 2, 2);
-      break;
-    default: // 15 vacío
-      t(0, 0, state === 'ceniza' ? P.ceniza0 : P.ceniza1, 16, 16);
-      break;
-  }
-}
-
-export function bakeTilesets(scene: Phaser.Scene): void {
-  const states: MapState[] = ['ceniza', 'brote', 'verdor', 'floracion'];
-  for (const state of states) {
-    const key = `tiles-provisional-${state}`;
-    if (scene.textures.exists(key)) continue;
-    const tex = scene.textures.createCanvas(key, 64, 64);
-    if (!tex) continue;
-    const ctx = tex.getContext();
-    for (let i = 0; i < 16; i++) {
-      drawTile(ctx, i, (i % 4) * 16, Math.floor(i / 4) * 16, STATE_PALETTE[state], state);
-    }
-    tex.refresh();
-  }
-}
+// Tilesets provisionales: ver tilesetProvisional.ts (64 celdas por región y estado).
 
 // ---------------------------------------------------------------------------
 // Personajes: 16x24, 4 direcciones × 4 cuadros (quieto, paso 1, quieto, paso 2).
@@ -595,8 +389,12 @@ export function bakeIcons(scene: Phaser.Scene): void {
   make('px', 1, 1, (c) => px(c, 0, 0, '#ffffff'));
 }
 
-export function bakeAll(scene: Phaser.Scene, characterIds: string[]): void {
-  bakeTilesets(scene);
+export function bakeAll(
+  scene: Phaser.Scene,
+  characterIds: string[],
+  regiones: string[] = [],
+): void {
+  bakeAllTilesets(scene, regiones);
   bakeIcons(scene);
   for (const id of characterIds) bakeCharacter(scene, id);
 }

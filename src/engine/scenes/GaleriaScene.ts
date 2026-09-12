@@ -68,9 +68,9 @@ export class GaleriaScene extends Phaser.Scene {
     const m = getManifest();
     const names = ['provisional', ...this.cfg.tilesets.filter((t) => t !== 'provisional')];
     for (const name of names) {
-      const anyReal =
-        name !== 'provisional' && ESTADOS.some((e) => this.textures.exists(`tiles-${name}-${e}`));
-      if (name !== 'provisional' && !anyReal) continue;
+      const anyTexture = ESTADOS.some((e) => this.textures.exists(`tiles-${name}-${e}`));
+      if (!anyTexture) continue;
+      const anyReal = ESTADOS.some((e) => isReal(`tiles-${name}-${e}`));
       label(8, y, name, anyReal ? CSS.gold : CSS.muted, '7px');
       let maxH = 0;
       ESTADOS.forEach((estado, k) => {
