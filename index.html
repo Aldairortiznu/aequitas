@@ -2,33 +2,314 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>AEQUITAS: El Retorno del Equilibrio — Bellium S.A.S.</title>
     <style>
+      :root {
+        --purple-deep: #0e0414;
+        --purple-panel: #1b0726;
+        --gold-bellium: #e3940b;
+        --gold-light: #ffd875;
+        --emerald-bellium: #10b981;
+      }
+      * {
+        box-sizing: border-box;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
       html, body {
         margin: 0;
         padding: 0;
+        width: 100%;
         height: 100%;
-        background: #0e0414;
+        background: radial-gradient(circle at center, #1b0726 0%, #0c0312 100%);
         overflow: hidden;
-        font-family: 'Cinzel', Georgia, system-ui, sans-serif;
+        font-family: 'Cinzel', Georgia, serif;
+        color: #f4ecdc;
       }
-      #game {
+      #app-container {
+        display: flex;
+        flex-direction: column;
         width: 100vw;
         height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+      }
+      /* Banner superior en móvil */
+      #top-bar {
+        display: none;
+        height: 38px;
+        background: linear-gradient(90deg, #1b0726, #2d0b3f, #1b0726);
+        border-bottom: 1px solid rgba(227, 148, 11, 0.4);
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 12px;
+        font-size: 11px;
+        z-index: 100;
+      }
+      .brand-title {
+        color: var(--gold-light);
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+      .rotate-hint {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(227, 148, 11, 0.15);
+        border: 1px solid rgba(227, 148, 11, 0.5);
+        border-radius: 12px;
+        padding: 3px 8px;
+        color: #ffd875;
+        font-size: 9px;
+        animation: pulseHint 2s infinite ease-in-out;
+      }
+      @keyframes pulseHint {
+        0%, 100% { opacity: 0.85; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.03); }
+      }
+      #game-wrapper {
+        flex: 1;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      #game {
+        width: 100%;
+        height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      /* Mantener el pixel art nítido al escalar */
       canvas {
         image-rendering: pixelated;
         image-rendering: crisp-edges;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.75);
+      }
+      /* Mando táctil en retrato (Vertical) */
+      #mobile-gamepad {
+        display: none;
+        height: 220px;
+        background: linear-gradient(180deg, #13051c 0%, #08020c 100%);
+        border-top: 2px solid rgba(227, 148, 11, 0.6);
+        box-shadow: 0 -4px 16px rgba(0,0,0,0.6);
+        padding: 10px 16px;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+      }
+      /* D-pad estilo cruz */
+      .dpad-container {
+        width: 126px;
+        height: 126px;
+        position: relative;
+      }
+      .dpad-btn {
+        position: absolute;
+        width: 42px;
+        height: 42px;
+        background: rgba(55, 18, 78, 0.9);
+        border: 1.5px solid var(--gold-bellium);
+        border-radius: 8px;
+        color: var(--gold-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        touch-action: none;
+        cursor: pointer;
+      }
+      .dpad-btn:active, .dpad-btn.pressed {
+        background: var(--gold-bellium);
+        color: #1a0529;
+      }
+      .dpad-up    { top: 0; left: 42px; }
+      .dpad-down  { bottom: 0; left: 42px; }
+      .dpad-left  { top: 42px; left: 0; }
+      .dpad-right { top: 42px; right: 0; }
+      .dpad-center {
+        position: absolute;
+        top: 42px;
+        left: 42px;
+        width: 42px;
+        height: 42px;
+        background: rgba(30, 8, 45, 0.6);
+        border-radius: 4px;
+      }
+      /* Action buttons cluster */
+      .actions-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+      }
+      .actions-row {
+        display: flex;
+        gap: 8px;
+      }
+      .act-btn {
+        min-width: 66px;
+        height: 44px;
+        padding: 0 8px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(66, 0, 96, 0.95), rgba(30, 8, 45, 0.95));
+        border: 1.5px solid var(--gold-bellium);
+        color: #fef1d6;
+        font-family: 'Cinzel', Georgia, serif;
+        font-size: 10.5px;
+        font-weight: bold;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        touch-action: none;
+        cursor: pointer;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+      }
+      .act-btn span {
+        font-size: 7.5px;
+        color: var(--gold-light);
+        opacity: 0.9;
+      }
+      .act-btn:active, .act-btn.pressed {
+        background: var(--gold-bellium);
+        color: #1a0529;
+        transform: translateY(2px);
+      }
+      .act-btn-main {
+        min-width: 86px;
+        height: 46px;
+        background: linear-gradient(135deg, #e3940b, #b86e04);
+        color: #180324;
+        border: 1.5px solid #ffd875;
+      }
+      .act-btn-main span {
+        color: #2b0b3e;
+      }
+      /* Media queries para móviles en retrato */
+      @media (max-width: 768px) and (orientation: portrait) {
+        #top-bar { display: flex; }
+        #mobile-gamepad { display: flex; }
+        #game-wrapper {
+          max-height: calc(100vh - 258px);
+          max-height: calc(100dvh - 258px);
+        }
+      }
+      /* Media queries para móviles en apaisado (landscape) */
+      @media (max-height: 520px) and (orientation: landscape) {
+        #top-bar { display: none; }
+        #mobile-gamepad {
+          display: flex;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          height: 100dvh;
+          background: transparent;
+          border: none;
+          box-shadow: none;
+          pointer-events: none;
+          padding: 12px;
+        }
+        .dpad-container, .actions-container {
+          pointer-events: auto;
+          opacity: 0.65;
+        }
+        .dpad-container:hover, .actions-container:hover,
+        .dpad-container:active, .actions-container:active {
+          opacity: 0.95;
+        }
       }
     </style>
   </head>
   <body>
-    <div id="game"></div>
+    <div id="app-container">
+      <div id="top-bar">
+        <span class="brand-title">⚖️ AEQUITAS · Bellium S.A.S.</span>
+        <span class="rotate-hint">🔄 Gira la pantalla para modo cinemático</span>
+      </div>
+
+      <div id="game-wrapper">
+        <div id="game"></div>
+      </div>
+
+      <!-- Mando táctil ergonómico para celulares -->
+      <div id="mobile-gamepad">
+        <div class="dpad-container">
+          <div class="dpad-center"></div>
+          <button class="dpad-btn dpad-up" data-dir="up">▲</button>
+          <button class="dpad-btn dpad-left" data-dir="left">◀</button>
+          <button class="dpad-btn dpad-down" data-dir="down">▼</button>
+          <button class="dpad-btn dpad-right" data-dir="right">▶</button>
+        </div>
+
+        <div class="actions-container">
+          <div class="actions-row">
+            <button class="act-btn" data-act="dignidad">🛡️ V<span>DIGNIDAD</span></button>
+            <button class="act-btn" data-act="legalidad">📜 B<span>LEGALIDAD</span></button>
+            <button class="act-btn" data-act="diary">📖 I<span>CÓDICE</span></button>
+          </div>
+          <div class="actions-row">
+            <button class="act-btn" data-act="interact">💬 E<span>HABLAR / CASO</span></button>
+            <button class="act-btn act-btn-main" data-act="attack">⚡ ALEGATO<span>ESPACIO</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lógica de control táctil -->
+    <script>
+      window.__touchInput = { up: false, down: false, left: false, right: false };
+
+      // Configurar botones del D-Pad
+      document.querySelectorAll('.dpad-btn').forEach(btn => {
+        const dir = btn.dataset.dir;
+        const setDir = (val) => {
+          window.__touchInput[dir] = val;
+          btn.classList.toggle('pressed', val);
+          const keyMap = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
+          window.dispatchEvent(new KeyboardEvent(val ? 'keydown' : 'keyup', { key: keyMap[dir], code: keyMap[dir], bubbles: true }));
+        };
+
+        btn.addEventListener('touchstart', (e) => { e.preventDefault(); setDir(true); }, { passive: false });
+        btn.addEventListener('touchend', (e) => { e.preventDefault(); setDir(false); }, { passive: false });
+        btn.addEventListener('touchcancel', (e) => { e.preventDefault(); setDir(false); }, { passive: false });
+        btn.addEventListener('mousedown', () => setDir(true));
+        btn.addEventListener('mouseup', () => setDir(false));
+        btn.addEventListener('mouseleave', () => setDir(false));
+      });
+
+      // Configurar botones de acción
+      document.querySelectorAll('.act-btn').forEach(btn => {
+        const act = btn.dataset.act;
+        const keyMap = {
+          attack: { code: 'Space', key: ' ' },
+          interact: { code: 'KeyE', key: 'e' },
+          dignidad: { code: 'KeyV', key: 'v' },
+          legalidad: { code: 'KeyB', key: 'b' },
+          diary: { code: 'KeyI', key: 'i' },
+        };
+
+        const triggerAct = () => {
+          btn.classList.add('pressed');
+          setTimeout(() => btn.classList.remove('pressed'), 140);
+          window.dispatchEvent(new CustomEvent('aequitas-action', { detail: act }));
+          if (keyMap[act]) {
+            window.dispatchEvent(new KeyboardEvent('keydown', { key: keyMap[act].key, code: keyMap[act].code, bubbles: true }));
+          }
+        };
+
+        btn.addEventListener('touchstart', (e) => { e.preventDefault(); triggerAct(); }, { passive: false });
+        btn.addEventListener('mousedown', (e) => { e.preventDefault(); triggerAct(); });
+      });
+    </script>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

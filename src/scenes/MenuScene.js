@@ -1,9 +1,11 @@
 // Pantalla de título de AEQUITAS: El Retorno del Equilibrio.
-// Bellium S.A.S. · Publicación Editorial Al Resuelve (Cartagena de Indias, Colombia).
+// Bellium S.A.S. · Al Resuelve (Cartagena de Indias, Colombia).
+// Ilustración botánica de fondo, selección de 4 exploradores y acceso al prólogo cinemático.
 
 import Phaser from 'phaser';
 import { GAME, COLORS, EXPLORERS } from '../config.js';
-import { hasSave, newSave, loadSave } from '../systems/save.js';
+import { hasSave, loadSave, newSave } from '../systems/save.js';
+import { sound } from '../systems/audio.js';
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
@@ -13,38 +15,40 @@ export default class MenuScene extends Phaser.Scene {
   create() {
     const { WIDTH, HEIGHT } = GAME;
 
-    // Fondo degradado crepuscular Bellium (púrpura a negro)
+    // Fondo botánico de la Biblioteca con viñeta nocturna púrpura
     this.drawBackground();
 
-    // Hojas y margaritas doradas flotando
+    // Hojas y motas doradas de Bellium cayendo
     this.spawnLeaves();
 
-    // Título Principal
+    // Cabecera institucional
+    const titleY = 32;
     this.add
-      .text(WIDTH / 2, 38, 'AEQUITAS', {
+      .text(WIDTH / 2, titleY, GAME.TITLE, {
         fontFamily: 'Georgia, serif',
-        fontSize: '38px',
+        fontSize: '28px',
+        fontStyle: 'bold',
         color: COLORS.goldLight,
-        stroke: '#000000',
-        strokeThickness: 4,
+        stroke: '#1a0529',
+        strokeThickness: 5,
+        shadow: { offsetX: 0, offsetY: 2, color: '#000000', blur: 6, stroke: true, fill: true },
       })
       .setOrigin(0.5);
 
-    // Subtítulo
     this.add
-      .text(WIDTH / 2, 64, '· EL RETORNO DEL EQUILIBRIO ·', {
+      .text(WIDTH / 2, titleY + 22, `· ${GAME.SUBTITLE.toUpperCase()} ·`, {
         fontFamily: 'Georgia, serif',
-        fontSize: '11px',
-        color: COLORS.purpleLight,
+        fontSize: '9px',
+        color: '#f6d892',
         letterSpacing: 2,
       })
       .setOrigin(0.5);
 
     this.add
-      .text(WIDTH / 2, 79, 'Bellium S.A.S. · Al Resuelve (Cartagena de Indias)', {
-        fontFamily: 'monospace',
+      .text(WIDTH / 2, titleY + 36, GAME.ORGANIZATION, {
+        fontFamily: 'sans-serif',
         fontSize: '8px',
-        color: '#ffd875',
+        color: '#c9a7eb',
       })
       .setOrigin(0.5);
 
@@ -56,20 +60,27 @@ export default class MenuScene extends Phaser.Scene {
 
     // Pie de controles
     this.add
-      .text(WIDTH / 2, HEIGHT - 10, '← →: Elegir Explorador  ·  ↑ ↓: Opciones  ·  Enter: Confirmar', {
+      .text(WIDTH / 2, HEIGHT - 8, '← →: Elegir Explorador  ·  ↑ ↓: Opciones  ·  Enter / Tocar: Confirmar', {
         fontFamily: 'monospace',
-        fontSize: '8px',
-        color: '#a795b8',
+        fontSize: '7.5px',
+        color: '#c9a7eb',
       })
       .setOrigin(0.5);
   }
 
   drawBackground() {
     const { WIDTH, HEIGHT } = GAME;
+    if (this.textures.exists('menu_bg')) {
+      this.add.image(WIDTH / 2, HEIGHT / 2, 'menu_bg')
+        .setOrigin(0.5)
+        .setDisplaySize(WIDTH, HEIGHT)
+        .setAlpha(0.65);
+    }
+
     const g = this.add.graphics();
     const top = Phaser.Display.Color.HexStringToColor(COLORS.purpleBellium).color;
     const bottom = Phaser.Display.Color.HexStringToColor(COLORS.bgDeep).color;
-    g.fillGradientStyle(top, top, bottom, bottom, 1);
+    g.fillGradientStyle(top, top, bottom, bottom, 0.72, 0.72, 0.94, 0.94);
     g.fillRect(0, 0, WIDTH, HEIGHT);
   }
 
@@ -79,8 +90,8 @@ export default class MenuScene extends Phaser.Scene {
     for (let i = 0; i < 20; i++) {
       const leaf = this.add
         .image(Phaser.Math.Between(0, WIDTH), Phaser.Math.Between(0, HEIGHT), 'leaf')
-        .setAlpha(Phaser.Math.FloatBetween(0.3, 0.8))
-        .setScale(Phaser.Math.FloatBetween(0.6, 1.2));
+        .setAlpha(Phaser.Math.FloatBetween(0.35, 0.85))
+        .setScale(Phaser.Math.FloatBetween(0.7, 1.3));
       leaf.speedY = Phaser.Math.FloatBetween(0.2, 0.6);
       leaf.swing = Phaser.Math.FloatBetween(0.5, 1.5);
       leaf.phase = Phaser.Math.FloatBetween(0, Math.PI * 2);
@@ -94,7 +105,7 @@ export default class MenuScene extends Phaser.Scene {
     this.selectedExplorerIdx = 0;
 
     this.add
-      .text(WIDTH / 2, 98, 'ELIGE A TU EXPLORADOR DE LA BIBLIOTECA:', {
+      .text(WIDTH / 2, 84, 'ELIGE A TU EXPLORADOR DE LA BIBLIOTECA:', {
         fontFamily: 'monospace',
         fontSize: '8px',
         color: COLORS.gold,
@@ -103,7 +114,7 @@ export default class MenuScene extends Phaser.Scene {
 
     const startX = WIDTH / 2 - 120;
     const gap = 80;
-    const yPos = 142;
+    const yPos = 126;
 
     this.explorerSprites = [];
     this.explorerLabels = [];
@@ -115,64 +126,72 @@ export default class MenuScene extends Phaser.Scene {
 
       const spr = this.add
         .image(x, yPos, exp.sprite)
-        .setScale(1.8)
+        .setScale(1.7)
         .setOrigin(0.5, 1)
         .setInteractive({ useHandCursor: true });
 
       spr.on('pointerdown', () => {
+        sound.playMenuNav();
         this.selectedExplorerIdx = idx;
         this.updateExplorerHighlights();
       });
 
-      // Animación suave de respiración
       this.tweens.add({
         targets: spr,
         y: yPos - 3,
-        duration: 1100,
+        duration: 1200 + idx * 200,
         yoyo: true,
         repeat: -1,
-        ease: 'Sine.inOut',
-        delay: idx * 250,
+        ease: 'Sine.easeInOut',
       });
 
-      const lbl = this.add
-        .text(x, yPos + 6, exp.name, {
+      const label = this.add
+        .text(x, yPos + 3, exp.name, {
           fontFamily: 'Georgia, serif',
-          fontSize: '10px',
-          color: COLORS.cream,
+          fontSize: '9px',
+          color: idx === 0 ? COLORS.goldLight : '#a795b8',
         })
-        .setOrigin(0.5, 0);
+        .setOrigin(0.5, 0)
+        .setInteractive({ useHandCursor: true });
+
+      label.on('pointerdown', () => {
+        sound.playMenuNav();
+        this.selectedExplorerIdx = idx;
+        this.updateExplorerHighlights();
+      });
 
       this.explorerSprites.push(spr);
-      this.explorerLabels.push(lbl);
+      this.explorerLabels.push(label);
     });
 
-    // Ficha descriptiva del explorador activo
+    // Ficha informativa dinámica
     this.infoTitle = this.add
-      .text(WIDTH / 2, 168, '', {
+      .text(WIDTH / 2, 142, '', {
         fontFamily: 'Georgia, serif',
         fontSize: '10px',
-        color: COLORS.goldLight,
         fontStyle: 'bold',
+        color: COLORS.goldLight,
       })
       .setOrigin(0.5);
 
     this.infoSpecialty = this.add
-      .text(WIDTH / 2, 181, '', {
-        fontFamily: 'monospace',
+      .text(WIDTH / 2, 154, '', {
+        fontFamily: 'sans-serif',
         fontSize: '8px',
-        color: '#c9a7eb',
+        color: COLORS.cream,
       })
       .setOrigin(0.5);
 
     this.updateExplorerHighlights();
 
-    // Controles horizontales para explorador
     this.input.keyboard.on('keydown-LEFT', () => {
+      sound.playMenuNav();
       this.selectedExplorerIdx = Phaser.Math.Wrap(this.selectedExplorerIdx - 1, 0, this.explorerKeys.length);
       this.updateExplorerHighlights();
     });
+
     this.input.keyboard.on('keydown-RIGHT', () => {
+      sound.playMenuNav();
       this.selectedExplorerIdx = Phaser.Math.Wrap(this.selectedExplorerIdx + 1, 0, this.explorerKeys.length);
       this.updateExplorerHighlights();
     });
@@ -185,18 +204,17 @@ export default class MenuScene extends Phaser.Scene {
     this.explorerSprites.forEach((spr, i) => {
       const active = i === this.selectedExplorerIdx;
       spr.setAlpha(active ? 1 : 0.6);
-      spr.setScale(active ? 2.1 : 1.7);
+      spr.setScale(active ? 2.0 : 1.6);
       this.explorerLabels[i].setColor(active ? COLORS.goldLight : '#a795b8');
     });
 
     this.infoTitle.setText(`« ${exp.name} — ${exp.title} »`);
     this.infoSpecialty.setText(`Especialidad: ${exp.specialty}`);
 
-    // Dibujar marco dorado
     this.highlightBox.clear();
     const activeSpr = this.explorerSprites[this.selectedExplorerIdx];
-    this.highlightBox.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.gold).color, 0.8);
-    this.highlightBox.strokeRoundedRect(activeSpr.x - 22, activeSpr.y - 40, 44, 46, 6);
+    this.highlightBox.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.gold).color, 0.85);
+    this.highlightBox.strokeRoundedRect(activeSpr.x - 20, activeSpr.y - 38, 40, 42, 6);
   }
 
   buildMenu() {
@@ -208,18 +226,26 @@ export default class MenuScene extends Phaser.Scene {
       this.options.push({ label: 'Continuar Expedición', action: () => this.startGame(false) });
     }
     this.options.push({ label: 'Nueva Partida', action: () => this.startGame(true) });
+    this.options.push({ label: 'Ver Prólogo Cinemático', action: () => this.playIntro() });
     this.options.push({ label: 'Códice de la Ley', action: () => this.scene.launch('Diary', { returnScene: 'Menu' }) });
 
     this.selected = 0;
+    const menuStartY = 175;
+    const itemGap = 15;
+
     this.optionTexts = this.options.map((opt, i) =>
       this.add
-        .text(WIDTH / 2, 204 + i * 16, opt.label, {
+        .text(WIDTH / 2, menuStartY + i * itemGap, opt.label, {
           fontFamily: 'Georgia, serif',
-          fontSize: '12px',
+          fontSize: '11px',
           color: COLORS.cream,
         })
         .setOrigin(0.5)
         .setInteractive({ useHandCursor: true })
+        .on('pointerover', () => {
+          this.selected = i;
+          this.refreshMenu();
+        })
         .on('pointerdown', () => {
           this.selected = i;
           this.confirm();
@@ -234,6 +260,7 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   move(dir) {
+    sound.playMenuNav();
     this.selected = Phaser.Math.Wrap(this.selected + dir, 0, this.options.length);
     this.refreshMenu();
   }
@@ -241,14 +268,22 @@ export default class MenuScene extends Phaser.Scene {
   refreshMenu() {
     this.optionTexts.forEach((t, i) => {
       const active = i === this.selected;
-      t.setColor(active ? COLORS.gold : COLORS.cream);
+      t.setColor(active ? COLORS.goldLight : COLORS.cream);
       t.setText((active ? '✿  ' : '   ') + this.options[i].label);
-      t.setScale(active ? 1.08 : 1);
+      t.setScale(active ? 1.05 : 1);
     });
   }
 
   confirm() {
+    sound.playMenuSelect();
     this.options[this.selected].action();
+  }
+
+  playIntro() {
+    this.cameras.main.fade(400, 0, 0, 0);
+    this.time.delayedCall(400, () => {
+      this.scene.start('Intro');
+    });
   }
 
   startGame(isNew) {
@@ -260,7 +295,10 @@ export default class MenuScene extends Phaser.Scene {
       save = loadSave() || newSave(explorerKey);
       if (save) save.explorer = explorerKey;
     }
-    this.scene.start('World', { save });
+    this.cameras.main.fade(500, 14, 4, 20);
+    this.time.delayedCall(500, () => {
+      this.scene.start('World', { save });
+    });
   }
 
   update() {
@@ -268,10 +306,9 @@ export default class MenuScene extends Phaser.Scene {
     this.leaves.forEach((leaf) => {
       leaf.y -= leaf.speedY;
       leaf.phase += 0.02;
-      leaf.x += Math.sin(leaf.phase) * leaf.swing * 0.3;
-      leaf.angle += 0.5;
-      if (leaf.y < -8) {
-        leaf.y = HEIGHT + 8;
+      leaf.x += Math.sin(leaf.phase) * (leaf.swing * 0.4);
+      if (leaf.y < -10) {
+        leaf.y = HEIGHT + 10;
         leaf.x = Phaser.Math.Between(0, GAME.WIDTH);
       }
     });

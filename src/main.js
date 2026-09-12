@@ -2,6 +2,7 @@
 import Phaser from 'phaser';
 import { GAME, COLORS } from './config.js';
 import BootScene from './scenes/BootScene.js';
+import IntroScene from './scenes/IntroScene.js';
 import MenuScene from './scenes/MenuScene.js';
 import PlaceholderScene from './scenes/PlaceholderScene.js';
 import WorldScene from './scenes/WorldScene.js';
@@ -25,7 +26,7 @@ const config = {
     default: 'arcade',
     arcade: { gravity: { y: 0 }, debug: false },
   },
-  scene: [BootScene, MenuScene, PlaceholderScene, WorldScene, DialogueScene, DiaryScene, RiddleScene],
+  scene: [BootScene, IntroScene, MenuScene, PlaceholderScene, WorldScene, DialogueScene, DiaryScene, RiddleScene],
 };
 
 const game = new Phaser.Game(config);

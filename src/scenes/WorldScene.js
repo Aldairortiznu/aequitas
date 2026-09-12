@@ -10,6 +10,7 @@ import { WISDOM } from '../data/wisdom.js';
 import { getReino } from '../data/reinos.js';
 import { getBiome } from '../data/biomes.js';
 import { writeSave } from '../systems/save.js';
+import { sound } from '../systems/audio.js';
 
 const TILE = 16;
 const COLS = 50;
@@ -366,6 +367,7 @@ export default class WorldScene extends Phaser.Scene {
     if (now < this.nextAttack) return;
     this.nextAttack = now + 320;
     this.enemy.hitThisSwing = false;
+    sound.playAlegato();
 
     const off = 16;
     let dx = 0;
@@ -549,6 +551,20 @@ export default class WorldScene extends Phaser.Scene {
     this.input.keyboard.on('keydown-V', () => this.useDignidad());
     this.input.keyboard.on('keydown-B', () => this.useControlLegalidad());
     this.input.keyboard.on('keydown-I', () => this.openDiary());
+
+    // Soporte para mandos táctiles en celulares y tablets
+    this.mobileActionHandler = (e) => {
+      if (e.detail === 'attack') this.attack();
+      else if (e.detail === 'interact') this.tryInteract();
+      else if (e.detail === 'dignidad') this.useDignidad();
+      else if (e.detail === 'legalidad') this.useControlLegalidad();
+      else if (e.detail === 'diary') this.openDiary();
+      else if (e.detail === 'menu') this.scene.start('Menu');
+    };
+    window.addEventListener('aequitas-action', this.mobileActionHandler);
+    this.events.once('shutdown', () => {
+      window.removeEventListener('aequitas-action', this.mobileActionHandler);
+    });
   }
 
   tryInteract() {
@@ -651,10 +667,11 @@ export default class WorldScene extends Phaser.Scene {
       this.portalHint.setVisible(dP < 30);
     }
 
-    const left = this.cursors.left.isDown || this.keys.A.isDown;
-    const right = this.cursors.right.isDown || this.keys.D.isDown;
-    const up = this.cursors.up.isDown || this.keys.W.isDown;
-    const down = this.cursors.down.isDown || this.keys.S.isDown;
+    const touch = window.__touchInput || {};
+    const left = this.cursors.left.isDown || this.keys.A.isDown || touch.left;
+    const right = this.cursors.right.isDown || this.keys.D.isDown || touch.right;
+    const up = this.cursors.up.isDown || this.keys.W.isDown || touch.up;
+    const down = this.cursors.down.isDown || this.keys.S.isDown || touch.down;
 
     let vx = 0;
     let vy = 0;
@@ -799,6 +816,7 @@ export default class WorldScene extends Phaser.Scene {
     this.enemyBar.clear();
 
     this.enemy.setTint(0xffd875);
+    sound.playBloom();
     
     const flor = this.add.image(this.enemy.x, this.enemy.y + 4, 'bellium_flower').setScale(0.1).setDepth(this.enemy.y - 1);
     this.tweens.add({
