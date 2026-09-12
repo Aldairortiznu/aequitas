@@ -11,6 +11,7 @@ import { Session } from './app/session';
 import { installModals } from './app/modals';
 import { loadGlobalContent } from './app/contentLoader';
 import { getBus } from './core/bus';
+import { ui } from './ui/store';
 
 const params = new URLSearchParams(window.location.search);
 const escena = params.get('escena');
@@ -66,14 +67,8 @@ const onBoot = (): void => {
 };
 getBus().on('boot:ready', onBoot);
 
-getBus().on('title:start', () => {
-  void session.newGame('gym').catch((err: unknown) => {
-    console.error(err);
-    getBus().emit('ui:toast', {
-      text: 'No se pudo cargar el episodio. Revisa la consola.',
-      kind: 'warn',
-    });
-  });
+getBus().on('title:ready', () => {
+  ui.enTitulo.value = true;
 });
 
 // Acceso de lectura para depuración y pruebas de navegador (no expone nada que el

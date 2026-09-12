@@ -58,7 +58,7 @@ export class TitleScene extends Phaser.Scene {
       .setResolution(2);
 
     const prompt = this.add
-      .text(cx, 214, 'Pulsa Enter o toca la pantalla', {
+      .text(cx, 214, '', {
         fontFamily: FONTS.mono,
         fontSize: '9px',
         color: CSS.paper2,
@@ -84,18 +84,8 @@ export class TitleScene extends Phaser.Scene {
       ease: 'Sine.easeInOut',
     });
 
-    const start = (): void => {
-      if (this.started) return;
-      this.started = true;
-      this.cameras.main.flash(180, 0xf4, 0xdc, 0x8a);
-      getBus().emit('title:start');
-      this.time.delayedCall(400, () => {
-        this.started = false;
-      });
-    };
-
-    this.input.keyboard?.on('keydown-ENTER', start);
-    this.input.keyboard?.on('keydown-SPACE', start);
-    this.input.on('pointerdown', start);
+    this.started = false;
+    getBus().emit('title:ready');
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => prompt.destroy());
   }
 }

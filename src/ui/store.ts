@@ -33,7 +33,8 @@ export interface InterpelacionRequest {
   resolve: (r: 'interpelada' | 'detenida') => void;
 }
 
-export type Panel = 'zurron' | 'codice' | 'voces' | 'cuaderno' | 'mapa' | 'ajustes' | 'menu';
+export type Panel =
+  'zurron' | 'codice' | 'voces' | 'cuaderno' | 'mapa' | 'ajustes' | 'menu' | 'atril';
 
 export const ui = {
   dialogue: signal<DialogueRequest | null>(null),
@@ -44,6 +45,8 @@ export const ui = {
   panel: signal<Panel | null>(null),
   /** Contador que la sesión incrementa cuando el estado cambia (para re-renderizar). */
   tick: signal(0),
+  /** ¿Estamos en el menú de título? */
+  enTitulo: signal(false),
 };
 
 export function bump(): void {

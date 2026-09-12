@@ -8,11 +8,12 @@ await new Promise((r) => setTimeout(r, 2500));
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
 page.on('pageerror', (e) => console.log('pageerror', e.message));
-await page.goto('http://localhost:4181/');
+await page.goto('http://localhost:4181/?ep=gym');
 await page.waitForSelector('#game canvas');
 await page.waitForTimeout(1500);
-await page.keyboard.press('Enter');
-await page.waitForSelector('.hud', { timeout: 10000 });
+await page.getByRole('button', { name: 'Nueva partida' }).click();
+await page.getByRole('button', { name: 'Empezar' }).click();
+await page.waitForSelector('.hud', { timeout: 15000 });
 await page.evaluate(() =>
   window.__aequitas.session.bus.emit('world:interact', {
     kind: 'npc',

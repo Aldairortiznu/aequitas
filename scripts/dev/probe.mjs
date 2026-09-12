@@ -13,11 +13,12 @@ page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
 page.on('console', (m) => {
   if (m.type() === 'error' || m.type() === 'warning') errors.push(m.type() + ': ' + m.text());
 });
-await page.goto('http://localhost:4181/');
+await page.goto('http://localhost:4181/?ep=gym');
 await page.waitForSelector('#game canvas');
 await page.waitForTimeout(1500);
-await page.keyboard.press('Enter');
-await page.waitForSelector('.hud', { timeout: 10000 });
+await page.getByRole('button', { name: 'Nueva partida' }).click();
+await page.getByRole('button', { name: 'Empezar' }).click();
+await page.waitForSelector('.hud', { timeout: 15000 });
 await page.waitForTimeout(500);
 const r1 = await page.evaluate(async () => {
   const s = window.__aequitas.session;

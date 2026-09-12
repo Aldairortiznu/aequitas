@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { startNewGame } from './helpers';
 
 /** Diálogo (E2): opciones, Consulta correcta e incorrecta, efectos sobre el estado. */
 test('la conversación con Nepomuceno ramifica, evalúa la consulta y aplica efectos', async ({
@@ -6,10 +7,7 @@ test('la conversación con Nepomuceno ramifica, evalúa la consulta y aplica efe
 }) => {
   const errors: string[] = [];
   page.on('pageerror', (err) => errors.push(err.message));
-  await page.goto('/');
-  await expect(page.locator('#game canvas')).toBeVisible();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('.hud')).toBeVisible({ timeout: 10000 });
+  await startNewGame(page);
 
   await page.evaluate(() =>
     (

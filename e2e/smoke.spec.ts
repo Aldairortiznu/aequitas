@@ -13,9 +13,13 @@ test.describe('arranque', () => {
     await expect(page.locator('#game canvas')).toBeVisible();
     await expect(page.locator('.ui-version')).toContainText(/v\d+\.\d+\.\d+/);
 
-    // Confirmar en el título arranca el episodio de prueba y aparece el HUD.
-    await page.keyboard.press('Enter');
-    await expect(page.locator('.hud')).toBeVisible({ timeout: 10000 });
+    // El menú de título aparece sobre la escena; Nueva partida arranca el episodio y muestra el HUD.
+    await expect(page.getByRole('button', { name: 'Nueva partida' })).toBeVisible({
+      timeout: 10000,
+    });
+    await page.getByRole('button', { name: 'Nueva partida' }).click();
+    await page.getByRole('button', { name: 'Empezar' }).click();
+    await expect(page.locator('.hud')).toBeVisible({ timeout: 15000 });
 
     expect(errors, `errores de consola: ${errors.join(' | ')}`).toEqual([]);
   });

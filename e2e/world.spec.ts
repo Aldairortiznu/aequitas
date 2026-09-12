@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
+import { startNewGame } from './helpers';
 
 /**
  * Humo del mundo (E1): arranque del episodio de prueba, movimiento, interacción,
@@ -101,10 +102,7 @@ test.describe('mundo (episodio de prueba)', () => {
   test.beforeEach(async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (err) => errors.push(err.message));
-    await page.goto('/');
-    await expect(page.locator('#game canvas')).toBeVisible();
-    await page.keyboard.press('Enter');
-    await expect(page.locator('.hud')).toBeVisible({ timeout: 10000 });
+    await startNewGame(page);
     expect(errors).toEqual([]);
   });
 

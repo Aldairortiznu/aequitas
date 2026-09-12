@@ -38,6 +38,10 @@ export type BusEvents = {
   'ui:closed': { panel: string };
   /** Emitido por core cuando cambia el estado de una región (Reverdecer). */
   'legitimidad:hito': { region: string; estado: string; valor: number };
+  /** Emitido por la sesión al cambiar el volumen en ajustes. */
+  'audio:volume': { volumen: number };
+  /** Emitido por la escena de título al quedar lista (la app muestra el menú DOM). */
+  'title:ready': undefined;
   /** Emitido por core cuando debe mostrarse una notificación breve. */
   'ui:toast': { text: string; kind?: 'info' | 'ok' | 'warn' };
   /** Emitido por core cuando cambia el estado global observable por la UI. */

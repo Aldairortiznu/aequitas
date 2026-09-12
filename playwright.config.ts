@@ -11,7 +11,7 @@ export default defineConfig({
   // cuadros y vuelven inestables las pruebas. Siempre en serie.
   workers: 1,
   fullyParallel: false,
-  retries: process.env.CI ? 1 : 0,
+  retries: 1,
   reporter: process.env.CI ? 'github' : 'list',
   use: {
     baseURL: 'http://localhost:4173',

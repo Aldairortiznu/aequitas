@@ -10,6 +10,10 @@ import type { LegitimidadState } from '../core/legitimidad/legitimidad';
 import * as GS from '../core/state/gameState';
 import type { GameState } from '../core/state/gameState';
 import { loadEpisode, loadGlobalContent } from './contentLoader';
+import { buildSave, importCode, lastSlot, readSave, writeSave } from '../core/save/save';
+import type { SaveV1, Storage } from '../core/save/save';
+import { hasLamina } from '../engine/art/registry';
+import { ui } from '../ui/store';
 import type { LoadedContent } from './contentLoader';
 import { WorldScene } from '../engine/world/WorldScene';
 import type { WorldSceneData } from '../engine/world/WorldScene';
@@ -67,8 +71,100 @@ export class Session {
   private modals: ModalHandlers = noopModals;
   private listenersBound = false;
 
-  constructor(readonly game: Phaser.Game) {
+  readonly storage: Storage;
+
+  constructor(
+    readonly game: Phaser.Game,
+    storage?: Storage,
+  ) {
     this.state = GS.createGameState({ episode: 'gym', map: 'plaza', spawn: 'inicio' });
+    this.storage = storage ?? window.localStorage;
+    this.loadSettings();
+  }
+
+  // ---------------------------------------------------------------------
+  // Ajustes
+  // ---------------------------------------------------------------------
+
+  private loadSettings(): void {
+    try {
+      const raw = this.storage.getItem('aequitas.settings');
+      if (raw)
+        this.settings = { ...this.settings, ...(JSON.parse(raw) as Partial<SessionSettings>) };
+    } catch {
+      /* ajustes por defecto */
+    }
+    this.applySettings();
+  }
+
+  updateSettings(next: SessionSettings): void {
+    this.settings = next;
+    this.storage.setItem('aequitas.settings', JSON.stringify(next));
+    this.applySettings();
+    this.bus.emit('state:changed', { reason: 'settings' });
+  }
+
+  private applySettings(): void {
+    const root = document.documentElement;
+    root.style.setProperty('--text-scale', String(this.settings.textScale));
+    root.classList.toggle('font-pixel', this.settings.font === 'pixel');
+    this.bus.emit('audio:volume', { volumen: this.settings.volumen });
+  }
+
+  // ---------------------------------------------------------------------
+  // Guardado
+  // ---------------------------------------------------------------------
+
+  buildSave(slot: number): SaveV1 {
+    return buildSave(slot, this.state, this.legitimidad, this.actas);
+  }
+
+  save(slot: number): void {
+    writeSave(this.storage, this.buildSave(slot));
+    this.bus.emit('ui:toast', { text: `Partida guardada en la ranura ${slot}.`, kind: 'ok' });
+  }
+
+  lastSave(): SaveV1 | null {
+    const slot = lastSlot(this.storage);
+    return slot ? readSave(this.storage, slot) : null;
+  }
+
+  importFromCode(code: string): void {
+    const save = importCode(code);
+    writeSave(this.storage, { ...save, slot: 3 });
+    this.bus.emit('ui:toast', { text: 'Partida importada en la ranura 3.', kind: 'ok' });
+  }
+
+  async load(slot: number): Promise<void> {
+    const save = readSave(this.storage, slot);
+    if (!save) throw new Error(`No hay partida en la ranura ${slot}`);
+    const [content, episode] = await Promise.all([
+      loadGlobalContent(),
+      loadEpisode(save.state.episode),
+    ]);
+    this.content = content;
+    this.episode = episode;
+    this.state = save.state;
+    this.legitimidad = save.legitimidad;
+    this.actas = save.actas;
+    this.bindListeners();
+    ui.enTitulo.value = false;
+    this.startWorld(this.state.map, this.state.spawn);
+    this.bus.emit('ui:toast', { text: `Partida de ${this.state.playerName} cargada.`, kind: 'ok' });
+  }
+
+  /** Lámina provisional (del prototipo) para una cinemática cuyo archivo real no existe. */
+  provisionalLamina(id: string): string | null {
+    if (hasLamina(id)) return null;
+    const prov: Record<string, string> = {
+      'ep00-lamina-1': 'prov-fractura',
+      'ep00-lamina-2': 'prov-fractura',
+      'ep00-lamina-3': 'prov-codice',
+      'ep00-lamina-4': 'prov-biblioteca',
+      'ep00-lamina-5': 'prov-biblioteca',
+    };
+    const p = prov[id];
+    return p && hasLamina(p) ? `assets/illustrations/${p}.jpg` : null;
   }
 
   setModals(m: Partial<ModalHandlers>): void {
@@ -95,7 +191,9 @@ export class Session {
       legitimidadStart: { [m.region]: m.legitimidad.start },
     });
     this.legitimidad = { [m.region]: { valor: m.legitimidad.start, porFuente: {} } };
+    this.actas = {};
     this.bindListeners();
+    ui.enTitulo.value = false;
     this.startWorld(m.entry.map, m.entry.spawn);
     await this.fire({ type: 'episodeStart' });
     await this.fire({ type: 'enterMap', map: m.entry.map });
@@ -215,7 +313,7 @@ export class Session {
         break;
       }
       case 'atril':
-        this.bus.emit('ui:toast', { text: 'Atril. Aquí se guardará la partida (E8).' });
+        ui.panel.value = 'atril';
         break;
       case 'mesa': {
         const pacto = props.pacto;
@@ -396,7 +494,7 @@ export class Session {
         this.bus.emit('ui:toast', { text: a.text });
         break;
       case 'save':
-        this.bus.emit('ui:toast', { text: 'Guardado (E8 pendiente).' });
+        this.save(lastSlot(this.storage) ?? 1);
         break;
       case 'endEpisode':
         this.bus.emit('ui:toast', { text: 'Fin del episodio.' });

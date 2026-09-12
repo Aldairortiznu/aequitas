@@ -9,6 +9,9 @@ import { PanelBar, PanelHost } from './Panels';
 import { AudienciaHost } from './AudienciaView';
 import { PactoHost } from './PactoView';
 import { InterpelacionHost } from './InterpelacionView';
+import { CutsceneHost } from './CutsceneView';
+import { TitleMenu } from './TitleMenu';
+import { AtrilHost } from './AtrilView';
 import { anyModalOpen, ui } from './store';
 
 /**
@@ -70,6 +73,9 @@ export function App({ session }: { session: Session }) {
       <AudienciaHost session={session} />
       <PactoHost session={session} />
       <InterpelacionHost session={session} />
+      <CutsceneHost session={session} />
+      <AtrilHost session={session} />
+      <TitleMenu session={session} visible={ui.enTitulo.value && !inWorld} />
       {toast && (
         <div class={`ui-toast ui-toast--${toast.kind}`} role="status" aria-live="polite">
           {toast.text}
