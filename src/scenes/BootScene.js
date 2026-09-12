@@ -12,10 +12,11 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('intro_colapso', './assets/intro/intro_colapso.jpg');
-    this.load.image('intro_biblioteca', './assets/intro/intro_biblioteca.jpg');
-    this.load.image('intro_exploradores', './assets/intro/intro_exploradores.jpg');
-    this.load.image('intro_concilio', './assets/intro/intro_concilio.jpg');
+    this.load.image('intro_1_fractura', './assets/intro/intro_1_fractura.jpg');
+    this.load.image('intro_2_codice', './assets/intro/intro_2_codice.jpg');
+    this.load.image('intro_3_biblioteca', './assets/intro/intro_3_biblioteca.jpg');
+    this.load.image('intro_4_exploradores', './assets/intro/intro_4_exploradores.jpg');
+    this.load.image('intro_5_concilio', './assets/intro/intro_5_concilio.jpg');
     this.load.image('menu_bg', './assets/intro/menu_bg.jpg');
   }
 

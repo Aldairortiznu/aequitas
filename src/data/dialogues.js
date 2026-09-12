@@ -61,3 +61,37 @@ export const CONVERSATIONS = {
     { s: 'sora', t: 'La dignidad humana es el fin supremo del pacto social. Donde otros ven venganza punitiva, nosotros sembramos justicia restaurativa.' },
   ],
 };
+
+export function getIntroConvo(explorerKey) {
+  const intros = {
+    aurelio: [
+      { s: 'aurelio', t: 'Bajo las bóvedas subterráneas de la Legendaria Biblioteca de Bellium, tomo los códices del Debido Proceso y el Códice Civil.' },
+      { s: 'guia', t: 'Aurelio, tu rigor procesal es vital. Sin el Artículo 29 de la Constitución, los caudillos de facto convierten el destierro en norma.' },
+      { s: 'valeria', t: 'He preparado los mapas de ruta hacia Torre Ceniza. Los colonos están siendo despojados sin audiencia comunal.' },
+      { s: 'aurelio', t: 'Entonces la ley será nuestro escudo. Ninguna sanción puede ejecutarse sin el debido proceso ni el derecho a la defensa.' },
+      { s: 'guia', t: 'Marchen hacia las colonias. Donde un pacto legítimo sea restituido, la Margarita Dorada de Bellium florecerá.' },
+    ],
+    valeria: [
+      { s: 'valeria', t: 'Ajusto mi brújula y examino los planos hidrológicos. Los cauces de agua y caminos comunales han sido secuestrados en el yermo.' },
+      { s: 'guia', t: 'Valeria, tu conocimiento de la Ley 675 y el Artículo 919 del Código Civil guiará a las comunidades sedientas.' },
+      { s: 'aurelio', t: 'Doña Inés y los campesinos de Torre Ceniza sufren el cerco de la fuerza bruta. Dicen que no hay paso común para los humildes.' },
+      { s: 'valeria', t: 'La servidumbre de acueducto y la propiedad común tienen función social y ecológica. Restituiremos el paso del agua.' },
+      { s: 'guia', t: 'Adelante, comitiva. Donde la equidad devuelva el cauce, la Margarita Dorada de Bellium brotará del suelo.' },
+    ],
+    kaelen: [
+      { s: 'kaelen', t: 'Equilibro la balanza de bronce y guardo los pergaminos mercantiles. En el embarcadero, el comercio se ha corrompido con el engaño.' },
+      { s: 'guia', t: 'Kaelen, la usura y los pagarés en blanco están asfixiando a los pescadores y mercaderes fluviales.' },
+      { s: 'sora', t: 'Los acaparadores inventaron deudas astronómicas cobrando intereses ilegales prohibidos por el Código de Comercio.' },
+      { s: 'kaelen', t: 'El trueque honesto solo renace cuando se anula la cláusula abusiva y se exige la buena fe exenta de culpa.' },
+      { s: 'guia', t: 'Marchen, exploradores. Donde impere la transparencia mercantil, la paz florecerá.' },
+    ],
+    sora: [
+      { s: 'sora', t: 'Empuño el báculo solar de la Biblioteca. En el yermo exterior, los señores feudales pretenden mandar por edicto arbitrario.' },
+      { s: 'guia', t: 'Sora, tu voz es el baluarte de la dignidad humana y la supremacía de la Constitución Política.' },
+      { s: 'aurelio', t: 'El Prefecto Muro-Ciego cree que su palabra está por encima de los derechos fundamentales de los sobrevivientes.' },
+      { s: 'sora', t: 'El Artículo 4 de la Constitución es claro: la Constitución es norma de normas. La arbitrariedad no prevalecerá.' },
+      { s: 'guia', t: 'Partan de inmediato. Donde la dignidad ciudadana sea restituida, la Margarita Dorada de Bellium florecerá.' },
+    ],
+  };
+  return intros[explorerKey] || intros.aurelio;
+}

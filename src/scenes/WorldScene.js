@@ -3,8 +3,8 @@
 // Comitiva de exploradores de la Biblioteca Experimental.
 
 import Phaser from 'phaser';
-import { COLORS, EXPLORERS, CAPITULOS } from '../config.js';
-import { CONVERSATIONS } from '../data/dialogues.js';
+import { GAME, COLORS, EXPLORERS, CAPITULOS } from '../config.js';
+import { CONVERSATIONS, getIntroConvo } from '../data/dialogues.js';
 import { RIDDLES } from '../data/bookRiddles.js';
 import { WISDOM } from '../data/wisdom.js';
 import { getReino } from '../data/reinos.js';
@@ -70,7 +70,7 @@ export default class WorldScene extends Phaser.Scene {
 
     if (this.save && this.save.level === 0 && !this.save.introSeen) {
       this.save.introSeen = true;
-      this.time.delayedCall(400, () => this.startDialogue(CONVERSATIONS.intro));
+      this.time.delayedCall(400, () => this.startDialogue(getIntroConvo(this.explorerKey)));
     }
   }
 
@@ -241,6 +241,25 @@ export default class WorldScene extends Phaser.Scene {
     this.player.body.setOffset(4, 20);
     this.facing = 'down';
     this.bob = 0;
+
+    // Especialidades y atributos únicos del explorador
+    this.playerSpeed = SPEED;
+    this.alegatoScale = 1.5;
+    this.alegatoDamage = 20;
+    this.valorCooldown = 11000;
+
+    if (this.explorerKey === 'valeria') {
+      this.playerSpeed = SPEED * 1.20; // Agilidad Cartográfica
+    } else if (this.explorerKey === 'aurelio') {
+      this.alegatoScale = 2.0; // Mayor alcance procesal
+      this.alegatoDamage = 25;
+    } else if (this.explorerKey === 'kaelen') {
+      this.valorCooldown = 7500; // Convicción mercantil rápida
+    } else if (this.explorerKey === 'sora') {
+      this.maxHp = 130;
+      this.hp = 130;
+      this.alegatoScale = 1.7; // Firmeza constitucional
+    }
   }
 
   // Co-exploradores de la Biblioteca que acompañan al protagonista
@@ -383,6 +402,7 @@ export default class WorldScene extends Phaser.Scene {
     const alegato = this.add
       .image(this.attackX, this.attackY, 'alegato')
       .setDepth(this.player.y + 1)
+      .setScale(this.alegatoScale || 1.5)
       .setFlipX(this.facing === 'left');
     
     this.tweens.add({
@@ -390,7 +410,7 @@ export default class WorldScene extends Phaser.Scene {
       x: this.attackX + dx * 1.5,
       y: this.attackY + dy * 1.5,
       alpha: 0,
-      scale: 1.5,
+      scale: (this.alegatoScale || 1.5) * 1.4,
       duration: 220,
       onComplete: () => alegato.destroy(),
     });
@@ -403,7 +423,7 @@ export default class WorldScene extends Phaser.Scene {
     const now = this.time.now;
     if (now < this.valorReadyAt) return;
     this.valorUntil = now + 5000;
-    this.valorReadyAt = now + 11000;
+    this.valorReadyAt = now + (this.valorCooldown || 11000);
     this.player.setTint(0xffd875);
     this.cameras.main.flash(150, 227, 148, 11);
     this.showFloat(this.player.x, this.player.y - 20, '¡Dignidad Constitucional!', '#ffd875');
@@ -625,6 +645,20 @@ export default class WorldScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(10000);
 
+    const exp = EXPLORERS[this.explorerKey] || EXPLORERS.aurelio;
+    this.add.image(GAME.WIDTH - 18, 16, exp.sprite).setScale(1.2).setScrollFactor(0).setDepth(10000);
+    const expBadge = this.add
+      .text(GAME.WIDTH - 32, 12, `${exp.name}`, {
+        fontFamily: 'Georgia, serif',
+        fontSize: '9px',
+        fontStyle: 'bold',
+        color: exp.color || COLORS.goldLight,
+      })
+      .setOrigin(1, 0)
+      .setScrollFactor(0)
+      .setDepth(10000);
+    expBadge.setShadow(1, 1, '#000000', 2);
+
     const hint = this.add
       .text(8, this.scale.height - 12, 'WASD: Moverse · Espacio: Alegato · V: Dignidad (Const.) · B: Legalidad · E: Hablar/Códice', {
         fontFamily: 'monospace',
@@ -685,7 +719,7 @@ export default class WorldScene extends Phaser.Scene {
     if (knocked) {
     } else if (moving) {
       const valor = this.time.now < this.valorUntil;
-      const spd = SPEED * (valor ? 1.3 : 1);
+      const spd = (this.playerSpeed || SPEED) * (valor ? 1.3 : 1);
       const len = Math.hypot(vx, vy) || 1;
       this.player.setVelocity((vx / len) * spd, (vy / len) * spd);
       this.updateFacing(vx, vy);
