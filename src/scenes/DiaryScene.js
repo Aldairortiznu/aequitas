@@ -1,10 +1,9 @@
-// Diario de Sabiduría: muestra las enseñanzas que Abigail ha recogido.
-// Se lanza sobre el mundo (que se pausa) con la tecla I.
-// Recibe entries: [{ id, titulo, frase }].
+// Códice de la Ley & Memoria de Bellium en AEQUITAS.
+// Bellium S.A.S. · Al Resuelve (Cartagena de Indias, Colombia).
+// Registra las normas rescatadas de la Biblioteca y los pactos sociales firmados.
 
 import Phaser from 'phaser';
-import { GAME, COLORS } from '../config.js';
-import { REINOS } from '../data/reinos.js';
+import { GAME, COLORS, CAPITULOS } from '../config.js';
 
 export default class DiaryScene extends Phaser.Scene {
   constructor() {
@@ -19,55 +18,89 @@ export default class DiaryScene extends Phaser.Scene {
   create() {
     const { WIDTH, HEIGHT } = GAME;
 
+    // Fondo papiro oscuro de Bellium
     const g = this.add.graphics();
-    g.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.bgDeep).color, 0.97);
+    g.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.bgDeep).color, 0.98);
     g.fillRect(0, 0, WIDTH, HEIGHT);
-    g.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.green).color, 1);
+    
+    // Marco exterior de oro ámbar
+    g.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.gold).color, 1);
     g.strokeRect(10, 10, WIDTH - 20, HEIGHT - 20);
 
+    // Marco interior púrpura
+    g.lineStyle(1, Phaser.Display.Color.HexStringToColor(COLORS.purpleRoyal).color, 0.6);
+    g.strokeRect(14, 14, WIDTH - 28, HEIGHT - 28);
+
+    // Encabezado
     this.add
-      .text(WIDTH / 2, 24, 'Diario de Sabiduría', {
-        fontFamily: 'Georgia, serif', fontSize: '16px', color: COLORS.gold,
+      .text(WIDTH / 2, 24, 'CÓDICE DE LA LEY & MEMORIA DE BELLIUM', {
+        fontFamily: 'Georgia, serif',
+        fontSize: '13px',
+        color: COLORS.goldLight,
+        stroke: '#000000',
+        strokeThickness: 3,
       })
       .setOrigin(0.5);
 
-    // Total posible = prólogo + 32 reinos.
-    const total = REINOS.length;
     this.add
-      .text(WIDTH / 2, 42, `Aprendizajes recogidos: ${this.entries.length}`, {
-        fontFamily: 'monospace', fontSize: '8px', color: '#9be8a6',
+      .text(WIDTH / 2, 38, '· Registro de Precedentes y Restauración del Orden Social ·', {
+        fontFamily: 'monospace',
+        fontSize: '8px',
+        color: '#c9a7eb',
       })
       .setOrigin(0.5);
 
-    if (this.entries.length === 0) {
-      this.add
-        .text(WIDTH / 2, HEIGHT / 2,
-          'Aún no has recogido ninguna enseñanza.\nEnfrenta tus sombras y resuelve los acertijos:\nvolverás más sabia.', {
-          fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream,
-          align: 'center', lineSpacing: 4,
-        })
-        .setOrigin(0.5);
-    } else {
-      // Lista desplazable simple: mostramos las últimas que caben.
-      let y = 58;
-      const maxY = HEIGHT - 34;
-      for (let i = 0; i < this.entries.length && y < maxY; i++) {
-        const w = this.entries[i];
-        this.add.text(20, y, '◆ ' + (w.titulo || 'Enseñanza'), {
-          fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.greenLight,
-          wordWrap: { width: WIDTH - 44 },
-        });
-        const frase = this.add.text(28, y + 13, '"' + w.frase + '"', {
-          fontFamily: 'Georgia, serif', fontSize: '9px', color: COLORS.cream,
-          fontStyle: 'italic', wordWrap: { width: WIDTH - 56 },
-        });
-        y += 16 + frase.height + 7;
-      }
-    }
+    // Lista de Capítulos y Artículos rescatados
+    let y = 56;
+    CAPITULOS.forEach((cap, idx) => {
+      const isPrologo = cap.nivel === 0;
+      
+      const box = this.add.graphics();
+      box.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.bgPurple).color, 0.8);
+      box.fillRoundedRect(22, y, WIDTH - 44, 32, 4);
+      box.lineStyle(1, Phaser.Display.Color.HexStringToColor(COLORS.gold).color, 0.4);
+      box.strokeRoundedRect(22, y, WIDTH - 44, 32, 4);
+
+      // Icono y Título
+      this.add.text(28, y + 4, `Cap. ${cap.nivel}: ${cap.nombre}`, {
+        fontFamily: 'Georgia, serif',
+        fontSize: '9.5px',
+        color: COLORS.goldLight,
+        fontStyle: 'bold',
+      });
+
+      // Norma aplicada
+      this.add.text(28, y + 17, `⚖️ ${cap.norma} · ${cap.lugar}`, {
+        fontFamily: 'monospace',
+        fontSize: '7.5px',
+        color: '#e5daf0',
+      });
+
+      // Estado de florecimiento
+      this.add.text(WIDTH - 76, y + 10, '✿ PACTO VIVO', {
+        fontFamily: 'monospace',
+        fontSize: '7px',
+        color: '#ffd875',
+      });
+
+      y += 36;
+    });
+
+    // Filosofía restaurativa al pie
+    this.add
+      .text(WIDTH / 2, HEIGHT - 28, '«La ley no es castigo: es el pacto que permite a una sociedad florecer.»', {
+        fontFamily: 'Georgia, serif',
+        fontSize: '9px',
+        color: '#ffd875',
+        fontStyle: 'italic',
+      })
+      .setOrigin(0.5);
 
     this.add
-      .text(WIDTH / 2, HEIGHT - 18, 'I / Esc: cerrar', {
-        fontFamily: 'monospace', fontSize: '8px', color: '#7fae8c',
+      .text(WIDTH / 2, HEIGHT - 14, 'I / Esc: Volver a la aventura', {
+        fontFamily: 'monospace',
+        fontSize: '8px',
+        color: '#a795b8',
       })
       .setOrigin(0.5);
 

@@ -26,6 +26,8 @@ export default class DialogueScene extends Phaser.Scene {
     const bw = WIDTH - 16;
     const bh = 76;
     const by = HEIGHT - bh - 8;
+    this.bx = bx;
+    this.bw = bw;
 
     // Caja con borde.
     const g = this.add.graphics();
@@ -38,7 +40,7 @@ export default class DialogueScene extends Phaser.Scene {
     this.portraitBox = this.add.graphics();
     this.portraitBox.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.bgGreen).color, 1);
     this.portraitBox.fillRoundedRect(bx + 8, by + 8, 40, 40, 4);
-    this.portrait = this.add.image(bx + 28, by + 47, 'abigail').setOrigin(0.5, 1);
+    this.portrait = this.add.image(bx + 28, by + 47, 'aurelio').setOrigin(0.5, 1);
 
     // Nombre.
     this.nameText = this.add.text(bx + 58, by + 8, '', {
@@ -72,7 +74,7 @@ export default class DialogueScene extends Phaser.Scene {
 
   showLine() {
     const line = this.convo[this.index];
-    const sp = SPEAKERS[line.s] || SPEAKERS.abigail;
+    const sp = SPEAKERS[line.s] || SPEAKERS.pensamiento;
 
     this.nameText.setText(sp.name).setColor(sp.color);
     this.bodyText.setColor(sp.color === '#ffffff' ? COLORS.cream : '#f3efe0');
@@ -81,9 +83,15 @@ export default class DialogueScene extends Phaser.Scene {
     if (sp.portrait) {
       this.portrait.setTexture(sp.portrait).setVisible(true);
       this.portraitBox.setVisible(true);
+      this.nameText.setX(this.bx + 58);
+      this.bodyText.setX(this.bx + 58);
+      this.bodyText.setWordWrapWidth(this.bw - 70);
     } else {
       this.portrait.setVisible(false);
-      this.portraitBox.setVisible(true);
+      this.portraitBox.setVisible(false);
+      this.nameText.setX(this.bx + 16);
+      this.bodyText.setX(this.bx + 16);
+      this.bodyText.setWordWrapWidth(this.bw - 32);
     }
 
     // Máquina de escribir.

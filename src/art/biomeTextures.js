@@ -5,6 +5,7 @@
 import { BIOMES } from '../data/biomes.js';
 
 function hex(h) {
+  if (!h) return 0xffffff;
   return Phaser.Display.Color.HexStringToColor(h).color;
 }
 

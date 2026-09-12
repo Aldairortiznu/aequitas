@@ -1,9 +1,9 @@
-// Mundo jugable de "Reverdecer" (Fase 2): jardín verde explorable.
-// Abigail camina en 4 direcciones con colisiones y cámara; Jerónimo y Amanda
-// la siguen en fila. Mapa generado por código con árboles y un estanque.
+// Mundo jugable de AEQUITAS: El Retorno del Equilibrio.
+// Bellium S.A.S. · Al Resuelve (Cartagena de Indias, Colombia).
+// Comitiva de exploradores de la Biblioteca Experimental.
 
 import Phaser from 'phaser';
-import { COLORS } from '../config.js';
+import { COLORS, EXPLORERS, CAPITULOS } from '../config.js';
 import { CONVERSATIONS } from '../data/dialogues.js';
 import { RIDDLES } from '../data/bookRiddles.js';
 import { WISDOM } from '../data/wisdom.js';
@@ -14,7 +14,7 @@ import { writeSave } from '../systems/save.js';
 const TILE = 16;
 const COLS = 50;
 const ROWS = 34;
-const SPEED = 80;
+const SPEED = 84;
 
 export default class WorldScene extends Phaser.Scene {
   constructor() {
@@ -29,12 +29,10 @@ export default class WorldScene extends Phaser.Scene {
     this.mapW = COLS * TILE;
     this.mapH = ROWS * TILE;
 
-    // Reino actual según el progreso, con su bioma y un RNG sembrado por nivel
-    // (así el mapa de cada reino es propio y estable entre sesiones).
     const nivel = this.save ? this.save.level || 0 : 0;
     this.reino = getReino(nivel);
     this.biome = getBiome(nivel);
-    this.rng = new Phaser.Math.RandomDataGenerator(['reverdecer-' + nivel]);
+    this.rng = new Phaser.Math.RandomDataGenerator(['aequitas-' + nivel]);
 
     this.solids = this.physics.add.staticGroup();
     this.buildGround();
@@ -45,7 +43,7 @@ export default class WorldScene extends Phaser.Scene {
     this.buildAmbient();
 
     this.createPlayer();
-    this.createDogs();
+    this.createFellowExplorers();
     this.createNpc();
     this.createCombat();
     this.createSavePoint();
@@ -53,7 +51,6 @@ export default class WorldScene extends Phaser.Scene {
     this.createPortal();
     this.createTreasures();
 
-    // Físicas y cámara.
     this.physics.add.collider(this.player, this.solids);
     this.physics.world.setBounds(0, 0, this.mapW, this.mapH);
     this.player.setCollideWorldBounds(true);
@@ -65,28 +62,23 @@ export default class WorldScene extends Phaser.Scene {
     this.setupInput();
     this.buildHud();
 
-    // Al volver de un diálogo, reactivar el control.
     this.talking = false;
     this.events.on('resume', () => {
       this.talking = false;
     });
 
-    // Diálogo de introducción la primera vez (prólogo).
     if (this.save && this.save.level === 0 && !this.save.introSeen) {
       this.save.introSeen = true;
       this.time.delayedCall(400, () => this.startDialogue(CONVERSATIONS.intro));
     }
   }
 
-  // Zona central despejada (donde viven NPC, atril, fuente, portal): no se
-  // colocan decorados ni agua aquí para no bloquear el flujo del reino.
   isCenterClear(tx, ty) {
     const cx = COLS / 2;
     const cy = ROWS / 2;
     return Math.abs(tx - cx) <= 10 && Math.abs(ty - cy) <= 6;
   }
 
-  // ----------------------------------------------------------- terreno (bioma)
   buildGround() {
     const gk = 'g_' + this.biome.key;
     const ak = gk + '_a';
@@ -97,7 +89,6 @@ export default class WorldScene extends Phaser.Scene {
         this.add.image(x * TILE, y * TILE, key).setOrigin(0).setDepth(0);
       }
     }
-    // Senderos con el color del bioma (si lo define).
     if (this.biome.ground.path) {
       const pk = 'p_' + this.biome.key;
       const py = Math.floor(ROWS / 2);
@@ -111,7 +102,6 @@ export default class WorldScene extends Phaser.Scene {
     }
   }
 
-  // Coloca un decorado sólido con cuerpo solo en su base (deja pasar "por detrás").
   addSolid(tex, px, py) {
     const s = this.solids.create(px, py, tex);
     s.setOrigin(0.5, 1);
@@ -123,7 +113,6 @@ export default class WorldScene extends Phaser.Scene {
     return s;
   }
 
-  // -------------------------------------------------------------- borde del mapa
   buildBorder() {
     const tex = this.biome.border;
     if (!tex) return;
@@ -137,12 +126,10 @@ export default class WorldScene extends Phaser.Scene {
     }
   }
 
-  // -------------------------------------------------------------------- agua
   buildWater() {
     const w = this.biome.water;
     if (!w) return;
     if (w.style === 'cienaga') {
-      // Charcos de ciénaga dispersos por el reino.
       for (let i = 0; i < 6; i++) {
         const bx = this.rng.between(4, COLS - 8);
         const by = this.rng.between(4, ROWS - 6);
@@ -155,17 +142,7 @@ export default class WorldScene extends Phaser.Scene {
           }
         }
       }
-    } else if (w.style === 'mar') {
-      // Franja de mar en el borde inferior (acantilado).
-      for (let y = ROWS - 4; y < ROWS; y++) {
-        for (let x = 0; x < COLS; x++) {
-          const t = this.solids.create(x * TILE, y * TILE, w.tex);
-          t.setOrigin(0).setDepth(1);
-          t.refreshBody();
-        }
-      }
     } else {
-      // Estanque en una esquina tranquila.
       for (let y = 5; y <= 8; y++) {
         for (let x = 5; x <= 9; x++) {
           const t = this.solids.create(x * TILE, y * TILE, w.tex);
@@ -176,10 +153,8 @@ export default class WorldScene extends Phaser.Scene {
     }
   }
 
-  // ----------------------------------------------------- decorados del bioma
   buildScenery() {
     const place = (tex, collide) => {
-      // Busca una casilla libre (fuera del centro y no sobre el sendero medio).
       for (let intento = 0; intento < 12; intento++) {
         const tx = this.rng.between(2, COLS - 3);
         const ty = this.rng.between(3, ROWS - 3);
@@ -196,7 +171,6 @@ export default class WorldScene extends Phaser.Scene {
     }
   }
 
-  // ----------------------------------------------- partículas ambientales místicas
   buildAmbient() {
     const a = this.biome.ambient;
     if (!a) return;
@@ -216,35 +190,28 @@ export default class WorldScene extends Phaser.Scene {
     this.ambient.setDepth(50000);
   }
 
-  // -------------------------------------------------------------- tesoros del reino
   createTreasures() {
     this.treasures = [];
     if (!this.save) return;
     if (!this.save.treasuresByReino) this.save.treasuresByReino = {};
     const nivel = this.reino.nivel;
     const collected = this.save.treasuresByReino[nivel] || [];
-    const tint = Phaser.Display.Color.HexStringToColor(this.reino.color).color;
     const total = 4;
     for (let i = 0; i < total; i++) {
       if (collected.includes(i)) continue;
-      // Posición sembrada (estable) en una casilla apartada del centro.
-      let tx;
-      let ty;
+      let tx, ty;
       for (let intento = 0; intento < 20; intento++) {
         tx = this.rng.between(3, COLS - 4);
         ty = this.rng.between(3, ROWS - 4);
         if (!this.isCenterClear(tx, ty)) break;
       }
       const orb = this.add.image(tx * TILE + 8, ty * TILE + 8, 'd_orb').setDepth(60000);
-      orb.setTint(0xffffff);
+      orb.setTint(0xffd875);
       orb.idx = i;
-      // Latido luminoso (color cálido tirando al del reino).
-      orb.setTintFill(0xfff2c8);
       this.tweens.add({ targets: orb, scale: 1.3, alpha: 0.7, duration: 700, yoyo: true, repeat: -1 });
       this.treasures.push(orb);
     }
     this.treasureTotal = total;
-    this.treasureBiomeTint = tint;
   }
 
   collectTreasure(orb) {
@@ -253,37 +220,21 @@ export default class WorldScene extends Phaser.Scene {
     if (!this.save.treasuresByReino[nivel].includes(orb.idx)) {
       this.save.treasuresByReino[nivel].push(orb.idx);
     }
-    this.save.treasuresTotal = (this.save.treasuresTotal || 0) + 1;
-    // Recompensa: un poco de vida y un destello.
-    this.hp = Math.min(this.maxHp, this.hp + 10);
-    this.showFloat(orb.x, orb.y - 8, '✦ Tesoro +10', '#ffe9a0');
-    this.cameras.main.flash(120, 240, 230, 170);
-    for (let i = 0; i < 6; i++) {
-      const sp = this.add.image(orb.x, orb.y, 'p_soft').setTint(0xffe9a0).setDepth(60001);
-      const ang = (Math.PI * 2 * i) / 6;
-      this.tweens.add({
-        targets: sp,
-        x: orb.x + Math.cos(ang) * 14,
-        y: orb.y + Math.sin(ang) * 14,
-        alpha: 0,
-        duration: 380,
-        onComplete: () => sp.destroy(),
-      });
-    }
+    this.hp = Math.min(this.maxHp, this.hp + 15);
+    this.showFloat(orb.x, orb.y - 8, '✦ Códice de Bellium +15', '#ffd875');
+    this.cameras.main.flash(120, 227, 148, 11);
     orb.destroy();
     this.treasures = this.treasures.filter((o) => o !== orb);
     writeSave(this.save);
-    const left = this.treasureTotal - (this.save.treasuresByReino[nivel].length);
-    if (left === 0) {
-      this.showFloat(this.player.x, this.player.y - 30, '¡Todos los tesoros del reino!', '#9be8a6');
-    }
   }
 
-  // ----------------------------------------------------------- personajes
+  // ----------------------------------------------------------- PROTAGONISTA & CO-EXPLORADORES
   createPlayer() {
     const startX = this.save && this.save.px != null ? this.save.px : (COLS / 2) * TILE;
     const startY = this.save && this.save.py != null ? this.save.py : (ROWS / 2) * TILE;
-    this.player = this.physics.add.image(startX, startY, 'abigail');
+    
+    this.explorerKey = (this.save && this.save.explorer) ? this.save.explorer : 'aurelio';
+    this.player = this.physics.add.image(startX, startY, this.explorerKey);
     this.player.setOrigin(0.5, 1);
     this.player.body.setSize(10, 8);
     this.player.body.setOffset(4, 20);
@@ -291,19 +242,41 @@ export default class WorldScene extends Phaser.Scene {
     this.bob = 0;
   }
 
-  createDogs() {
-    // Rastro de posiciones (puntos por los que pasó Abigail) para que los perros
-    // la sigan manteniendo una separación FIJA en píxeles (no se amontonan).
+  // Co-exploradores de la Biblioteca que acompañan al protagonista
+  createFellowExplorers() {
     this.trail = [{ x: this.player.x, y: this.player.y }];
-    const mk = (key, x) => this.add.image(x, this.player.y, key).setOrigin(0.5, 1);
-    // Amanda más cerca (valiente, al frente); Jerónimo detrás.
-    this.amanda = mk('amanda', this.player.x - 16);
-    this.jeronimo = mk('jeronimo', this.player.x - 32);
-    this.amandaGap = 16;   // px detrás de Abigail
-    this.jeronimoGap = 30; // px detrás de Abigail
+    
+    let comp1Key = 'valeria';
+    let comp2Key = 'kaelen';
+    let convo1 = CONVERSATIONS.counsel_valeria;
+    let convo2 = CONVERSATIONS.counsel_kaelen;
+
+    if (this.explorerKey === 'valeria') {
+      comp1Key = 'aurelio';
+      comp2Key = 'sora';
+      convo1 = CONVERSATIONS.counsel_aurelio;
+      convo2 = CONVERSATIONS.counsel_sora;
+    } else if (this.explorerKey === 'kaelen') {
+      comp1Key = 'aurelio';
+      comp2Key = 'valeria';
+      convo1 = CONVERSATIONS.counsel_aurelio;
+      convo2 = CONVERSATIONS.counsel_valeria;
+    } else if (this.explorerKey === 'sora') {
+      comp1Key = 'valeria';
+      comp2Key = 'kaelen';
+      convo1 = CONVERSATIONS.counsel_valeria;
+      convo2 = CONVERSATIONS.counsel_kaelen;
+    }
+
+    this.companion1 = this.add.image(this.player.x - 18, this.player.y, comp1Key).setOrigin(0.5, 1);
+    this.companion1.convo = convo1;
+    this.companion1Gap = 18;
+
+    this.companion2 = this.add.image(this.player.x - 34, this.player.y, comp2Key).setOrigin(0.5, 1);
+    this.companion2.convo = convo2;
+    this.companion2Gap = 34;
   }
 
-  // Devuelve el punto del rastro a `gap` píxeles por detrás de Abigail.
   trailPointBehind(gap) {
     let dist = 0;
     for (let i = this.trail.length - 1; i > 0; i--) {
@@ -322,10 +295,21 @@ export default class WorldScene extends Phaser.Scene {
   createNpc() {
     const nx = (COLS / 2 + 5) * TILE;
     const ny = (ROWS / 2) * TILE;
-    this.npc = this.add.image(nx, ny, 'npc_guia').setOrigin(0.5, 1);
+    
+    let npcSprite = 'npc_guia';
+    let npcConvo = CONVERSATIONS.intro;
+    if (this.reino.nivel === 1) {
+      npcSprite = 'dona_ines';
+      npcConvo = CONVERSATIONS.torre_ceniza_dona_ines;
+    } else if (this.reino.nivel === 2) {
+      npcSprite = 'mateo';
+      npcConvo = CONVERSATIONS.intro;
+    }
+
+    this.npc = this.add.image(nx, ny, npcSprite).setOrigin(0.5, 1);
     this.npc.setDepth(this.npc.y);
-    this.npc.convo = CONVERSATIONS.jardinero;
-    // Burbuja de aviso "hablar".
+    this.npc.convo = npcConvo;
+    
     this.npcHint = this.add
       .text(nx, ny - 30, '!', { fontFamily: 'monospace', fontSize: '12px', color: COLORS.gold })
       .setOrigin(0.5)
@@ -333,44 +317,42 @@ export default class WorldScene extends Phaser.Scene {
       .setVisible(false);
   }
 
-  // ----------------------------------------------------------- combate
+  // ----------------------------------------------------------- DIALÉCTICA JURÍDICA
   createCombat() {
-    this.hp = this.save ? this.save.hp : 100;
-    this.maxHp = this.save ? this.save.maxHp : 100;
+    this.hp = this.save && this.save.dignidad != null ? this.save.dignidad : 100;
+    this.maxHp = 100;
 
     this.nextAttack = 0;
     this.knockUntil = 0;
     this.invulnUntil = 0;
 
-    // Estados de Valor (Amanda) y Sabiduría (Jerónimo).
     this.valorUntil = 0;
     this.valorReadyAt = 0;
     this.revealUntil = 0;
     this.revealReadyAt = 0;
 
-    // Guardián: el monstruo del bioma, con stats propios (vida/velocidad/tamaño).
     const ex = (COLS / 2 - 7) * TILE;
     const ey = (ROWS / 2 - 3) * TILE;
-    const st = this.biome.stats;
-    this.enemy = this.physics.add.image(ex, ey, this.biome.monster);
+    
+    let antagSprite = 'sombra';
+    if (this.reino.nivel === 1) antagSprite = 'murociego';
+    else if (this.reino.nivel === 2) antagSprite = 'silas';
+
+    this.enemy = this.physics.add.image(ex, ey, antagSprite);
     this.enemy.setDepth(ey);
-    this.enemy.setScale(st.scale);
-    this.enemySpeed = st.speed;
-    this.enemy.hp = st.hp;
-    this.enemy.maxHp = st.hp;
+    this.enemy.setScale(1.2);
+    this.enemySpeed = 38;
+    this.enemy.hp = 8;
+    this.enemy.maxHp = 8;
     this.enemy.hitThisSwing = false;
     this.physics.add.collider(this.enemy, this.solids);
 
-    // Núcleo (punto débil) oculto hasta usar Sabiduría.
     this.core = this.add.image(ex, ey, 'sombra_core').setVisible(false).setDepth(99998);
-
-    // Barra de vida del enemigo (mundo).
     this.enemyBar = this.add.graphics().setDepth(99997);
-
-    // HUD de vida de Abigail (fijo a cámara).
     this.hpBar = this.add.graphics().setScrollFactor(0).setDepth(10001);
+    
     this.skillText = this.add
-      .text(8, 22, '', { fontFamily: 'monospace', fontSize: '8px', color: '#bfe0c8' })
+      .text(8, 22, '', { fontFamily: 'monospace', fontSize: '8px', color: '#ffd875' })
       .setScrollFactor(0)
       .setDepth(10001);
 
@@ -382,61 +364,69 @@ export default class WorldScene extends Phaser.Scene {
     if (this.talking) return;
     const now = this.time.now;
     if (now < this.nextAttack) return;
-    this.nextAttack = now + 340;
+    this.nextAttack = now + 320;
     this.enemy.hitThisSwing = false;
 
-    // Punto frente a Abigail según su orientación.
-    const off = 14;
+    const off = 16;
     let dx = 0;
     let dy = 0;
     if (this.facing === 'up') dy = -off;
     else if (this.facing === 'down') dy = off;
     else if (this.facing === 'left') dx = -off;
     else dx = off;
-    this.attackX = this.player.x + dx;
-    this.attackY = this.player.y - 14 + dy; // a la altura del torso
 
-    const slash = this.add
-      .image(this.attackX, this.attackY, 'slash')
+    this.attackX = this.player.x + dx;
+    this.attackY = this.player.y - 12 + dy;
+
+    const alegato = this.add
+      .image(this.attackX, this.attackY, 'alegato')
       .setDepth(this.player.y + 1)
       .setFlipX(this.facing === 'left');
-    this.tweens.add({ targets: slash, alpha: 0, scale: 1.4, duration: 180, onComplete: () => slash.destroy() });
+    
+    this.tweens.add({
+      targets: alegato,
+      x: this.attackX + dx * 1.5,
+      y: this.attackY + dy * 1.5,
+      alpha: 0,
+      scale: 1.5,
+      duration: 220,
+      onComplete: () => alegato.destroy(),
+    });
 
-    this.attackActiveUntil = now + 140;
+    this.attackActiveUntil = now + 160;
   }
 
-  useValor() {
+  useDignidad() {
     if (this.talking) return;
     const now = this.time.now;
     if (now < this.valorReadyAt) return;
     this.valorUntil = now + 5000;
     this.valorReadyAt = now + 11000;
-    this.player.setTint(0x9be8a6);
-    this.cameras.main.flash(150, 120, 220, 140);
+    this.player.setTint(0xffd875);
+    this.cameras.main.flash(150, 227, 148, 11);
+    this.showFloat(this.player.x, this.player.y - 20, '¡Dignidad Constitucional!', '#ffd875');
   }
 
-  useSabiduria() {
+  useControlLegalidad() {
     if (this.talking || this.enemyDefeated) return;
     const now = this.time.now;
     if (now < this.revealReadyAt) return;
-    this.revealUntil = now + 6000;
-    this.revealReadyAt = now + 8500;
-    if (this.enemy.active) this.enemy.setTint(0xe9c46a);
+    this.revealUntil = now + 6500;
+    this.revealReadyAt = now + 9000;
+    if (this.enemy.active) this.enemy.setTint(0x9945de);
+    this.showFloat(this.player.x, this.player.y - 20, '¡Control de Legalidad!', '#c9a7eb');
   }
 
   applyReinoTint() {
-    // Tinte emocional del reino sobre la base verde (capa sutil).
     const c = Phaser.Display.Color.HexStringToColor(this.reino.color).color;
-    const tint = this.add.rectangle(0, 0, this.mapW, this.mapH, c, 0.18).setOrigin(0).setDepth(1);
+    this.add.rectangle(0, 0, this.mapW, this.mapH, c, 0.22).setOrigin(0).setDepth(1);
   }
 
-  // -------------------------------------------------------- acertijo del reino
   createRiddlePedestal() {
-    // Solo hay atril si el reino usa un acertijo de libro real.
     const riddle = this.reino.riddleId ? RIDDLES[this.reino.riddleId] : null;
     if (!riddle) {
       this.atril = null;
-      this.atrilSolved = true; // sin acertijo, no bloquea el portal
+      this.atrilSolved = true;
       return;
     }
     const ax = (COLS / 2 - 2) * TILE;
@@ -445,56 +435,74 @@ export default class WorldScene extends Phaser.Scene {
     this.atril.setDepth(ay);
     this.atril.riddle = riddle;
     this.atrilHint = this.add
-      .text(ax, ay - 30, 'Leer (E)', { fontFamily: 'monospace', fontSize: '7px', color: '#e9c46a' })
+      .text(ax, ay - 30, 'Atril de Jurisprudencia (E)', { fontFamily: 'monospace', fontSize: '7px', color: COLORS.goldLight })
       .setOrigin(0.5)
       .setDepth(99999)
       .setVisible(false);
-    this.atrilSolved = false;
+  }
+
+  createSavePoint() {
+    const fx = (COLS / 2) * TILE;
+    const fy = (ROWS / 2 + 5) * TILE;
+    this.fuente = this.add.image(fx, fy, 'fuente').setOrigin(0.5, 1);
+    this.fuente.setDepth(fy);
+    this.fuenteHint = this.add
+      .text(fx, fy - 32, 'Guardar Registro (E)', { fontFamily: 'monospace', fontSize: '7px', color: COLORS.gold })
+      .setOrigin(0.5)
+      .setDepth(99999)
+      .setVisible(false);
   }
 
   createPortal() {
-    const px = (COLS / 2 + 8) * TILE;
-    const py = (ROWS / 2) * TILE;
-    this.portal = this.add.image(px, py, 'portal').setOrigin(0.5, 1).setDepth(py);
-    this.portal.setVisible(false);
+    const px = (COLS / 2) * TILE;
+    const py = 3 * TILE;
+    this.portal = this.add.image(px, py, 'portal').setOrigin(0.5, 1);
+    this.portal.setDepth(py);
+    this.portal.setAlpha(0.35);
     this.portalReady = false;
     this.portalHint = this.add
-      .text(px, py - 34, 'Entrar al siguiente reino (E)', { fontFamily: 'monospace', fontSize: '7px', color: '#9be8a6' })
+      .text(px, py - 36, 'Avanzar Distrito (E)', { fontFamily: 'monospace', fontSize: '8px', color: '#ffd875' })
       .setOrigin(0.5)
       .setDepth(99999)
       .setVisible(false);
   }
 
-  // ¿Se cumplieron los retos del reino? (Guardián vencido y acertijo resuelto)
   checkPortal() {
     if (this.portalReady) return;
-    const done = this.enemyDefeated && this.atrilSolved;
-    if (done) {
+    if (this.enemyDefeated && this.atrilSolved) {
       this.portalReady = true;
-      this.portal.setVisible(true);
-      this.tweens.add({ targets: this.portal, alpha: 0.6, duration: 700, yoyo: true, repeat: -1 });
-      this.showFloat(this.portal.x, this.portal.y - 30, 'Un portal se abrió...', '#9be8a6');
+      this.portal.setAlpha(1);
+      this.tweens.add({ targets: this.portal, scale: 1.12, duration: 800, yoyo: true, repeat: -1 });
+      this.showFloat(this.portal.x, this.portal.y - 20, '¡Pacto Restaurado! Portal Abierto', '#ffd875');
     }
   }
 
+  saveGame() {
+    if (!this.save) return;
+    this.save.px = this.player.x;
+    this.save.py = this.player.y;
+    this.save.hp = this.hp;
+    this.save.dignidad = this.hp;
+    writeSave(this.save);
+    this.showFloat(this.player.x, this.player.y - 24, 'Registro Guardado', '#ffd875');
+    this.cameras.main.flash(100, 227, 148, 11);
+  }
+
   advanceReino() {
-    // Recoge la enseñanza del reino y avanza al siguiente.
-    this.gainWisdom({
-      id: 'reino_' + this.reino.nivel,
-      titulo: `Reino ${this.reino.nivel} — ${this.reino.nombre}`,
-      frase: this.reino.ensenanza,
-    });
-    if (this.save) {
-      this.save.level = Math.min((this.save.level || 0) + 1, 32);
-      this.save.maxLevelReached = Math.max(this.save.maxLevelReached || 0, this.save.level);
-      this.save.hp = this.maxHp;
-      // Reinicia posición para el nuevo reino.
-      this.save.px = (COLS / 2) * TILE;
-      this.save.py = (ROWS / 2) * TILE;
-      writeSave(this.save);
+    if (this.reino.nivel >= CAPITULOS.length - 1) {
+      this.showFloat(this.player.x, this.player.y - 24, '¡Has restaurado la concordia en todo el yermo!', '#ffd875');
+      this.time.delayedCall(1200, () => this.scene.start('Menu'));
+      return;
     }
-    this.cameras.main.fade(450, 8, 14, 10);
-    this.time.delayedCall(500, () => this.scene.restart({ save: this.save }));
+    if (!this.save) this.save = {};
+    this.save.level = this.reino.nivel + 1;
+    this.save.px = null;
+    this.save.py = null;
+    this.save.hp = this.maxHp;
+    this.save.dignidad = this.maxHp;
+    writeSave(this.save);
+    this.cameras.main.fade(400, 14, 4, 20);
+    this.time.delayedCall(450, () => this.scene.restart({ save: this.save }));
   }
 
   openRiddle(riddle) {
@@ -506,53 +514,19 @@ export default class WorldScene extends Phaser.Scene {
       returnScene: 'World',
       onSolved: () => {
         this.atrilSolved = true;
-        if (this.save) {
-          if (!this.save.riddlesSolved) this.save.riddlesSolved = [];
-          if (!this.save.riddlesSolved.includes(riddle.nivel)) this.save.riddlesSolved.push(riddle.nivel);
-        }
-        // La enseñanza del acertijo queda consultable en el Diario.
-        this.gainWisdom({
-          id: 'libro_' + riddle.nivel,
-          titulo: `${riddle.libro} — ${riddle.autor}`,
-          frase: riddle.ensenanza,
-        });
+        this.showFloat(this.atril.x, this.atril.y - 24, '¡Jurisprudencia Validada!', '#ffd875');
       },
     });
     this.scene.pause();
   }
 
-  // ----------------------------------------------------------- guardado
-  createSavePoint() {
-    const fx = (COLS / 2 + 1) * TILE;
-    const fy = (ROWS / 2 + 3) * TILE;
-    this.fuente = this.add.image(fx, fy, 'fuente').setOrigin(0.5, 1);
-    this.fuente.setDepth(fy);
-    this.fuenteHint = this.add
-      .text(fx, fy - 30, 'Guardar (E)', { fontFamily: 'monospace', fontSize: '7px', color: '#bfe0f5' })
-      .setOrigin(0.5)
-      .setDepth(99999)
-      .setVisible(false);
-  }
-
-  saveGame() {
-    if (!this.save) return;
-    this.save.hp = this.hp;
-    this.save.maxHp = this.maxHp;
-    this.save.px = Math.round(this.player.x);
-    this.save.py = Math.round(this.player.y);
-    writeSave(this.save);
-    this.cameras.main.flash(180, 180, 220, 245);
-    this.showFloat(this.player.x, this.player.y - 26, 'Progreso guardado', '#bfe0f5');
-  }
-
-  // Suma una enseñanza (objeto {id, titulo, frase}) al Diario de Sabiduría y guarda.
   gainWisdom(entry) {
     if (!this.save || !entry) return;
     if (!this.save.wisdomDiary) this.save.wisdomDiary = [];
     const exists = this.save.wisdomDiary.some((e) => e.id === entry.id);
     if (!exists) {
       this.save.wisdomDiary.push({ id: entry.id, titulo: entry.titulo, frase: entry.frase });
-      this.showFloat(this.player.x, this.player.y - 26, '✦ Nueva enseñanza (I)', '#e9c46a');
+      this.showFloat(this.player.x, this.player.y - 26, '✦ Precedente Jurídico (I)', '#ffd875');
     }
     writeSave(this.save);
   }
@@ -566,44 +540,41 @@ export default class WorldScene extends Phaser.Scene {
     this.scene.pause();
   }
 
-  // ----------------------------------------------------------- input/hud
   setupInput() {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.keys = this.input.keyboard.addKeys('W,A,S,D');
     this.input.keyboard.on('keydown-ESC', () => this.scene.start('Menu'));
     this.input.keyboard.on('keydown-E', () => this.tryInteract());
     this.input.keyboard.on('keydown-SPACE', () => this.attack());
-    this.input.keyboard.on('keydown-V', () => this.useValor());
-    this.input.keyboard.on('keydown-B', () => this.useSabiduria());
+    this.input.keyboard.on('keydown-V', () => this.useDignidad());
+    this.input.keyboard.on('keydown-B', () => this.useControlLegalidad());
     this.input.keyboard.on('keydown-I', () => this.openDiary());
   }
 
-  // Habla con quien esté más cerca (NPC, Amanda o Jerónimo).
   tryInteract() {
     if (this.talking) return;
-    const near = (obj) => Phaser.Math.Distance.Between(this.player.x, this.player.y, obj.x, obj.y);
-    // La fuente tiene prioridad si estás muy cerca: guarda el progreso.
+    const near = (obj) => obj ? Phaser.Math.Distance.Between(this.player.x, this.player.y, obj.x, obj.y) : 999;
+    
     if (near(this.fuente) < 28) {
       this.saveGame();
       return;
     }
-    // El portal (si ya está abierto).
     if (this.portalReady && near(this.portal) < 30) {
       this.advanceReino();
       return;
     }
-    // El atril del acertijo.
     if (this.atril && near(this.atril) < 28) {
       this.openRiddle(this.atril.riddle);
       return;
     }
     const options = [
-      { obj: this.npc, convo: this.npc.convo },
-      { obj: this.amanda, convo: CONVERSATIONS.amanda_valor },
-      { obj: this.jeronimo, convo: CONVERSATIONS.jeronimo_consejo },
+      { obj: this.npc, convo: this.npc ? this.npc.convo : null },
+      { obj: this.companion1, convo: this.companion1 ? this.companion1.convo : null },
+      { obj: this.companion2, convo: this.companion2 ? this.companion2.convo : null },
     ];
     let best = null;
     for (const o of options) {
+      if (!o.obj || !o.convo) continue;
       const d = near(o.obj);
       if (d < 30 && (!best || d < best.d)) best = { ...o, d };
     }
@@ -611,7 +582,7 @@ export default class WorldScene extends Phaser.Scene {
   }
 
   startDialogue(convo) {
-    if (this.talking) return;
+    if (this.talking || !convo) return;
     this.talking = true;
     this.player.setVelocity(0, 0);
     this.scene.launch('Dialogue', { convo, returnScene: 'World' });
@@ -620,45 +591,52 @@ export default class WorldScene extends Phaser.Scene {
 
   buildHud() {
     const t = this.add
-      .text(8, 6, `Reino ${this.reino.nivel} · ${this.reino.nombre}`, {
+      .text(8, 6, `AEQUITAS · Cap. ${this.reino.nivel}: ${this.reino.nombre}`, {
         fontFamily: 'Georgia, serif',
         fontSize: '11px',
-        color: COLORS.cream,
+        color: COLORS.goldLight,
       })
       .setScrollFactor(0)
       .setDepth(10000);
-    t.setShadow(1, 1, '#06100b', 2);
+    t.setShadow(1, 1, '#000000', 2);
 
-    const hint = this.add
-      .text(8, this.scale.height - 14, 'WASD  Atacar:Espacio  Valor:V  Sabiduría:B  Hablar:E  Diario:I', {
+    const sub = this.add
+      .text(8, 18, `Norma: ${this.reino.aprendizaje}`, {
         fontFamily: 'monospace',
         fontSize: '8px',
-        color: '#bfe0c8',
+        color: '#c9a7eb',
       })
       .setScrollFactor(0)
       .setDepth(10000);
-    hint.setShadow(1, 1, '#06100b', 2);
+
+    const hint = this.add
+      .text(8, this.scale.height - 12, 'WASD: Moverse · Espacio: Alegato · V: Dignidad (Const.) · B: Legalidad · E: Hablar/Códice', {
+        fontFamily: 'monospace',
+        fontSize: '8px',
+        color: '#ffd875',
+      })
+      .setScrollFactor(0)
+      .setDepth(10000);
+    hint.setShadow(1, 1, '#000000', 2);
   }
 
-  // ----------------------------------------------------------- bucle
   update() {
     if (this.talking) {
       this.player.setVelocity(0, 0);
       return;
     }
 
-    // Burbuja "!" cuando Abigail está cerca del NPC.
-    const dNpc = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.npc.x, this.npc.y);
-    this.npcHint.setVisible(dNpc < 30);
-    // Burbuja de guardado cuando está cerca de la fuente.
+    if (this.npc) {
+      const dNpc = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.npc.x, this.npc.y);
+      this.npcHint.setVisible(dNpc < 30);
+    }
     const dF = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.fuente.x, this.fuente.y);
     this.fuenteHint.setVisible(dF < 28);
-    // Burbuja del atril del acertijo (si este reino lo tiene).
+    
     if (this.atril) {
       const dA = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.atril.x, this.atril.y);
       this.atrilHint.setVisible(dA < 28);
     }
-    // Tesoros: se recogen al tocarlos.
     if (this.treasures && this.treasures.length) {
       for (const orb of this.treasures) {
         if (Phaser.Math.Distance.Between(this.player.x, this.player.y, orb.x, orb.y) < 14) {
@@ -667,7 +645,6 @@ export default class WorldScene extends Phaser.Scene {
       }
     }
 
-    // Portal: comprobar apertura y burbuja.
     this.checkPortal();
     if (this.portalReady) {
       const dP = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.portal.x, this.portal.y);
@@ -689,14 +666,12 @@ export default class WorldScene extends Phaser.Scene {
     const moving = vx !== 0 || vy !== 0;
     const knocked = this.time.now < this.knockUntil;
     if (knocked) {
-      // Durante el retroceso no se controla la velocidad (ya está fijada).
     } else if (moving) {
       const valor = this.time.now < this.valorUntil;
       const spd = SPEED * (valor ? 1.3 : 1);
       const len = Math.hypot(vx, vy) || 1;
       this.player.setVelocity((vx / len) * spd, (vy / len) * spd);
       this.updateFacing(vx, vy);
-      // pasito (bob) vertical sutil
       this.bob += 0.25;
       this.player.setScale(1, 1 - Math.abs(Math.sin(this.bob)) * 0.05);
     } else {
@@ -707,35 +682,30 @@ export default class WorldScene extends Phaser.Scene {
     this.player.setDepth(this.player.y);
     this.updateCombat();
 
-    // Añade un punto al rastro solo cuando Abigail se ha movido lo suficiente.
     const last = this.trail[this.trail.length - 1];
     if (Math.hypot(this.player.x - last.x, this.player.y - last.y) > 2) {
       this.trail.push({ x: this.player.x, y: this.player.y });
       if (this.trail.length > 80) this.trail.shift();
     }
 
-    this.followDog(this.amanda, this.amandaGap);
-    this.followDog(this.jeronimo, this.jeronimoGap);
+    this.followCompanion(this.companion1, this.companion1Gap);
+    this.followCompanion(this.companion2, this.companion2Gap);
   }
 
   updateFacing(vx, vy) {
-    if (vy < 0 && vx === 0) {
-      this.player.setTexture('abigail_back');
-      this.facing = 'up';
-    } else if (vy > 0 && vx === 0) {
-      this.player.setTexture('abigail');
-      this.facing = 'down';
-    } else if (vx !== 0) {
-      this.player.setTexture('abigail');
+    if (vx !== 0) {
       this.player.setFlipX(vx < 0);
       this.facing = vx < 0 ? 'left' : 'right';
+    } else if (vy < 0) {
+      this.facing = 'up';
+    } else if (vy > 0) {
+      this.facing = 'down';
     }
   }
 
   updateCombat() {
     const now = this.time.now;
 
-    // Fin de Valor: quitar tinte.
     if (this.player.tintTopLeft !== 0xffffff && now >= this.valorUntil) {
       this.player.clearTint();
     }
@@ -748,40 +718,36 @@ export default class WorldScene extends Phaser.Scene {
       return;
     }
 
-    // Aviso/tutorial la primera vez que se acerca a la sombra.
     const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
-    if (!this.sombraWarned && dist < 90) {
+    if (!this.sombraWarned && dist < 95) {
       this.sombraWarned = true;
-      this.startDialogue(CONVERSATIONS.sombra_aviso);
+      const convo = this.reino.nivel === 1 ? CONVERSATIONS.murociego_confronta : CONVERSATIONS.intro;
+      this.startDialogue(convo);
       return;
     }
 
-    // IA: la sombra persigue a Abigail.
     const ang = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, this.player.x, this.player.y);
-    const spd = this.enemySpeed || 42;
+    const spd = this.enemySpeed || 36;
     this.enemy.setVelocity(Math.cos(ang) * spd, Math.sin(ang) * spd);
     this.enemy.setDepth(this.enemy.y);
 
-    // Estado "revelado" (Sabiduría): núcleo visible y vulnerable.
     const revealed = now < this.revealUntil;
     this.core.setVisible(revealed);
     if (revealed) {
-      this.core.setPosition(this.enemy.x, this.enemy.y - 9);
+      this.core.setPosition(this.enemy.x, this.enemy.y - 12);
     } else if (now >= this.revealUntil && this.enemy.tintTopLeft !== 0xffffff) {
       this.enemy.clearTint();
     }
 
-    // ¿El golpe de Abigail alcanza a la sombra?
     if (now < this.attackActiveUntil && !this.enemy.hitThisSwing) {
       const dHit = Phaser.Math.Distance.Between(this.attackX, this.attackY, this.enemy.x, this.enemy.y);
-      if (dHit < 14) {
+      if (dHit < 18) {
         this.enemy.hitThisSwing = true;
         this.hitEnemy(revealed);
       }
     }
 
-    // Contacto: la sombra daña a Abigail.
-    if (dist < 12 && now >= this.invulnUntil) {
+    if (dist < 14 && now >= this.invulnUntil) {
       this.takeDamage(now);
     }
 
@@ -790,35 +756,39 @@ export default class WorldScene extends Phaser.Scene {
 
   hitEnemy(revealed) {
     if (!revealed) {
-      // Sin Sabiduría, el golpe rebota: hay que ver su punto débil.
-      this.enemy.setTint(0x6b6b8a);
+      this.enemy.setTint(0x9945de);
       this.time.delayedCall(90, () => {
         if (this.enemy.active && this.time.now >= this.revealUntil) this.enemy.clearTint();
       });
-      this.showFloat(this.enemy.x, this.enemy.y - 14, '¿?', '#9a9ab0');
+      this.showFloat(this.enemy.x, this.enemy.y - 14, '¡Sin motivación legal!', '#c9a7eb');
       return;
     }
+    
     const valor = this.time.now < this.valorUntil;
-    const dmg = valor ? 2 : 1;
-    this.enemy.hp -= dmg;
-    this.showFloat(this.enemy.x, this.enemy.y - 14, `-${dmg}`, '#e9c46a');
-    this.cameras.main.shake(80, 0.004);
-    this.tweens.add({ targets: this.enemy, alpha: 0.4, duration: 60, yoyo: true });
+    const conviccion = valor ? 3 : 2;
+    this.enemy.hp -= conviccion;
+    
+    const frases = ['¡Art. 29 C.P.!', '¡Debido Proceso!', '¡Buena Fe!', '¡Nulidad!', '¡Dignidad Humana!'];
+    const frase = frases[Phaser.Math.Between(0, frases.length - 1)];
+    this.showFloat(this.enemy.x, this.enemy.y - 16, frase, '#ffd875');
+    
+    this.cameras.main.shake(80, 0.003);
+    this.tweens.add({ targets: this.enemy, alpha: 0.5, duration: 60, yoyo: true });
+    
     if (this.enemy.hp <= 0) this.defeatEnemy();
   }
 
   takeDamage(now) {
-    this.hp = Math.max(0, this.hp - 12);
-    this.invulnUntil = now + 950;
-    // Retroceso.
+    this.hp = Math.max(0, this.hp - 10);
+    this.invulnUntil = now + 900;
     const ang = Phaser.Math.Angle.Between(this.enemy.x, this.enemy.y, this.player.x, this.player.y);
-    this.player.setVelocity(Math.cos(ang) * 160, Math.sin(ang) * 160);
-    this.knockUntil = now + 160;
+    this.player.setVelocity(Math.cos(ang) * 140, Math.sin(ang) * 140);
+    this.knockUntil = now + 150;
     this.player.setTint(0xff8a8a);
-    this.time.delayedCall(220, () => {
+    this.time.delayedCall(200, () => {
       if (this.time.now >= this.valorUntil) this.player.clearTint();
     });
-    this.cameras.main.shake(120, 0.006);
+    this.cameras.main.shake(100, 0.005);
     if (this.hp <= 0) this.playerDown();
   }
 
@@ -827,91 +797,117 @@ export default class WorldScene extends Phaser.Scene {
     this.enemy.setVelocity(0, 0);
     this.core.setVisible(false);
     this.enemyBar.clear();
+
+    this.enemy.setTint(0xffd875);
+    
+    const flor = this.add.image(this.enemy.x, this.enemy.y + 4, 'bellium_flower').setScale(0.1).setDepth(this.enemy.y - 1);
+    this.tweens.add({
+      targets: flor,
+      scale: 1.8,
+      duration: 650,
+      ease: 'Back.out',
+    });
+
+    this.cameras.main.flash(250, 227, 148, 11);
+    for (let i = 0; i < 10; i++) {
+      const p = this.add.image(this.enemy.x, this.enemy.y, 'leaf').setScale(0.8).setDepth(99999);
+      const ang = (Math.PI * 2 * i) / 10;
+      this.tweens.add({
+        targets: p,
+        x: this.enemy.x + Math.cos(ang) * 26,
+        y: this.enemy.y + Math.sin(ang) * 26,
+        alpha: 0,
+        scale: 1.4,
+        duration: 500,
+        onComplete: () => p.destroy(),
+      });
+    }
+
+    this.showFloat(this.enemy.x, this.enemy.y - 28, '✿ ¡ORDEN SOCIAL RESTAURADO! ✿', '#ffd875');
+
     this.tweens.add({
       targets: this.enemy,
-      alpha: 0,
-      scaleX: 0.2,
-      scaleY: 0.2,
-      duration: 500,
+      alpha: 0.2,
+      duration: 800,
       onComplete: () => this.enemy.destroy(),
     });
-    // Recompensa: cura, enseñanza al diario y guardado automático.
+
     this.hp = this.maxHp;
     if (this.save) {
       this.save.hp = this.hp;
-      this.save.firstShadowBeaten = true;
+      this.save.dignidad = this.hp;
+      if (!this.save.solvedCases) this.save.solvedCases = [];
+      this.save.solvedCases.push(this.reino.nombre);
     }
+    
     this.gainWisdom(WISDOM.prologo_sombra);
-    this.time.delayedCall(600, () => this.startDialogue(CONVERSATIONS.sombra_vencida));
+    this.time.delayedCall(700, () => this.startDialogue(CONVERSATIONS.arbitrariedad_vencida));
   }
 
   playerDown() {
-    // Reaparece en el inicio con la vida restaurada.
-    this.cameras.main.fade(300, 10, 16, 12);
+    this.cameras.main.fade(300, 14, 4, 20);
     this.time.delayedCall(350, () => {
       this.hp = this.maxHp;
       this.player.setPosition((COLS / 2) * TILE, (ROWS / 2) * TILE);
       this.player.clearTint();
-      this.cameras.main.fadeIn(300, 10, 16, 12);
-      this.showFloat(this.player.x, this.player.y - 24, 'Respira y vuelve a intentarlo', '#bfe0c8');
+      this.cameras.main.fadeIn(300, 14, 4, 20);
+      this.showFloat(this.player.x, this.player.y - 24, 'Recobra la dignidad y vuelve a argumentar', '#ffd875');
     });
   }
 
   showFloat(x, y, text, color) {
     const t = this.add
-      .text(x, y, text, { fontFamily: 'monospace', fontSize: '9px', color })
+      .text(x, y, text, { fontFamily: 'Georgia, serif', fontSize: '9px', color })
       .setOrigin(0.5)
       .setDepth(99999);
-    this.tweens.add({ targets: t, y: y - 12, alpha: 0, duration: 700, onComplete: () => t.destroy() });
+    this.tweens.add({ targets: t, y: y - 14, alpha: 0, duration: 800, onComplete: () => t.destroy() });
   }
 
   drawHpBar() {
     const g = this.hpBar;
     g.clear();
     const x = 8;
-    const y = 22;
-    const w = 64;
+    const y = 28;
+    const w = 70;
     const h = 6;
-    g.fillStyle(0x06100b, 0.8);
+    g.fillStyle(0x08020c, 0.9);
     g.fillRect(x - 1, y - 1, w + 2, h + 2);
-    g.fillStyle(0x2a1414, 1);
+    g.fillStyle(0x32104a, 1);
     g.fillRect(x, y, w, h);
     const pct = Phaser.Math.Clamp(this.hp / this.maxHp, 0, 1);
-    g.fillStyle(0x5bbf6a, 1);
+    g.fillStyle(0xe3940b, 1);
     g.fillRect(x, y, Math.round(w * pct), h);
 
-    // Estado de habilidades.
     const now = this.time.now;
-    const valor = now < this.valorUntil ? 'ACTIVO' : now < this.valorReadyAt ? 'recargando' : 'listo (V)';
+    const valor = now < this.valorUntil ? 'ACTIVA' : now < this.valorReadyAt ? 'recargando' : 'lista (V)';
     const sab = now < this.revealUntil ? 'ACTIVA' : now < this.revealReadyAt ? 'recargando' : 'lista (B)';
-    this.skillText.setText(`Valor: ${valor}    Sabiduría: ${sab}`).setY(32);
-    this.skillText.setX(8);
+    this.skillText.setText(`Dignidad (V): ${valor}  ·  Legalidad (B): ${sab}`).setY(37);
   }
 
   drawEnemyBar() {
     const g = this.enemyBar;
     g.clear();
     if (!this.enemy.active) return;
-    const w = 18;
+    const w = 22;
     const h = 3;
     const x = this.enemy.x - w / 2;
-    const y = this.enemy.y - 16;
-    g.fillStyle(0x06100b, 0.8);
+    const y = this.enemy.y - 18;
+    g.fillStyle(0x08020c, 0.9);
     g.fillRect(x - 1, y - 1, w + 2, h + 2);
-    g.fillStyle(0x3a3152, 1);
+    g.fillStyle(0x420060, 1);
     g.fillRect(x, y, w, h);
     const pct = Phaser.Math.Clamp(this.enemy.hp / this.enemy.maxHp, 0, 1);
-    g.fillStyle(0xc3a9ec, 1);
+    g.fillStyle(0x9945de, 1);
     g.fillRect(x, y, Math.round(w * pct), h);
   }
 
-  followDog(dog, gap) {
+  followCompanion(comp, gap) {
+    if (!comp) return;
     const p = this.trailPointBehind(gap);
-    const prevX = dog.x;
-    // Suaviza el movimiento hacia el punto objetivo.
-    dog.x = Phaser.Math.Linear(dog.x, p.x, 0.4);
-    dog.y = Phaser.Math.Linear(dog.y, p.y, 0.4);
-    if (Math.abs(dog.x - prevX) > 0.2) dog.setFlipX(dog.x < prevX);
-    dog.setDepth(dog.y);
+    const prevX = comp.x;
+    comp.x = Phaser.Math.Linear(comp.x, p.x, 0.4);
+    comp.y = Phaser.Math.Linear(comp.y, p.y, 0.4);
+    if (Math.abs(comp.x - prevX) > 0.2) comp.setFlipX(comp.x < prevX);
+    comp.setDepth(comp.y);
   }
 }

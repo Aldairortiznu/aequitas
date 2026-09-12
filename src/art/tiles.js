@@ -3,6 +3,7 @@
 // flores y agua.
 
 function hex(h) {
+  if (!h) return 0xffffff;
   return Phaser.Display.Color.HexStringToColor(h).color;
 }
 

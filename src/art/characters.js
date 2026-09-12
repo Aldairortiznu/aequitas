@@ -4,6 +4,7 @@
 import { SPRITES } from './spriteData.js';
 
 function hex(h) {
+  if (!h) return 0xffffff;
   return Phaser.Display.Color.HexStringToColor(h).color;
 }
 

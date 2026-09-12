@@ -1,8 +1,8 @@
-// Pantalla de título de "El Jardín de los Miedos".
-// Fondo verde con hojas flotando, título, y menú (Nueva partida / Continuar).
+// Pantalla de título de AEQUITAS: El Retorno del Equilibrio.
+// Bellium S.A.S. · Publicación Editorial Al Resuelve (Cartagena de Indias, Colombia).
 
 import Phaser from 'phaser';
-import { GAME, COLORS } from '../config.js';
+import { GAME, COLORS, EXPLORERS } from '../config.js';
 import { hasSave, newSave, loadSave } from '../systems/save.js';
 
 export default class MenuScene extends Phaser.Scene {
@@ -13,75 +13,53 @@ export default class MenuScene extends Phaser.Scene {
   create() {
     const { WIDTH, HEIGHT } = GAME;
 
-    // Fondo en degradado verde.
+    // Fondo degradado crepuscular Bellium (púrpura a negro)
     this.drawBackground();
 
-    // Hojas flotando hacia arriba.
+    // Hojas y margaritas doradas flotando
     this.spawnLeaves();
 
-    // Título.
+    // Título Principal
     this.add
-      .text(WIDTH / 2, 86, 'Reverdecer', {
+      .text(WIDTH / 2, 38, 'AEQUITAS', {
         fontFamily: 'Georgia, serif',
-        fontSize: '40px',
-        color: COLORS.greenLight,
+        fontSize: '38px',
+        color: COLORS.goldLight,
+        stroke: '#000000',
+        strokeThickness: 4,
       })
       .setOrigin(0.5);
 
-    // Subtítulo / dedicatoria.
+    // Subtítulo
     this.add
-      .text(WIDTH / 2, 122, 'La travesía de Abigail', {
+      .text(WIDTH / 2, 64, '· EL RETORNO DEL EQUILIBRIO ·', {
         fontFamily: 'Georgia, serif',
-        fontSize: '12px',
-        color: COLORS.gold,
-        fontStyle: 'italic',
-      })
-      .setOrigin(0.5);
-    this.add
-      .text(WIDTH / 2, 140, '· 32 aprendizajes para volver a florecer ·', {
-        fontFamily: 'Georgia, serif',
-        fontSize: '9px',
-        color: COLORS.cream,
-        fontStyle: 'italic',
+        fontSize: '11px',
+        color: COLORS.purpleLight,
+        letterSpacing: 2,
       })
       .setOrigin(0.5);
 
-    // Trío protagonista con nombres.
-    const trio = [
-      { key: 'jeronimo', name: 'Jerónimo', x: WIDTH / 2 - 46, y: 172, s: 1.6 },
-      { key: 'abigail', name: 'Abigail', x: WIDTH / 2, y: 168, s: 1.8 },
-      { key: 'amanda', name: 'Amanda', x: WIDTH / 2 + 46, y: 173, s: 1.6 },
-    ];
-    trio.forEach((c) => {
-      const spr = this.add.image(c.x, c.y, c.key).setScale(c.s).setOrigin(0.5, 1);
-      // leve "respiración" para dar vida
-      this.tweens.add({
-        targets: spr,
-        y: c.y - 2,
-        duration: 1200,
-        yoyo: true,
-        repeat: -1,
-        ease: 'Sine.inOut',
-        delay: Phaser.Math.Between(0, 600),
-      });
-      this.add
-        .text(c.x, c.y + 6, c.name, {
-          fontFamily: 'Georgia, serif',
-          fontSize: '8px',
-          color: c.key === 'abigail' ? COLORS.gold : COLORS.cream,
-        })
-        .setOrigin(0.5, 0);
-    });
-
-    // Opciones de menú.
-    this.buildMenu();
-
-    // Pie.
     this.add
-      .text(WIDTH / 2, HEIGHT - 12, 'Flechas: elegir  ·  Enter: confirmar', {
+      .text(WIDTH / 2, 79, 'Bellium S.A.S. · Al Resuelve (Cartagena de Indias)', {
         fontFamily: 'monospace',
         fontSize: '8px',
-        color: '#7fae8c',
+        color: '#ffd875',
+      })
+      .setOrigin(0.5);
+
+    // Selector de los Cuatro Exploradores
+    this.createExplorerSelector();
+
+    // Menú de opciones principales
+    this.buildMenu();
+
+    // Pie de controles
+    this.add
+      .text(WIDTH / 2, HEIGHT - 10, '← →: Elegir Explorador  ·  ↑ ↓: Opciones  ·  Enter: Confirmar', {
+        fontFamily: 'monospace',
+        fontSize: '8px',
+        color: '#a795b8',
       })
       .setOrigin(0.5);
   }
@@ -89,7 +67,7 @@ export default class MenuScene extends Phaser.Scene {
   drawBackground() {
     const { WIDTH, HEIGHT } = GAME;
     const g = this.add.graphics();
-    const top = Phaser.Display.Color.HexStringToColor(COLORS.bgGreen).color;
+    const top = Phaser.Display.Color.HexStringToColor(COLORS.purpleBellium).color;
     const bottom = Phaser.Display.Color.HexStringToColor(COLORS.bgDeep).color;
     g.fillGradientStyle(top, top, bottom, bottom, 1);
     g.fillRect(0, 0, WIDTH, HEIGHT);
@@ -98,20 +76,127 @@ export default class MenuScene extends Phaser.Scene {
   spawnLeaves() {
     const { WIDTH, HEIGHT } = GAME;
     this.leaves = [];
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 20; i++) {
       const leaf = this.add
-        .image(
-          Phaser.Math.Between(0, WIDTH),
-          Phaser.Math.Between(0, HEIGHT),
-          'leaf'
-        )
+        .image(Phaser.Math.Between(0, WIDTH), Phaser.Math.Between(0, HEIGHT), 'leaf')
         .setAlpha(Phaser.Math.FloatBetween(0.3, 0.8))
-        .setScale(Phaser.Math.FloatBetween(0.5, 1.1));
-      leaf.speedY = Phaser.Math.FloatBetween(0.2, 0.7);
+        .setScale(Phaser.Math.FloatBetween(0.6, 1.2));
+      leaf.speedY = Phaser.Math.FloatBetween(0.2, 0.6);
       leaf.swing = Phaser.Math.FloatBetween(0.5, 1.5);
       leaf.phase = Phaser.Math.FloatBetween(0, Math.PI * 2);
       this.leaves.push(leaf);
     }
+  }
+
+  createExplorerSelector() {
+    const { WIDTH } = GAME;
+    this.explorerKeys = ['aurelio', 'valeria', 'kaelen', 'sora'];
+    this.selectedExplorerIdx = 0;
+
+    this.add
+      .text(WIDTH / 2, 98, 'ELIGE A TU EXPLORADOR DE LA BIBLIOTECA:', {
+        fontFamily: 'monospace',
+        fontSize: '8px',
+        color: COLORS.gold,
+      })
+      .setOrigin(0.5);
+
+    const startX = WIDTH / 2 - 120;
+    const gap = 80;
+    const yPos = 142;
+
+    this.explorerSprites = [];
+    this.explorerLabels = [];
+    this.highlightBox = this.add.graphics();
+
+    this.explorerKeys.forEach((key, idx) => {
+      const exp = EXPLORERS[key];
+      const x = startX + idx * gap;
+
+      const spr = this.add
+        .image(x, yPos, exp.sprite)
+        .setScale(1.8)
+        .setOrigin(0.5, 1)
+        .setInteractive({ useHandCursor: true });
+
+      spr.on('pointerdown', () => {
+        this.selectedExplorerIdx = idx;
+        this.updateExplorerHighlights();
+      });
+
+      // Animación suave de respiración
+      this.tweens.add({
+        targets: spr,
+        y: yPos - 3,
+        duration: 1100,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.inOut',
+        delay: idx * 250,
+      });
+
+      const lbl = this.add
+        .text(x, yPos + 6, exp.name, {
+          fontFamily: 'Georgia, serif',
+          fontSize: '10px',
+          color: COLORS.cream,
+        })
+        .setOrigin(0.5, 0);
+
+      this.explorerSprites.push(spr);
+      this.explorerLabels.push(lbl);
+    });
+
+    // Ficha descriptiva del explorador activo
+    this.infoTitle = this.add
+      .text(WIDTH / 2, 168, '', {
+        fontFamily: 'Georgia, serif',
+        fontSize: '10px',
+        color: COLORS.goldLight,
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5);
+
+    this.infoSpecialty = this.add
+      .text(WIDTH / 2, 181, '', {
+        fontFamily: 'monospace',
+        fontSize: '8px',
+        color: '#c9a7eb',
+      })
+      .setOrigin(0.5);
+
+    this.updateExplorerHighlights();
+
+    // Controles horizontales para explorador
+    this.input.keyboard.on('keydown-LEFT', () => {
+      this.selectedExplorerIdx = Phaser.Math.Wrap(this.selectedExplorerIdx - 1, 0, this.explorerKeys.length);
+      this.updateExplorerHighlights();
+    });
+    this.input.keyboard.on('keydown-RIGHT', () => {
+      this.selectedExplorerIdx = Phaser.Math.Wrap(this.selectedExplorerIdx + 1, 0, this.explorerKeys.length);
+      this.updateExplorerHighlights();
+    });
+  }
+
+  updateExplorerHighlights() {
+    const key = this.explorerKeys[this.selectedExplorerIdx];
+    const exp = EXPLORERS[key];
+
+    this.explorerSprites.forEach((spr, i) => {
+      const active = i === this.selectedExplorerIdx;
+      spr.setAlpha(active ? 1 : 0.6);
+      spr.setScale(active ? 2.1 : 1.7);
+      this.explorerLabels[i].setColor(active ? COLORS.goldLight : '#a795b8');
+    });
+
+    this.infoTitle.setText(`« ${exp.name} — ${exp.title} »`);
+    this.infoSpecialty.setText(`Especialidad: ${exp.specialty}`);
+
+    // Dibujar marco dorado
+    this.highlightBox.clear();
+    const activeSpr = this.explorerSprites[this.selectedExplorerIdx];
+    this.highlightBox.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.gold).color, 0.8);
+    this.highlightBox.strokeRoundedRect(activeSpr.x - 22, activeSpr.y - 40, 44, 46, 6);
   }
 
   buildMenu() {
@@ -120,23 +205,28 @@ export default class MenuScene extends Phaser.Scene {
 
     this.options = [];
     if (continueAvailable) {
-      this.options.push({ label: 'Continuar', action: () => this.startGame(false) });
+      this.options.push({ label: 'Continuar Expedición', action: () => this.startGame(false) });
     }
-    this.options.push({ label: 'Nueva partida', action: () => this.startGame(true) });
+    this.options.push({ label: 'Nueva Partida', action: () => this.startGame(true) });
+    this.options.push({ label: 'Códice de la Ley', action: () => this.scene.launch('Diary', { returnScene: 'Menu' }) });
 
     this.selected = 0;
     this.optionTexts = this.options.map((opt, i) =>
       this.add
-        .text(WIDTH / 2, 206 + i * 20, opt.label, {
+        .text(WIDTH / 2, 204 + i * 16, opt.label, {
           fontFamily: 'Georgia, serif',
-          fontSize: '14px',
+          fontSize: '12px',
           color: COLORS.cream,
         })
         .setOrigin(0.5)
+        .setInteractive({ useHandCursor: true })
+        .on('pointerdown', () => {
+          this.selected = i;
+          this.confirm();
+        })
     );
     this.refreshMenu();
 
-    // Controles.
     this.input.keyboard.on('keydown-UP', () => this.move(-1));
     this.input.keyboard.on('keydown-DOWN', () => this.move(1));
     this.input.keyboard.on('keydown-ENTER', () => this.confirm());
@@ -152,8 +242,8 @@ export default class MenuScene extends Phaser.Scene {
     this.optionTexts.forEach((t, i) => {
       const active = i === this.selected;
       t.setColor(active ? COLORS.gold : COLORS.cream);
-      t.setText((active ? '❯ ' : '  ') + this.options[i].label);
-      t.setScale(active ? 1.1 : 1);
+      t.setText((active ? '✿  ' : '   ') + this.options[i].label);
+      t.setScale(active ? 1.08 : 1);
     });
   }
 
@@ -162,7 +252,14 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   startGame(isNew) {
-    const save = isNew ? newSave(GAME.HEROINE) : loadSave() || newSave(GAME.HEROINE);
+    const explorerKey = this.explorerKeys[this.selectedExplorerIdx];
+    let save;
+    if (isNew) {
+      save = newSave(explorerKey);
+    } else {
+      save = loadSave() || newSave(explorerKey);
+      if (save) save.explorer = explorerKey;
+    }
     this.scene.start('World', { save });
   }
 
