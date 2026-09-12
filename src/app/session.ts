@@ -39,8 +39,23 @@ const noopModals: ModalHandlers = {
   interpelacion: async () => 'interpelada',
 };
 
+export interface SessionSettings {
+  modo: 'estudio' | 'normal' | 'jurista';
+  textScale: number;
+  font: 'pixel' | 'legible';
+  modoAula: boolean;
+  volumen: number;
+}
+
 export class Session {
   state: GameState;
+  settings: SessionSettings = {
+    modo: 'normal',
+    textScale: 1,
+    font: 'legible',
+    modoAula: false,
+    volumen: 0.8,
+  };
   episode: ValidatedEpisode | null = null;
   content: LoadedContent | null = null;
   legitimidad: LegitimidadState = {};
@@ -352,6 +367,24 @@ export class Session {
       default:
         break;
     }
+  }
+
+  /** Muestra un diálogo y espera a que se cierre (para paneles que encadenan diálogos). */
+  async showDialogue(id: string): Promise<void> {
+    if (!this.episode?.dialogues[id]) return;
+    const r = await this.modals.dialogue(id, this);
+    for (const d of r.deferred) await this.runAction(d);
+  }
+
+  /** Nota del Cuaderno para el episodio actual. */
+  addNota(nota: string): void {
+    const ep = this.episode?.manifest.id ?? 'general';
+    this.state = GS.addNota(this.state, ep, nota);
+    this.bus.emit('state:changed', { reason: 'nota' });
+  }
+
+  markCodiceUsed(id: string, audienciaId: string): void {
+    this.state = GS.markCodiceUsed(this.state, id, audienciaId);
   }
 
   /** Busca una evidencia en el episodio actual (Ep. 7 ampliará al zurrón global). */

@@ -6,6 +6,7 @@ import { Hud } from './Hud';
 import { Gamepad } from './Gamepad';
 import { DialogueHost } from './DialogueBox';
 import { PanelBar, PanelHost } from './Panels';
+import { AudienciaHost } from './AudienciaView';
 import { anyModalOpen, ui } from './store';
 
 /**
@@ -64,6 +65,7 @@ export function App({ session }: { session: Session }) {
       {inWorld && <Gamepad />}
       <DialogueHost session={session} />
       <PanelHost session={session} />
+      <AudienciaHost session={session} />
       {toast && (
         <div class={`ui-toast ui-toast--${toast.kind}`} role="status" aria-live="polite">
           {toast.text}

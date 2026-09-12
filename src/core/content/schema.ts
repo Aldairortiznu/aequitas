@@ -307,6 +307,8 @@ export const AfirmacionSchema = z.strictObject({
   solucion: AfirmacionSolucionSchema,
   danoPosicion: z.number().int().min(1).optional(),
   derechoFundamental: z.boolean().optional(),
+  /** Evidencia falsa que sostiene la afirmación; el Cotejo de Prudencio la expone. */
+  documentoFalso: IdSchema.optional(),
   respuestas: z.strictObject({
     plena: z.string().min(1).max(MAX_DIALOGUE_TEXT),
     parcial: z.string().min(1).max(MAX_DIALOGUE_TEXT).optional(),
@@ -327,12 +329,16 @@ export const ManiobraSchema = z.strictObject({
   tras: IdSchema.optional(),
 });
 
+export type Maniobra = z.infer<typeof ManiobraSchema>;
+
 export const RondaSchema = z.strictObject({
   id: IdSchema,
   titulo: z.string().max(60).optional(),
   afirmaciones: z.array(AfirmacionSchema).min(1),
   maniobra: ManiobraSchema.optional(),
 });
+
+export type Ronda = z.infer<typeof RondaSchema>;
 
 export const AudienciaSchema = z.strictObject({
   id: IdSchema,

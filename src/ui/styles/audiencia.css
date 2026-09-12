@@ -1,0 +1,302 @@
+/* ---------- Audiencia Dialéctica ---------- */
+.aud {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: calc(0.95rem * var(--text-scale));
+  transition: box-shadow 200ms;
+}
+.aud--plena {
+  box-shadow: inset 0 0 0 4px var(--green-2);
+}
+.aud--parcial {
+  box-shadow: inset 0 0 0 4px var(--gold-1);
+}
+.aud--fallida {
+  box-shadow: inset 0 0 0 4px var(--ink-3);
+}
+.aud__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-2);
+  flex-wrap: wrap;
+}
+.aud__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.aud__title h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  font-size: 1.3em;
+}
+.aud__meters {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.meter {
+  display: grid;
+  grid-template-columns: auto minmax(90px, 140px) auto;
+  align-items: center;
+  gap: 6px;
+}
+.meter__label {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.meter__bar {
+  display: block;
+  height: 8px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+.meter__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  transition: width 350ms ease;
+  background: var(--bellium-2);
+}
+.meter--tension .meter__fill {
+  background: repeating-linear-gradient(90deg, var(--earth-2) 0 4px, var(--gold-2) 4px 8px);
+}
+.meter__value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8em;
+  min-width: 3ch;
+  text-align: right;
+}
+.meter__marks {
+  display: inline-flex;
+  gap: 4px;
+}
+.meter__mark {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--gold-1);
+  transform: rotate(45deg) scale(0.8);
+  background: transparent;
+}
+.meter__mark.is-on {
+  background: var(--gold-2);
+}
+.aud__main {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 16px;
+  min-height: 0;
+}
+.aud__adversario {
+  text-align: center;
+}
+.aud__adversario img {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+}
+.aud__nombre {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-top: 4px;
+}
+.aud__center {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 10px;
+  min-height: 0;
+}
+.aud__card {
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 10px 14px;
+  position: relative;
+}
+.aud__card.is-resuelta {
+  opacity: 0.7;
+  background: var(--paper-2);
+}
+.aud__card--maniobra {
+  border-color: var(--gold-1);
+  background: rgba(226, 185, 74, 0.1);
+}
+.aud__card-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.aud__afirmacion {
+  font-family: var(--font-display);
+  font-size: 1.25em;
+  line-height: 1.4;
+  margin: 6px 0 8px;
+}
+.aud__nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.aud__pendientes {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  color: var(--muted);
+}
+.aud__log {
+  overflow: auto;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.aud__line {
+  margin: 0;
+  padding: 4px 8px;
+  border-left: 2px solid transparent;
+}
+.aud__line--adversario {
+  border-left-color: var(--ink-3);
+}
+.aud__line--renata {
+  border-left-color: var(--bellium-2);
+}
+.aud__line--sala {
+  color: var(--muted);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+.aud__line--nota {
+  background: rgba(74, 138, 79, 0.1);
+  border-left-color: var(--green-2);
+}
+.aud__line--pista {
+  background: rgba(226, 185, 74, 0.12);
+  border-left-color: var(--gold-1);
+}
+.aud__line--companero {
+  border-left-color: var(--water-1);
+}
+.aud__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 16px calc(10px + var(--safe-bottom));
+  border-top: 1px solid var(--line);
+  background: var(--paper-2);
+  align-items: center;
+}
+.aud__actions--fin {
+  justify-content: center;
+}
+.aud__sep {
+  flex: 1;
+}
+.btn--oro {
+  background: var(--gold-1);
+  color: var(--ink);
+}
+.aud__drawer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: min(92vw, 420px);
+  background: var(--paper);
+  border-left: 1px solid var(--line);
+  box-shadow: -4px 0 0 rgba(0, 0, 0, 0.15);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+.aud__drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-2);
+}
+.aud__drawer-body {
+  overflow: auto;
+  padding: 8px 12px;
+}
+.aud__drawer-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--line);
+  font-size: 0.85em;
+}
+.pick {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pick__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom-color: var(--paper-2);
+  padding: 8px 6px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.pick__item.is-active,
+.pick__item:hover {
+  border-color: var(--gold-1);
+  background: rgba(226, 185, 74, 0.1);
+}
+.tag--falso {
+  color: #a33;
+  border-color: #a33;
+  margin-left: 6px;
+}
+@media (max-width: 700px) {
+  .aud__main {
+    grid-template-columns: 1fr;
+  }
+  .aud__adversario {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+  }
+  .aud__adversario img {
+    width: 48px;
+    height: 48px;
+  }
+  .aud__afirmacion {
+    font-size: 1.05em;
+  }
+  .meter {
+    grid-template-columns: auto minmax(60px, 90px) auto;
+  }
+}
