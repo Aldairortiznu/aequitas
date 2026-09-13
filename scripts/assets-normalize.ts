@@ -201,7 +201,7 @@ function hexToRgb(h: string): [number, number, number] | null {
  * está conectado con el borde, así que un cuello blanco o un papel dentro de la figura no se
  * pierde. Si el archivo ya trae alfa real en los bordes, no se toca.
  */
-function keyBackground(img: RawImg, modo: string): RawImg {
+function keyBackground(img: RawImg, modo: string, soloClavePura = false): RawImg {
   const { data, width, height } = img;
   if (modo === 'none') return img;
   const idx = (x: number, y: number): number => (y * width + x) * 4;
@@ -225,8 +225,20 @@ function keyBackground(img: RawImg, modo: string): RawImg {
   // Colores clave
   let claves: [number, number, number][] = [];
   const fijo = modo !== 'auto' ? hexToRgb(modo) : null;
+  const esClavePura = (i: number): boolean => {
+    const r = data[i]!;
+    const g = data[i + 1]!;
+    const b = data[i + 2]!;
+    return (r > 190 && g < 90 && b > 190) || (r < 90 && g > 190 && b < 90);
+  };
+  const esquinas = [idx(0, 0), idx(width - 1, 0), idx(0, height - 1), idx(width - 1, height - 1)];
+  const esquinaPura = esquinas.find((i) => data[i + 3]! >= 128 && esClavePura(i));
   if (fijo) claves = [fijo];
-  else {
+  else if (soloClavePura && esquinaPura === undefined) return img;
+  else if (esquinaPura !== undefined) {
+    // Fondo de clave (magenta o verde): solo ese color, aunque la figura toque el borde inferior.
+    claves = [[data[esquinaPura]!, data[esquinaPura + 1]!, data[esquinaPura + 2]!]];
+  } else {
     const buckets = new Map<string, { n: number; r: number; g: number; b: number }>();
     const add = (x: number, y: number): void => {
       const i = idx(x, y);
@@ -239,11 +251,8 @@ function keyBackground(img: RawImg, modo: string): RawImg {
       b.b += data[i + 2]!;
       buckets.set(key, b);
     };
-    for (let x = 0; x < width; x++) {
-      add(x, 0);
-      add(x, height - 1);
-    }
-    for (let y = 1; y < height - 1; y++) {
+    for (let x = 0; x < width; x++) add(x, 0);
+    for (let y = 1; y < Math.floor(height / 2); y++) {
       add(0, y);
       add(width - 1, y);
     }
@@ -254,7 +263,7 @@ function keyBackground(img: RawImg, modo: string): RawImg {
       .map((b) => [b.r / b.n, b.g / b.n, b.b / b.n] as [number, number, number]);
   }
   if (!claves.length) return img;
-  const TOL = 42;
+  const TOL = esquinaPura !== undefined && !fijo ? 70 : 42;
   const esFondo = (i: number): boolean => {
     if (data[i + 3]! < 128) return true;
     for (const [r, g, b] of claves) {
@@ -296,6 +305,34 @@ function keyBackground(img: RawImg, modo: string): RawImg {
       out[p * 4 + 3] = 0;
       quitados++;
     }
+  // Halo: píxeles del borde de la figura teñidos por el color clave (antialiasing sobre magenta).
+  if (esquinaPura !== undefined && !fijo) {
+    const [kr, kg, kb] = claves[0]!;
+    const tenido = (i: number): boolean => {
+      const r = out[i]!;
+      const g = out[i + 1]!;
+      const b = out[i + 2]!;
+      // Cerca del magenta/verde puro pero fuera de la tolerancia de fondo.
+      return (
+        Math.hypot(r - kr, g - kg, b - kb) < 150 && Math.abs(r - b) < 90 && g < Math.min(r, b) - 30
+      );
+    };
+    const vecinoTransparente = (x: number, y: number): boolean =>
+      (x > 0 && out[idx(x - 1, y) + 3] === 0) ||
+      (x < width - 1 && out[idx(x + 1, y) + 3] === 0) ||
+      (y > 0 && out[idx(x, y - 1) + 3] === 0) ||
+      (y < height - 1 && out[idx(x, y + 1) + 3] === 0);
+    for (let pasada = 0; pasada < 2; pasada++) {
+      const quitar: number[] = [];
+      for (let y = 0; y < height; y++)
+        for (let x = 0; x < width; x++) {
+          const i = idx(x, y);
+          if (out[i + 3] !== 0 && tenido(i) && vecinoTransparente(x, y)) quitar.push(i);
+        }
+      for (const i of quitar) out[i + 3] = 0;
+      quitados += quitar.length;
+    }
+  }
   if (quitados) console.log(`  fondo quitado: ${Math.round((100 * quitados) / marcado.length)} %`);
   return { data: out, width, height };
 }
@@ -319,7 +356,10 @@ function bbox(img: RawImg): { x: number; y: number; w: number; h: number } | nul
 }
 
 async function loadRaw(path: string): Promise<RawImg> {
-  const { data, info } = await sharp(path).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { data, info } = await sharp(path)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
   return { data, width: info.width, height: info.height };
 }
 
@@ -366,8 +406,11 @@ async function assembleFromFolder(
   const fondo = arg('fondo') ?? (tipo === 'sprite' ? 'auto' : 'none');
   if (tipo === 'sprite') {
     // Silueta de cada cuadro y factor de escala común (el cuadro más alto ocupa 22 px, o 14 de ancho).
-    const recortes: { index: number; img: RawImg; box: { x: number; y: number; w: number; h: number } }[] =
-      [];
+    const recortes: {
+      index: number;
+      img: RawImg;
+      box: { x: number; y: number; w: number; h: number };
+    }[] = [];
     for (const { f, index } of piezas) {
       const img = keyBackground(await loadRaw(join(dir, f)), fondo);
       const box = bbox(img);
@@ -391,15 +434,28 @@ async function assembleFromFolder(
         raw: { width: img.width, height: img.height, channels: 4 },
       })
         .extract({ left: box.x, top: box.y, width: box.w, height: box.h })
-        .resize(w, h, { kernel: entero ? sharp.kernel.nearest : sharp.kernel.lanczos3, fit: 'fill' })
+        .resize(w, h, {
+          kernel: entero ? sharp.kernel.nearest : sharp.kernel.lanczos3,
+          fit: 'fill',
+        })
         .raw()
         .toBuffer({ resolveWithObject: true });
-      const ox = (index % cols) * cellW + Math.floor((cellW - w) / 2);
-      const oy = Math.floor(index / cols) * cellH + (cellH - h);
+      // Tras reducir, los bordes quedan semitransparentes y la cuantización los quita: se
+      // centra por la silueta visible (alfa ≥ umbral) para que los cuadros no salten.
+      const vis = bbox({ data, width: w, height: h }) ?? { x: 0, y: 0, w, h };
+      const ox = (index % cols) * cellW + Math.floor((cellW - vis.w) / 2) - vis.x;
+      const oy = Math.floor(index / cols) * cellH + (cellH - (vis.y + vis.h));
       for (let y = 0; y < h; y++) {
-        const srcOff = y * w * 4;
-        const dstOff = ((oy + y) * t.width + ox) * 4;
-        data.copy(sheet, dstOff, srcOff, srcOff + w * 4);
+        const dy = oy + y;
+        if (dy < Math.floor(index / cols) * cellH || dy >= Math.floor(index / cols) * cellH + cellH)
+          continue;
+        for (let x = 0; x < w; x++) {
+          const dx = ox + x;
+          if (dx < (index % cols) * cellW || dx >= (index % cols) * cellW + cellW) continue;
+          const srcOff = (y * w + x) * 4;
+          if (data[srcOff + 3]! < alfa) continue;
+          data.copy(sheet, (dy * t.width + dx) * 4, srcOff, srcOff + 4);
+        }
       }
       placed++;
     }
@@ -453,7 +509,8 @@ async function main(): Promise<void> {
   const fondo = arg('fondo') ?? (tipo === 'retrato' || tipo === 'icono' ? 'auto' : 'none');
   let entrada = sharp(src).ensureAlpha();
   if (fondo !== 'none') {
-    const keyed = keyBackground(await loadRaw(src), fondo);
+    // Retratos: solo se quita un fondo de clave (magenta/verde); un fondo oscuro es parte del retrato.
+    const keyed = keyBackground(await loadRaw(src), fondo, tipo === 'retrato');
     entrada = sharp(keyed.data, { raw: { width: keyed.width, height: keyed.height, channels: 4 } });
   }
   const entero =

@@ -137,7 +137,12 @@ Lo que sí sirve: pedir **el sprite ya en su rejilla**, dibujado en grande.
 
 - Tamaño de salida **128×192** (rejilla de 16×24 con píxeles de 8×8) o 256×384 (píxeles de
   16×16). El normalizador detecta el múltiplo entero y reduce con vecino más cercano: cada bloque
-  se convierte en un píxel limpio.
+  se convierte en un píxel limpio. Si el generador no puede producir un tamaño tan pequeño
+  (Nano Banana entrega 848×1264), pide igualmente **píxeles gruesos**: «extremely low
+  resolution pixel art, only 16 by 24 visible pixels, each pixel a large flat square, no
+  fine detail». Con detalle fino (ojos de dos píxeles reales, costuras) la reducción
+  emborrona la cara; con bloques gruesos sale limpia. La segunda versión de Renata quedó a
+  medio camino: se aprueba como base, pero la versión final se hace con bloques gruesos.
 - Fondo **plano y de un solo color fuera de la paleta**: magenta `#ff00ff`. Nada de tablero de
   ajedrez, nada de sombras proyectadas sobre el fondo. El normalizador lo quita por inundación
   desde los bordes (`--fondo auto`, activo por defecto en sprites y retratos).
@@ -170,13 +175,16 @@ Plantilla para una celda de tileset:
 > seamless tile that repeats on all four edges, orthographic top-down view, flat colors, hard
 > pixel edges, no anti-aliasing, limited palette: {hex}. Square. No text.
 
-Plantilla para un retrato (los del Bloque A salieron bien con esta receta: 1024×1024,
-tres expresiones en la misma sesión, el `neutra` aprobado como referencia de las otras dos):
+Plantilla para un retrato (los de Renata y Pilar salieron bien con esta receta: 1024×1024,
+tres expresiones en la misma sesión, el `neutra` aprobado como referencia de las otras dos).
+El retrato se muestra sobre un recuadro oscuro `#2e2d33`, así que **el fondo oscuro forma
+parte del retrato**: no hace falta clave ni recorte, y el pelo suelto no deja halo. El
+normalizador solo quita fondos magenta o verde; un fondo oscuro lo conserva.
 
 > Pixel art portrait bust, 16-bit style, {descripción}, three-quarter view facing slightly
 > right, looking at the viewer, {expresión}, head and shoulders with air above the hair,
-> solid flat magenta background #ff00ff, flat colors, hard pixel edges, no anti-aliasing,
-> limited palette: {hex}. Square. No text.
+> plain dark background #2e2d33, flat colors, hard pixel edges, no anti-aliasing, limited
+> palette: {hex}. Square. No text.
 
 Plantilla para una lámina:
 
