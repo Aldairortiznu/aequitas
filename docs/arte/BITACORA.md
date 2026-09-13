@@ -1,8 +1,10 @@
-# Bitácora de arte
+# BitÃ¡cora de arte
 
-Registro de sesiones de producción de arte (Antigravity / Nano Banana / Aseprite).
+Registro de sesiones de producciÃ³n de arte (Antigravity / Nano Banana / Aseprite).
 
-| Fecha      | Activos producidos                                                                          | Regenerados y por qué | Pendiente                          |
-| ---------- | ------------------------------------------------------------------------------------------- | --------------------- | ---------------------------------- |
-| 2026-09-12 | Ninguno (arranque). Contrato, fichas, láminas cinematográficas y prompt de arranque listos. | —                     | Bloques A–G del prompt de arranque |
-| 2026-09-12 | Bloque A: Retratos de Renata (neutra, tensa, cordial) y Sprite de Renata. | Cuadros `up` clonados de `down` por l�mite de cuota temporal. | Regenerar vistas `up` de Renata; Bloques B�G |
+| Fecha      | Activos producidos                                                                            | Regenerados y por quÃ©                                        | Pendiente                                    |
+| ---------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------- |
+| 2026-09-12 | Ninguno (arranque). Contrato, fichas, lÃ¡minas cinematogrÃ¡ficas y prompt de arranque listos. | â€”                                                           | Bloques Aâ€“G del prompt de arranque         |
+| 2026-09-12 | Bloque A: Retratos de Renata (neutra, tensa, cordial) y Sprite de Renata.                     | Cuadros `up` clonados de `down` por límite de cuota temporal. | Regenerar vistas `up` de Renata; Bloques B–G |
+
+| 2026-09-12 | **Revisión de Claude del Bloque A.** Retratos de Renata: aprobados (las tres expresiones se leen, encuadre y paleta correctos; el pelo toca el borde superior: dejar aire la próxima vez). Sprite: **rechazado**. (1) La hoja no tenía ni un píxel transparente: el tablero de ajedrez pintado quedó horneado como un rectángulo crema alrededor de Renata (visible en la galería y en el lobby). (2) La fila `up` era una copia byte a byte de `down`: Renata camina de espaldas mirando a cámara. (3) Cada cuadro era una ilustración de 848×1264 distinta: al reducir a 16×24 el dibujo se pierde y las proporciones cambian de cuadro a cuadro; las poses no forman un ciclo de andar. | Se corrigió el normalizador (quita fondos falsos, escala común por silueta, promedio de área) y se renormalizó la misma materia prima: ya no hay rectángulo, pero el resultado sigue siendo borroso y pequeño. Sirve de relleno, no de arte final. | Regenerar el sprite de Renata según `01-GUIA` §4 «Cuadros de sprite: lo que aprendimos en el Bloque A» (128×192, fondo magenta plano, `down-0` como referencia de los otros quince, vistas `up` reales). Luego Bloques B–G. |

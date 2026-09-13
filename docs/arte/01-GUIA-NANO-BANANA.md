@@ -111,18 +111,58 @@ una región se dejan transparentes.
 6. Confirma con `git add public/assets art-src && git commit -m "art: <qué>"`. La materia
    prima de `art-src/` se versiona para poder regenerar variantes.
 
+### Qué hace el normalizador con las piezas de un sprite
+
+`npm run assets:normalize -- --tipo sprite --id <id> --carpeta art-src/sprites/<id>/`:
+
+1. Quita el fondo falso de cada pieza (tablero o color plano conectado con el borde).
+2. Recorta cada pieza a su silueta y calcula **un factor de escala común** para las dieciséis,
+   de modo que la más alta mida 22 px (o la más ancha 14): las proporciones no cambian entre
+   cuadros.
+3. Si la pieza viene a un múltiplo entero de 16×24 reduce con vecino más cercano; si no, con
+   promedio de área (peor: el dibujo se emborrona). Por eso conviene generar a 128×192.
+4. Apoya los pies en la fila 23, centra, cuantiza a la paleta y ensambla la hoja de 64×96.
+
 ## 4. Reglas de prompt (Nano Banana)
 
 Estructura fija: **[qué es] + [estilo y restricciones] + [composición] + [paleta] + [negativos]**.
 
+### Cuadros de sprite: lo que aprendimos en el Bloque A
+
+Lo que **no** sirve: una ilustración de 800×1200 con píxeles diminutos y un tablero de ajedrez
+pintado como «transparencia». Al reducirla a 16×24 se pierde el dibujo, cada cuadro sale de un
+tamaño distinto y el tablero queda horneado como un rectángulo crema alrededor del personaje.
+
+Lo que sí sirve: pedir **el sprite ya en su rejilla**, dibujado en grande.
+
+- Tamaño de salida **128×192** (rejilla de 16×24 con píxeles de 8×8) o 256×384 (píxeles de
+  16×16). El normalizador detecta el múltiplo entero y reduce con vecino más cercano: cada bloque
+  se convierte en un píxel limpio.
+- Fondo **plano y de un solo color fuera de la paleta**: magenta `#ff00ff`. Nada de tablero de
+  ajedrez, nada de sombras proyectadas sobre el fondo. El normalizador lo quita por inundación
+  desde los bordes (`--fondo auto`, activo por defecto en sprites y retratos).
+- **Un solo personaje por imagen**, silueta de 12-14 bloques de ancho y 20-22 de alto, pies en
+  la fila inferior, centrado. Sin texto, sin marca de agua, sin rejilla dibujada.
+- Genera primero `down-0` y apruébalo. Todos los demás cuadros se piden **adjuntando ese
+  `down-0`** como referencia («same character, same pixel grid, same proportions and colors»)
+  y cambiando solo la vista y la pose. Así los dieciséis cuadros salen del mismo tamaño.
+- Vistas: `down` mira a cámara; `left`/`right` de perfil (el morral cruzado queda del mismo
+  lado del cuerpo en ambas); `up` es **de espaldas**: se ve el moño y la espalda, ninguna cara.
+  Nunca se clona `down` como `up`.
+- Ciclo de andar: 0 quieto, 1 paso con pierna izquierda adelante, 2 quieto (puede ser copia del
+  0), 3 paso con pierna derecha adelante. Los brazos se balancean al contrario de las piernas.
+
 Plantilla para un cuadro de sprite:
 
-> Pixel art sprite, single frame, 16-bit SNES style, {personaje: descripción física y ropa
-> de la ficha}, {vista: facing the camera | facing left | facing right | seen from behind},
-> {pose: standing idle | mid-step walking, left leg forward | mid-step walking, right leg
-> forward}, full body, feet touching the bottom edge, centered, 2:3 aspect ratio, flat
-> colors, hard pixel edges, no anti-aliasing, no gradients, no outline glow, transparent
-> background, limited palette: {hex de la ficha}. No text, no watermark, no background.
+> Pixel art game sprite on a strict 16 by 24 pixel grid, rendered at 128×192 with crisp 8×8
+> pixel blocks, 16-bit SNES style, {personaje: descripción física y ropa de la ficha},
+> {vista: facing the camera | facing left | facing right | seen from behind (back of the head,
+> no face)}, {pose: standing idle | mid-step walking, left leg forward, right arm forward |
+> mid-step walking, right leg forward, left arm forward}, full body, feet on the bottom row,
+> centered, flat colors, hard pixel edges, no anti-aliasing, no gradients, no outline glow,
+> solid flat magenta background #ff00ff, no checkerboard, no shadow on the ground, limited
+> palette: {hex de la ficha}. No text, no watermark. {Adjuntar down-0 aprobado: same
+> character, same pixel grid, same proportions and colors as the reference.}
 
 Plantilla para una celda de tileset:
 
@@ -130,11 +170,13 @@ Plantilla para una celda de tileset:
 > seamless tile that repeats on all four edges, orthographic top-down view, flat colors, hard
 > pixel edges, no anti-aliasing, limited palette: {hex}. Square. No text.
 
-Plantilla para un retrato:
+Plantilla para un retrato (los del Bloque A salieron bien con esta receta: 1024×1024,
+tres expresiones en la misma sesión, el `neutra` aprobado como referencia de las otras dos):
 
 > Pixel art portrait bust, 16-bit style, {descripción}, three-quarter view facing slightly
-> right, looking at the viewer, {expresión}, plain dark background #2e2d33, flat colors,
-> hard pixel edges, no anti-aliasing, limited palette: {hex}. Square. No text.
+> right, looking at the viewer, {expresión}, head and shoulders with air above the hair,
+> solid flat magenta background #ff00ff, flat colors, hard pixel edges, no anti-aliasing,
+> limited palette: {hex}. Square. No text.
 
 Plantilla para una lámina:
 
