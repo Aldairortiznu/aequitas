@@ -1,8 +1,16 @@
 {
-  "generatedAt": "2026-09-13T00:04:26.716Z",
-  "sprites": [],
+  "generatedAt": "2026-09-13T00:51:24.292Z",
+  "sprites": [
+    "renata"
+  ],
   "tilesets": {},
-  "portraits": {},
+  "portraits": {
+    "renata": [
+      "cordial",
+      "neutra",
+      "tensa"
+    ]
+  },
   "illustrations": [
     "prov-biblioteca",
     "prov-codice",
