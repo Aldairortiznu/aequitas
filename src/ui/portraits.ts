@@ -7,6 +7,11 @@ import { hasPortrait, url } from '../engine/art/registry';
  */
 const cache = new Map<string, string>();
 
+/** Olvida el retrato provisional de un id (p. ej. al cambiar el aspecto personalizado). */
+export function invalidatePortrait(id: string): void {
+  cache.delete(`prov-${id}`);
+}
+
 export function portraitSrc(
   game: Phaser.Game | null,
   id: string,

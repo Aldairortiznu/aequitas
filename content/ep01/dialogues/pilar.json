@@ -6,11 +6,29 @@
       "speaker": "pilar",
       "portrait": "tensa",
       "text": "Usted es de la Biblioteca. Se le nota en el morral. ¿Qué va a hacer que no hayamos hecho ya?",
-      "requires": [{ "flag": "ep01.pilar", "op": "eq", "value": false }],
-      "effects": [{ "type": "setFlag", "flag": "ep01.pilar", "value": true }],
+      "requires": [
+        {
+          "flag": "ep01.pilar",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "ep01.pilar",
+          "value": true
+        }
+      ],
       "choices": [
-        { "text": "Primero, entender qué pasa aquí.", "next": "p2" },
-        { "text": "Hacer que Marrugo cumpla la ley.", "next": "p2b" }
+        {
+          "text": "Primero, entender qué pasa aquí.",
+          "next": "p2"
+        },
+        {
+          "text": "Hacer que Marrugo cumpla la ley.",
+          "next": "p2b"
+        }
       ]
     },
     {
@@ -24,7 +42,7 @@
       "id": "p2",
       "speaker": "pilar",
       "portrait": "neutra",
-      "text": "Pilar Cantillo. Era la conserje antes de la Crecida. Marrugo era el administrador. Él se quedó porque nadie más quiso; eso se lo reconozco.",
+      "text": "Pilar Cantillo. Era la conserje antes de la Fractura. Marrugo era el administrador. Él se quedó porque nadie más quiso; eso se lo reconozco.",
       "next": "p3"
     },
     {
@@ -53,16 +71,38 @@
       "portrait": "cordial",
       "text": "Trajo el acta, el libro, el carné, la nota de la válvula y la palabra de Zoraida. Con eso yo convoco a la gente. La piscina, esta tarde. Marrugo va a ir: le encanta el público.",
       "requires": [
-        { "flag": "ep01.convocada", "op": "eq", "value": false },
-        { "hasEvidence": "ep01-acta-ano-1" },
-        { "hasEvidence": "ep01-libro-actas" },
-        { "hasEvidence": "ep01-carne-tomas" },
-        { "hasEvidence": "ep01-valvula" },
-        { "hasEvidence": "ep01-testimonio-zoraida" }
+        {
+          "flag": "ep01.convocada",
+          "op": "eq",
+          "value": false
+        },
+        {
+          "hasEvidence": "ep01-acta-ano-1"
+        },
+        {
+          "hasEvidence": "ep01-libro-actas"
+        },
+        {
+          "hasEvidence": "ep01-carne-tomas"
+        },
+        {
+          "hasEvidence": "ep01-valvula"
+        },
+        {
+          "hasEvidence": "ep01-testimonio-zoraida"
+        }
       ],
       "effects": [
-        { "type": "setFlag", "flag": "ep01.convocada", "value": true },
-        { "type": "legitimidad", "delta": 4, "fuente": "evento" }
+        {
+          "type": "setFlag",
+          "flag": "ep01.convocada",
+          "value": true
+        },
+        {
+          "type": "legitimidad",
+          "delta": 4,
+          "fuente": "evento"
+        }
       ],
       "next": "listos2"
     },
@@ -78,8 +118,16 @@
       "portrait": "neutra",
       "text": "La gente ya está en la piscina. Salga por la puerta del fondo.",
       "requires": [
-        { "flag": "ep01.convocada", "op": "eq", "value": true },
-        { "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": false }
+        {
+          "flag": "ep01.convocada",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "flag": "audiencia.ep01-marrugo.ganada",
+          "op": "eq",
+          "value": false
+        }
       ]
     },
     {
@@ -87,7 +135,13 @@
       "speaker": "pilar",
       "portrait": "neutra",
       "text": "Todavía faltan papeles. El acta del muro, el libro de actas de la oficina, el carné de Tomás, la válvula del piso 4 y lo que diga Zoraida. Con menos, Marrugo se ríe.",
-      "requires": [{ "flag": "ep01.pilar", "op": "eq", "value": true }]
+      "requires": [
+        {
+          "flag": "ep01.pilar",
+          "op": "eq",
+          "value": true
+        }
+      ]
     }
   ]
 }

@@ -13,6 +13,7 @@ await page.goto('http://localhost:4181/?ep=gym');
 await page.waitForSelector('#game canvas');
 await page.waitForTimeout(1500);
 await page.getByRole('button', { name: 'Nueva partida' }).click();
+await page.locator('.prota__card', { hasText: 'Renata' }).click();
 await page.getByRole('button', { name: 'Empezar' }).click();
 await page.waitForSelector('.hud', { timeout: 15000 });
 await page.evaluate(async () => {

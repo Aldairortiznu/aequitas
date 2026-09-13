@@ -11,20 +11,20 @@
     {
       "id": "r2",
       "speaker": "mensajero",
-      "text": "Altamar. Marrugo se allanó. Una jurista de la Biblioteca. Convocaron asamblea.",
+      "text": "Altamar. Marrugo se allanó. {Una jurista|Un jurista|Alguien} de la Biblioteca. Convocaron asamblea.",
       "next": "r3"
     },
     {
       "id": "r3",
       "speaker": "moscote",
       "portrait": "neutra",
-      "text": "La Oficina toma nota. ¿El apellido de la jurista?",
+      "text": "La Oficina toma nota. ¿El apellido de {la jurista|el jurista|esa persona}?",
       "next": "r4"
     },
     {
       "id": "r4",
       "speaker": "mensajero",
-      "text": "Iriarte. Renata Iriarte.",
+      "text": "Iriarte. {nombre} Iriarte.",
       "next": "r5"
     },
     {

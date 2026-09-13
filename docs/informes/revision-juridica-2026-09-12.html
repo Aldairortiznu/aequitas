@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AEQUITAS · Revisión jurídica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root { color-scheme: light dark;
+    --paper:#f3ead8; --paper-2:#eadfc6; --line:#cfc2a3; --ink:#1b1b1f; --muted:#6f6c76; --accent:#5a3f86; --accent-soft:#e6dcf3;
+    --gold:#b8892e; --gold-soft:#f4dc8a; --ok:#2f5d3a; --ok-soft:#d9ecd2; --bad:#8a2f2f; --bad-soft:#f1cfcf; --warn:#7a4b2d;
+    --font-display:"Fraunces",Georgia,serif; --font-body:"Public Sans","Segoe UI",Roboto,system-ui,sans-serif; --font-mono:"IBM Plex Mono",Consolas,monospace; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --paper:#1b1b1f; --paper-2:#2e2d33; --line:#4a4850; --ink:#f3ead8; --muted:#a29ea8; --accent:#b39ddb; --accent-soft:#3b2a5c;
+    --gold:#e2b94a; --gold-soft:#5a4a1e; --ok:#b9e39a; --ok-soft:#26402b; --bad:#f0a3a3; --bad-soft:#4a2323; --warn:#d9a66b; } }
+  :root[data-theme="dark"] {
+    --paper:#1b1b1f; --paper-2:#2e2d33; --line:#4a4850; --ink:#f3ead8; --muted:#a29ea8; --accent:#b39ddb; --accent-soft:#3b2a5c;
+    --gold:#e2b94a; --gold-soft:#5a4a1e; --ok:#b9e39a; --ok-soft:#26402b; --bad:#f0a3a3; --bad-soft:#4a2323; --warn:#d9a66b; }
+  *{box-sizing:border-box} html{background:var(--paper)}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:15.5px;line-height:1.5}
+  main{max-width:960px;margin:0 auto;padding:28px 18px 90px}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  h1{font-family:var(--font-display);font-weight:700;font-size:clamp(30px,5vw,44px);line-height:1.05;margin:4px 0 8px;text-wrap:balance}
+  h2{font-family:var(--font-display);font-weight:600;font-size:24px;margin:34px 0 10px}
+  p{margin:0 0 10px;max-width:72ch}
+  code{font-family:var(--font-mono);font-size:.88em;background:var(--paper-2);padding:1px 5px;border-radius:3px}
+  .intro{border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:12px}
+  .revisor{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0 0}
+  .revisor input{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:4px;background:var(--paper-2);color:var(--ink);min-width:220px}
+  .bar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 0;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:14px}
+  .bar .cnt{font-family:var(--font-mono);font-size:13px;color:var(--muted)}
+  .bar .cnt b{color:var(--ink)}
+  .bar button{font:inherit;font-size:13px;padding:5px 10px;border:1px solid var(--line);background:var(--paper-2);color:var(--ink);border-radius:999px;cursor:pointer}
+  .bar button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .bar .estado{margin-left:auto;font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+  .libro{margin-top:30px}
+  .libro h2{margin-top:0}
+  .norma{border:1px solid var(--line);border-left:4px solid var(--pending,var(--line));border-radius:6px;background:var(--paper-2);padding:14px 16px;margin:12px 0;scroll-margin-top:70px}
+  .norma[data-estado="aprobada"]{border-left-color:var(--ok)}
+  .norma[data-estado="corregir"]{border-left-color:var(--bad)}
+  .norma.oculta{display:none}
+  .norma header{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+  .norma .ref{font-family:var(--font-mono);font-size:13px;color:var(--accent);font-weight:500}
+  .norma h3{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0}
+  .norma .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+  .literal{font-family:var(--font-display);font-size:15.5px;line-height:1.5;margin:10px 0;padding:10px 14px;background:var(--paper);border:1px solid var(--line);border-radius:4px;max-width:none}
+  dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:8px 0;font-size:14px}
+  dt{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+  dd{margin:0;max-width:78ch}
+  details{margin:8px 0}
+  summary{cursor:pointer;font-weight:600;font-size:14px}
+  .uso{border-top:1px dashed var(--line);padding:8px 0;font-size:14px}
+  .uso .t{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-right:8px}
+  .uso .ep{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+  .uso .q{font-weight:600;margin:2px 0}
+  .uso ul{margin:4px 0 0;padding-left:18px;color:var(--muted)}
+  .rev{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+  .opciones{display:flex;flex-wrap:wrap;gap:6px}
+  .opciones label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;cursor:pointer;font-size:13.5px;background:var(--paper)}
+  .opciones label:has(input:checked){border-color:var(--ink);background:var(--ink);color:var(--paper)}
+  .opciones label.ok:has(input:checked){background:var(--ok);border-color:var(--ok);color:#fff}
+  .opciones label.bad:has(input:checked){background:var(--bad);border-color:var(--bad);color:#fff}
+  .opciones input{margin:0}
+  textarea{font:inherit;font-size:14px;width:100%;min-height:54px;padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);resize:vertical}
+  .meta{font-family:var(--font-mono);font-size:11.5px;color:var(--muted)}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+  .tablewrap{overflow-x:auto}
+  .exportar{margin-top:20px;display:grid;gap:8px}
+  .exportar textarea{min-height:120px;font-family:var(--font-mono);font-size:12px}
+  footer{margin-top:50px;padding-top:14px;border-top:1px solid var(--line);font-family:var(--font-mono);font-size:12.5px;color:var(--muted)}
+  button.primario{font:inherit;padding:8px 14px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:4px;cursor:pointer;width:max-content}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <div class="intro">
+    <div class="eyebrow">Bellium S.A.S. · AEQUITAS · Revisión jurídica del contenido</div>
+    <h1>Códice y citas del Prólogo y el Episodio 1</h1>
+    <p>Cada norma que el juego cita, con su texto literal, la explicación en palabras simples y <b>todas las veces que el juego la usa</b>: consultas, afirmaciones de audiencia, maniobras, cláusulas nulas e interpelaciones. Para cada una, marca <b>Aprobada</b> o <b>Corregir</b> y anota lo que haga falta. Las decisiones se guardan solas y Claude las aplica al contenido (<code>revisado: true</code> o corrección).</p>
+    <p>Qué vale la pena verificar: que el texto literal esté vigente y bien citado; que la lectura en palabras simples no distorsione; que el adversario esté realmente equivocado y la respuesta del juego sea la correcta; que las cláusulas «nulas» lo sean por la norma indicada.</p>
+    <div class="revisor"><label for="revisor">Nombre de quien revisa</label><input id="revisor" placeholder="Nombre y apellido"></div>
+  </div>
+  <div class="bar" role="toolbar" aria-label="Filtro y progreso">
+    <span class="cnt"><b id="n-total">0</b> normas · <b id="n-aprobadas">0</b> aprobadas · <b id="n-corregir">0</b> por corregir · <b id="n-pendientes">0</b> pendientes</span>
+    <button type="button" data-filtro="todas" aria-pressed="true">Todas</button>
+    <button type="button" data-filtro="pendiente" aria-pressed="false">Pendientes</button>
+    <button type="button" data-filtro="corregir" aria-pressed="false">Por corregir</button>
+    <button type="button" data-filtro="aprobada" aria-pressed="false">Aprobadas</button>
+    <span class="estado" id="estado-sync">guardado local</span>
+  </div>
+  <section class="libro" data-libro="constitucion"><h2>Constitución Política <span class="tag">16</span></h2>
+<article class="norma" id="cp-1" data-id="cp-1" data-estado="pendiente">
+  <header><span class="ref">Art. 1 C.P.</span><h3>Estado social de derecho y dignidad humana</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Colombia es un Estado social de derecho, organizado en forma de República unitaria, descentralizada, con autonomía de sus entidades territoriales, democrática, participativa y pluralista, fundada en el respeto de la dignidad humana, en el trabajo y la solidaridad de las personas que la integran y en la prevalencia del interés general.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>El Estado existe para las personas, no al revés. La dignidad de cada quien es el punto de partida de todo lo demás; ninguna regla puede pasar por encima de ella.</dd><dt>Uso en audiencia</dt><dd>Contra una afirmación que trate a una persona como un trámite, una cifra o un estorbo.</dd><dt>Etiquetas</dt><dd class="meta">principios · dignidad</dd></dl>
+  <details open><summary>Cómo la usa el juego · 3 citas</summary>
+  <div class="uso"><span class="t">Consulta</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Esta margarita crece en el borde del herbario y no en el patio, donde hay más sol. ¿Por qué?</div><div>Respuesta correcta: «Porque el patio no tiene riego constante y el suelo se salinizó.» → Eso es. Necesita agua regular y sin sal. Aparece donde varios comparten el agua. Por eso la tomamos de emblema, no por bonita.</div><ul><li>Incorrecta: «Porque alguien la sembró ahí.» → Nadie la siembra. Nace donde puede.</li><li>Incorrecta: «Porque prefiere la sombra.» → Le gusta el sol como a cualquiera. Lo que no aguanta es la sal.</li></ul></div><div class="uso"><span class="t">Audiencia · invocación (distractor)</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Audiencia simulada de graduación · se ofrece como opción incorrecta ante «Sin registros no hay derechos. Un pescador sin folio no es nadie y no puede reclamar.»</div><div>Debe ser claramente inaplicable al caso.</div></div><div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Acta del riego del herbario · ¿Quién riega el herbario mientras Renata no está?</div><div>Cláusula: «El estudiante que falte a su turno perderá el derecho a la comida del día.»</div><ul><li>Por qué es nula: Privar de alimento como castigo afecta la dignidad humana; ninguna asamblea puede pactarlo.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 1 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-1" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-1" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-1" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 1 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-4" data-id="cp-4" data-estado="pendiente">
+  <header><span class="ref">Art. 4 C.P.</span><h3>La Constitución es norma de normas</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">La Constitución es norma de normas. En todo caso de incompatibilidad entre la Constitución y la ley u otra norma jurídica, se aplicarán las disposiciones constitucionales. Es deber de los nacionales y de los extranjeros en Colombia acatar la Constitución y las leyes, y respetar y obedecer a las autoridades.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Ningún decreto, certificado, reglamento o acta vale más que la Constitución. Si chocan, gana la Constitución.</dd><dt>Uso en audiencia</dt><dd>Contra cualquier documento que pretenda valer por sí mismo aunque contradiga un derecho constitucional.</dd><dt>Ejemplo</dt><dd>Una «licencia» de la Oficina de Registro no puede autorizar lo que la Constitución prohíbe.</dd><dt>Etiquetas</dt><dd class="meta">supremacia · jerarquia</dd></dl>
+  <details open><summary>Cómo la usa el juego · 4 citas</summary>
+  <div class="uso"><span class="t">Consulta</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Si la Oficina de Registro publica un decreto que contradice la Constitución, ¿cuál se aplica?</div><div>Respuesta correcta: «La Constitución: es norma de normas.» → Sí. El artículo 4 lo dice sin rodeos. Un sello no cambia eso.</div><ul><li>Incorrecta: «El decreto, porque es más reciente.» → Lo reciente no manda sobre lo supremo. Si fuera así, cualquiera gobernaría con un papel nuevo.</li><li>Incorrecta: «El que tenga más firmas.» → Las firmas no son jerarquía. La Constitución está arriba aunque nadie la firme hoy.</li></ul></div><div class="uso"><span class="t">Audiencia</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Audiencia simulada de graduación · Casimiro (como administrador) afirma: «Un certificado de la Oficina de Registro vale más que un libro viejo. Es lo que hay. Aquí está el mío.»</div><div>Se contradice con la norma. Casimiro (como administrador) responde: «Norma de normas. Sí. El certificado vale lo que valga quien lo expide, y la Oficina no está por encima de la Constitución.»</div><ul><li>Nota jurídica del Cuaderno: Ningún documento vale por encima de la Constitución (Art. 4). Un sello no crea autoridad.</li></ul></div><div class="uso"><span class="t">Audiencia · invocación (distractor)</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Audiencia simulada de graduación · se ofrece como opción incorrecta ante «Sin registros no hay derechos. Un pescador sin folio no es nadie y no puede reclamar.»</div><div>Debe ser claramente inaplicable al caso.</div></div><div class="uso"><span class="t">Audiencia · maniobra</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · maniobra «man-licencia»</div><div>Marrugo saca de la carpeta una hoja con sello: «La Oficina de Registro reconoce a Fulgencio Marrugo como administrador vitalicio del Conjunto Altamar». La pone sobre la baldosa para que todos la vean.</div><ul><li>La norma correcta para responder a la maniobra es esta.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 4 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-4" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-4" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-4" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 4 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-14" data-id="cp-14" data-estado="pendiente">
+  <header><span class="ref">Art. 14 C.P.</span><h3>Personalidad jurídica</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Toda persona tiene derecho al reconocimiento de su personalidad jurídica.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Existir ante el derecho no depende de un papel. Toda persona es sujeto de derechos por el hecho de ser persona.</dd><dt>Uso en audiencia</dt><dd>Contra la idea de que alguien sin certificado, carné o folio «no es nadie» y no puede reclamar.</dd><dt>Etiquetas</dt><dd class="meta">personalidad · nombre · no-inscritos</dd></dl>
+  <details open><summary>Cómo la usa el juego · 6 citas</summary>
+  <div class="uso"><span class="t">Consulta</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Un pescador sin ningún documento reclama que le devuelvan su canoa. ¿Puede reclamar?</div><div>Respuesta correcta: «Sí: toda persona tiene personalidad jurídica, con o sin papel.» → Exacto. Existir ante el derecho no es un trámite. Lo que faltará es probar que la canoa es suya, no que él es alguien.</div><ul><li>Incorrecta: «No, hasta que la Oficina lo inscriba.» → Entonces la Oficina decidiría quién es persona. Eso es justo lo que la Constitución prohíbe.</li><li>Incorrecta: «Solo si otro con documento reclama por él.» → Puede pedir ayuda, pero no la necesita para ser sujeto de derechos.</li></ul></div><div class="uso"><span class="t">Audiencia</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Audiencia simulada de graduación · Casimiro (como administrador) afirma: «Sin registros no hay derechos. Un pescador sin folio no es nadie y no puede reclamar.»</div><div>Se contradice con el hecho «Testimonio de Eladio» más la norma. Casimiro (como administrador) responde: «Personalidad jurídica por el hecho de ser persona, y un testimonio que lo ubica. Está bien. Ese pescador reclama.»</div><ul><li>Nota jurídica del Cuaderno: Hecho (el testimonio prueba que Eladio es una persona conocida) + norma (Art. 14: toda persona tiene personalidad jurídica) = alegato completo.</li></ul></div><div class="uso"><span class="t">Audiencia · invocación</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Audiencia simulada de graduación · Invocar la Constitución ante «Sin registros no hay derechos. Un pescador sin folio no es nadie y no puede reclamar.»</div><div>Artículo correcto entre cp-14, cp-4, cp-29, cp-1.</div></div><div class="uso"><span class="t">Audiencia · invocación</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · Invocar la Constitución ante «El que no paga pierde el carné. Es una sanción como cualquiera. Sin carné no consta, y lo que no consta no reclama.»</div><div>Artículo correcto entre cp-14, cp-20, cp-37, cp-86.</div></div><div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Acta de Altamar · ¿Qué pasa con los vecinos sin carné, los «no inscritos» de la torre?</div><div>Cláusula: «Los residentes en mora recuperarán su carné al ponerse al día.»</div><ul><li>Por qué es nula: La personalidad jurídica y el nombre no se compran ni se condicionan a un pago.</li></ul></div><div class="uso"><span class="t">Interpelación</span> <span class="ep">global</span><div class="q">Un alguacil exige el artículo que responde a: «Sin folio usted no existe. Y lo que no existe no puede andar por aquí.»</div><div>Opciones ofrecidas: cp-14, cp-4, cp-29, cp-34.</div></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 14 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-14" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-14" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-14" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 14 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-28" data-id="cp-28" data-estado="pendiente">
+  <header><span class="ref">Art. 28 C.P.</span><h3>Libertad personal</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Toda persona es libre. Nadie puede ser molestado en su persona o familia, ni reducido a prisión o arresto, ni detenido, ni su domicilio registrado, sino en virtud de mandamiento escrito de autoridad judicial competente, con las formalidades legales y por motivo previamente definido en la ley.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Nadie puede detener a una persona ni entrar a su casa sin una orden escrita de un juez, con las formas de la ley y por un motivo que la ley ya definía.</dd><dt>Uso en audiencia</dt><dd>Contra una detención, retención o registro ordenados por quien no es juez.</dd><dt>Etiquetas</dt><dd class="meta">libertad · detencion · interpelacion</dd></dl>
+  <details open><summary>Cómo la usa el juego · 2 citas</summary>
+  <div class="uso"><span class="t">Interpelación</span> <span class="ep">global</span><div class="q">Un alguacil exige el artículo que responde a: «Alto. Muéstreme su certificado de existencia o la llevo al Despacho.»</div><div>Opciones ofrecidas: cp-28, cp-14, cp-34, cp-29.</div></div><div class="uso"><span class="t">Interpelación</span> <span class="ep">global</span><div class="q">Un alguacil exige el artículo que responde a: «Abra ese morral. Vamos a ver qué papeles carga.»</div><div>Opciones ofrecidas: cp-28, cp-4, cp-1, cp-34.</div></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 28 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-28" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-28" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-28" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 28 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-29" data-id="cp-29" data-estado="pendiente">
+  <header><span class="ref">Art. 29 C.P.</span><h3>Debido proceso</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">El debido proceso se aplicará a toda clase de actuaciones judiciales y administrativas. Nadie podrá ser juzgado sino conforme a leyes preexistentes al acto que se le imputa, ante juez o tribunal competente y con observancia de la plenitud de las formas propias de cada juicio.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Antes de sancionar, desalojar o decidir sobre alguien hay que oírlo, dejarlo defenderse y seguir un procedimiento fijado de antemano. Aplica a todos, también a quien se lo negó a otros.</dd><dt>Uso en audiencia</dt><dd>Contra sanciones, desalojos o decisiones tomadas sin oír a la persona afectada.</dd><dt>Etiquetas</dt><dd class="meta">debido-proceso · defensa</dd></dl>
+  <details open><summary>Cómo la usa el juego · 6 citas</summary>
+  <div class="uso"><span class="t">Consulta</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">La Escuela quiere sancionar a un estudiante que faltó a clases. ¿Qué hay que hacer antes?</div><div>Respuesta correcta: «Oírlo y dejarlo explicar, con un procedimiento conocido de antemano.» → Debido proceso. Aplica a toda clase de actuaciones, también a las de una escuela escondida en la ciénaga.</div><ul><li>Incorrecta: «Nada: la falta se ve sola.» → Ver la falta no es lo mismo que decidir sin oír. Quizá tenía una razón.</li><li>Incorrecta: «Publicar su nombre en el tablero.» → Eso es una sanción, no un procedimiento. Primero se oye; después, si cabe, se sanciona.</li></ul></div><div class="uso"><span class="t">Audiencia · invocación (distractor)</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Audiencia simulada de graduación · se ofrece como opción incorrecta ante «Sin registros no hay derechos. Un pescador sin folio no es nadie y no puede reclamar.»</div><div>Debe ser claramente inaplicable al caso.</div></div><div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Prólogo · El códice que no ardió</span><div class="q">Acta del riego del herbario · ¿Quién riega el herbario mientras Renata no está?</div><div>Cláusula: «Ramón asumirá el riego diario hasta el regreso de Renata, en compensación por sus faltas.»</div><ul><li>Por qué es nula: Es una sanción impuesta sin oír a Ramón ni seguir un procedimiento: viola el debido proceso.</li></ul></div><div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Acta de Altamar · ¿Qué pasa con los vecinos sin carné, los «no inscritos» de la torre?</div><div>Cláusula: «Los residentes en mora abandonarán el conjunto en el plazo de un mes.»</div><ul><li>Por qué es nula: Es un desalojo sin proceso: nadie puede ser expulsado de su vivienda sin ser oído ante quien tenga competencia.</li></ul></div><div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Acta de Altamar · ¿Qué pasa con Marrugo?</div><div>Cláusula: «Fulgencio Marrugo abandonará el conjunto.»</div><ul><li>Por qué es nula: Expulsar a una persona de su vivienda sin proceso viola el debido proceso, también cuando ella lo negó a otros.</li></ul></div><div class="uso"><span class="t">Interpelación</span> <span class="ep">global</span><div class="q">Un alguacil exige el artículo que responde a: «El Despacho ya decidió su multa. Pague ahora o la llevo.»</div><div>Opciones ofrecidas: cp-29, cp-1, cp-28, cp-4.</div></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 29 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-29" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-29" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-29" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 29 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-34" data-id="cp-34" data-estado="pendiente">
+  <header><span class="ref">Art. 34 C.P.</span><h3>Prohibición de destierro, prisión perpetua y confiscación</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Se prohíben las penas de destierro, prisión perpetua y confiscación. No obstante, por sentencia judicial, se declarará extinguido el dominio sobre los bienes adquiridos mediante enriquecimiento ilícito, en perjuicio del Tesoro público o con grave deterioro de la moral social.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Quitarle a alguien sus bienes como castigo, sin sentencia de un juez, es confiscación y está prohibido. Tampoco existen el destierro ni la prisión perpetua.</dd><dt>Uso en audiencia</dt><dd>Contra incautaciones de lanchas, herramientas o tierras hechas por alguaciles o por un acreedor sin proceso.</dd><dt>Etiquetas</dt><dd class="meta">confiscacion · incautacion · interpelacion</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Interpelación</span> <span class="ep">global</span><div class="q">Un alguacil exige el artículo que responde a: «Esa canoa queda incautada por la Oficina hasta que pague la cuota.»</div><div>Opciones ofrecidas: cp-34, cp-28, cp-1, cp-4.</div></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 34 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-34" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-34" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-34" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 34 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-2" data-id="cp-2" data-estado="pendiente">
+  <header><span class="ref">Art. 2 C.P.</span><h3>Fines del Estado</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Son fines esenciales del Estado: servir a la comunidad, promover la prosperidad general y garantizar la efectividad de los principios, derechos y deberes consagrados en la Constitución; facilitar la participación de todos en las decisiones que los afectan y en la vida económica, política, administrativa y cultural de la Nación; defender la independencia nacional, mantener la integridad territorial y asegurar la convivencia pacífica y la vigencia de un orden justo.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>El orden no es un fin en sí mismo: el Estado existe para garantizar derechos y un orden justo. Un orden sin derechos no cumple su razón de ser.</dd><dt>Uso en audiencia</dt><dd>Contra quien defiende que cualquier orden es mejor que ningún orden.</dd><dt>Etiquetas</dt><dd class="meta">fines · orden-justo</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 2 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-2" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-2" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-2" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 2 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-12" data-id="cp-12" data-estado="pendiente">
+  <header><span class="ref">Art. 12 C.P.</span><h3>Prohibición de tratos crueles</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Nadie será sometido a desaparición forzada, a torturas ni a tratos o penas crueles, inhumanos o degradantes.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Ninguna sanción puede humillar ni degradar a una persona.</dd><dt>Uso en audiencia</dt><dd>Contra castigos que humillan o privan de lo básico.</dd><dt>Etiquetas</dt><dd class="meta">dignidad · penas</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 12 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-12" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-12" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-12" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 12 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-15" data-id="cp-15" data-estado="pendiente">
+  <header><span class="ref">Art. 15 C.P.</span><h3>Intimidad y habeas data</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Todas las personas tienen derecho a su intimidad personal y familiar y a su buen nombre, y el Estado debe respetarlos y hacerlos respetar. De igual modo, tienen derecho a conocer, actualizar y rectificar las informaciones que se hayan recogido sobre ellas en bancos de datos y en archivos de entidades públicas y privadas.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Cada persona tiene derecho a saber qué dicen de ella los archivos y a corregirlo. Registrar sus cosas o revisar sus papeles sin orden viola su intimidad.</dd><dt>Uso en audiencia</dt><dd>Contra registros de pertenencias y contra archivos secretos sobre las personas.</dd><dt>Etiquetas</dt><dd class="meta">intimidad · habeas-data · interpelacion</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 15 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-15" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-15" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-15" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 15 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-17" data-id="cp-17" data-estado="pendiente">
+  <header><span class="ref">Art. 17 C.P.</span><h3>Prohibición de esclavitud y servidumbre</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Se prohíben la esclavitud, la servidumbre y la trata de seres humanos en todas sus formas.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Nadie puede ser obligado a trabajar para pagar una deuda ni quedar atado a otro por ella.</dd><dt>Uso en audiencia</dt><dd>Contra deudas que se pagan con trabajo forzado o que se heredan.</dd><dt>Etiquetas</dt><dd class="meta">servidumbre · trabajo</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Acta de Altamar · ¿Qué pasa con Marrugo?</div><div>Cláusula: «Fulgencio Marrugo trabajará en la piscina hasta completar su siembra.»</div><ul><li>Por qué es nula: El trabajo forzado como castigo es servidumbre y está prohibido.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 17 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-17" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-17" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-17" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 17 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-20" data-id="cp-20" data-estado="pendiente">
+  <header><span class="ref">Art. 20 C.P.</span><h3>Libertad de expresión e información</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Se garantiza a toda persona la libertad de expresar y difundir su pensamiento y opiniones, la de informar y recibir información veraz e imparcial, y la de fundar medios masivos de comunicación.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Todos pueden expresar lo que piensan y recibir información. No se le puede prohibir hablar a nadie, ni siquiera a quien perdió.</dd><dt>Uso en audiencia</dt><dd>Contra prohibiciones de hablar o de informar.</dd><dt>Etiquetas</dt><dd class="meta">expresion</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Audiencia · invocación (distractor)</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · se ofrece como opción incorrecta ante «El que no paga pierde el carné. Es una sanción como cualquiera. Sin carné no consta, y lo que no consta no reclama.»</div><div>Debe ser claramente inaplicable al caso.</div></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 20 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-20" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-20" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-20" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 20 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-24" data-id="cp-24" data-estado="pendiente">
+  <header><span class="ref">Art. 24 C.P.</span><h3>Libertad de circulación</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Todo colombiano, con las limitaciones que establezca la ley, tiene derecho a circular libremente por el territorio nacional, a entrar y salir de él, y a permanecer y residenciarse en Colombia.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Nadie necesita un permiso ni un papel para andar por el país.</dd><dt>Uso en audiencia</dt><dd>Contra puestos de control que exigen certificados para pasar.</dd><dt>Etiquetas</dt><dd class="meta">circulacion · interpelacion</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 24 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-24" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-24" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-24" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 24 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-33" data-id="cp-33" data-estado="pendiente">
+  <header><span class="ref">Art. 33 C.P.</span><h3>Nadie está obligado a declarar contra sí mismo</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Nadie podrá ser obligado a declarar contra sí mismo o contra su cónyuge, compañero permanente o parientes dentro del cuarto grado de consanguinidad, segundo de afinidad o primero civil.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Nadie tiene que confesar ni delatar a su familia.</dd><dt>Uso en audiencia</dt><dd>Contra un alguacil que exige que la persona se acuse a sí misma.</dd><dt>Etiquetas</dt><dd class="meta">declaracion · interpelacion</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 33 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-33" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-33" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-33" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 33 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-37" data-id="cp-37" data-estado="pendiente">
+  <header><span class="ref">Art. 37 C.P.</span><h3>Derecho de reunión</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Toda parte del pueblo puede reunirse y manifestarse pública y pacíficamente. Sólo la ley podrá establecer de manera expresa los casos en los cuales se podrá limitar el ejercicio de este derecho.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>La gente puede reunirse y protestar en paz. Solo la ley, no un administrador ni un alguacil, puede limitarlo.</dd><dt>Uso en audiencia</dt><dd>Contra quien disuelve una reunión de vecinos o prohíbe una asamblea.</dd><dt>Etiquetas</dt><dd class="meta">reunion · interpelacion</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Audiencia · invocación (distractor)</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · se ofrece como opción incorrecta ante «El que no paga pierde el carné. Es una sanción como cualquiera. Sin carné no consta, y lo que no consta no reclama.»</div><div>Debe ser claramente inaplicable al caso.</div></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 37 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-37" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-37" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-37" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 37 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-84" data-id="cp-84" data-estado="pendiente">
+  <header><span class="ref">Art. 84 C.P.</span><h3>Prohibición de exigir requisitos adicionales</h3><span class="tag">texto completo</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Cuando un derecho o una actividad hayan sido reglamentados de manera general, las autoridades públicas no podrán establecer ni exigir permisos, licencias o requisitos adicionales para su ejercicio.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Nadie puede inventar requisitos, permisos o carnés que la ley no exige.</dd><dt>Uso en audiencia</dt><dd>Contra oficinas que exigen certificados inventados para existir, pasar o reclamar.</dd><dt>Etiquetas</dt><dd class="meta">requisitos · interpelacion</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 84 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-84" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-84" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-84" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 84 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="cp-86" data-id="cp-86" data-estado="pendiente">
+  <header><span class="ref">Art. 86 C.P.</span><h3>Acción de tutela</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Toda persona tendrá acción de tutela para reclamar ante los jueces, en todo momento y lugar, mediante un procedimiento preferente y sumario, por sí misma o por quien actúe a su nombre, la protección inmediata de sus derechos constitucionales fundamentales, cuando quiera que éstos resulten vulnerados o amenazados por la acción o la omisión de cualquier autoridad pública. […] La ley establecerá los casos en los que la acción de tutela procede contra particulares encargados de la prestación de un servicio público o cuya conducta afecte grave y directamente el interés colectivo, o respecto de quienes el solicitante se halle en estado de subordinación o indefensión.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Cualquier persona puede pedirle a un juez, rápido y sin abogado, que proteja sus derechos fundamentales. También contra particulares cuando está indefensa frente a ellos.</dd><dt>Uso en audiencia</dt><dd>Para mostrar que existe un camino legal rápido contra un abuso, y que nadie está sin recurso.</dd><dt>Ejemplo</dt><dd>Una familia a la que le cortaron el agua en un conjunto puede acudir a la tutela contra la administración.</dd><dt>Etiquetas</dt><dd class="meta">tutela · derechos-fundamentales</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Audiencia · invocación (distractor)</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · se ofrece como opción incorrecta ante «El que no paga pierde el carné. Es una sanción como cualquiera. Sin carné no consta, y lo que no consta no reclama.»</div><div>Debe ser claramente inaplicable al caso.</div></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 86 C.P.">
+      <label class="ok"><input type="radio" name="d-cp-86" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-cp-86" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-cp-86" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 86 C.P."></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article></section>
+
+
+
+<section class="libro" data-libro="ph"><h2>Ley 675 de 2001 (propiedad horizontal) <span class="tag">12</span></h2>
+<article class="norma" id="l675-2" data-id="l675-2" data-estado="pendiente">
+  <header><span class="ref">Art. 2 Ley 675/2001</span><h3>Principios de la propiedad horizontal</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Son principios orientadores de la presente ley: […] Respeto de la dignidad humana. El respeto de la dignidad humana debe inspirar las actuaciones de los integrantes de los órganos de administración de la copropiedad, así como las de los copropietarios para el ejercicio de los derechos y obligaciones derivados de la ley. […] Derecho al debido proceso. Las actuaciones de la asamblea o del consejo de administración, tendientes a la imposición de sanciones por incumplimiento de obligaciones no pecuniarias, deberán consultar el debido proceso, el derecho de defensa, contradicción e impugnación.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>En un conjunto o edificio, la administración y los vecinos se deben respeto. Antes de sancionar a alguien hay que oírlo y dejarlo defenderse.</dd><dt>Uso en audiencia</dt><dd>Contra sanciones impuestas por un administrador o una asamblea sin oír al afectado.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · dignidad · debido-proceso</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Consulta</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">El perro del vecino ladra toda la noche. Marrugo dice que si me quejo me quita el carné. ¿Qué hago con el perro?</div><div>Respuesta correcta: «Pedir por escrito a la administración que aplique el reglamento de convivencia; si no, la asamblea.» → Eso. La convivencia se arregla con el reglamento y la asamblea, no con amenazas de carné. Y su queja no es una falta.</div><ul><li>Incorrecta: «Aguantar, porque quejarse es peor.» → Aguantar no es una obligación legal. Es miedo, y el miedo no está en el reglamento.</li><li>Incorrecta: «Envenenar al perro.» → Eso sí es una falta, y grave. No confunda su derecho con una venganza.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 2 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-2" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-2" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-2" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 2 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-3" data-id="l675-3" data-estado="pendiente">
+  <header><span class="ref">Art. 3 Ley 675/2001</span><h3>Bienes comunes esenciales</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Bienes comunes esenciales: Bienes indispensables para la existencia, estabilidad, conservación y seguridad del edificio o conjunto, así como los imprescindibles para el uso y disfrute de los bienes de dominio particular. Los demás tendrán el carácter de bienes comunes no esenciales. Se reputan bienes comunes esenciales, el terreno sobre o bajo el cual existan construcciones o instalaciones de servicios públicos básicos, los cimientos, la estructura, las circulaciones indispensables para aprovechamiento de bienes privados, las instalaciones generales de servicios públicos, las fachadas y los techos o losas que sirven de cubiertas a cualquier nivel.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Las instalaciones de agua, luz, escaleras y pasillos que hacen posible vivir en el edificio son bienes comunes esenciales. Nadie puede quedarse sin ellos como castigo.</dd><dt>Uso en audiencia</dt><dd>Contra el corte de agua, luz o acceso a una vivienda dentro de un conjunto.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · bienes-comunes · agua</dd></dl>
+  <details open><summary>Cómo la usa el juego · 2 citas</summary>
+  <div class="uso"><span class="t">Consulta</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Quiero cerrar con reja el pasillo frente a mi apartamento para que nadie pase. Es mi piso. ¿Puedo?</div><div>Respuesta correcta: «No: el pasillo es un bien común esencial y todos tienen derecho a circular por él.» → Exacto. Su apartamento es suyo; el pasillo es de todos y sirve para llegar a los demás.</div><ul><li>Incorrecta: «Sí, si pago más expensas.» → Las expensas no compran lo común. Pagar más no lo convierte en dueño del pasillo.</li><li>Incorrecta: «Sí, si Marrugo lo autoriza.» → Marrugo no puede autorizar lo que la ley prohíbe. Ni una asamblea podría quitarle el paso a un vecino.</li></ul></div><div class="uso"><span class="t">Audiencia</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · Fulgencio Marrugo afirma: «Cortar el agua a los morosos es mi derecho. Si no pagan el agua, no tienen agua. Así funciona en todas partes.»</div><div>Se contradice con el hecho «Válvula del piso 4 con candado» más la norma. Fulgencio Marrugo responde: «Bienes comunes esenciales. El agua es esencial. En ningún caso. (pausa) Está en la ley que yo mismo hice firmar en el Año −3.»</div><ul><li>Nota jurídica del Cuaderno: El agua es un bien común esencial (art. 3) y su uso no puede restringirse en ningún caso como sanción (parágrafo del art. 59). El candado es el hecho; la ley, la norma.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 3 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-3" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-3" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-3" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 3 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-29" data-id="l675-29" data-estado="pendiente">
+  <header><span class="ref">Art. 29 Ley 675/2001</span><h3>Expensas comunes necesarias</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Los propietarios de los bienes privados de un edificio o conjunto estarán obligados a contribuir al pago de las expensas necesarias causadas por la administración y la prestación de los servicios comunes esenciales requeridos para la existencia, seguridad y conservación de los bienes comunes, de acuerdo con el reglamento de propiedad horizontal.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Los vecinos deben pagar los gastos comunes, pero según el reglamento y el presupuesto aprobado por la asamblea, no según lo que decida una persona.</dd><dt>Uso en audiencia</dt><dd>Contra cuotas fijadas a voluntad del administrador o cobradas en trabajo y comida sin presupuesto.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · expensas · presupuesto</dd></dl>
+  <details open><summary>Cómo la usa el juego · 2 citas</summary>
+  <div class="uso"><span class="t">Consulta</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Marrugo me cobra dos jornadas de trabajo al mes «de expensas». ¿Tengo que pagar expensas?</div><div>Respuesta correcta: «Sí, pero según el presupuesto que apruebe la asamblea, no según lo que él decida.» → Las expensas existen y hay que pagarlas: son los gastos comunes. Lo que no existe es un administrador que las fije solo y las cobre en jornadas.</div><ul><li>Incorrecta: «No, porque no hay Estado.» → El edificio sigue necesitando agua, luz y escaleras. Las expensas no dependen del Estado; dependen de vivir juntos.</li><li>Incorrecta: «Solo si me dan un recibo con sello de la Oficina.» → El sello de la Oficina no tiene nada que ver. Lo que importa es el presupuesto aprobado y la contabilidad.</li></ul></div><div class="uso"><span class="t">Audiencia</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · Fulgencio Marrugo afirma: «Las expensas se pagan como yo diga: en trabajo, en arroz o en lo que haya. No hay banco, no hay plata. Alguien tiene que decidir.»</div><div>Se contradice con el hecho «Cuaderno de expensas en especie» más la norma. Fulgencio Marrugo responde: «Presupuesto aprobado por la asamblea, conforme a los coeficientes. Sin presupuesto, mi cuaderno es una lista de lo que se me ocurrió.»</div><ul><li>Nota jurídica del Cuaderno: Las expensas se deben, pero según presupuesto aprobado por la asamblea y coeficientes (arts. 29 y 38). Cobrar en especie a voluntad no es administrar: es cobrar.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 29 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-29" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-29" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-29" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 29 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-37" data-id="l675-37" data-estado="pendiente">
+  <header><span class="ref">Art. 37 Ley 675/2001</span><h3>La asamblea y sus decisiones</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">La asamblea general la constituirán los propietarios de bienes privados, o sus representantes o delegados, reunidos con el quórum y las condiciones previstas en esta ley y en el reglamento de propiedad horizontal. Todos los propietarios de bienes privados que integran el edificio o conjunto tendrán derecho a participar en sus deliberaciones y a votar en ella.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>La asamblea son todos los propietarios reunidos con las reglas de la ley. Todos tienen derecho a participar y a votar.</dd><dt>Uso en audiencia</dt><dd>Contra decisiones tomadas por dos personas en nombre de «la asamblea».</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · asamblea</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 37 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-37" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-37" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-37" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 37 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-38" data-id="l675-38" data-estado="pendiente">
+  <header><span class="ref">Art. 38 Ley 675/2001</span><h3>Funciones de la asamblea</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">La asamblea general de propietarios es el órgano de dirección de la persona jurídica que surge por mandato de esta ley, y tendrá como funciones básicas las siguientes: 1. Nombrar y remover libremente al administrador y a su suplente cuando fuere el caso, para períodos determinados, y fijarle su remuneración. […] 3. Aprobar o improbar los estados financieros y el presupuesto anual de ingresos y gastos […]</blockquote>
+  <dl><dt>En palabras simples</dt><dd>La asamblea manda: nombra y quita al administrador por períodos definidos y aprueba el presupuesto. No existe el administrador para siempre.</dd><dt>Uso en audiencia</dt><dd>Contra un administrador «vitalicio» o que fija gastos sin asamblea.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · asamblea · administrador</dd></dl>
+  <details open><summary>Cómo la usa el juego · 3 citas</summary>
+  <div class="uso"><span class="t">Audiencia</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · Fulgencio Marrugo afirma: «Y aunque el acta fuera un borrador, la asamblea me eligió para siempre. Nadie ha dicho lo contrario en diez años.»</div><div>Se contradice con el hecho «Libro de actas» más la norma. Fulgencio Marrugo responde: «El libro de actas termina en el Año −1. Y la ley dice períodos determinados. Está bien: nadie me ha reelegido porque nadie ha votado.»</div><ul><li>Nota jurídica del Cuaderno: El silencio de diez años no es una elección. El libro de actas prueba que no hubo asamblea; el artículo 38 exige nombrar por períodos determinados.</li></ul></div><div class="uso"><span class="t">Audiencia</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · Fulgencio Marrugo afirma: «Las expensas se pagan como yo diga: en trabajo, en arroz o en lo que haya. No hay banco, no hay plata. Alguien tiene que decidir.»</div><div>Se contradice con el hecho «Cuaderno de expensas en especie» más la norma. Fulgencio Marrugo responde: «Presupuesto aprobado por la asamblea, conforme a los coeficientes. Sin presupuesto, mi cuaderno es una lista de lo que se me ocurrió.»</div><ul><li>Nota jurídica del Cuaderno: Las expensas se deben, pero según presupuesto aprobado por la asamblea y coeficientes (arts. 29 y 38). Cobrar en especie a voluntad no es administrar: es cobrar.</li></ul></div><div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Acta de Altamar · ¿Quién administra Altamar?</div><div>Cláusula: «Se reconoce a Fulgencio Marrugo como administrador vitalicio, conforme a la licencia de la Oficina de Registro.»</div><ul><li>Por qué es nula: El administrador se nombra por períodos determinados y lo elige la asamblea, no una oficina externa.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 38 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-38" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-38" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-38" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 38 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-39" data-id="l675-39" data-estado="pendiente">
+  <header><span class="ref">Art. 39 Ley 675/2001</span><h3>Reuniones y convocatoria</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">La asamblea general se reunirá ordinariamente por lo menos una vez al año, en la fecha señalada en el reglamento de propiedad horizontal y, a falta de esta, dentro de los tres (3) meses siguientes al vencimiento de cada período presupuestal; con el fin de examinar la situación general de la persona jurídica, efectuar los nombramientos cuya elección le corresponda, considerar y aprobar las cuentas del último ejercicio y presupuesto para el siguiente año. La convocatoria la efectuará el administrador, con una antelación no inferior a quince (15) días calendario.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>La asamblea se reúne al menos una vez al año y se convoca con quince días de anticipación, para que todos puedan ir.</dd><dt>Uso en audiencia</dt><dd>Para convocar en regla la asamblea que elija administrador y apruebe presupuesto.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · asamblea · convocatoria</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 39 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-39" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-39" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-39" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 39 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-45" data-id="l675-45" data-estado="pendiente">
+  <header><span class="ref">Art. 45 Ley 675/2001</span><h3>Quórum y mayorías</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Con excepción de los casos en que la ley o el reglamento de propiedad horizontal exijan un quórum o mayoría superior y de las reuniones de segunda convocatoria previstas en el artículo 41, la asamblea general sesionará con un número plural de propietarios de unidades privadas que representen por lo menos, más de la mitad de los coeficientes de propiedad, y tomará decisiones con el voto favorable de la mitad más uno de los coeficientes de propiedad representados en la respectiva sesión.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Para que la asamblea decida tiene que estar presente más de la mitad de la propiedad, y las decisiones se toman por mayoría.</dd><dt>Uso en audiencia</dt><dd>Contra un acta que no muestra quiénes asistieron ni qué parte de la propiedad representaban.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · quorum</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 45 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-45" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-45" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-45" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 45 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-47" data-id="l675-47" data-estado="pendiente">
+  <header><span class="ref">Art. 47 Ley 675/2001</span><h3>Actas de la asamblea</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Las decisiones de la asamblea se harán constar en actas firmadas por el presidente y el secretario de la misma, en las cuales deberá indicarse si es ordinaria o extraordinaria, así como la forma de la convocatoria, orden del día, nombre y calidad de los asistentes, su unidad privada y su respectivo coeficiente, y los votos emitidos en cada caso.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Un acta de asamblea vale si la firman presidente y secretario y dice quiénes fueron, qué representaban y cómo votaron. Sin eso, es una hoja con membrete.</dd><dt>Uso en audiencia</dt><dd>Contra un acta sin firmas ni lista de asistentes que pretende probar una elección.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · acta · prueba</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Audiencia</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · Fulgencio Marrugo afirma: «Soy el administrador de Altamar desde el Año 1. Lo dice el acta que está en el muro: la asamblea me eligió.»</div><div>Se contradice con el hecho «Acta de Asamblea del Año 1» más la norma. Fulgencio Marrugo responde: «Sin firmas de presidente ni secretario, sin asistentes, sin coeficientes. Bueno. Digamos que fue un borrador de acta.»</div><ul><li>Nota jurídica del Cuaderno: Un acta sin las firmas y los datos que exige el artículo 47 de la Ley 675 no prueba la elección. El hecho (el documento) más la norma (los requisitos del acta) desmontan el título.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 47 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-47" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-47" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-47" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 47 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-50" data-id="l675-50" data-estado="pendiente">
+  <header><span class="ref">Art. 50 Ley 675/2001</span><h3>Naturaleza del administrador</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">La representación legal de la persona jurídica y la administración del edificio o conjunto corresponderán a un administrador designado por la asamblea general de propietarios en todos los edificios o conjuntos, salvo en aquellos casos en los que exista el consejo de administración, donde será elegido por dicho órgano, para el período que se prevea en el reglamento de copropiedad. […] Los administradores responderán por los perjuicios que por dolo, culpa leve o grave, ocasionen a la persona jurídica, a los propietarios o a terceros.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>El administrador no es el dueño del edificio: es un representante elegido por la asamblea, por un período, que responde por los daños que cause.</dd><dt>Uso en audiencia</dt><dd>Contra la idea de que el administrador «manda» como dueño de la casa.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · administrador · mandato</dd></dl>
+  <details open><summary>Cómo la usa el juego · 2 citas</summary>
+  <div class="uso"><span class="t">Audiencia</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · Fulgencio Marrugo afirma: «El administrador manda en el edificio. Es como el dueño de la casa: decide quién entra, quién paga y quién se va.»</div><div>Se contradice con la norma. Fulgencio Marrugo responde: «Representante legal designado por la asamblea, por el período del reglamento. Y respondo por los daños. Ya lo sé: yo firmé ese reglamento.»</div><ul><li>Nota jurídica del Cuaderno: El administrador es un mandatario de la copropiedad, elegido por la asamblea por un período, no un dueño (art. 50 Ley 675).</li></ul></div><div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Acta de Altamar · ¿Quién administra Altamar?</div><div>Cláusula: «Se designa administradora a Pilar Cantillo por decisión de la relatora.»</div><ul><li>Por qué es nula: Al administrador lo designa la asamblea de propietarios, no una jurista ni una mesa de conciliación.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 50 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-50" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-50" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-50" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 50 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-51" data-id="l675-51" data-estado="pendiente">
+  <header><span class="ref">Art. 51 Ley 675/2001</span><h3>Funciones del administrador</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Le corresponde al administrador: 1. Convocar a la asamblea a reuniones ordinarias o extraordinarias y someter a su aprobación el inventario y balance general de las cuentas del ejercicio anterior, y un presupuesto detallado de gastos e ingresos correspondientes al nuevo ejercicio anual […] 5. Llevar bajo su dependencia y responsabilidad, la contabilidad del edificio o conjunto […]</blockquote>
+  <dl><dt>En palabras simples</dt><dd>El administrador convoca la asamblea, presenta cuentas y presupuesto y lleva la contabilidad. Rinde cuentas; no las inventa.</dd><dt>Uso en audiencia</dt><dd>Para exigir rendición de cuentas de expensas cobradas en especie sin contabilidad.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · administrador · cuentas</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 51 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-51" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-51" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-51" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 51 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-59" data-id="l675-59" data-estado="pendiente">
+  <header><span class="ref">Art. 59 Ley 675/2001</span><h3>Sanciones permitidas</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">El incumplimiento de las obligaciones no pecuniarias que tengan su consagración en la ley o en el reglamento de propiedad horizontal, por parte de los propietarios, tenedores o terceros por los que estos deban responder […] dará lugar, previo requerimiento escrito, con indicación del plazo para que se ajuste a las normas que rigen la propiedad horizontal, si a ello hubiere lugar, a la imposición de las siguientes sanciones: 1. Publicación en lugares de amplia circulación de la edificación o conjunto de la lista de los infractores con indicación del hecho o acto que origina la sanción. 2. Imposición de multas sucesivas […] 3. Restricción al uso y goce de bienes de uso común no esenciales, como salones comunales y zonas de recreación y deporte. Parágrafo. En ningún caso se podrá restringir el uso de bienes comunes esenciales o de aquellos destinados a su uso exclusivo.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Las sanciones son solo las de la ley: publicar la lista, multas o restringir salones y zonas de recreo. Nunca cortar el agua, la luz o el paso a la vivienda.</dd><dt>Uso en audiencia</dt><dd>Contra el retiro del carné, el corte del agua o cualquier sanción inventada.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · sanciones · agua</dd></dl>
+  <details open><summary>Cómo la usa el juego · 3 citas</summary>
+  <div class="uso"><span class="t">Audiencia</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · Fulgencio Marrugo afirma: «El que no paga pierde el carné. Es una sanción como cualquiera. Sin carné no consta, y lo que no consta no reclama.»</div><div>Se contradice con el hecho «Carné retirado de Tomás» más la norma. Fulgencio Marrugo responde: «Publicar la lista, multar, cerrar el salón comunal. Eso dice la ley que puedo hacer. Quitar el carné no está. Ya.»</div><ul><li>Nota jurídica del Cuaderno: Las sanciones en propiedad horizontal son solo las del artículo 59: publicar, multar, restringir bienes no esenciales. Cancelar un carné que borra a una persona no es sanción: es exclusión sin ley.</li></ul></div><div class="uso"><span class="t">Audiencia</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Audiencia en la piscina · Fulgencio Marrugo afirma: «Cortar el agua a los morosos es mi derecho. Si no pagan el agua, no tienen agua. Así funciona en todas partes.»</div><div>Se contradice con el hecho «Válvula del piso 4 con candado» más la norma. Fulgencio Marrugo responde: «Bienes comunes esenciales. El agua es esencial. En ningún caso. (pausa) Está en la ley que yo mismo hice firmar en el Año −3.»</div><ul><li>Nota jurídica del Cuaderno: El agua es un bien común esencial (art. 3) y su uso no puede restringirse en ningún caso como sanción (parágrafo del art. 59). El candado es el hecho; la ley, la norma.</li></ul></div><div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Acta de Altamar · ¿Y el agua?</div><div>Cláusula: «El suministro de agua se restablecerá únicamente a las unidades al día en sus expensas.»</div><ul><li>Por qué es nula: El uso de bienes comunes esenciales no puede restringirse en ningún caso como sanción.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 59 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-59" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-59" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-59" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 59 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="l675-60" data-id="l675-60" data-estado="pendiente">
+  <header><span class="ref">Art. 60 Ley 675/2001</span><h3>Quién sanciona y cómo</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Las sanciones previstas en el artículo anterior serán impuestas por la asamblea general o por el consejo de administración, cuando se haya creado y en el reglamento se le haya atribuido esta facultad. Para su imposición se respetarán los procedimientos contemplados en el reglamento de propiedad horizontal, consultando el debido proceso, el derecho de defensa y contradicción e impugnación.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Sanciona la asamblea o el consejo, siguiendo un procedimiento en el que la persona puede defenderse. El administrador solo no puede sancionar.</dd><dt>Uso en audiencia</dt><dd>Contra sanciones impuestas directamente por el administrador sin procedimiento.</dd><dt>Etiquetas</dt><dd class="meta">propiedad-horizontal · sanciones · debido-proceso</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Pacto · cláusula nula</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Acta de Altamar · ¿Qué pasa con las expensas cobradas en trabajo y comida?</div><div>Cláusula: «Fulgencio Marrugo restituirá el doble de lo cobrado en especie, a título de sanción.»</div><ul><li>Por qué es nula: Es una sanción impuesta sin procedimiento ni derecho de defensa; la mesa no puede castigar.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 60 Ley 675/2001">
+      <label class="ok"><input type="radio" name="d-l675-60" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-l675-60" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-l675-60" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 60 Ley 675/2001"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article></section>
+<section class="libro" data-libro="especial"><h2>Normas especiales <span class="tag">2</span></h2>
+<article class="norma" id="d2591-42" data-id="d2591-42" data-estado="pendiente">
+  <header><span class="ref">Art. 42 Decreto 2591/1991</span><h3>Tutela contra particulares</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">La acción de tutela procederá contra acciones u omisiones de particulares en los siguientes casos: […] 4. Cuando la solicitud fuere dirigida contra una organización privada, contra quien la controle efectivamente o fuere el beneficiario real de la situación que motivó la acción, siempre y cuando el solicitante tenga una relación de subordinación o indefensión con tal organización. […] 9. Cuando la solicitud sea para tutelar la vida o la integridad de quien se encuentre en situación de subordinación o indefensión respecto del particular contra el cual se interpuso la acción.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>La tutela también sirve contra personas u organizaciones privadas cuando alguien está bajo su poder y no puede defenderse de otro modo: por ejemplo, una administración que corta el agua a una familia.</dd><dt>Uso en audiencia</dt><dd>Para mostrar que la protección de derechos no depende de que el abusador sea una autoridad pública.</dd><dt>Etiquetas</dt><dd class="meta">tutela · particulares · indefension</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Consulta</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Si un administrador corta el agua a una familia y no hay juez cerca, ¿existe algún camino legal?</div><div>Respuesta correcta: «Sí: la acción de tutela, que procede incluso contra particulares cuando la persona está indefensa.» → Correcto. Que hoy no haya juez cerca no borra el camino; y lo que hoy hacemos aquí es preparar los hechos para cuando lo haya.</div><ul><li>Incorrecta: «No, la tutela es solo contra el Estado.» → La Constitución y el decreto que la desarrolla la admiten contra particulares cuando hay subordinación o indefensión.</li><li>Incorrecta: «Solo si la familia tiene abogado.» → La tutela se puede presentar sin abogado. Es preferente y sumaria: rápida y sin formalismos.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 42 Decreto 2591/1991">
+      <label class="ok"><input type="radio" name="d-d2591-42" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-d2591-42" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-d2591-42" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 42 Decreto 2591/1991"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article>
+<article class="norma" id="d1260-3" data-id="d1260-3" data-estado="pendiente">
+  <header><span class="ref">Art. 3 Decreto 1260/1970</span><h3>Derecho al nombre</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Toda persona tiene derecho a su individualidad, y por consiguiente, al nombre que por ley le corresponde. El nombre comprende, el nombre, los apellidos, y en su caso, el seudónimo.</blockquote>
+  <dl><dt>En palabras simples</dt><dd>El nombre es de la persona por ley, no lo concede una oficina ni lo quita un administrador. Quien nació con él, lo tiene.</dd><dt>Uso en audiencia</dt><dd>Contra la idea de que quien perdió un carné o un folio perdió su nombre.</dd><dt>Etiquetas</dt><dd class="meta">nombre · registro-civil · no-inscritos</dd></dl>
+  <details open><summary>Cómo la usa el juego · 1 cita</summary>
+  <div class="uso"><span class="t">Consulta</span> <span class="ep">Episodio 1 · Sin folio</span><div class="q">Me quitaron el carné del conjunto. Marrugo dice que sin carné no existo ni para la Oficina. ¿Dejé de tener nombre?</div><div>Respuesta correcta: «No. El nombre y la personalidad jurídica son suyos por ley; el carné es un papel interno.» → Así es. Puede que le cierren una puerta con ese carné. Lo que no pueden es borrarlo a usted.</div><ul><li>Incorrecta: «Sí, hasta que pague la mora.» → Ningún pago compra la personalidad jurídica. Se tiene por ser persona.</li><li>Incorrecta: «Depende de lo que diga la Oficina.» → La Oficina anota; no crea personas ni las borra. Eso está por encima de cualquier oficina.</li></ul></div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Art. 3 Decreto 1260/1970">
+      <label class="ok"><input type="radio" name="d-d1260-3" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-d1260-3" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-d1260-3" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Art. 3 Decreto 1260/1970"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article></section>
+
+<section class="libro" data-libro="principios"><h2>Principios <span class="tag">1</span></h2>
+<article class="norma" id="pr-buena-fe" data-id="pr-buena-fe" data-estado="pendiente">
+  <header><span class="ref">Principio de buena fe</span><h3>Buena fe</h3><span class="tag">extracto</span><span class="meta">consultado 2026-09-12</span></header>
+  <blockquote class="literal">Las actuaciones de los particulares y de las autoridades públicas deberán ceñirse a los postulados de la buena fe, la cual se presumirá en todas las gestiones que aquellos adelanten ante éstas. (Art. 83 C.P.)</blockquote>
+  <dl><dt>En palabras simples</dt><dd>Se presume que la gente actúa honestamente. Quien afirme lo contrario tiene que probarlo.</dd><dt>Uso en audiencia</dt><dd>Contra quien trata a los vecinos como morosos o invasores sin prueba.</dd><dt>Etiquetas</dt><dd class="meta">principios · buena-fe</dd></dl>
+  <details ><summary>Cómo la usa el juego · 0 citas</summary>
+  <div class="uso">Sin citas todavía (entrada de reserva para episodios posteriores).</div>
+  </details>
+  <div class="rev">
+    <div class="opciones" role="radiogroup" aria-label="Decisión sobre Principio de buena fe">
+      <label class="ok"><input type="radio" name="d-pr-buena-fe" value="aprobada"> Aprobada tal como está</label>
+      <label class="bad"><input type="radio" name="d-pr-buena-fe" value="corregir"> Corregir (anota qué)</label>
+      <label><input type="radio" name="d-pr-buena-fe" value="pendiente" checked> Pendiente</label>
+    </div>
+    <textarea placeholder="Observaciones: texto literal, vigencia, lectura en palabras simples, cómo la aplica el juego…" aria-label="Observaciones sobre Principio de buena fe"></textarea>
+    <div class="meta guardado"></div>
+  </div>
+</article></section>
+  <section><h2>Cláusulas que el juego trata como lícitas</h2>
+<p>En cada Pacto, estas cláusulas se pueden firmar sin impugnación. Conviene confirmar que ninguna sea nula o inconveniente en la práctica.</p>
+<div class="tablewrap"><table><thead><tr><th>Episodio</th><th>Pacto · punto</th><th>Cláusula (texto del acta)</th></tr></thead><tbody>
+<tr><td>Prólogo · El códice que no ardió</td><td>Acta del riego del herbario · ¿Quién riega el herbario mientras Renata no está?</td><td>Los estudiantes regarán el herbario por turnos semanales. Nepomuceno coordinará los turnos y llevará la lista a la vista de todos.</td></tr>
+<tr><td>Prólogo · El códice que no ardió</td><td>Acta del riego del herbario · ¿Quién riega el herbario mientras Renata no está?</td><td>Nepomuceno se encargará en exclusiva del riego del herbario.</td></tr>
+<tr><td>Episodio 1 · Sin folio</td><td>Acta de Altamar · ¿Quién administra Altamar?</td><td>La asamblea general, convocada con quince días de antelación y con quórum, elegirá administrador por un período de un año. Fulgencio Marrugo podrá postularse.</td></tr>
+<tr><td>Episodio 1 · Sin folio</td><td>Acta de Altamar · ¿Quién administra Altamar?</td><td>Cada piso se administrará de forma independiente; se suprime el cargo de administrador.</td></tr>
+<tr><td>Episodio 1 · Sin folio</td><td>Acta de Altamar · ¿Qué pasa con las expensas cobradas en trabajo y comida?</td><td>Las expensas se reliquidarán conforme al presupuesto que apruebe la asamblea. Las jornadas y bienes ya entregados se abonarán a la cuenta de cada unidad.</td></tr>
+<tr><td>Episodio 1 · Sin folio</td><td>Acta de Altamar · ¿Qué pasa con las expensas cobradas en trabajo y comida?</td><td>Se condonan todas las deudas por expensas causadas hasta la fecha.</td></tr>
+<tr><td>Episodio 1 · Sin folio</td><td>Acta de Altamar · ¿Qué pasa con las expensas cobradas en trabajo y comida?</td><td>Se reconocen las expensas tal como constan en el cuaderno de la administración.</td></tr>
+<tr><td>Episodio 1 · Sin folio</td><td>Acta de Altamar · ¿Qué pasa con los vecinos sin carné, los «no inscritos» de la torre?</td><td>Todos los residentes recuperan de inmediato su carné y su reconocimiento. Los nacimientos ocurridos en la torre se certificarán con el Registro de Voces y la libreta de la partera.</td></tr>
+<tr><td>Episodio 1 · Sin folio</td><td>Acta de Altamar · ¿Qué pasa con Marrugo?</td><td>Fulgencio Marrugo rendirá cuentas de su gestión ante la asamblea y conservará su unidad privada y sus derechos como copropietario.</td></tr>
+<tr><td>Episodio 1 · Sin folio</td><td>Acta de Altamar · ¿Qué pasa con Marrugo?</td><td>Las partes renuncian a toda reclamación por la gestión anterior.</td></tr>
+<tr><td>Episodio 1 · Sin folio</td><td>Acta de Altamar · ¿Y el agua?</td><td>El agua es un bien común esencial. La administración retirará el candado de la válvula del piso 4 y restablecerá el servicio a todas las unidades a más tardar mañana.</td></tr>
+</tbody></table></div></section>
+  <section class="exportar"><h2>Resumen de decisiones</h2>
+    <p>Si esta página se abre como archivo (sin conexión), copia este resumen y envíalo; si está publicada, Claude lo lee directamente.</p>
+    <button type="button" class="primario" id="btn-resumen">Generar resumen</button>
+    <textarea id="resumen" aria-label="Resumen de decisiones" readonly></textarea>
+  </section>
+  <footer>Generado el 2026-09-12 desde <code>content/codice</code>, <code>content/ep00</code> y <code>content/ep01</code> · Las normas se consultaron el 2026-09-12 y no han sido revisadas por un abogado.</footer>
+</main>
+<script>
+(() => {
+  const ARTICULOS = [{"id":"cp-1","referencia":"Art. 1 C.P."},{"id":"cp-4","referencia":"Art. 4 C.P."},{"id":"cp-14","referencia":"Art. 14 C.P."},{"id":"cp-28","referencia":"Art. 28 C.P."},{"id":"cp-29","referencia":"Art. 29 C.P."},{"id":"cp-34","referencia":"Art. 34 C.P."},{"id":"cp-2","referencia":"Art. 2 C.P."},{"id":"cp-12","referencia":"Art. 12 C.P."},{"id":"cp-15","referencia":"Art. 15 C.P."},{"id":"cp-17","referencia":"Art. 17 C.P."},{"id":"cp-20","referencia":"Art. 20 C.P."},{"id":"cp-24","referencia":"Art. 24 C.P."},{"id":"cp-33","referencia":"Art. 33 C.P."},{"id":"cp-37","referencia":"Art. 37 C.P."},{"id":"cp-84","referencia":"Art. 84 C.P."},{"id":"cp-86","referencia":"Art. 86 C.P."},{"id":"d2591-42","referencia":"Art. 42 Decreto 2591/1991"},{"id":"d1260-3","referencia":"Art. 3 Decreto 1260/1970"},{"id":"pr-buena-fe","referencia":"Principio de buena fe"},{"id":"l675-2","referencia":"Art. 2 Ley 675/2001"},{"id":"l675-3","referencia":"Art. 3 Ley 675/2001"},{"id":"l675-29","referencia":"Art. 29 Ley 675/2001"},{"id":"l675-37","referencia":"Art. 37 Ley 675/2001"},{"id":"l675-38","referencia":"Art. 38 Ley 675/2001"},{"id":"l675-39","referencia":"Art. 39 Ley 675/2001"},{"id":"l675-45","referencia":"Art. 45 Ley 675/2001"},{"id":"l675-47","referencia":"Art. 47 Ley 675/2001"},{"id":"l675-50","referencia":"Art. 50 Ley 675/2001"},{"id":"l675-51","referencia":"Art. 51 Ley 675/2001"},{"id":"l675-59","referencia":"Art. 59 Ley 675/2001"},{"id":"l675-60","referencia":"Art. 60 Ley 675/2001"}];
+  const LS = 'aequitas.revision-juridica';
+  let local = {};
+  try { local = JSON.parse(localStorage.getItem(LS) || '{}'); } catch (e) { local = {}; }
+  let db = null;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const revisorInput = $('#revisor');
+  try { revisorInput.value = localStorage.getItem(LS + '.revisor') || ''; } catch (e) {}
+  revisorInput.addEventListener('input', () => { try { localStorage.setItem(LS + '.revisor', revisorInput.value); } catch (e) {} });
+
+  const setEstado = (id, doc) => {
+    const art = document.getElementById(id);
+    if (!art) return;
+    const estado = doc?.estado || 'pendiente';
+    art.dataset.estado = estado;
+    const radio = art.querySelector('input[value="' + estado + '"]');
+    if (radio && !radio.checked) radio.checked = true;
+    const ta = art.querySelector('textarea');
+    if (doc && typeof doc.comentario === 'string' && ta.value !== doc.comentario && document.activeElement !== ta) ta.value = doc.comentario;
+    art.querySelector('.guardado').textContent = doc?.fecha ? 'Guardado ' + new Date(doc.fecha).toLocaleString('es-CO') + (doc.revisor ? ' · ' + doc.revisor : '') : '';
+    contar();
+  };
+  const contar = () => {
+    const arts = $$('.norma');
+    const n = (e) => arts.filter((a) => a.dataset.estado === e).length;
+    $('#n-total').textContent = arts.length;
+    $('#n-aprobadas').textContent = n('aprobada');
+    $('#n-corregir').textContent = n('corregir');
+    $('#n-pendientes').textContent = n('pendiente');
+  };
+  const timers = {};
+  const guardar = (id) => {
+    const art = document.getElementById(id);
+    const estado = art.querySelector('input:checked')?.value || 'pendiente';
+    const comentario = art.querySelector('textarea').value;
+    const doc = { estado, comentario, revisor: revisorInput.value.trim(), fecha: new Date().toISOString(), referencia: ARTICULOS.find((a) => a.id === id)?.referencia || id };
+    local[id] = doc;
+    try { localStorage.setItem(LS, JSON.stringify(local)); } catch (e) {}
+    setEstado(id, doc);
+    if (db) {
+      clearTimeout(timers[id]);
+      timers[id] = setTimeout(() => {
+        db.doc('revisiones/' + id).set(doc).then(() => { $('#estado-sync').textContent = 'sincronizado'; })
+          .catch((e) => { $('#estado-sync').textContent = 'sin sincronizar (' + (e && e.code || 'error') + ')'; });
+      }, 400);
+    }
+  };
+  for (const art of $$('.norma')) {
+    const id = art.dataset.id;
+    art.addEventListener('change', (ev) => { if (ev.target.matches('input[type="radio"]')) guardar(id); });
+    art.querySelector('textarea').addEventListener('input', () => { clearTimeout(timers['t' + id]); timers['t' + id] = setTimeout(() => guardar(id), 600); });
+    if (local[id]) setEstado(id, local[id]);
+  }
+  contar();
+  // Filtro
+  for (const b of $$('.bar button[data-filtro]')) b.addEventListener('click', () => {
+    for (const o of $$('.bar button[data-filtro]')) o.setAttribute('aria-pressed', String(o === b));
+    const f = b.dataset.filtro;
+    for (const art of $$('.norma')) art.classList.toggle('oculta', f !== 'todas' && art.dataset.estado !== f);
+    for (const sec of $$('.libro')) sec.style.display = $$('.norma:not(.oculta)', sec).length ? '' : 'none';
+  });
+  // Resumen
+  $('#btn-resumen').addEventListener('click', () => {
+    const lineas = [];
+    for (const art of $$('.norma')) {
+      const id = art.dataset.id; const d = local[id] || {};
+      const estado = art.dataset.estado;
+      if (estado === 'pendiente' && !d.comentario) continue;
+      lineas.push((ARTICULOS.find((a) => a.id === id)?.referencia || id) + ' [' + id + ']: ' + estado.toUpperCase() + (d.comentario ? ' — ' + d.comentario.replace(/\s+/g, ' ') : ''));
+    }
+    $('#resumen').value = (revisorInput.value ? 'Revisor: ' + revisorInput.value + '\n' : '') + (lineas.join('\n') || '(sin decisiones todavía)');
+    $('#resumen').select();
+  });
+  // Base de datos compartida (cuando la página está publicada)
+  const conectar = async () => {
+    if (!window.claude || typeof window.claude.use !== 'function') return;
+    db = await window.claude.use('db');
+    if (!db) return;
+    $('#estado-sync').textContent = 'conectado';
+    db.collection('revisiones').onSnapshot((snap) => {
+      for (const d of snap.docs) { const doc = d.data(); if (!doc) continue; local[d.id] = doc; setEstado(d.id, doc); }
+      try { localStorage.setItem(LS, JSON.stringify(local)); } catch (e) {}
+    }, () => { $('#estado-sync').textContent = 'sin conexión con la base'; });
+  };
+  conectar();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AEQUITAS · Dossier de avance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light dark;
+    --paper: #f3ead8; --paper-2: #eadfc6; --line: #cfc2a3; --ink: #1b1b1f; --muted: #6f6c76;
+    --accent: #5a3f86; --accent-soft: #e6dcf3; --gold: #b8892e; --gold-soft: #f4dc8a;
+    --ok: #2f5d3a; --ok-soft: #d9ecd2; --warn: #7a4b2d; --warn-soft: #f1dcc7; --pending: #a29ea8;
+    --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+    --font-body: "Public Sans", "Segoe UI", Roboto, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1b1b1f; --paper-2: #2e2d33; --line: #4a4850; --ink: #f3ead8; --muted: #a29ea8;
+      --accent: #b39ddb; --accent-soft: #3b2a5c; --gold: #e2b94a; --gold-soft: #5a4a1e;
+      --ok: #b9e39a; --ok-soft: #26402b; --warn: #d9a66b; --warn-soft: #4a3320; --pending: #6f6c76;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1b1b1f; --paper-2: #2e2d33; --line: #4a4850; --ink: #f3ead8; --muted: #a29ea8;
+    --accent: #b39ddb; --accent-soft: #3b2a5c; --gold: #e2b94a; --gold-soft: #5a4a1e;
+    --ok: #b9e39a; --ok-soft: #26402b; --warn: #d9a66b; --warn-soft: #4a3320; --pending: #6f6c76;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.55; }
+  main { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+  header.top { border-bottom: 2px solid var(--ink); padding-bottom: 20px; margin-bottom: 36px; display: grid; gap: 6px; }
+  .eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(34px, 6vw, 56px); line-height: 1.02; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+  h1 small { display: block; font-size: 0.42em; font-weight: 400; font-style: italic; color: var(--accent); margin-top: 6px; letter-spacing: 0; }
+  .lede { font-size: 18px; max-width: 64ch; margin: 10px 0 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 22px; font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  section { margin: 44px 0; }
+  h2 { font-family: var(--font-display); font-weight: 600; font-size: 28px; line-height: 1.15; margin: 0 0 14px; text-wrap: balance; }
+  h3 { font-family: var(--font-display); font-weight: 600; font-size: 20px; margin: 22px 0 8px; }
+  p { margin: 0 0 12px; max-width: 70ch; }
+  ul { padding-left: 20px; margin: 0 0 12px; max-width: 72ch; }
+  li { margin: 4px 0; }
+  li::marker { color: var(--accent); }
+  code { font-family: var(--font-mono); font-size: 0.88em; background: var(--paper-2); padding: 1px 5px; border-radius: 3px; }
+  /* Fases */
+  .track { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; list-style: none; padding: 0; margin: 14px 0 0; max-width: none; }
+  .track li { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; background: var(--paper-2); display: grid; gap: 4px; margin: 0; }
+  .track .f { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
+  .track .n { font-weight: 600; font-size: 14.5px; line-height: 1.25; }
+  .pill { display: inline-block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 10px; width: fit-content; max-width: 100%; line-height: 1.3; }
+  .pill.ok { background: var(--ok-soft); color: var(--ok); }
+  .pill.doing { background: var(--gold-soft); color: var(--warn); }
+  .pill.todo { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .track li.ok { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+  .track li.doing { border-color: var(--gold); }
+  /* Cifras */
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 8px 0 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--font-mono); font-size: 13.5px; }
+  .tablewrap { overflow-x: auto; }
+  /* Capturas */
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 14px 0 6px; }
+  figure { margin: 0; }
+  figure img { width: 100%; height: auto; display: block; border: 1px solid var(--line); background: #000; }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+  figure.wide { grid-column: 1 / -1; }
+  /* Sistemas */
+  .sys { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px 18px; list-style: none; padding: 0; max-width: none; }
+  .sys li { margin: 0; padding: 8px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: start; font-size: 14.5px; }
+  .sys li b { font-weight: 600; }
+  .sys li span { color: var(--muted); font-size: 13.5px; }
+  /* Callouts */
+  .callout { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 14px 0; max-width: 72ch; }
+  .callout.warn { border-color: var(--gold); background: var(--gold-soft); }
+  .callout p:last-child { margin-bottom: 0; }
+  /* Pasos */
+  ol.steps { padding-left: 0; list-style: none; counter-reset: paso; max-width: 72ch; }
+  ol.steps li { counter-increment: paso; display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); margin: 0; }
+  ol.steps li::before { content: counter(paso, decimal-leading-zero); font-family: var(--font-mono); color: var(--accent); font-size: 14px; padding-top: 2px; }
+  ol.steps b { display: block; font-weight: 600; }
+  ol.steps span { color: var(--muted); font-size: 14px; }
+  footer { margin-top: 60px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); font-family: var(--font-mono); }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+  @media print { body { font-size: 12.5px; } main { padding: 0; } .shots { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div class="eyebrow">Bellium S.A.S. · Editorial Al Resuelve · Dossier de avance</div>
+    <h1>AEQUITAS<small>El Retorno del Equilibrio</small></h1>
+    <p class="lede">Estado del proyecto a 12 de septiembre de 2026: el Prólogo y el Episodio 1 se juegan de principio a fin con todas las mecánicas del diseño; falta el arte definitivo, la revisión jurídica de las normas y el playtest.</p>
+    <div class="meta"><span>rama <code>desarrollo</code> · 15 commits</span><span>versión 0.1.0</span><span>Lanzamiento 1 previsto: 27 nov 2026</span></div>
+  </header>
+
+  <section>
+    <h2>Dónde estamos en el plan</h2>
+    <p>El plan maestro tiene ocho fases. Las cuatro primeras se adelantaron respecto al calendario (que suponía arrancar el 21 de septiembre): motor y contenido del primer tramo están cerrados en su versión jugable, y el arte acaba de empezar.</p>
+    <ul class="track">
+      <li class="ok"><span class="f">F0</span><span class="n">Preparación</span><span class="pill ok">Completa</span></li>
+      <li class="ok"><span class="f">F1</span><span class="n">Biblia y tratamientos</span><span class="pill ok">Completa</span></li>
+      <li class="ok"><span class="f">F2</span><span class="n">Motor (vertical slice)</span><span class="pill ok">Completa</span></li>
+      <li class="ok"><span class="f">F3</span><span class="n">Guion Prólogo + Ep. 1</span><span class="pill ok">Jugable · revisión jurídica pendiente</span></li>
+      <li class="doing"><span class="f">F4</span><span class="n">Arte y audio base</span><span class="pill doing">En curso · Bloque A</span></li>
+      <li><span class="f">F5</span><span class="n">Playtest y Lanzamiento 1</span><span class="pill todo">Pendiente</span></li>
+      <li><span class="f">F6</span><span class="n">Episodios 2 a 8</span><span class="pill todo">Pendiente</span></li>
+      <li><span class="f">F7</span><span class="n">Cierre de temporada</span><span class="pill todo">Pendiente</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>La historia en breve</h2>
+    <p><b>La premisa.</b> El Litoral es una franja de costa caribe ficticia. Hace nueve años, la noche de <i>la Crecida</i>, una marea de tormenta inundó la ciudad amurallada de Puerto Baluarte y con ella cayó el Estado local. Esa misma semana la registradora de instrumentos públicos, Petra Iriarte, ejecutó <i>el Borrado</i>: destruyó los folios de los tres registros (inmuebles, civil y mercantil) para que el Consorcio de Acreedores no pudiera rematar barrios enteros. Sin registros no hubo hipotecas que ejecutar; tampoco quedaron títulos, nombres ni sociedades inscritas. Petra desapareció. Su hija tenía catorce años.</p>
+    <p>En el Año 4, Evaristo Moscote, antiguo secretario de la Oficina, reapareció con cajas de folios «salvados» y reabrió la Oficina de Registro. Ofreció lo único que nadie más podía ofrecer: certeza. Un certificado de existencia para las personas, uno de tradición para las tierras. Los antiguos cobradores se volvieron sus alguaciles. Nadie lo eligió; todos acudieron. Se hace llamar <i>el Registrador</i>. Mientras tanto, en una estación botánica escondida en la Ciénaga, un grupo de profesores y bibliotecarios guardó la colección jurídica y fundó la Biblioteca de Bellium, cuya escuela forma juristas. En el Año 9 la Biblioteca envía a sus primeros juristas al terreno. Ahí empieza el juego, con quien juega en el papel de Iriarte, jurista recién graduada o graduado, que carga el apellido de la mujer que borró la memoria del Litoral.</p>
+    <p><b>Acto I · La letra (Prólogo, Episodios 1 y 2).</b> La jurista cree que basta citar la norma. En Altamar aprende que la ley sirve a personas con nombre y que el primer derecho es existir jurídicamente. En Tres Bocas aprende que un contrato es un instrumento de confianza y que el crédito legítimo también merece protección. Giro: las deudas del río suben por una cadena hasta la Oficina de Registro. El Registrador no presta dinero: presta existencia.</p>
+    <p><b>Acto II · El espíritu (Episodios 3, 4 y 5).</b> Posesión, consentimiento, trabajo. En Sinuaco, el magistrado retirado Gerineldo revela el reloj: el Año Diez, cuando diez años de posesión bastan para adquirir la tierra por prescripción, y el Registrador corre contra ese plazo. En Salinas aparece un acta con la firma de Petra entregándole el archivo al Registrador. En Bellavista, la huelga detiene el molino y el Registrador dice en persona: «Tu madre me hizo Registrador». La protagonista ya no sabe de qué lado estaba su madre.</p>
+    <p><b>Acto III · La fuente (Episodios 6, 7 y 8).</b> Bajo Puerto Baluarte está el archivo verdadero y la carta de Petra. Prudencio confiesa una falsificación; la Biblioteca planeó el Borrado. La presa se abre, el río vuelve al valle y la economía del Registrador se desploma. La plaza lo captura y quiere colgarlo, con Pilar al frente: la jurista tiene que defender el debido proceso del hombre que lo negó a todos. El Registrador es oído, refutado y sancionado con arreglo a la Constitución: restituir, no morir ni ser desterrado. En la Asamblea del Litoral, la Rectora se somete al mismo proceso. Giro final: el Registrador solo fue el sello; los originales de las deudas siguen en manos del Consorcio, en las tierras altas. Temporada 2.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Lanz.</th><th>Ep.</th><th>Título</th><th>Región</th><th>Concepto central</th><th>Se une</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td class="num">0</td><td><i>El códice que no ardió</i></td><td>Ciénaga de Bellium</td><td>Supremacía constitucional, personalidad jurídica</td><td>—</td></tr>
+        <tr><td class="num">1</td><td class="num">1</td><td><i>Sin folio</i></td><td>Conjunto Altamar</td><td>Propiedad horizontal, debido proceso, tutela</td><td>Pilar</td></tr>
+        <tr><td class="num">2</td><td class="num">2</td><td><i>Firmado en blanco</i></td><td>Tres Bocas</td><td>Títulos valores, intereses y usura</td><td>Prudencio</td></tr>
+        <tr><td class="num">3</td><td class="num">3</td><td><i>El Año Diez</i></td><td>Valle de Sinuaco</td><td>Posesión y prescripción, sucesión, servidumbre</td><td>Gerineldo</td></tr>
+        <tr><td class="num">4</td><td class="num">4</td><td><i>Un justo temor</i></td><td>Salinas de Galera</td><td>Vicios del consentimiento, nulidad, lesión enorme</td><td>—</td></tr>
+        <tr><td class="num">5</td><td class="num">5</td><td><i>La tienda de raya</i></td><td>Hacienda Bellavista</td><td>Contrato realidad, prohibiciones al empleador, huelga</td><td>—</td></tr>
+        <tr><td class="num">6</td><td class="num">6</td><td><i>El archivo sumergido</i></td><td>Puerto Baluarte y la presa</td><td>Registro público, fe pública, bienes de uso público, acción popular</td><td>—</td></tr>
+        <tr><td class="num">7</td><td class="num">7</td><td><i>Debido proceso</i></td><td>Plaza de Puerto Baluarte</td><td>Art. 29 completo, penas prohibidas, conciliación</td><td>—</td></tr>
+        <tr><td class="num">8</td><td class="num">8</td><td><i>Norma de normas</i></td><td>La Asamblea del Litoral</td><td>Estado social de derecho, participación, jueces de paz</td><td>—</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cómo enseña derecho</h2>
+    <p>La enseñanza no está en lecciones sino en las cuatro cosas que el jugador hace. Cada una corresponde a un nivel de aprendizaje y todas dejan rastro en el Cuaderno.</p>
+    <ul>
+      <li><b>Consultas (comprender).</b> Un vecino plantea un caso cotidiano con tres respuestas posibles. La correcta desbloquea la norma en el Códice: primero el hecho, después la norma que lo califica.</li>
+      <li><b>Audiencia Dialéctica (aplicar).</b> El adversario afirma errores jurídicos reales («el administrador manda como dueño»). Se refutan con un hecho del zurrón, una norma del Códice o la combinación de ambos: <i>Norma + Hecho = Alegato</i>. Cada contradicción plena deja una nota jurídica de dos líneas.</li>
+      <li><b>Control de legalidad (evaluar).</b> En la mesa de conciliación hay cláusulas nulas mezcladas con las lícitas. Detectarlas y decir por qué norma lo son es parte del puntaje; firmar una nula trae una impugnación.</li>
+      <li><b>Pacto (crear).</b> El jugador redacta el acta eligiendo cláusulas que equilibren legalidad, intereses de las partes y justicia. El acta se genera con redacción jurídica limpia.</li>
+    </ul>
+    <p>Reglas del currículo: un concepto central por episodio con dos o tres de apoyo y un repaso de un episodio anterior; toda entrada del Códice cita el texto literal (o un extracto marcado) y lo traduce en palabras simples; los errores comunes de estudiantes se juegan como afirmaciones del adversario; ninguna cifra variable (tasas, salario, jornada) se escribe como número fijo; el adversario nunca enseña algo falso al perder. La progresión de la temporada va de la letra (existencia jurídica, propiedad horizontal, títulos valores) al espíritu (posesión, consentimiento, trabajo) y a la fuente (registro, debido proceso, Estado social de derecho), de modo que cada episodio usa lo aprendido en el anterior.</p>
+  </section>
+
+  <section>
+    <h2>Lo que se puede jugar hoy</h2>
+    <p><b>Prólogo · <i>El códice que no ardió</i>.</b> Renata Iriarte se gradúa en la Biblioteca de la Ciénaga: una Audiencia simulada contra Casimiro, un Pacto de riego entre la estación y los pescadores, el encargo de la rectora Clemencia y el viaje a Altamar.</p>
+    <p><b>Episodio 1 · <i>Sin folio</i>.</b> En el Conjunto Altamar, Fulgencio Marrugo administra una torre con carnés que borran personas. Renata reúne el acta del Año 1, el libro de actas, el carné de Tomás, la válvula con candado y el testimonio de la partera Zoraida; convoca a los vecinos en la piscina vacía, desmonta a Marrugo en una Audiencia de seis afirmaciones (con la maniobra de la licencia de la Oficina de Registro) y redacta el Acta de Altamar. Pilar se une al grupo. Al final, el Registrador oye por primera vez el apellido Iriarte.</p>
+    <div class="shots">
+      <figure><img src="{{IMG:lamina}}" alt="Diálogo de Renata sobre una lámina cinematográfica"><figcaption>Escena clave: la conversación ocurre sobre una lámina cinematográfica (aquí una del prototipo, provisional).</figcaption></figure>
+      <figure><img src="{{IMG:lobby}}" alt="Lobby de la torre de Altamar"><figcaption>Lobby de Altamar con arte provisional generado por código: fila, mostrador, oficina y vigilante.</figcaption></figure>
+      <figure><img src="{{IMG:audiencia}}" alt="Audiencia contra Marrugo"><figcaption>Audiencia Dialéctica: afirmación, medidores de Posición, Tensión y Credibilidad, e Invocación de la Constitución.</figcaption></figure>
+      <figure><img src="{{IMG:tras-audiencia}}" alt="Registro de la audiencia"><figcaption>El registro de la sala: cada contradicción plena deja una nota jurídica en el Cuaderno.</figcaption></figure>
+      <figure><img src="{{IMG:pacto}}" alt="Acta de Altamar, conciliación"><figcaption>Conciliación: partes con lo que piden y lo que necesitan, cinco puntos, cláusulas nulas por detectar.</figcaption></figure>
+      <figure><img src="{{IMG:acta}}" alt="Resultado del pacto"><figcaption>Acta firmada con Equilibrio 100: legalidad, intereses y justicia.</figcaption></figure>
+      <figure><img src="{{IMG:piscina}}" alt="La piscina de Altamar"><figcaption>La piscina vacía, anfiteatro de la Audiencia. Con la Legitimidad, se siembra (estados brote, verdor, floración).</figcaption></figure>
+      <figure><img src="{{IMG:titulo}}" alt="Pantalla de título"><figcaption>Título y menú: nueva partida con nombre, continuar, cargar, código de exportación, ajustes y galería de arte.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Motor: sistemas implementados</h2>
+    <p>Todo el motor es genérico: los episodios son datos (JSON validados) y no requieren código nuevo salvo las funciones especiales previstas para episodios posteriores.</p>
+    <ul class="sys">
+      <li><b>Mundo</b><span>mapas por estados, puertas, disparadores, compañeros, patrullas con cono de visión, mando táctil</span></li>
+      <li><b>Diálogo</b><span>ramas, condiciones, Consultas de tres opciones, testimonios al Registro de Voces, láminas en escenas clave</span></li>
+      <li><b>Audiencia Dialéctica</b><span>Norma + Hecho = Alegato; rondas, afirmaciones ocultas, maniobras, Objeción, Invocación, cotejo, pistas escalonadas, tres modos</span></li>
+      <li><b>Conciliación (Pacto)</b><span>Equilibrio = legalidad + intereses + justicia; cláusulas nulas, impugnación, acta redactada</span></li>
+      <li><b>Interpelación</b><span>patrullas que exigen artículo; detención sin pérdida de progreso</span></li>
+      <li><b>Legitimidad y Reverdecer</b><span>fuentes con topes, hitos 25/50/75, el mapa y la música cambian de estado</span></li>
+      <li><b>Zurrón, Códice, Voces, Cuaderno</b><span>31 normas con referencia y fecha de consulta, buscador, «usado en», notas por episodio</span></li>
+      <li><b>Guardado</b><span>tres ranuras, autoguardado por beat, exportar e importar por código</span></li>
+      <li><b>Episodios</b><span>carga perezosa, compuerta de publicación, continuidad de estado entre episodios</span></li>
+      <li><b>Cinemáticas y ajustes</b><span>láminas con subtítulo, modos de dificultad, escala de texto, fuente, volumen, modo Aula</span></li>
+      <li><b>Audio</b><span>música procedural por región en capas y efectos por evento (provisional)</span></li>
+      <li><b>Arte provisional</b><span>sprites, tilesets e iconos generados por código; el arte real entra sin tocar código</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Contenido en cifras</h2>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Episodio</th><th class="num">Diálogos</th><th class="num">Nodos</th><th class="num">Palabras</th><th class="num">Pruebas</th><th class="num">Consultas</th><th class="num">Afirmaciones</th><th class="num">Cláusulas</th><th class="num">Mapas</th><th class="num">Láminas</th></tr></thead>
+      <tbody>
+        <tr><td>Prólogo (ep00)</td><td class="num">15</td><td class="num">50</td><td class="num">890</td><td class="num">5</td><td class="num">4</td><td class="num">3</td><td class="num">4</td><td class="num">3</td><td class="num">6</td></tr>
+        <tr><td>Episodio 1 (ep01)</td><td class="num">26</td><td class="num">91</td><td class="num">1 747</td><td class="num">9</td><td class="num">5</td><td class="num">6</td><td class="num">17</td><td class="num">4</td><td class="num">6</td></tr>
+        <tr><td>Episodio de prueba (gym)</td><td class="num">8</td><td class="num">19</td><td class="num">272</td><td class="num">4</td><td class="num">2</td><td class="num">4</td><td class="num">5</td><td class="num">2</td><td class="num">0</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Además: 31 entradas del Códice (Constitución, Ley 675 de 2001, Decreto 2591 de 1991, Decreto 1260 de 1970, principios), 23 personajes definidos, 5 interpelaciones, 12 láminas cinematográficas especificadas plano por plano.</p>
+    <div class="callout warn"><p><b>Pendiente jurídico.</b> Las 31 normas están marcadas <code>revisado: false</code>. Ninguna cita del juego debe considerarse validada hasta que un abogado de Bellium firme el dossier de revisión.</p></div>
+  </section>
+
+  <section>
+    <h2>Calidad y verificación</h2>
+    <div class="tablewrap">
+    <table>
+      <tbody>
+        <tr><th>Código fuente</th><td class="num">11 229 líneas</td><td>TypeScript estricto · Phaser 3.90 · Preact · zod</td></tr>
+        <tr><th>Pruebas unitarias</th><td class="num">50</td><td>lógica pura del motor (audiencia, pacto, diálogo, guardado, validador)</td></tr>
+        <tr><th>Pruebas en navegador</th><td class="num">8</td><td>Playwright en escritorio y móvil; incluye el Episodio 1 completo jugado por la interfaz</td></tr>
+        <tr><th>Validador de contenido</th><td class="num">0 errores</td><td>esquemas y referencias cruzadas de los tres episodios</td></tr>
+        <tr><th>Integración continua</th><td class="num">verde</td><td>lint, tipos, pruebas y validación en cada push a <code>desarrollo</code></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Arte: el primer bloque</h2>
+    <p>La producción de arte se hace en Antigravity con Nano Banana siguiendo el contrato de <code>docs/arte/</code>. El motor carga automáticamente cada archivo que cumple el contrato y mantiene el provisional para el resto, así que el arte llega pieza a pieza sin retrabajo de código.</p>
+    <div class="shots">
+      <figure><img src="{{IMG:retratos}}" alt="Retratos de Renata"><figcaption>Bloque A: los tres retratos de Renata (neutra, tensa, cordial), aprobados.</figcaption></figure>
+      <figure><img src="{{IMG:galeria}}" alt="Galería de arte"><figcaption>Galería del juego: dorado es arte real, gris es provisional. El sprite de Renata se rechazó y se regenera con la receta corregida.</figcaption></figure>
+    </div>
+    <p>Bloques pendientes: elenco del Episodio 1, tilesets de Altamar y de la Ciénaga, láminas del Episodio 1 y del menú, elenco del Prólogo, láminas del Prólogo, iconos e interfaz.</p>
+  </section>
+
+  <section>
+    <h2>Decisiones de dirección tomadas</h2>
+    <div class="tablewrap">
+    <table>
+      <tbody>
+        <tr><th>D1</th><td>Juego nuevo desde cero; del prototipo solo la premisa y la referencia de luz.</td></tr>
+        <tr><th>D2</th><td>Mismo repositorio y URL; el prototipo archivado en <code>prototipo-2026</code>.</td></tr>
+        <tr><th>D3</th><td>Elenco original con ecos de <i>Cien años de soledad</i>; apellidos solo cuando la trama los usa.</td></tr>
+        <tr><th>D4</th><td>Arte provisional por código hasta que llegue el arte final.</td></tr>
+        <tr><th>D5</th><td>La web pública se reemplaza cuando el primer tramo sea jugable con arte.</td></tr>
+        <tr><th>D6</th><td>Tono sobrio: nada obvio, alegórico ni cursi.</td></tr>
+        <tr><th>D7</th><td>Stack fijado y versiones ancladas.</td></tr>
+        <tr><th>D8</th><td>Dos registros visuales: mundo en pixel art; láminas cinematográficas pintadas en aperturas, cierres y conversaciones decisivas.</td></tr>
+        <tr><th>D9</th><td>Cada episodio se puede empezar por separado y continúa con el estado acumulado.</td></tr>
+        <tr><th>D10</th><td><b>Nueva.</b> Protagonistas seleccionables: mujer, hombre, dos andróginos y un personaje personalizado; todos Iriarte, con tratamiento femenino, masculino o neutro reformulado sin marcar género.</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Próximos pasos</h2>
+    <ol class="steps">
+      <li><b>Dossier de revisión jurídica</b><span>página con las 31 normas y cada cita en audiencias y pactos, para la firma de un abogado de Bellium.</span></li>
+      <li><b>Protagonistas seleccionables</b><span>cuatro presets y creador de personaje; reescritura de los textos con tres tratamientos; contrato de arte por capas.</span></li>
+      <li><b>Preparar el Lanzamiento 1</b><span>guion y formulario de playtest, pase de accesibilidad y rendimiento en tres dispositivos, notas de lanzamiento, despliegue de prueba.</span></li>
+      <li><b>Arte, bloques B a G</b><span>en Antigravity, con revisión de cada bloque en la galería y en el juego.</span></li>
+      <li><b>Episodio 2 · <i>Firmado en blanco</i></b><span>Tres Bocas y Prudencio, con el molde del Episodio 1.</span></li>
+    </ol>
+    <div class="callout"><p><b>Riesgos vigilados.</b> La revisión jurídica no ha empezado; el arte depende de la cuota de generación de Antigravity; el balance de Audiencia y Pacto no se ha probado con jugadores reales.</p></div>
+  </section>
+
+  <footer>AEQUITAS v0.1.0 · dossier generado el 12 de septiembre de 2026 desde la rama <code>desarrollo</code> · Bellium S.A.S.</footer>
+</main>
+</body>
+</html>

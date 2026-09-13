@@ -5,7 +5,7 @@
       "id": "antes",
       "speaker": "clemencia",
       "portrait": "neutra",
-      "text": "Todavía no, Renata. Primero la audiencia con Casimiro. Después hablamos.",
+      "text": "Todavía no, {nombre}. Primero la audiencia con Casimiro. Después hablamos.",
       "requires": [
         {
           "flag": "audiencia.ep00-simulada.ganada",
@@ -89,7 +89,7 @@
       "id": "anillo2",
       "speaker": "clemencia",
       "portrait": "neutra",
-      "text": "Era de tu madre. Lo encontraron en el edificio del Registro después de la Crecida. Te lo guardé hasta hoy.",
+      "text": "Era de tu madre. Lo encontraron en el edificio del Registro después del Borrado. Te lo guardé hasta hoy.",
       "choices": [
         {
           "text": "¿Qué hacía mi madre ese día en el Registro?",

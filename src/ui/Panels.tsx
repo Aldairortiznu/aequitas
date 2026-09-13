@@ -143,7 +143,7 @@ function Zurron({ session }: { session: Session }) {
             {session.state.evidenceCotejada.includes(current.id) &&
               (current.autentico ? ' · cotejado: auténtico' : ' · cotejado: falso')}
           </p>
-          <p>{current.descripcion}</p>
+          <p>{session.t(current.descripcion)}</p>
           {session.state.evidenceCotejada.includes(current.id) && current.cotejo && (
             <p class="detail__cotejo">
               <strong>Cotejo de Prudencio:</strong> {current.cotejo.revela}
@@ -308,7 +308,7 @@ function Voces({ session }: { session: Session }) {
         {voces.map((v) => (
           <tr key={v.id}>
             <td>{v.nombre}</td>
-            <td>{v.hecho}</td>
+            <td>{session.t(v.hecho)}</td>
             <td>{v.fecha}</td>
           </tr>
         ))}
@@ -329,7 +329,7 @@ function Cuaderno({ session }: { session: Session }) {
       <section>
         <h3>{ep?.manifest.title ?? 'Cuaderno'}</h3>
         <p class="detail__meta">
-          Jugadora: {session.state.playerName} · Día {session.state.diaDeJuego} · Consultas
+          Jurista: {session.jugador.nombre} Iriarte · Día {session.state.diaDeJuego} · Consultas
           resueltas: {session.state.consultasResueltas.length}
         </p>
       </section>

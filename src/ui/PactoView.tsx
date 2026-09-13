@@ -5,6 +5,7 @@ import { getBus } from '../core/bus';
 import { evaluate, renderActa } from '../core/pacto/engine';
 import { BALANCE } from '../core/balance';
 import { ui } from './store';
+import { expandirObjeto } from '../core/texto/plantilla';
 
 /**
  * Conciliación (E6): el jugador redacta el acta eligiendo una cláusula por punto,
@@ -21,7 +22,11 @@ interface Props {
 }
 
 export function PactoView({ session, pactoId, onDone, previas }: Props) {
-  const def = session.episode?.pactos[pactoId] as Pacto | undefined;
+  const defRaw = session.episode?.pactos[pactoId] as Pacto | undefined;
+  const def = useMemo(
+    () => (defRaw ? expandirObjeto(defRaw, session.ctx) : undefined),
+    [defRaw, session.jugador],
+  );
   const modo = session.settings.modo;
   const [punto, setPunto] = useState(0);
   const [elegidas, setElegidas] = useState<Record<string, string>>(previas ?? {});
@@ -43,7 +48,10 @@ export function PactoView({ session, pactoId, onDone, previas }: Props) {
 
   const p = def.puntos[punto]!;
   const fecha = `Año 9 · día ${session.state.diaDeJuego}`;
-  const acta = renderActa(def, elegidas, fecha, session.state.playerName);
+  const acta = renderActa(def, elegidas, fecha, {
+    nombre: `${session.jugador.nombre} Iriarte`,
+    tratamiento: session.jugador.tratamiento,
+  });
 
   const marcar = (clausulaId: string): void => {
     const c = p.clausulas.find((x) => x.id === clausulaId);

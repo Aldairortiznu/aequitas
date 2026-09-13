@@ -1,5 +1,6 @@
 import type Phaser from 'phaser';
 import { bakeAllTilesets } from './tilesetProvisional';
+import type { LookPersonalizado } from '../../core/jugador';
 
 /**
  * Arte provisional horneado por código (decisión D4). Paleta definitiva, formas simples.
@@ -81,6 +82,34 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.oro1,
     accesorio: 'morral',
     pelo: 'recogido',
+  },
+  // Protagonistas alternativos (D10): misma camisa de la Escuela y morral, otro cuerpo.
+  ramiro: {
+    skin: P.piel1,
+    hair: '#2a1a12',
+    top: P.bellium1,
+    bottom: P.ceniza1,
+    accent: P.oro1,
+    accesorio: 'morral',
+    pelo: 'corto',
+  },
+  ariel: {
+    skin: P.piel2,
+    hair: '#1a1210',
+    top: P.bellium1,
+    bottom: P.ceniza2,
+    accent: P.oro1,
+    accesorio: 'gafas',
+    pelo: 'corto',
+  },
+  cruz: {
+    skin: P.piel0,
+    hair: '#3a2a1a',
+    top: P.bellium1,
+    bottom: P.ceniza1,
+    accent: P.oro1,
+    accesorio: 'panuelo',
+    pelo: 'largo',
   },
   pilar: {
     skin: P.piel2,
@@ -256,7 +285,7 @@ export const LOOKS: Record<string, CharacterLook> = {
   },
 };
 
-type Dir = 'down' | 'left' | 'right' | 'up';
+export type Dir = 'down' | 'left' | 'right' | 'up';
 export const DIRS: Dir[] = ['down', 'left', 'right', 'up'];
 
 function drawCharacterFrame(
@@ -411,6 +440,86 @@ export function bakeCharacter(scene: Phaser.Scene, id: string): string {
     }
   });
   return key;
+}
+
+/** Tonos de piel del creador de personaje (índice 0-3), en la paleta. */
+export const PIELES = [P.piel0, P.piel1, P.piel2, P.piel3] as const;
+/** Opciones de color del creador (nombre → hex de la paleta). */
+export const COLORES_PELO: Record<string, string> = {
+  negro: '#1a1210',
+  castano: '#3a2a1a',
+  cobre: P.tierra1,
+  gris: '#c9c2b2',
+};
+export const COLORES_ROPA: Record<string, string> = {
+  violeta: P.bellium1,
+  violetaOscuro: P.bellium0,
+  agua: P.agua0,
+  verde: P.verde0,
+  tierra: P.tierra0,
+  ceniza: P.ceniza2,
+  papel: P.papel2,
+  oro: P.oro0,
+};
+
+/** Convierte los parámetros del creador en un aspecto dibujable. */
+export function lookDesdePersonalizado(c: LookPersonalizado): CharacterLook {
+  return {
+    skin: PIELES[c.piel] ?? P.piel1,
+    hair: c.colorPelo,
+    top: c.camisa,
+    bottom: c.pantalon,
+    accent: P.oro1,
+    accesorio: c.accesorio === 'ninguno' ? undefined : c.accesorio,
+    pelo: c.pelo,
+  };
+}
+
+/** Hornea (o rehornea) un aspecto arbitrario bajo una clave dada. */
+export function bakeCharacterLook(scene: Phaser.Scene, key: string, look: CharacterLook): string {
+  if (scene.textures.exists(key)) scene.textures.remove(key);
+  const tex = scene.textures.createCanvas(key, 64, 96);
+  if (!tex) return key;
+  const ctx = tex.getContext();
+  DIRS.forEach((dir, row) => {
+    for (let frame = 0; frame < 4; frame++) {
+      drawCharacterFrame(ctx, frame * 16, row * 24, look, dir, frame);
+    }
+  });
+  tex.refresh();
+  DIRS.forEach((dir, row) => {
+    for (let frame = 0; frame < 4; frame++) {
+      tex.add(`${dir}-${frame}`, 0, frame * 16, row * 24, 16, 24);
+    }
+  });
+  ensureCharacterAnims(scene, key);
+  return key;
+}
+
+/**
+ * Dibuja un aspecto en un canvas DOM (para el creador de personaje del menú, sin Phaser).
+ * Devuelve un canvas de 16×24 escalado `scale` veces con vecino más cercano.
+ */
+export function renderLook(
+  look: CharacterLook,
+  dir: Dir,
+  frame: number,
+  scale = 6,
+): HTMLCanvasElement {
+  const base = document.createElement('canvas');
+  base.width = 16;
+  base.height = 24;
+  const ctx = base.getContext('2d');
+  if (ctx) drawCharacterFrame(ctx, 0, 0, look, dir, frame);
+  const out = document.createElement('canvas');
+  out.width = 16 * scale;
+  out.height = 24 * scale;
+  const octx = out.getContext('2d');
+  if (octx) {
+    octx.imageSmoothingEnabled = false;
+    octx.drawImage(base, 0, 0, out.width, out.height);
+  }
+  return out;
 }
 
 // ---------------------------------------------------------------------------

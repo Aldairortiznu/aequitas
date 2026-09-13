@@ -5,23 +5,23 @@
   "laminas": [
     {
       "imagen": "ep00-lamina-1",
-      "texto": "Hace nueve años, el mar entró en Puerto Baluarte y no volvió a salir. Se fue la luz, se fueron los juzgados, se fue el Estado. Eso lo recuerda todo el mundo."
+      "texto": "Año 0. La guerra de los grandes no llegó al Litoral con bombas. Llegó por la radio, y después por el silencio de la radio. Primero se fue la señal; luego la luz; luego la gasolina; luego las lanchas del Estado, que subieron el río y no volvieron. A eso lo llamaron la Fractura."
     },
     {
       "imagen": "ep00-lamina-2",
-      "texto": "Lo que casi nadie sabe es que, esa misma semana, alguien destruyó los registros. Todos. Las escrituras, los nacimientos, las sociedades. Sin registros no había deudas que cobrar. Tampoco había nada que fuera de nadie."
+      "texto": "Los bancos habían vendido sus deudas a un Consorcio. Con los computadores muertos, la última memoria del Litoral estaba en papel: los folios de la Oficina de Registro de Puerto Baluarte. Los cobradores fueron por ellos con armas. La registradora, Petra Iriarte, los quemó esa noche. Nadie volvió a verla."
     },
     {
       "imagen": "ep00-lamina-3",
-      "texto": "Cuatro años después, un antiguo secretario reabrió la Oficina de Registro con las cajas que dijo haber salvado. Vendía certeza: un papel que dice quién eres y qué es tuyo. Nadie lo eligió. Todos fueron."
+      "texto": "Sin bombas de achique ni quien cerrara las compuertas, esa temporada de lluvias el mar entró en el casco antiguo y se quedó: la Crecida. Cuatro años después, un antiguo secretario reabrió la Oficina de Registro con cajas de folios que dijo haber salvado. Vendía certeza. Nadie lo eligió. Todos fueron."
     },
     {
       "imagen": "ep00-lamina-4",
-      "texto": "En la ciénaga, unos profesores escondieron los libros de la ley. No las sentencias ni los títulos: la ley. La Constitución, los códigos. Durante diez años enseñaron a leerlos."
+      "texto": "En la ciénaga, unos profesores escondieron los libros de la ley. No las sentencias ni los títulos: la ley. La Constitución, los códigos. Nadie los había derogado; solo se habían olvidado. Durante diez años enseñaron a leerlos."
     },
     {
       "imagen": "ep00-lamina-5",
-      "texto": "Este año, por primera vez, alguien va a salir a usarlos."
+      "texto": "Año 9. Por primera vez, la Biblioteca envía a alguien a usarlos: {nombre} Iriarte, que lleva el apellido de la registradora que borró la memoria del Litoral."
     }
   ]
 }

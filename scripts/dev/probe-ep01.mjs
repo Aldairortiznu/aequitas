@@ -41,6 +41,7 @@ await page.goto('http://localhost:4182/?ep=ep01');
 await page.waitForSelector('#game canvas');
 await page.waitForTimeout(1500);
 await page.getByRole('button', { name: 'Nueva partida' }).click();
+await page.locator('.prota__card', { hasText: 'Renata' }).click();
 await page.getByRole('button', { name: 'Empezar' }).click();
 await page.waitForSelector('.hud', { timeout: 15000 });
 await page.waitForTimeout(600);
@@ -142,9 +143,21 @@ await run([{ type: 'dialogue', id: 'ep01-marrugo-piscina' }]);
 await page.waitForSelector('.dlg');
 await page.waitForTimeout(300);
 await page.screenshot({ path: 'test-results/ep01-3b-marrugo.png' });
-console.log('marrugo text:', await page.locator('.dlg__text').innerText().catch(() => '?'));
+console.log(
+  'marrugo text:',
+  await page
+    .locator('.dlg__text')
+    .innerText()
+    .catch(() => '?'),
+);
 console.log('flags:', JSON.stringify((await S()).flags));
-for (let i = 0; i < 6 && (await page.locator('.dlg__opt').count()) === 0 && (await page.locator('.dlg').count()) > 0; i++) {
+for (
+  let i = 0;
+  i < 6 &&
+  (await page.locator('.dlg__opt').count()) === 0 &&
+  (await page.locator('.dlg').count()) > 0;
+  i++
+) {
   await page.keyboard.press('Enter');
   await page.waitForTimeout(300);
 }
@@ -178,27 +191,45 @@ const fundamentar = async (ev, norma) => {
   await page.locator('.aud__drawer-foot .btn', { hasText: 'Fundamentar' }).click();
   await page.waitForTimeout(400);
 };
-const afTexto = async () => (await page.locator('.aud__afirmacion').innerText().catch(() => '')).slice(0, 60);
+const afTexto = async () =>
+  (
+    await page
+      .locator('.aud__afirmacion')
+      .innerText()
+      .catch(() => '')
+  ).slice(0, 60);
 const audLog = [];
 const paso = async (label, fn) => {
   await fn();
   const t = await afTexto();
-  const meters = await page.locator('.aud__meters').innerText().catch(() => '');
+  const meters = await page
+    .locator('.aud__meters')
+    .innerText()
+    .catch(() => '');
   audLog.push(`${label} → ${t} | ${meters.replace(/\s+/g, ' ')}`);
 };
 // Ronda 1
 await paso('acta', () => fundamentar('Acta de Asamblea', 'Art. 47 Ley 675/2001'));
 await paso('presionar dueño', () => clickBtn('Presionar'));
-await paso('norma 50', async () => { await clickBtn('Presentar norma'); await pick('Art. 50 Ley 675/2001'); });
+await paso('norma 50', async () => {
+  await clickBtn('Presentar norma');
+  await pick('Art. 50 Ley 675/2001');
+});
 await paso('vitalicio', () => fundamentar('Libro de actas', 'Art. 38 Ley 675/2001'));
 await page.screenshot({ path: 'test-results/ep01-4b-ronda2.png' });
 // Ronda 2
 await page.screenshot({ path: 'test-results/ep01-4b2-carne.png' });
-await paso('invocar cp-14', async () => { await clickBtn('Invocar la Constitución'); await pick('Art. 14 C.P.'); });
+await paso('invocar cp-14', async () => {
+  await clickBtn('Invocar la Constitución');
+  await pick('Art. 14 C.P.');
+});
 await page.waitForTimeout(300);
 if ((await page.locator('.aud__card--maniobra').count()) > 0) {
   await page.screenshot({ path: 'test-results/ep01-4c-maniobra.png' });
-  await paso('maniobra cp-4', async () => { await clickBtn('Responder con una norma'); await pick('Art. 4 C.P.'); });
+  await paso('maniobra cp-4', async () => {
+    await clickBtn('Responder con una norma');
+    await pick('Art. 4 C.P.');
+  });
 }
 await paso('expensas', () => fundamentar('Cuaderno de expensas', 'Art. 29 Ley 675/2001'));
 await paso('agua', () => fundamentar('Válvula', 'Art. 59 Ley 675/2001'));

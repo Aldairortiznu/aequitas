@@ -6,10 +6,7 @@
     "map": "plaza",
     "spawn": "inicio"
   },
-  "maps": [
-    "plaza",
-    "sotano"
-  ],
+  "maps": ["plaza", "sotano"],
   "flagsInit": {
     "gym.bienvenida": false,
     "gym.muelle": false,
@@ -123,11 +120,7 @@
       }
     ]
   },
-  "party": [
-    "pilar",
-    "prudencio",
-    "gerineldo"
-  ],
+  "party": ["pilar", "prudencio", "gerineldo"],
   "codice": [],
   "ending": {}
 }

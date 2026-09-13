@@ -1,3 +1,4 @@
+import { problemasDePlantilla } from '../texto/plantilla';
 import type { ZodType } from 'zod';
 import {
   ActionSchema,
@@ -131,6 +132,23 @@ interface GlobalRefs {
   flagsWritten: Set<string>;
 }
 
+/** Revisa la sintaxis de las plantillas de texto ({nombre}, {fem|masc|neutro}) en todo un JSON. */
+function checkPlantillas(valor: unknown, where: string, col: Collector, path = ''): void {
+  if (typeof valor === 'string') {
+    if (!valor.includes('{')) return;
+    for (const p of problemasDePlantilla(valor)) col.error(where, `${path}: ${p}`);
+    return;
+  }
+  if (Array.isArray(valor)) {
+    valor.forEach((v, i) => checkPlantillas(v, where, col, `${path}[${i}]`));
+    return;
+  }
+  if (valor && typeof valor === 'object') {
+    for (const [k, v] of Object.entries(valor as Record<string, unknown>))
+      if (k !== 'maps') checkPlantillas(v, where, col, path ? `${path}.${k}` : k);
+  }
+}
+
 function walkConditions(conds: Condition[] | undefined, fn: (c: Condition) => void): void {
   for (const c of conds ?? []) fn(c);
 }
@@ -204,6 +222,7 @@ export function validateContent(raw: RawContent): ValidationResult {
   for (const entry of index.episodes) {
     const rawEp = raw.episodes.find((r) => r.id === entry.id);
     if (!rawEp) continue;
+    checkPlantillas({ ...rawEp, maps: undefined, id: undefined }, `content/${rawEp.id}`, col);
     const ep = parseEpisode(rawEp, col);
     if (!ep) continue;
     const refs = collectRefs(ep, col, rawEp.id);

@@ -18,6 +18,7 @@ test.describe('arranque', () => {
       timeout: 10000,
     });
     await page.getByRole('button', { name: 'Nueva partida' }).click();
+    await page.locator('.prota__card', { hasText: 'Renata' }).click();
     await page.getByRole('button', { name: 'Empezar' }).click();
     await expect(page.locator('.hud')).toBeVisible({ timeout: 15000 });
 

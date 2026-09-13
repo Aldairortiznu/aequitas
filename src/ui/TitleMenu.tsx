@@ -3,6 +3,7 @@ import type { Session } from '../app/session';
 import { listSaves } from '../core/save/save';
 import type { SaveV1 } from '../core/save/save';
 import { SettingsForm } from './SettingsForm';
+import { NuevaPartida } from './NuevaPartida';
 
 /**
  * Menú de título (E8): Nueva partida, Continuar, Cargar, Ajustes, Galería.
@@ -12,7 +13,6 @@ type Vista = 'menu' | 'nueva' | 'cargar' | 'ajustes' | 'codigo';
 
 export function TitleMenu({ session, visible }: { session: Session; visible: boolean }) {
   const [vista, setVista] = useState<Vista>('menu');
-  const [nombre, setNombre] = useState('Renata');
   const [codigo, setCodigo] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [saves, setSaves] = useState<(SaveV1 | null)[]>([]);
@@ -96,37 +96,15 @@ export function TitleMenu({ session, visible }: { session: Session; visible: boo
           </nav>
         )}
         {vista === 'nueva' && (
-          <form
-            class="title__form"
-            onSubmit={(e) => {
-              e.preventDefault();
+          <NuevaPartida
+            session={session}
+            busy={busy}
+            onVolver={() => setVista('menu')}
+            onEmpezar={(j) => {
               const forzado = new URLSearchParams(window.location.search).get('ep');
-              void start(() => session.newGame(forzado ?? primerEpisodio, nombre));
+              void start(() => session.newGame(forzado ?? primerEpisodio, j));
             }}
-          >
-            <label class="title__label" for="nombre">
-              ¿Cómo se llama la jurista?
-            </label>
-            <input
-              id="nombre"
-              class="input"
-              value={nombre}
-              maxLength={18}
-              onInput={(e) => setNombre((e.target as HTMLInputElement).value)}
-              autoFocus
-            />
-            <p class="title__hint">
-              La historia es la de Renata Iriarte; el nombre solo cambia cómo te llaman.
-            </p>
-            <div class="title__row">
-              <button type="button" class="btn btn--secundario" onClick={() => setVista('menu')}>
-                Volver
-              </button>
-              <button type="submit" class="btn btn--oro" disabled={busy || !nombre.trim()}>
-                Empezar
-              </button>
-            </div>
-          </form>
+          />
         )}
         {vista === 'cargar' && (
           <div class="title__form">

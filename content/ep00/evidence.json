@@ -11,7 +11,7 @@
     "id": "ep00-testimonio-eladio",
     "nombre": "Testimonio de Eladio",
     "tipo": "testimonio",
-    "descripcion": "Eladio, pescador de la ciénaga, nació aquí antes de la Crecida. Nunca tuvo un papel que lo dijera. Todo el mundo lo conoce.",
+    "descripcion": "Eladio, pescador de la ciénaga, nació aquí antes de la Fractura. Nunca tuvo un papel que lo dijera. Todo el mundo lo conoce.",
     "icono": "testimonio",
     "autentico": true
   },
@@ -27,7 +27,7 @@
     "id": "ep00-anillo",
     "nombre": "Anillo de sello partido",
     "tipo": "objeto",
-    "descripcion": "La mitad de un anillo de sello de bronce. Se encontró en el edificio del Registro después de la Crecida. Tiene grabados tres números en romanos que Renata siempre creyó una fecha.",
+    "descripcion": "La mitad de un anillo de sello de bronce. Se encontró en el edificio del Registro después del Borrado. Tiene grabados tres números en romanos que {nombre} siempre creyó una fecha.",
     "icono": "objeto",
     "autentico": true
   },

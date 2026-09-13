@@ -2,15 +2,15 @@
 
 ## Manifiesto (`content/<ep>/manifest.json`)
 
-| Campo | Qué hace |
-|-------|----------|
-| `entry` | Mapa y punto de aparición iniciales. |
-| `flagsInit` | Flags del episodio con su valor inicial. Todo flag leído por diálogos o beats debe estar aquí o ser escrito por el motor (`audiencia.<id>.ganada`, `pacto.<id>.firmado`, `pacto.<id>.equilibrio`). |
-| `beats` | Disparadores → acciones. Tipos: `episodeStart`, `enterMap`, `interact` (objeto `trigger` del mapa), `flag`, `evidence`, `audienciaWon`, `pactoSigned`. `once: true` los marca en `state.beatsDone`. |
-| `legitimidad` | Valor inicial de la región e hitos (`at` → `mapState`). |
-| `codice` | Entradas que Renata **ya conoce al empezar aquí**. Se desbloquean en `newGame` y al continuar desde el episodio anterior (unión). Sirve para que un episodio se pueda empezar suelto sin quedarse sin normas. |
-| `party` | Compañía inicial; al continuar se une a la que traía. |
-| `ending` | `cutscene` de cierre y `nextEpisode` opcional. El validador exige que exista. |
+| Campo         | Qué hace                                                                                                                                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `entry`       | Mapa y punto de aparición iniciales.                                                                                                                                                                          |
+| `flagsInit`   | Flags del episodio con su valor inicial. Todo flag leído por diálogos o beats debe estar aquí o ser escrito por el motor (`audiencia.<id>.ganada`, `pacto.<id>.firmado`, `pacto.<id>.equilibrio`).            |
+| `beats`       | Disparadores → acciones. Tipos: `episodeStart`, `enterMap`, `interact` (objeto `trigger` del mapa), `flag`, `evidence`, `audienciaWon`, `pactoSigned`. `once: true` los marca en `state.beatsDone`.           |
+| `legitimidad` | Valor inicial de la región e hitos (`at` → `mapState`).                                                                                                                                                       |
+| `codice`      | Entradas que Renata **ya conoce al empezar aquí**. Se desbloquean en `newGame` y al continuar desde el episodio anterior (unión). Sirve para que un episodio se pueda empezar suelto sin quedarse sin normas. |
+| `party`       | Compañía inicial; al continuar se une a la que traía.                                                                                                                                                         |
+| `ending`      | `cutscene` de cierre y `nextEpisode` opcional. El validador exige que exista.                                                                                                                                 |
 
 ## Fin de episodio (`Session.endEpisode`)
 

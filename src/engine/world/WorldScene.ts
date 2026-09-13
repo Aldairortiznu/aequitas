@@ -3,7 +3,14 @@ import type { MapState, TiledMap } from '../../core/content/schema';
 import { BALANCE } from '../../core/balance';
 import { getBus } from '../../core/bus';
 import { GAME_HEIGHT, GAME_WIDTH, PALETTE, TILE_SIZE } from '../../config';
-import { bakeAll, bakeCharacter } from '../art/provisional';
+import {
+  bakeAll,
+  bakeCharacter,
+  bakeCharacterLook,
+  lookDesdePersonalizado,
+} from '../art/provisional';
+import type { Jugador } from '../../core/jugador';
+import { claveSprite } from '../../core/jugador';
 import { createKeyMap, readInput } from '../input';
 import type { KeyMap } from '../input';
 import { Companions } from './Companions';
@@ -24,6 +31,8 @@ export interface WorldSceneData {
   hidden: string[];
   /** Personajes cuyo sprite hay que hornear (npcs del mapa + grupo). */
   characters: string[];
+  /** Quien juega: decide la textura del jugador. */
+  jugador: Jugador;
   debug?: boolean;
 }
 
@@ -78,7 +87,13 @@ export class WorldScene extends Phaser.Scene {
     const d = this.cfg;
     bakeAll(
       this,
-      ['renata', 'alguacil', ...d.characters, ...d.party],
+      [
+        'renata',
+        d.jugador.preset === 'custom' ? 'renata' : d.jugador.preset,
+        'alguacil',
+        ...d.characters,
+        ...d.party,
+      ],
       [d.map.tilesets[0]?.name ?? 'provisional'],
     );
     this.cameras.main.setBackgroundColor(PALETTE.ceniza[0]);
@@ -139,8 +154,12 @@ export class WorldScene extends Phaser.Scene {
     const sx = spawn ? spawn.cx : 32;
     const sy = spawn ? spawn.cy + 8 : 32;
 
-    // --- Jugador
-    this.playerKey = bakeCharacter(this, 'renata');
+    // --- Jugador (D10: preset con textura `char-<preset>` o aspecto personalizado horneado)
+    const j = d.jugador;
+    this.playerKey =
+      j.preset === 'custom' && j.custom
+        ? bakeCharacterLook(this, claveSprite(j), lookDesdePersonalizado(j.custom))
+        : bakeCharacter(this, j.preset === 'custom' ? 'renata' : j.preset);
     this.player = this.physics.add.sprite(sx, sy, this.playerKey, 'down-0').setOrigin(0.5, 1);
     this.player.body?.setSize(10, 8).setOffset(3, 16);
     this.player.setCollideWorldBounds(true);

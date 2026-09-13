@@ -20,6 +20,7 @@ import type {
 } from '../core/audiencia/engine';
 import { portraitSrc } from './portraits';
 import { ui } from './store';
+import { expandirObjeto } from '../core/texto/plantilla';
 
 /**
  * Audiencia Dialéctica (E5.2-E5.5). Todo el estado de juego vive en el reductor puro;
@@ -40,7 +41,11 @@ interface Props {
 }
 
 export function AudienciaView({ session, audienciaId, onDone }: Props) {
-  const def = session.episode?.audiencias[audienciaId] as Audiencia | undefined;
+  const defRaw = session.episode?.audiencias[audienciaId] as Audiencia | undefined;
+  const def = useMemo(
+    () => (defRaw ? expandirObjeto(defRaw, session.ctx) : undefined),
+    [defRaw, session.jugador],
+  );
   const modo = session.settings.modo;
   const ctxBase = useMemo<AudienciaContext | null>(() => {
     if (!def || !session.episode) return null;

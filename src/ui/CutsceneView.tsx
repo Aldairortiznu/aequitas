@@ -35,7 +35,7 @@ export function CutsceneView({
   }, []);
 
   const lamina = def?.laminas[i];
-  const text = lamina?.texto ?? '';
+  const text = session.t(lamina?.texto ?? '');
 
   useEffect(() => {
     setShown(0);

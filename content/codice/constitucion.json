@@ -10,10 +10,7 @@
     "usoEnAudiencia": "Contra una afirmación que trate a una persona como un trámite, una cifra o un estorbo.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "principios",
-      "dignidad"
-    ]
+    "etiquetas": ["principios", "dignidad"]
   },
   {
     "id": "cp-4",
@@ -27,10 +24,7 @@
     "ejemplo": "Una «licencia» de la Oficina de Registro no puede autorizar lo que la Constitución prohíbe.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "supremacia",
-      "jerarquia"
-    ]
+    "etiquetas": ["supremacia", "jerarquia"]
   },
   {
     "id": "cp-14",
@@ -43,11 +37,7 @@
     "usoEnAudiencia": "Contra la idea de que alguien sin certificado, carné o folio «no es nadie» y no puede reclamar.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "personalidad",
-      "nombre",
-      "no-inscritos"
-    ]
+    "etiquetas": ["personalidad", "nombre", "no-inscritos"]
   },
   {
     "id": "cp-28",
@@ -60,11 +50,7 @@
     "usoEnAudiencia": "Contra una detención, retención o registro ordenados por quien no es juez.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "libertad",
-      "detencion",
-      "interpelacion"
-    ]
+    "etiquetas": ["libertad", "detencion", "interpelacion"]
   },
   {
     "id": "cp-29",
@@ -77,10 +63,7 @@
     "usoEnAudiencia": "Contra sanciones, desalojos o decisiones tomadas sin oír a la persona afectada.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "debido-proceso",
-      "defensa"
-    ]
+    "etiquetas": ["debido-proceso", "defensa"]
   },
   {
     "id": "cp-34",
@@ -93,11 +76,7 @@
     "usoEnAudiencia": "Contra incautaciones de lanchas, herramientas o tierras hechas por alguaciles o por un acreedor sin proceso.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "confiscacion",
-      "incautacion",
-      "interpelacion"
-    ]
+    "etiquetas": ["confiscacion", "incautacion", "interpelacion"]
   },
   {
     "id": "cp-2",
@@ -110,10 +89,7 @@
     "usoEnAudiencia": "Contra quien defiende que cualquier orden es mejor que ningún orden.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "fines",
-      "orden-justo"
-    ]
+    "etiquetas": ["fines", "orden-justo"]
   },
   {
     "id": "cp-12",
@@ -126,10 +102,7 @@
     "usoEnAudiencia": "Contra castigos que humillan o privan de lo básico.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "dignidad",
-      "penas"
-    ]
+    "etiquetas": ["dignidad", "penas"]
   },
   {
     "id": "cp-15",
@@ -142,11 +115,7 @@
     "usoEnAudiencia": "Contra registros de pertenencias y contra archivos secretos sobre las personas.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "intimidad",
-      "habeas-data",
-      "interpelacion"
-    ]
+    "etiquetas": ["intimidad", "habeas-data", "interpelacion"]
   },
   {
     "id": "cp-17",
@@ -159,10 +128,7 @@
     "usoEnAudiencia": "Contra deudas que se pagan con trabajo forzado o que se heredan.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "servidumbre",
-      "trabajo"
-    ]
+    "etiquetas": ["servidumbre", "trabajo"]
   },
   {
     "id": "cp-20",
@@ -175,9 +141,7 @@
     "usoEnAudiencia": "Contra prohibiciones de hablar o de informar.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "expresion"
-    ]
+    "etiquetas": ["expresion"]
   },
   {
     "id": "cp-24",
@@ -190,10 +154,7 @@
     "usoEnAudiencia": "Contra puestos de control que exigen certificados para pasar.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "circulacion",
-      "interpelacion"
-    ]
+    "etiquetas": ["circulacion", "interpelacion"]
   },
   {
     "id": "cp-33",
@@ -206,10 +167,7 @@
     "usoEnAudiencia": "Contra un alguacil que exige que la persona se acuse a sí misma.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "declaracion",
-      "interpelacion"
-    ]
+    "etiquetas": ["declaracion", "interpelacion"]
   },
   {
     "id": "cp-37",
@@ -222,10 +180,7 @@
     "usoEnAudiencia": "Contra quien disuelve una reunión de vecinos o prohíbe una asamblea.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "reunion",
-      "interpelacion"
-    ]
+    "etiquetas": ["reunion", "interpelacion"]
   },
   {
     "id": "cp-84",
@@ -238,10 +193,7 @@
     "usoEnAudiencia": "Contra oficinas que exigen certificados inventados para existir, pasar o reclamar.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "requisitos",
-      "interpelacion"
-    ]
+    "etiquetas": ["requisitos", "interpelacion"]
   },
   {
     "id": "cp-86",
@@ -254,10 +206,7 @@
     "usoEnAudiencia": "Para mostrar que existe un camino legal rápido contra un abuso, y que nadie está sin recurso.",
     "fechaConsulta": "2026-09-12",
     "revisado": false,
-    "etiquetas": [
-      "tutela",
-      "derechos-fundamentales"
-    ],
+    "etiquetas": ["tutela", "derechos-fundamentales"],
     "ejemplo": "Una familia a la que le cortaron el agua en un conjunto puede acudir a la tutela contra la administración."
   }
 ]

@@ -6,18 +6,36 @@
       "speaker": "eladio",
       "portrait": "neutra",
       "text": "Usted es la que se gradúa hoy. Nepomuceno me dijo. Yo traigo el pescado de los jueves; no sé de leyes.",
-      "requires": [{ "flag": "ep00.eladio", "op": "eq", "value": false }],
-      "effects": [{ "type": "setFlag", "flag": "ep00.eladio", "value": true }],
+      "requires": [
+        {
+          "flag": "ep00.eladio",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "ep00.eladio",
+          "value": true
+        }
+      ],
       "choices": [
-        { "text": "¿Usted es de aquí, Eladio?", "next": "e2" },
-        { "text": "¿Nunca le pidieron un papel?", "next": "e3" }
+        {
+          "text": "¿Usted es de aquí, Eladio?",
+          "next": "e2"
+        },
+        {
+          "text": "¿Nunca le pidieron un papel?",
+          "next": "e3"
+        }
       ]
     },
     {
       "id": "e2",
       "speaker": "eladio",
       "portrait": "neutra",
-      "text": "Nací en la ciénaga, en la casa de mi mamá, antes de la Crecida. Todo el mundo me conoce. Papel nunca tuve; el que había se lo llevó el agua.",
+      "text": "Nací en la ciénaga, en la casa de mi mamá, antes de la Fractura. Todo el mundo me conoce. Papel nunca tuve; el que había se lo llevó el agua.",
       "next": "e4"
     },
     {
@@ -34,7 +52,7 @@
       "testimonio": {
         "id": "ep00-testimonio-eladio",
         "nombre": "Eladio",
-        "hecho": "Nació en la ciénaga antes de la Crecida; todos lo conocen; nunca tuvo documento.",
+        "hecho": "Nació en la ciénaga antes de la Fractura; todos lo conocen; nunca tuvo documento.",
         "fecha": "Año 9, día de la graduación"
       },
       "next": "e5"
@@ -43,7 +61,7 @@
       "id": "e5",
       "speaker": "eladio",
       "portrait": "neutra",
-      "text": "Un pescador sin papel que reclama su canoa. Dígame usted, doctora: ¿puede o no puede?",
+      "text": "Un pescador sin papel que reclama su canoa. Dígame usted, {doctora|doctor|jurista}: ¿puede o no puede?",
       "consulta": "ep00-consulta-eladio",
       "next": "e6"
     },
@@ -58,7 +76,13 @@
       "speaker": "eladio",
       "portrait": "neutra",
       "text": "Cuando quiera salir para Altamar, avíseme. Voy hacia allá los martes.",
-      "requires": [{ "flag": "ep00.eladio", "op": "eq", "value": true }]
+      "requires": [
+        {
+          "flag": "ep00.eladio",
+          "op": "eq",
+          "value": true
+        }
+      ]
     }
   ]
 }

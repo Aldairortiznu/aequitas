@@ -6,8 +6,20 @@
       "speaker": "zoraida",
       "portrait": "neutra",
       "text": "Suba, suba. Si viene por Pilar, siéntese. Si viene por Marrugo, también, pero hable bajito: las paredes de esta torre son de cartón.",
-      "requires": [{ "flag": "ep01.zoraida", "op": "eq", "value": false }],
-      "effects": [{ "type": "setFlag", "flag": "ep01.zoraida", "value": true }],
+      "requires": [
+        {
+          "flag": "ep01.zoraida",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "ep01.zoraida",
+          "value": true
+        }
+      ],
       "next": "z2"
     },
     {
@@ -40,7 +52,7 @@
       "id": "z5",
       "speaker": "zoraida",
       "portrait": "neutra",
-      "text": "Una pregunta, mija, ya que sabe de leyes. Si Marrugo corta el agua y no hay juez en cien kilómetros, ¿hay algún camino, o solo la paciencia?",
+      "text": "Una pregunta, {mija|mijo|joven}, ya que sabe de leyes. Si Marrugo corta el agua y no hay juez en cien kilómetros, ¿hay algún camino, o solo la paciencia?",
       "consulta": "ep01-consulta-tutela",
       "next": "z6"
     },
@@ -55,7 +67,13 @@
       "speaker": "zoraida",
       "portrait": "neutra",
       "text": "Ya tiene lo que necesita. Dígale a Pilar que la libreta se la presto a la asamblea, pero que me la devuelva.",
-      "requires": [{ "flag": "ep01.zoraida", "op": "eq", "value": true }]
+      "requires": [
+        {
+          "flag": "ep01.zoraida",
+          "op": "eq",
+          "value": true
+        }
+      ]
     }
   ]
 }

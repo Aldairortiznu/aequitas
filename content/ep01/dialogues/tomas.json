@@ -5,12 +5,30 @@
       "id": "t1",
       "speaker": "tomas",
       "portrait": "neutra",
-      "text": "¿Usted es la de la Biblioteca? Mi mamá dijo que iba a venir alguien. Pensé que sería más grande.",
-      "requires": [{ "flag": "ep01.tomas", "op": "eq", "value": false }],
-      "effects": [{ "type": "setFlag", "flag": "ep01.tomas", "value": true }],
+      "text": "¿Usted es {la|el|quien viene} de la Biblioteca? Mi mamá dijo que iba a venir alguien. Pensé que sería más grande.",
+      "requires": [
+        {
+          "flag": "ep01.tomas",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "ep01.tomas",
+          "value": true
+        }
+      ],
       "choices": [
-        { "text": "¿Qué haces aquí abajo?", "next": "t2" },
-        { "text": "¿Por qué no estás en la escuela?", "next": "t3" }
+        {
+          "text": "¿Qué haces aquí abajo?",
+          "next": "t2"
+        },
+        {
+          "text": "¿Por qué no estás en la escuela?",
+          "next": "t3"
+        }
       ]
     },
     {
@@ -39,8 +57,16 @@
       "portrait": "neutra",
       "text": "Si va a hablar con Marrugo, dígale que los tanques están vacíos. Él lo sabe, pero dígaselo.",
       "requires": [
-        { "flag": "ep01.tomas", "op": "eq", "value": true },
-        { "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": false }
+        {
+          "flag": "ep01.tomas",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "flag": "audiencia.ep01-marrugo.ganada",
+          "op": "eq",
+          "value": false
+        }
       ]
     },
     {
@@ -48,7 +74,13 @@
       "speaker": "tomas",
       "portrait": "cordial",
       "text": "Mi mamá dice que hubo una audiencia y que Marrugo se quedó sin palabras. Yo no lo he visto callado nunca.",
-      "requires": [{ "flag": "audiencia.ep01-marrugo.ganada", "op": "eq", "value": true }]
+      "requires": [
+        {
+          "flag": "audiencia.ep01-marrugo.ganada",
+          "op": "eq",
+          "value": true
+        }
+      ]
     }
   ]
 }

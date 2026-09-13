@@ -11,7 +11,7 @@
     "id": "ep01-reglamento",
     "nombre": "Reglamento de propiedad horizontal",
     "tipo": "documento",
-    "descripcion": "Copia de la escritura pública del reglamento de Altamar, anterior a la Crecida. El administrador lo elige la asamblea por períodos de un año; las expensas se fijan por presupuesto aprobado.",
+    "descripcion": "Copia de la escritura pública del reglamento de Altamar, anterior a la Fractura. El administrador lo elige la asamblea por períodos de un año; las expensas se fijan por presupuesto aprobado.",
     "icono": "documento",
     "autentico": true
   },
@@ -67,7 +67,7 @@
     "id": "ep01-acta-detencion",
     "nombre": "Acta de detención",
     "tipo": "nota",
-    "descripcion": "Copia del acta que dejó el vigilante: «retenida por circular sin carné». No cita ninguna orden judicial ni ningún procedimiento.",
+    "descripcion": "Copia del acta que dejó el vigilante: «{retenida|retenido|persona retenida} por circular sin carné». No cita ninguna orden judicial ni ningún procedimiento.",
     "icono": "nota",
     "autentico": true
   }

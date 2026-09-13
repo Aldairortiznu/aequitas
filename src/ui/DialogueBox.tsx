@@ -8,6 +8,7 @@ import type { DialogueState } from '../core/dialogue/runtime';
 import { ui } from './store';
 import { portraitSrc } from './portraits';
 import { hasLamina, url } from '../engine/art/registry';
+import { PROTAGONISTA_ID, idRetrato } from '../core/jugador';
 
 const CHARS_PER_SECOND = 45;
 
@@ -74,11 +75,11 @@ export function DialogueBox({ session, dialogueId, onDone }: Props) {
     if (!node || !ds) return '';
     if (ds.phase === 'consulta' || ds.phase === 'consulta-respuesta') {
       const c = session.episode?.consultas[node.consulta ?? ''];
-      if (ds.phase === 'consulta') return c?.pregunta ?? '';
+      if (ds.phase === 'consulta') return session.t(c?.pregunta ?? '');
       const elegida = ds.consultaElegida ?? 0;
-      return c?.opciones[elegida]?.respuesta ?? '';
+      return session.t(c?.opciones[elegida]?.respuesta ?? '');
     }
-    return node.text;
+    return session.t(node.text);
   }, [node, ds, session.episode]);
 
   // Máquina de escribir
@@ -123,14 +124,23 @@ export function DialogueBox({ session, dialogueId, onDone }: Props) {
     ds?.phase === 'consulta' && node?.consulta
       ? session.episode?.consultas[node.consulta]
       : undefined;
-  const options: string[] = consulta
-    ? consulta.opciones.map((o) => o.texto)
-    : choices.map((c) => c.text);
+  const options: string[] = (
+    consulta ? consulta.opciones.map((o) => o.texto) : choices.map((c) => c.text)
+  ).map((o) => session.t(o));
+  const esProtagonista = node?.speaker === PROTAGONISTA_ID;
   const speaker = node ? session.content?.personajes.find((p) => p.id === node.speaker) : undefined;
-  const speakerName = speaker?.nombre ?? node?.speaker ?? '';
+  const speakerName = esProtagonista
+    ? session.jugador.nombre
+    : (speaker?.nombre ?? node?.speaker ?? '');
   const isNarrator = node?.speaker === 'narrador';
   const portrait =
-    node && !isNarrator ? portraitSrc(session.game, node.speaker, node.portrait ?? 'neutra') : null;
+    node && !isNarrator
+      ? portraitSrc(
+          session.game,
+          esProtagonista ? idRetrato(session.jugador) : node.speaker,
+          node.portrait ?? 'neutra',
+        )
+      : null;
 
   const proceed = (input?: number | 'registrar' | 'omitir'): void => {
     if (!def || !ds) return;
@@ -220,7 +230,7 @@ export function DialogueBox({ session, dialogueId, onDone }: Props) {
                   proceed('registrar');
                 }}
               >
-                Registrar el testimonio de {node.testimonio.nombre}
+                Registrar el testimonio de {session.t(node.testimonio.nombre)}
               </button>
               <button
                 type="button"

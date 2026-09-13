@@ -1,19 +1,43 @@
 import { describe, expect, it } from 'vitest';
-import { buildSave, exportCode, importCode, listSaves, migrate, readSave, writeSave } from '../../../src/core/save/save';
+import {
+  buildSave,
+  exportCode,
+  importCode,
+  listSaves,
+  migrate,
+  readSave,
+  writeSave,
+} from '../../../src/core/save/save';
 import type { Storage } from '../../../src/core/save/save';
 import { createGameState, addEvidence, setFlag } from '../../../src/core/state/gameState';
 
 function memStorage(): Storage {
   const m = new Map<string, string>();
-  return { getItem: (k) => m.get(k) ?? null, setItem: (k, v) => void m.set(k, v), removeItem: (k) => void m.delete(k) };
+  return {
+    getItem: (k) => m.get(k) ?? null,
+    setItem: (k, v) => void m.set(k, v),
+    removeItem: (k) => void m.delete(k),
+  };
 }
 
 describe('guardado', () => {
-  const st = setFlag(addEvidence(createGameState({ episode: 'gym', map: 'plaza', spawn: 'inicio' }), 'ev-1'), 'x', true);
+  const st = setFlag(
+    addEvidence(createGameState({ episode: 'gym', map: 'plaza', spawn: 'inicio' }), 'ev-1'),
+    'x',
+    true,
+  );
 
   it('escribe y lee una ranura con resumen', () => {
     const s = memStorage();
-    writeSave(s, buildSave(2, { ...st, legitimidad: { gimnasio: 42 } }, { gimnasio: { valor: 42, porFuente: {} } }, {}));
+    writeSave(
+      s,
+      buildSave(
+        2,
+        { ...st, legitimidad: { gimnasio: 42 } },
+        { gimnasio: { valor: 42, porFuente: {} } },
+        {},
+      ),
+    );
     const r = readSave(s, 2);
     expect(r?.resumen).toMatchObject({ episodio: 'gym', mapa: 'plaza', legitimidad: 42 });
     expect(r?.state.evidence).toEqual(['ev-1']);

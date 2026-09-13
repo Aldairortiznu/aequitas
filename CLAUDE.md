@@ -72,6 +72,10 @@ El puerto 5173 lo usa el prototipo antiguo; este proyecto usa el 5180.
 - IDs de contenido en kebab-case con prefijo de episodio: `ep01-acta-marrugo`.
 - IDs del Códice: `cp-29`, `cc-1513`, `cco-622`, `cst-23`, `l675-47`, `l472-12`, `t-622-2016`,
   `pr-buena-fe` (principios).
+- Protagonista variable (D10): en el contenido, el personaje `renata` es quien juega. Los
+  textos usan `{nombre}`, `{apellido}` y formas `{femenino|masculino|neutro}`; la neutra se
+  reformula sin marcar género (nunca `-e`). El validador exige tres formas. Ver
+  `docs/engine/protagonista.md`.
 - Flags: `episodio.nombre` (`gym.bienvenida`). El motor escribe `audiencia.<id>.ganada`,
   `pacto.<id>.firmado` y `pacto.<id>.equilibrio`.
 - Mapas Tiled: capas `suelo`, `deco-baja`, `colision`, `deco-alta`, `objetos`; tiles de 16 px.

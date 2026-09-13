@@ -16,6 +16,11 @@ import type { SaveV1, Storage } from '../core/save/save';
 import { hasLamina } from '../engine/art/registry';
 import { capasPara } from '../engine/audio/synth';
 import { ui } from '../ui/store';
+import type { Jugador } from '../core/jugador';
+import { JUGADOR_POR_DEFECTO, contextoDe } from '../core/jugador';
+import { expandir } from '../core/texto/plantilla';
+import type { ContextoTexto } from '../core/texto/plantilla';
+import { invalidatePortrait } from '../ui/portraits';
 import type { LoadedContent } from './contentLoader';
 import { WorldScene } from '../engine/world/WorldScene';
 import type { WorldSceneData } from '../engine/world/WorldScene';
@@ -149,6 +154,7 @@ export class Session {
     this.state = save.state;
     this.legitimidad = save.legitimidad;
     this.actas = save.actas;
+    invalidatePortrait('custom');
     this.bindListeners();
     ui.enTitulo.value = false;
     this.startWorld(this.state.map, this.state.spawn);
@@ -184,14 +190,34 @@ export class Session {
     return getBus();
   }
 
+  /** Quien juega (D10). */
+  get jugador(): Jugador {
+    return this.state.jugador ?? JUGADOR_POR_DEFECTO;
+  }
+
+  /** Contexto de plantillas de texto ({nombre}, {fem|masc|neutro}). */
+  get ctx(): ContextoTexto {
+    return contextoDe(this.jugador);
+  }
+
+  /** Expande un texto de contenido para quien juega. */
+  t(texto: string): string {
+    return expandir(texto, this.ctx);
+  }
+
   /** Empieza un episodio desde cero. */
-  async newGame(episodeId: string, playerName?: string): Promise<void> {
+  async newGame(episodeId: string, jugador?: Jugador | string): Promise<void> {
     const [content, episode] = await Promise.all([loadGlobalContent(), loadEpisode(episodeId)]);
     this.content = content;
     this.episode = episode;
     const m = episode.manifest;
+    const j: Jugador =
+      typeof jugador === 'string'
+        ? { ...JUGADOR_POR_DEFECTO, nombre: jugador.trim() || JUGADOR_POR_DEFECTO.nombre }
+        : (jugador ?? JUGADOR_POR_DEFECTO);
+    invalidatePortrait('custom');
     this.state = GS.createGameState({
-      playerName,
+      jugador: j,
       episode: m.id,
       map: m.entry.map,
       spawn: m.entry.spawn,
@@ -269,6 +295,7 @@ export class Session {
       party: this.state.party,
       hidden,
       characters: [...characters],
+      jugador: this.jugador,
       debug: import.meta.env.DEV,
     };
   }
@@ -459,7 +486,10 @@ export class Session {
         this.state = GS.addEvidence(this.state, a.id);
         if (!had) {
           const ev = ep.evidence[a.id];
-          this.bus.emit('ui:toast', { text: `Evidencia: ${ev?.nombre ?? a.id}`, kind: 'ok' });
+          this.bus.emit('ui:toast', {
+            text: this.t(`Evidencia: ${ev?.nombre ?? a.id}`),
+            kind: 'ok',
+          });
           this.bus.emit('state:changed', { reason: 'evidence' });
           await this.fire({ type: 'evidence', id: a.id });
         }
@@ -487,7 +517,7 @@ export class Session {
         this.state = GS.registrarVoz(this.state, {
           id: a.id,
           nombre: ev?.nombre ?? a.id,
-          hecho: ev?.descripcion ?? '',
+          hecho: this.t(ev?.descripcion ?? ''),
           fecha: `Día ${this.state.diaDeJuego}`,
         });
         this.bus.emit('ui:toast', { text: `Registro de Voces: ${ev?.nombre ?? a.id}`, kind: 'ok' });
@@ -524,7 +554,7 @@ export class Session {
         this.state = GS.addConfianza(this.state, a.companion, a.delta);
         break;
       case 'toast':
-        this.bus.emit('ui:toast', { text: a.text });
+        this.bus.emit('ui:toast', { text: this.t(a.text) });
         break;
       case 'save':
         this.save(lastSlot(this.storage) ?? 1);
@@ -612,7 +642,7 @@ export class Session {
   /** Nota del Cuaderno para el episodio actual. */
   addNota(nota: string): void {
     const ep = this.episode?.manifest.id ?? 'general';
-    this.state = GS.addNota(this.state, ep, nota);
+    this.state = GS.addNota(this.state, ep, this.t(nota));
     this.bus.emit('state:changed', { reason: 'nota' });
   }
 
@@ -635,7 +665,7 @@ export class Session {
       this.episode?.manifest.id ?? 'general',
       `Acta «${def.titulo}»: Equilibrio ${ev.equilibrio}.`,
     );
-    this.actas[def.id] = acta;
+    this.actas[def.id] = this.t(acta);
     const delta = Math.round((ev.equilibrio / 100) * BALANCE.legitimidad.pactoMax);
     this.addLegitimidad(region, delta, 'pacto');
     if (ev.nulasFirmadas.length) {

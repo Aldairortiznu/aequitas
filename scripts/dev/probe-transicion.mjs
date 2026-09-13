@@ -14,6 +14,7 @@ await page.goto('http://localhost:4185/?ep=ep00');
 await page.waitForSelector('#game canvas');
 await page.waitForTimeout(1500);
 await page.getByRole('button', { name: 'Nueva partida' }).click();
+await page.locator('.prota__card', { hasText: 'Renata' }).click();
 await page.getByRole('button', { name: 'Empezar' }).click();
 await page.waitForSelector('.hud', { timeout: 15000 });
 for (let i = 0; i < 30 && (await page.locator('.cut, .dlg').count()) > 0; i++) {

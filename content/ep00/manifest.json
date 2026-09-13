@@ -6,11 +6,7 @@
     "map": "estacion",
     "spawn": "inicio"
   },
-  "maps": [
-    "estacion",
-    "laboratorio",
-    "herbario"
-  ],
+  "maps": ["estacion", "laboratorio", "herbario"],
   "flagsInit": {
     "ep00.prologo-visto": false,
     "ep00.primer-paso": false,

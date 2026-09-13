@@ -1,8 +1,15 @@
 {
   "id": "ep01-marrugo",
   "titulo": "Audiencia en la piscina",
-  "adversario": { "id": "marrugo", "nombre": "Fulgencio Marrugo", "posicion": 150 },
-  "tension": { "inicial": 30, "provocacionPorRonda": 5 },
+  "adversario": {
+    "id": "marrugo",
+    "nombre": "Fulgencio Marrugo",
+    "posicion": 150
+  },
+  "tension": {
+    "inicial": 30,
+    "provocacionPorRonda": 5
+  },
   "credibilidad": 3,
   "facultades": {},
   "rondas": [
@@ -37,11 +44,16 @@
         {
           "id": "af-dueno",
           "texto": "El administrador manda en el edificio. Es como el dueño de la casa: decide quién entra, quién paga y quién se va.",
-          "solucion": { "tipo": "norma", "codice": ["l675-50"] },
+          "solucion": {
+            "tipo": "norma",
+            "codice": ["l675-50"]
+          },
           "presionar": [
             {
               "respuesta": "¿Que si soy propietario? Del 9A. Del resto, administrador. Es lo mismo aquí.",
-              "revela": { "afirmacion": "af-vitalicio" }
+              "revela": {
+                "afirmacion": "af-vitalicio"
+              }
             }
           ],
           "respuestas": {
@@ -60,12 +72,12 @@
             "codice": ["l675-38"],
             "parcial": {
               "codice": ["l675-38"],
-              "respuesta": "Períodos determinados. Aquí el período lo determinó la Crecida."
+              "respuesta": "Períodos determinados. Aquí el período lo determinó la Fractura."
             }
           },
           "respuestas": {
             "plena": "El libro de actas termina en el Año −1. Y la ley dice períodos determinados. Está bien: nadie me ha reelegido porque nadie ha votado.",
-            "parcial": "Períodos determinados. Aquí el período lo determinó la Crecida.",
+            "parcial": "Períodos determinados. Aquí el período lo determinó la Fractura.",
             "fallida": "Diez años sin que nadie proteste valen más que eso."
           },
           "nota": "El silencio de diez años no es una elección. El libro de actas prueba que no hubo asamblea; el artículo 38 exige nombrar por períodos determinados."

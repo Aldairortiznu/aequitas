@@ -16,6 +16,7 @@ fecha, decisión y consecuencia. Las decisiones pendientes están al final.
 | D7  | Stack fijado: Phaser 3.90, Vite 7, TypeScript 5.9, Preact 10, zod 4, Vitest 4, Playwright, ESLint 9.                                                                                                    | Versiones ancladas en `package.json`; no subir de versión mayor sin ticket.                                                  |
 | D8  | Dos registros visuales: el mundo en pixel art 16-bit; las láminas (aperturas, cierres y conversaciones decisivas) en ilustración pintada cinematográfica 16:9.                                          | Nodo de diálogo con `lamina`; lista y composición en `docs/arte/04-LAMINAS-UI-ICONOS.md`; el arte se produce en Antigravity. |
 | D9  | Cada episodio se puede empezar por separado (Códice base en el manifiesto) y, al terminar, continúa con el estado acumulado si el siguiente está publicado; si no, vuelve al título.                    | `manifest.codice`, `session.endEpisode()`; `nextEpisode` solo apunta a episodios existentes.                                 |
+| D10 | Protagonistas seleccionables: Renata, Ramiro, Ariel, Cruz y un personaje personalizado; todos Iriarte. Tratamiento femenino, masculino o neutro; el neutro se reformula sin marcar género.              | `Jugador` en el estado; plantillas `{nombre}` y `{f                                                                          | m   | n}` en el contenido; creador con piezas por código; arte por capas pendiente. |
 
 ## Pendientes
 

@@ -1,5 +1,6 @@
 import { BALANCE } from '../balance';
 import type { Clausula, Pacto, Punto } from '../content/schema';
+import type { Tratamiento } from '../texto/plantilla';
 
 /**
  * Motor de la Conciliación (Pacto): evaluación del Equilibrio y redacción del acta.
@@ -110,7 +111,7 @@ export function renderActa(
   def: Pacto,
   elegidas: Record<string, string>,
   fecha: string,
-  relatora: string,
+  relatoria: string | { nombre: string; tratamiento: Tratamiento },
 ): string {
   const lineas: string[] = [];
   lineas.push(def.titulo.toUpperCase());
@@ -127,6 +128,10 @@ export function renderActa(
   lineas.push(def.acta.cierre);
   lineas.push('');
   lineas.push(`Partes: ${def.partes.map((p) => p.nombre).join(', ')}.`);
-  lineas.push(`Relatora: ${relatora}.`);
+  if (typeof relatoria === 'string') lineas.push(`Relatora: ${relatoria}.`);
+  else {
+    const etiqueta = { f: 'Relatora', m: 'Relator', n: 'Relatoría' }[relatoria.tratamiento];
+    lineas.push(`${etiqueta}: ${relatoria.nombre}.`);
+  }
   return lineas.join('\n');
 }

@@ -1,4 +1,6 @@
 import type { Condition, FlagValue, MapState } from '../content/schema';
+import type { Jugador } from '../jugador';
+import { JUGADOR_POR_DEFECTO } from '../jugador';
 
 /**
  * Estado del juego (lógica pura). Todo cambio pasa por las funciones de este módulo,
@@ -22,7 +24,10 @@ export interface PactoResultado {
 
 export interface GameState {
   version: 1;
+  /** Nombre de pila de quien juega (igual a `jugador.nombre`; se conserva por compatibilidad). */
   playerName: string;
+  /** Quien juega: cuerpo, nombre y tratamiento (D10). */
+  jugador: Jugador;
   episode: string;
   map: string;
   spawn: string;
@@ -46,6 +51,7 @@ export interface GameState {
 
 export interface NewGameOptions {
   playerName?: string;
+  jugador?: Jugador;
   episode: string;
   map: string;
   spawn: string;
@@ -55,9 +61,14 @@ export interface NewGameOptions {
 }
 
 export function createGameState(o: NewGameOptions): GameState {
+  const jugador: Jugador = o.jugador ?? {
+    ...JUGADOR_POR_DEFECTO,
+    nombre: o.playerName?.trim() || JUGADOR_POR_DEFECTO.nombre,
+  };
   return {
     version: 1,
-    playerName: o.playerName?.trim() || 'Renata',
+    playerName: jugador.nombre,
+    jugador,
     episode: o.episode,
     map: o.map,
     spawn: o.spawn,

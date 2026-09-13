@@ -19,14 +19,17 @@
   "puntos": [
     {
       "id": "p-herbario",
-      "pregunta": "¿Quién riega el herbario mientras Renata no está?",
+      "pregunta": "¿Quién riega el herbario mientras {nombre} no está?",
       "clausulas": [
         {
           "id": "c-turnos",
           "texto": "Turnos semanales entre los estudiantes; Casimiro coordina.",
           "textoActa": "Los estudiantes regarán el herbario por turnos semanales. Casimiro coordinará los turnos y rendirá cuenta a la cohorte.",
           "legal": true,
-          "intereses": { "estudiantes": 1, "casimiro": 1 },
+          "intereses": {
+            "estudiantes": 1,
+            "casimiro": 1
+          },
           "justicia": 3
         },
         {
@@ -34,7 +37,10 @@
           "texto": "Casimiro se encarga solo, como siempre.",
           "textoActa": "Casimiro se encargará en exclusiva del riego del herbario.",
           "legal": true,
-          "intereses": { "estudiantes": -1, "casimiro": 2 },
+          "intereses": {
+            "estudiantes": -1,
+            "casimiro": 2
+          },
           "justicia": 1
         },
         {
@@ -46,7 +52,10 @@
             "norma": "cp-1",
             "explicacion": "Una sanción que priva de alimento afecta la dignidad humana; ninguna asamblea puede pactarla."
           },
-          "intereses": { "estudiantes": -2, "casimiro": 0 },
+          "intereses": {
+            "estudiantes": -2,
+            "casimiro": 0
+          },
           "justicia": 0
         }
       ]
@@ -60,7 +69,10 @@
           "texto": "Rotación entre todos; Casimiro incluido.",
           "textoActa": "El papel de contraparte rotará entre todos los miembros de la cohorte, incluido Casimiro.",
           "legal": true,
-          "intereses": { "estudiantes": 1, "casimiro": 0 },
+          "intereses": {
+            "estudiantes": 1,
+            "casimiro": 0
+          },
           "justicia": 3
         },
         {
@@ -72,14 +84,17 @@
             "norma": "cp-29",
             "explicacion": "Excluir a alguien sin oírlo ni permitirle defenderse viola el debido proceso."
           },
-          "intereses": { "estudiantes": 1, "casimiro": -2 },
+          "intereses": {
+            "estudiantes": 1,
+            "casimiro": -2
+          },
           "justicia": 0
         }
       ]
     }
   ],
   "acta": {
-    "encabezado": "En la estación de la ciénaga, reunidos los estudiantes de la Escuela y Casimiro, con Renata como relatora, acuerdan:",
+    "encabezado": "En la estación de la ciénaga, reunidos los estudiantes de la Escuela y Casimiro, con {nombre} Iriarte {como relatora|como relator|en la relatoría}, acuerdan:",
     "cierre": "Lo pactado obliga a quienes lo firman. Se leyó en voz alta y nadie objetó."
   }
 }

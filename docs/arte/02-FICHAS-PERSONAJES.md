@@ -26,6 +26,32 @@ unas gafas, un sombrero, una túnica). No sumar más de dos accesorios.
   hair in a low bun with one loose strand, purple shirt #5a3f86 with cream collar, dark grey
   trousers, brown boots, leather satchel across the chest with a small gold buckle».
 
+### Protagonistas alternativos (D10): `ramiro`, `ariel`, `cruz`
+
+Quien juega elige cuerpo, nombre y tratamiento; la historia es la misma. Los cuatro presets
+comparten lo que identifica a «Iriarte» en silueta: **camisa violeta de la Escuela
+`#5a3f86` con cuello claro y morral cruzado de cuero `#b5773f` con hebilla dorada** (salvo
+que el accesorio de la ficha lo sustituya). Misma edad (24), misma proporción que Renata.
+
+- `ramiro` — pelo corto negro `#2a1a12`, barba de tres días (dos píxeles más oscuros en la
+  mandíbula en el retrato), piel `#c98e5e`, pantalón `#2e2d33`, morral. Actitud: atento,
+  algo tímido.
+- `ariel` — andrógino: pelo rapado a los lados y largo arriba (mechón hacia un lado), gafas
+  redondas finas, piel `#8a5a3a`, pantalón `#4a4850`, morral. Actitud: irónico, tranquilo.
+- `cruz` — andrógino: melena suelta castaña `#3a2a1a` hasta los hombros, pañuelo al cuello
+  `#e2b94a`, piel `#f1c9a5`, pantalón `#2e2d33`, morral. Actitud: directo, serio.
+- Retratos: los tres de cada uno (`neutra`, `tensa`, `cordial`), encuadre común con Renata.
+  Ni rasgos exagerados ni marcadores de género caricaturescos: cuerpos normales, ropa de
+  trabajo.
+
+### Creador de personaje (arte por capas, pendiente)
+
+Hoy el creador dibuja las piezas por código. Para el arte real, el contrato es una hoja por
+capa con la misma rejilla de 64×96 (4 direcciones × 4 cuadros), con fondo transparente, que
+el motor apila en este orden: `cuerpo-<piel 0..3>` → `pantalon` (máscara de un solo color que
+el motor tiñe) → `camisa` (máscara) → `pelo-<estilo>` (máscara) → `accesorio-<nombre>`.
+Rutas: `public/assets/sprites/partes/<capa>.png`. Se produce después de los presets.
+
 ### `pilar` — Pilar, 43, lideresa comunal de Altamar (se une en el Ep. 1)
 
 - **Cuerpo:** baja y fuerte, hombros anchos, brazos cruzados con frecuencia.

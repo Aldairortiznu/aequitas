@@ -8,22 +8,35 @@
     "id": "renata",
     "nombre": "Renata",
     "rol": "protagonista",
-    "retratos": [
-      "neutra",
-      "tensa",
-      "cordial"
-    ],
+    "retratos": ["neutra", "tensa", "cordial"],
     "sprite": "renata"
+  },
+  {
+    "id": "ramiro",
+    "nombre": "Ramiro",
+    "rol": "protagonista",
+    "retratos": ["neutra", "tensa", "cordial"],
+    "sprite": "ramiro"
+  },
+  {
+    "id": "ariel",
+    "nombre": "Ariel",
+    "rol": "protagonista",
+    "retratos": ["neutra", "tensa", "cordial"],
+    "sprite": "ariel"
+  },
+  {
+    "id": "cruz",
+    "nombre": "Cruz",
+    "rol": "protagonista",
+    "retratos": ["neutra", "tensa", "cordial"],
+    "sprite": "cruz"
   },
   {
     "id": "pilar",
     "nombre": "Pilar",
     "rol": "companero",
-    "retratos": [
-      "neutra",
-      "tensa",
-      "cordial"
-    ],
+    "retratos": ["neutra", "tensa", "cordial"],
     "sprite": "pilar",
     "facultad": "convocarTestigo"
   },
@@ -31,11 +44,7 @@
     "id": "prudencio",
     "nombre": "Prudencio",
     "rol": "companero",
-    "retratos": [
-      "neutra",
-      "tensa",
-      "cordial"
-    ],
+    "retratos": ["neutra", "tensa", "cordial"],
     "sprite": "prudencio",
     "facultad": "cotejo"
   },
@@ -43,11 +52,7 @@
     "id": "gerineldo",
     "nombre": "Gerineldo",
     "rol": "companero",
-    "retratos": [
-      "neutra",
-      "tensa",
-      "cordial"
-    ],
+    "retratos": ["neutra", "tensa", "cordial"],
     "sprite": "gerineldo",
     "facultad": "objecion"
   },
@@ -55,31 +60,21 @@
     "id": "clemencia",
     "nombre": "Clemencia",
     "rol": "biblioteca",
-    "retratos": [
-      "neutra",
-      "tensa",
-      "cordial"
-    ],
+    "retratos": ["neutra", "tensa", "cordial"],
     "sprite": "clemencia"
   },
   {
     "id": "nepomuceno",
     "nombre": "Nepomuceno",
     "rol": "biblioteca",
-    "retratos": [
-      "neutra",
-      "cordial"
-    ],
+    "retratos": ["neutra", "cordial"],
     "sprite": "nepomuceno"
   },
   {
     "id": "casimiro",
     "nombre": "Casimiro",
     "rol": "biblioteca",
-    "retratos": [
-      "neutra",
-      "tensa"
-    ],
+    "retratos": ["neutra", "tensa"],
     "sprite": "casimiro"
   },
   {
@@ -91,11 +86,7 @@
     "id": "moscote",
     "nombre": "El Registrador",
     "rol": "adversario",
-    "retratos": [
-      "neutra",
-      "tensa",
-      "cordial"
-    ],
+    "retratos": ["neutra", "tensa", "cordial"],
     "sprite": "moscote"
   },
   {
@@ -114,9 +105,7 @@
     "id": "eladio",
     "nombre": "Eladio",
     "rol": "secundario",
-    "retratos": [
-      "neutra"
-    ],
+    "retratos": ["neutra"],
     "sprite": "eladio"
   },
   {
@@ -129,31 +118,21 @@
     "id": "marrugo",
     "nombre": "Fulgencio Marrugo",
     "rol": "adversario",
-    "retratos": [
-      "neutra",
-      "tensa",
-      "cordial"
-    ],
+    "retratos": ["neutra", "tensa", "cordial"],
     "sprite": "marrugo"
   },
   {
     "id": "tomas",
     "nombre": "Tomás",
     "rol": "secundario",
-    "retratos": [
-      "neutra",
-      "cordial"
-    ],
+    "retratos": ["neutra", "cordial"],
     "sprite": "tomas"
   },
   {
     "id": "zoraida",
     "nombre": "Zoraida",
     "rol": "secundario",
-    "retratos": [
-      "neutra",
-      "cordial"
-    ],
+    "retratos": ["neutra", "cordial"],
     "sprite": "zoraida"
   },
   {

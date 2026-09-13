@@ -1,5 +1,6 @@
 import type { GameState } from '../state/gameState';
 import type { LegitimidadState } from '../legitimidad/legitimidad';
+import { JUGADOR_POR_DEFECTO } from '../jugador';
 
 /**
  * Guardado (E8): serialización versionada con migraciones, tres ranuras y código
@@ -60,8 +61,17 @@ export function migrate(raw: unknown): SaveV1 {
   if (!raw || typeof raw !== 'object') throw new Error('Guardado inválido');
   const r = raw as { version?: number };
   switch (r.version) {
-    case 1:
-      return raw as SaveV1;
+    case 1: {
+      const save = raw as SaveV1;
+      // Guardados anteriores a D10: sin `jugador` (era siempre Renata).
+      if (!save.state.jugador) {
+        save.state = {
+          ...save.state,
+          jugador: { ...JUGADOR_POR_DEFECTO, nombre: save.state.playerName || 'Renata' },
+        };
+      }
+      return save;
+    }
     default:
       throw new Error(`Versión de guardado desconocida: ${String(r.version)}`);
   }

@@ -27,7 +27,7 @@ para lo que falte, así que el arte puede llegar pieza a pieza y verse en el jue
 
 Prioridad de producción para el primer lanzamiento (Prólogo + Episodio 1, ya jugables):
 
-1. **Elenco del Prólogo y del Episodio 1**, sprite + 3 retratos cada uno: Renata → Pilar →
+1. **Elenco del Prólogo y del Episodio 1**, sprite + 3 retratos cada uno: Renata → Ramiro, Ariel y Cruz (protagonistas alternativos, D10) → Pilar →
    Marrugo → Nepomuceno → Clemencia → Casimiro → Tomás → Zoraida → Eladio → estudiante y
    estudiante-2 → alguacil → vigilante → vecino-1 … vecino-4 → Moscote (solo retratos y láminas
    por ahora).

@@ -15,7 +15,9 @@
           "texto": "Un certificado de la Oficina de Registro vale más que un libro viejo. Es lo que hay. Aquí está el mío.",
           "solucion": { "tipo": "norma", "codice": ["cp-4"] },
           "presionar": [
-            { "respuesta": "¿Que quién lo firma? La Oficina. ¿Que con qué autoridad? Con la que tiene: la única." }
+            {
+              "respuesta": "¿Que quién lo firma? La Oficina. ¿Que con qué autoridad? Con la que tiene: la única."
+            }
           ],
           "respuestas": {
             "plena": "Norma de normas. Sí. El certificado vale lo que valga quien lo expide, y la Oficina no está por encima de la Constitución.",
@@ -40,7 +42,10 @@
             "tipo": "combinacion",
             "evidencia": ["ep00-testimonio-eladio"],
             "codice": ["cp-14"],
-            "parcial": { "evidencia": ["ep00-testimonio-eladio"], "respuesta": "Que nació aquí. Muy bien. Nacer no es constar." }
+            "parcial": {
+              "evidencia": ["ep00-testimonio-eladio"],
+              "respuesta": "Que nació aquí. Muy bien. Nacer no es constar."
+            }
           },
           "derechoFundamental": true,
           "respuestas": {

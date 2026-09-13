@@ -36,10 +36,15 @@ for (const [i, e] of exprs.entries()) {
   if (!existsSync(p)) continue;
   const m = await sharp(p).metadata();
   console.log('portrait', e, m.width, m.height, m.hasAlpha);
-  const buf = await sharp(p).resize(96 * 3, 96 * 3, { kernel: 'nearest' }).png().toBuffer();
+  const buf = await sharp(p)
+    .resize(96 * 3, 96 * 3, { kernel: 'nearest' })
+    .png()
+    .toBuffer();
   ports.push({ input: buf, left: 8 + i * (96 * 3 + 8), top: 8 });
 }
-await sharp({ create: { width: 8 + 3 * (96 * 3 + 8), height: 96 * 3 + 16, channels: 4, background: '#2e2d33' } })
+await sharp({
+  create: { width: 8 + 3 * (96 * 3 + 8), height: 96 * 3 + 16, channels: 4, background: '#2e2d33' },
+})
   .composite(ports)
   .png()
   .toFile(`${out}/${id}-retratos-3x.png`);
@@ -52,11 +57,16 @@ for (const [i, f] of rawFiles.entries()) {
   if (!existsSync(p)) continue;
   const m = await sharp(p).metadata();
   console.log('raw', f, m.width, m.height);
-  const buf = await sharp(p).resize(200, 300, { fit: 'inside', kernel: 'lanczos3' }).png().toBuffer();
+  const buf = await sharp(p)
+    .resize(200, 300, { fit: 'inside', kernel: 'lanczos3' })
+    .png()
+    .toBuffer();
   const bm = await sharp(buf).metadata();
   raw.push({ input: buf, left: 8 + i * 208, top: 8 + Math.round((300 - bm.height) / 2) });
 }
-await sharp({ create: { width: 8 + rawFiles.length * 208, height: 316, channels: 4, background: '#2e2d33' } })
+await sharp({
+  create: { width: 8 + rawFiles.length * 208, height: 316, channels: 4, background: '#2e2d33' },
+})
   .composite(raw)
   .png()
   .toFile(`${out}/${id}-materia-prima.png`);
@@ -64,6 +74,9 @@ const rawPort = `art-src/portraits/${id}-neutra.png`;
 if (existsSync(rawPort)) {
   const m = await sharp(rawPort).metadata();
   console.log('raw portrait', m.width, m.height);
-  await sharp(rawPort).resize(400, 400, { fit: 'inside' }).png().toFile(`${out}/${id}-retrato-materia-prima.png`);
+  await sharp(rawPort)
+    .resize(400, 400, { fit: 'inside' })
+    .png()
+    .toFile(`${out}/${id}-retrato-materia-prima.png`);
 }
 console.log('listo', readdirSync(out));

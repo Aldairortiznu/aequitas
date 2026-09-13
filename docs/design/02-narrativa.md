@@ -26,6 +26,14 @@ reescribe.
    se defiende con ironía. Nadie hace gags.
 7. **Frases cortas.** Máximo tres líneas por globo. Un globo, una idea.
 
+### Quien juega (D10)
+
+La protagonista de la biblia es Renata Iriarte, pero quien juega elige cuerpo, nombre y
+tratamiento (Renata, Ramiro, Ariel, Cruz o un personaje personalizado). Todo lo que aquí se
+dice de Renata vale para «Iriarte»: la hija o el hijo de la registradora. Al escribir
+contenido, todo lo que mencione a la protagonista por su nombre o con género va con
+plantillas (`{nombre}`, `{la jurista|el jurista|jurista}`); ver `docs/engine/protagonista.md`.
+
 ## 2. El mundo: el Litoral
 
 Una franja de costa caribe ficticia con ciénagas, un río grande, salinas, lomas

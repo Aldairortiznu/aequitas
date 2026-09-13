@@ -7,15 +7,21 @@
       "portrait": "neutra",
       "text": "Llevo dos horas en esta fila para renovar mi existencia. Dos jornadas o un bulto de arroz. El año pasado era una jornada.",
       "choices": [
-        { "text": "¿Y quién fijó ese precio?", "next": "f2" },
-        { "text": "¿Existencia?", "next": "f3" }
+        {
+          "text": "¿Y quién fijó ese precio?",
+          "next": "f2"
+        },
+        {
+          "text": "¿Existencia?",
+          "next": "f3"
+        }
       ]
     },
     {
       "id": "f2",
       "speaker": "vecino-1",
       "portrait": "tensa",
-      "text": "Marrugo. Lo anota en un cuaderno. Presupuesto, asamblea… de eso no se habla desde la Crecida.",
+      "text": "Marrugo. Lo anota en un cuaderno. Presupuesto, asamblea… de eso no se habla desde la Fractura.",
       "next": "f4"
     },
     {

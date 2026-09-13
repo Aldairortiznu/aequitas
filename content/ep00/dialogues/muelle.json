@@ -5,7 +5,7 @@
       "id": "m1",
       "speaker": "eladio",
       "portrait": "neutra",
-      "text": "¿Lista? Altamar está a tres horas si el viento ayuda. Allá no me conocen. A usted tampoco.",
+      "text": "¿{Lista|Listo|Vamos}? Altamar está a tres horas si el viento ayuda. Allá no me conocen. A usted tampoco.",
       "next": "m2"
     },
     {
@@ -18,7 +18,7 @@
     {
       "id": "m3",
       "speaker": "narrador",
-      "text": "Renata sube a la canoa con el zurrón. Se toca el anillo partido sin pensarlo, como quien comprueba una llave."
+      "text": "{nombre} sube a la canoa con el zurrón. Se toca el anillo partido sin pensarlo, como quien comprueba una llave."
     }
   ]
 }
