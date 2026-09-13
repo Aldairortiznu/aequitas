@@ -83,7 +83,7 @@ Casimiro, 2 estudiantes) · 4 retratos · 1 pista musical (tema de la Biblioteca
 | Concepto | Propiedad horizontal (Ley 675 de 2001): asamblea, quórum, actas, administrador como mandatario, expensas, sanciones con debido proceso; debido proceso (Art. 29); personalidad jurídica y nombre (Art. 14; Decreto 1260/1970 art. 3); acción de tutela contra particulares en indefensión (Art. 86; Decreto 2591/1991 art. 42) |
 | Se une | Pilar Cantillo |
 
-**Sinopsis.** Fulgencio Marrugo administra Altamar desde la Crecida con un «Acta de
+**Sinopsis.** Fulgencio Marrugo administra Altamar desde la Fractura con un «Acta de
 Asamblea» del Año 1 que solo firmaron él y su primo. Cobra expensas en trabajo y
 comida, sanciona a los morosos retirándoles el carné (lo que los convierte en no
 inscritos para la Oficina, con la que tiene licencia) y cortó el agua a los pisos
@@ -300,7 +300,7 @@ que el crédito legítimo es necesario y se protege.
 | Se une | Gerineldo Amarís |
 
 **Sinopsis.** Don Aristides Buelvas compró La Esperanza veinte años antes de la
-Crecida y murió en el Año 6 sin testamento. Sus hijos Eusebio (trabaja la parte alta),
+Fractura y murió en el Año 6 sin testamento. Sus hijos Eusebio (trabaja la parte alta),
 Marta (volvió en el Año 8) y Pedro (hijo no reconocido en papeles, conocido por
 todos) se disputan la finca. La vega baja la poseen desde el Año 0 seis familias
 desplazadas, «los del Éxodo»: sembraron frutales, levantaron una escuela, nacieron

@@ -25,6 +25,12 @@ reescribe.
 6. **Humor de carácter, no de chiste.** Gerineldo es seco, Pilar es rápida, Prudencio
    se defiende con ironía. Nadie hace gags.
 7. **Frases cortas.** Máximo tres líneas por globo. Un globo, una idea.
+8. **La guerra nunca se ve.** La Fractura (la guerra mundial, D11) es la causa de todo y
+   no aparece nunca en pantalla: ni bandos con nombre, ni batallas, ni héroes de guerra,
+   ni noticias del frente. Se cuenta por sus ausencias (señal, luz, gasolina, jueces,
+   dinero) y por objetos (una radio muda, un carné de racionamiento, un uniforme sin
+   insignias). Nadie sabe cómo terminó; nadie en el Litoral lo va a saber en esta
+   temporada. Es la guerra de los grandes, vista desde una costa que la sufrió sin verla.
 
 ### Quien juega (D10)
 
@@ -43,37 +49,48 @@ para alguien de Bolívar, Atlántico o Sucre.
 | Región | Qué es | Papel en la temporada |
 |--------|--------|-----------------------|
 | **Ciénaga de Bellium** | Manglar con una antigua estación de investigación marino-botánica, hoy sede oculta de la Biblioteca | Hogar. Prólogo y Episodio 8 |
-| **Conjunto Altamar** | Complejo de torres de lujo en la playa, a medio construir cuando llegó la Crecida; hoy una comunidad vertical de 600 personas | Episodio 1: propiedad horizontal y debido proceso |
+| **Conjunto Altamar** | Complejo de torres de lujo en la playa, a medio construir cuando llegó la Fractura; hoy una comunidad vertical de 600 personas | Episodio 1: propiedad horizontal y debido proceso |
 | **Tres Bocas** | Puerto fluvial de palafitos y mercado flotante donde se cruza el río con la ciénaga | Episodio 2: títulos valores y usura |
 | **Valle de Sinuaco** | Lomas agrícolas con terrazas, un canal de riego y un embalse | Episodio 3: posesión, prescripción y sucesión |
 | **Salinas de Galera** | Charcas de sal y un mar rosado por las microalgas; una capilla y una guarnición | Episodio 4: contratos y vicios del consentimiento |
 | **Hacienda Bellavista** | Plantación de palma con molino, barracas y tienda; propiedad del Registrador | Episodio 5: derecho laboral |
-| **Puerto Baluarte** | Ciudad amurallada, sede de la Oficina de Registro; su casco antiguo quedó inundado con la Crecida | Episodios 6 y 7: registro público, fe pública, debido proceso |
+| **Puerto Baluarte** | Ciudad amurallada, sede de la Oficina de Registro; su casco antiguo quedó inundado con la Crecida, el año de la Fractura | Episodios 6 y 7: registro público, fe pública, debido proceso |
 | **La presa de Sinuaco** | Represa que desvía el río hacia los molinos del Registrador | Episodio 6: bienes de uso público y acción popular |
 
 ## 3. Cronología
 
-Los años se cuentan desde la Crecida. El juego empieza en el Año 9 y termina el día del
+Los años se cuentan desde la Fractura. El juego empieza en el Año 9 y termina el día del
 décimo aniversario.
 
 - **Año −3.** Un fondo de inversión, el Consorcio de Acreedores del Litoral, compra en
   bloque la cartera vencida de bancos y cooperativas de la región: hipotecas, pagarés,
-  créditos de cosecha. Empieza a ejecutar en masa.
+  créditos de cosecha. Empieza a ejecutar en masa. Los registros se digitalizan; los
+  folios físicos de los tres registros se concentran en el edificio de la Oficina de
+  Registro de Puerto Baluarte «mientras dura la migración».
 - **Año −1.** Remates de barrios enteros. Protestas. Un grupo de profesores de derecho,
   un botánico y bibliotecarios de la universidad de Puerto Baluarte se organizan para
   «poner a salvo la colección jurídica» ante la inestabilidad. Entre ellos, la profesora
-  Clemencia Vidal.
-- **Año 0. La Crecida.** Una tormenta y una marea de tormenta inundan el casco antiguo
-  de Puerto Baluarte y las tierras bajas. Colapsan la energía, las comunicaciones y el
-  Estado local. En medio del caos, la registradora de instrumentos públicos, Petra
-  Iriarte, ejecuta lo que después se llamó **el Borrado**: destruye deliberadamente las
-  bases de datos y los folios físicos de los tres registros (inmuebles, civil y
-  mercantil) que por la emergencia estaban concentrados en el edificio de la Oficina de
-  Registro. Sin folios no hay hipotecas que ejecutar. Tampoco hay títulos, ni nombres
-  inscritos, ni sociedades. Petra desaparece esa semana. Su hija Renata tiene catorce años.
-- **Años 1 a 3.** Sin registros ni juzgados, el Consorcio no puede ejecutar, pero sus
-  cobradores de la época previa se convierten en la única fuerza organizada. Caudillos
-  locales. La gente se refugia en las torres, los puertos y las lomas.
+  Clemencia Vidal. En la radio, la guerra entre las grandes potencias ya es la noticia
+  de todos los días; en el Litoral todavía parece lejana.
+- **Año 0. La Fractura.** La guerra mundial llega al país por sus consecuencias, no por
+  sus bombas: caen los satélites y las redes, se va la energía, se apagan los
+  computadores de los bancos y de los registros («el Apagón»), la gasolina se raciona y
+  después se acaba. El Estado se repliega hacia el interior: las lanchas de la Armada
+  suben el río y no vuelven; los juzgados cierran «hasta nueva orden». Los cobradores
+  del Consorcio, armados desde antes, son la única fuerza organizada, y saben que la
+  última memoria de las deudas está en papel, en la Oficina de Registro. Van por los
+  folios. Esa noche la registradora Petra Iriarte ejecuta lo que después se llamó **el
+  Borrado**: quema los folios de los tres registros (inmuebles, civil y mercantil). Sin
+  folios no hay hipotecas que ejecutar; tampoco hay títulos, ni nombres inscritos, ni
+  sociedades. Petra desaparece esa semana. Su hija tiene catorce años. Meses después,
+  en la temporada de lluvias, sin bombas de achique ni quien cierre las compuertas, el
+  mar entra en el casco antiguo de Puerto Baluarte y se queda: **la Crecida**, la herida
+  local de la guerra.
+- **Años 1 a 3.** Sin registros, sin juzgados y sin noticias del resto del país, el
+  Consorcio no puede ejecutar, pero sus cobradores son la única fuerza. Caudillos
+  locales. La gente se refugia en las torres, los puertos y las lomas. La radio dice
+  una cosa, luego otra, luego nada. Nadie sabe cómo va la guerra; nadie volverá a
+  saberlo con certeza.
 - **Año 4.** Evaristo Moscote, antiguo secretario de la Oficina de Registro, reaparece
   en Puerto Baluarte con cajas de folios que dice haber salvado del Borrado. Reabre la
   Oficina de Registro y ofrece lo que nadie más puede ofrecer: certeza. Un certificado
@@ -81,13 +98,20 @@ décimo aniversario.
   inscripción para los negocios. Los cobradores se vuelven sus alguaciles. Nadie lo
   elige; todos acuden.
 - **Año 5.** La Biblioteca, escondida en la estación de la ciénaga desde el Año 0, abre
-  su Escuela con veinte estudiantes. Renata es una de ellas.
+  su Escuela con veinte estudiantes. Iriarte es una de las personas admitidas.
 - **Año 9.** El Registrador acelera las adjudicaciones de tierras y las «cancelaciones
   de inscripción» de personas. Los desalojos se multiplican. La Biblioteca decide enviar
   a sus primeros juristas al terreno. Empieza el juego.
-- **Año 10.** El décimo aniversario de la Crecida. Diez años de posesión pacífica e
+- **Año 10.** El décimo aniversario de la Fractura. Diez años de posesión pacífica e
   ininterrumpida bastan para adquirir la tierra por prescripción extraordinaria
   (Código Civil, art. 2532, reformado por la Ley 791 de 2002). El Registrador lo sabe.
+
+**Por qué la ley sigue vigente.** La República no se disolvió: se fue lejos. Ninguna ley
+fue derogada, ningún juez fue destituido; simplemente no llegan. La tesis pedagógica del
+juego depende de eso: las normas que el jugador aprende son las que rigen hoy en
+Colombia, y el juego trata de hacerlas valer donde el Estado no alcanza, no de inventar
+un derecho posapocalíptico. Cuando los jueces vuelvan (la temporada 2 lo insinúa), todo lo
+pactado en el Litoral tendrá que resistir su examen.
 
 ## 4. Las tres memorias perdidas
 
@@ -147,7 +171,7 @@ no existe.
 
 Una antigua estación de investigación de la universidad en la ciénaga: laboratorios,
 un herbario, tanques de agua, paneles solares que todavía funcionan. Los fundadores
-trasladaron allí, antes de la Crecida, la colección jurídica de la universidad:
+trasladaron allí, antes de la Fractura, la colección jurídica de la universidad:
 códigos, gacetas, jurisprudencia impresa. La llamaron Biblioteca de Bellium por el
 nombre de la estación (así se llamaba la fundación que la financiaba).
 
@@ -171,7 +195,7 @@ contó. La Rectora protege a Renata por afecto y por culpa.
 ## 7. La margarita de Bellium
 
 Una margarita endémica de los bordes de la ciénaga (nombre ficticio en el juego:
-*Bellis palustris*). Los botánicos de la estación documentaron antes de la Crecida que
+*Bellis palustris*). Los botánicos de la estación documentaron antes de la Fractura que
 solo germina en suelos con riego constante y sin salinización: es decir, donde varias
 fincas comparten agua de manera regular. Los fundadores la tomaron como emblema por esa
 razón práctica: su presencia indica que una comunidad comparte el agua.
@@ -186,7 +210,7 @@ recupera un mercado.
 
 ### Renata Iriarte (protagonista, 24)
 
-Hija de la registradora Petra Iriarte. Tenía catorce años en la Crecida; recuerda el
+Hija de la registradora Petra Iriarte. Tenía catorce años en la Fractura; recuerda el
 mundo con leyes. Creció en la Biblioteca. Es la mejor de su cohorte en argumentación y
 la peor en paciencia: cree que el derecho es una herramienta para conseguir resultados
 justos rápido. Su arco es descubrir que el proceso no es el estorbo de la justicia sino
@@ -196,7 +220,7 @@ cometer: tomar un atajo por una buena causa.
 - **Rasgo de voz:** directa, pregunta más de lo que afirma, usa el humor para no
   mostrar miedo.
 - **Objeto:** el anillo de sello de su madre, partido por la mitad, encontrado en el
-  edificio del Registro después de la Crecida. Tiene grabados tres números en romanos
+  edificio del Registro después del Borrado. Tiene grabados tres números en romanos
   que Renata siempre creyó una fecha.
 - **En la Audiencia:** capacidad de **Invocación constitucional** (una vez por
   audiencia, elegir el artículo de la Constitución que responde a una afirmación que
@@ -205,7 +229,7 @@ cometer: tomar un atajo por una buena causa.
 
 ### Pilar Cantillo (43) — se une en el Episodio 1
 
-Conserje del Conjunto Altamar antes de la Crecida; hoy lidera a los vecinos de los
+Conserje del Conjunto Altamar antes de la Fractura; hoy lidera a los vecinos de los
 pisos bajos. No es abogada y desconfía de los abogados. Su hijo Tomás (12) fue
 declarado no inscrito por el administrador cuando ella protestó. Es la voz de la
 comunidad y del enojo justo.
@@ -263,13 +287,13 @@ siempre quiso.
 Registradora. Ejecutó el Borrado por convicción y con dudas. Guardó una copia
 verdadera del archivo en la bóveda de la antigua notaría del casco viejo, hoy bajo el
 agua. La carta que deja es corta, práctica y sin heroísmo. No se resuelve si murió en
-la Crecida o después; el juego no lo explica, y ese silencio es deliberado.
+la Fractura o después; el juego no lo explica, y ese silencio es deliberado.
 
 ### Adversarios por episodio
 
 | Ep. | Adversario | Quién es de verdad |
 |-----|-----------|--------------------|
-| 1 | **Fulgencio Marrugo**, administrador de Altamar | Administrador real del conjunto antes de la Crecida. Se quedó porque nadie más quiso. Cree sinceramente que sin él la torre se cae. Cobra en trabajo, sanciona quitando el carné, cortó el agua a los pisos bajos. |
+| 1 | **Fulgencio Marrugo**, administrador de Altamar | Administrador real del conjunto antes de la Fractura. Se quedó porque nadie más quiso. Cree sinceramente que sin él la torre se cae. Cobra en trabajo, sanciona quitando el carné, cortó el agua a los pisos bajos. |
 | 2 | **Silvana Ferro**, prestamista de Tres Bocas | Presta combustible y semilla con pagarés en blanco. Cobra intereses de usura porque ella misma paga intereses de usura a la Oficina por su inscripción. Es acreedora y deudora. |
 | 3 | **Nicanor Ospino**, agrimensor de la Oficina, y **Abelardo Núñez**, comprador | Nicanor levanta planos de adjudicación con folios inventados. Abelardo pagó de buena fe por una tierra que otros poseen desde hace nueve años. |
 | 4 | **Capitán Ulises Bracamonte**, alguacil mayor de Salinas | Hizo firmar cesiones de charcas bajo custodia. Él mismo firmó un contrato de servicio con la Oficina cuando su hija necesitó un médico. |
@@ -354,25 +378,28 @@ Consorcio, en las tierras altas. Temporada 2.
 
 ## 11. Prólogo cinemático (texto de las cinco láminas)
 
-Tipografía de máquina, sin voz. Cada lámina permanece hasta que el jugador avanza.
+1. «Año 0. La guerra de los grandes no llegó al Litoral con bombas. Llegó por la radio,
+   y después por el silencio de la radio. Primero se fue la señal; luego la luz; luego la
+   gasolina; luego las lanchas del Estado, que subieron el río y no volvieron. A eso lo
+   llamaron la Fractura.»
+2. «Los bancos habían vendido sus deudas a un Consorcio. Con los computadores muertos, la
+   última memoria del Litoral estaba en papel: los folios de la Oficina de Registro de
+   Puerto Baluarte. Los cobradores fueron por ellos con armas. La registradora, Petra
+   Iriarte, los quemó esa noche. Nadie volvió a verla.»
+3. «Sin bombas de achique ni quien cerrara las compuertas, esa temporada de lluvias el mar
+   entró en el casco antiguo y se quedó: la Crecida. Cuatro años después, un antiguo
+   secretario reabrió la Oficina de Registro con cajas de folios que dijo haber salvado.
+   Vendía certeza. Nadie lo eligió. Todos fueron.»
+4. «En la ciénaga, unos profesores escondieron los libros de la ley. No las sentencias ni
+   los títulos: la ley. La Constitución, los códigos. Nadie los había derogado; solo se
+   habían olvidado. Durante diez años enseñaron a leerlos.»
+5. «Año 9. Por primera vez, la Biblioteca envía a alguien a usarlos: {nombre} Iriarte,
+   que lleva el apellido de la registradora que borró la memoria del Litoral.»
 
-1. *(El casco antiguo de Puerto Baluarte bajo el agua; balcones, un campanario.)*
-   «Hace nueve años, el mar entró en Puerto Baluarte y no volvió a salir. Se fue la luz,
-   se fueron los juzgados, se fue el Estado. Eso lo recuerda todo el mundo.»
-2. *(Un pasillo de archivo vacío; estantes sin carpetas; agua en el piso.)*
-   «Lo que casi nadie sabe es que, esa misma semana, alguien destruyó los registros.
-   Todos. Las escrituras, los nacimientos, las sociedades. Sin registros no había deudas
-   que cobrar. Tampoco había nada que fuera de nadie.»
-3. *(Una fila de personas frente a una ventanilla; un hombre de saco sella un papel.)*
-   «Cuatro años después, un antiguo secretario reabrió la Oficina de Registro con las
-   cajas que dijo haber salvado. Vendía certeza: un papel que dice quién eres y qué es
-   tuyo. Nadie lo eligió. Todos fueron.»
-4. *(La estación de la ciénaga; paneles solares entre mangles; una lámpara encendida.)*
-   «En la ciénaga, unos profesores escondieron los libros de la ley. No las sentencias
-   ni los títulos: la ley. La Constitución, los códigos. Durante diez años enseñaron a
-   leerlos.»
-5. *(Renata, de espaldas, con un morral, en el muelle de la estación al amanecer.)*
-   «Este año, por primera vez, alguien va a salir a usarlos.»
+Las láminas no muestran la guerra: una ciudad a oscuras con el cielo enrojecido tras las
+lomas y una radio de pilas sobre una mesa (1); el archivo, el fuego y una mujer de espaldas
+(2); la calle inundada y la fila ante la ventanilla (3); la estación en la ciénaga (4);
+Iriarte en el muelle (5). Composición y luz en `docs/arte/04-LAMINAS-UI-ICONOS.md`.
 
 ## 12. Guía de diálogo y muestras de voz
 
@@ -406,3 +433,4 @@ supera dos globos seguidos.
 - El proceso no estorba a la justicia: es lo que la distingue de la venganza.
 - El derecho protege también a quien lo negó; si no, no es derecho.
 - El agua compartida es el primer pacto. Donde se comparte, crece lo demás.
+- La ley no se fue con el Estado. Lo que se fue fue quien la hiciera valer; eso se puede reconstruir desde abajo.

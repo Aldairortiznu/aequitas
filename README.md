@@ -3,7 +3,7 @@
 RPG educativo de derecho colombiano. Temporada 1: «El Año Diez».
 **Bellium S.A.S. · Editorial Al Resuelve · Cartagena de Indias.**
 
-Tras la Crecida, alguien destruyó los registros públicos del Litoral. Cuatro años después,
+El año de la Fractura, cuando la guerra de los grandes dejó al Litoral sin luz, sin jueces y sin Estado, alguien destruyó los registros públicos. Cuatro años después,
 un antiguo secretario reabrió la Oficina de Registro con los folios que dice haber salvado
 y desde entonces decide quién existe y qué es de quién. Renata, la primera jurista que sale
 de la Biblioteca escondida en la ciénaga, va a usar la ley contra quien solo tiene la forma.
