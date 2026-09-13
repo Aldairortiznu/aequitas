@@ -133,14 +133,13 @@ export function NuevaPartida({
           La historia es la misma: quien juega lleva el apellido de la registradora que borró la
           memoria del Litoral. Cambia el cuerpo, el nombre y cómo te tratan.
         </p>
-        <div class="prota" role="list">
+        <div class="prota" role="group" aria-label="Protagonistas">
           {PRESETS.map((p) => {
             const src = portraitSrc(session.game, p.id, 'neutra');
             return (
               <button
                 key={p.id}
                 type="button"
-                role="listitem"
                 class="prota__card"
                 disabled={busy}
                 onClick={() => elegir(p.id)}
@@ -157,7 +156,6 @@ export function NuevaPartida({
           })}
           <button
             type="button"
-            role="listitem"
             class="prota__card prota__card--custom"
             disabled={busy}
             onClick={() => elegir('custom')}

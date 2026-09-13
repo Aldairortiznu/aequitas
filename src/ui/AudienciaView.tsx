@@ -117,6 +117,10 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
     for (const e of events) {
       switch (e.type) {
         case 'contradiccion':
+          session.medir(`audiencia:${e.resultado}`, {
+            audiencia: def.id,
+            afirmacion: e.afirmacion,
+          });
           entries.push({ kind: 'adversario', text: e.texto });
           if (e.resultado === 'plena' && e.nota) {
             entries.push({ kind: 'nota', text: e.nota });
@@ -151,6 +155,7 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
           entries.push({ kind: e.correcta ? 'renata' : 'sala', text: e.texto });
           break;
         case 'pista':
+          session.medir('audiencia:pista', { audiencia: def.id });
           entries.push({ kind: 'pista', text: e.texto });
           break;
         case 'ronda':
@@ -160,6 +165,7 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
           });
           break;
         case 'fin':
+          session.medir(`audiencia:${e.fase}`, { audiencia: def.id, ronda: next.ronda });
           setEnding(e.fase);
           break;
         default:
@@ -270,6 +276,7 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
             <span class="meter__label">Credibilidad</span>
             <span
               class="meter__marks"
+              role="img"
               aria-label={`Credibilidad ${st.credibilidad} de ${st.credibilidadMax}`}
             >
               {Array.from({ length: st.credibilidadMax }).map((_, i) => (

@@ -84,9 +84,11 @@ export function App({ session }: { session: Session }) {
           {toast.text}
         </div>
       )}
-      <div class="ui-version" aria-hidden="true">
-        v{APP_VERSION} · en construcción
-      </div>
+      {!anyModalOpen() && (
+        <div class="ui-version" aria-hidden="true">
+          v{APP_VERSION} · en construcción
+        </div>
+      )}
     </>
   );
 }

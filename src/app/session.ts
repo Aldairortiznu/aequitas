@@ -21,6 +21,8 @@ import { JUGADOR_POR_DEFECTO, contextoDe } from '../core/jugador';
 import { expandir } from '../core/texto/plantilla';
 import type { ContextoTexto } from '../core/texto/plantilla';
 import { invalidatePortrait } from '../ui/portraits';
+import { crearMetricas, registrar, resumir } from '../core/metricas';
+import type { Metricas } from '../core/metricas';
 import type { LoadedContent } from './contentLoader';
 import { WorldScene } from '../engine/world/WorldScene';
 import type { WorldSceneData } from '../engine/world/WorldScene';
@@ -73,6 +75,8 @@ export class Session {
   legitimidad: LegitimidadState = {};
   /** Actas redactadas (texto) por id de pacto, para el Cuaderno. */
   actas: Record<string, string> = {};
+  /** Métricas de playtest (L1.2): locales, exportables desde el Cuaderno. */
+  metricas: Metricas = crearMetricas();
   private running = false;
   private queue: Action[][] = [];
   private modals: ModalHandlers = noopModals;
@@ -127,6 +131,7 @@ export class Session {
   }
 
   save(slot: number): void {
+    this.medir('guardado', { slot });
     writeSave(this.storage, this.buildSave(slot));
     this.bus.emit('ui:toast', { text: `Partida guardada en la ranura ${slot}.`, kind: 'ok' });
   }
@@ -188,6 +193,31 @@ export class Session {
 
   get bus() {
     return getBus();
+  }
+
+  /** Anota un evento de playtest (solo en este dispositivo). */
+  medir(tipo: string, datos?: Record<string, string | number | boolean>): void {
+    this.metricas = registrar(this.metricas, tipo, datos);
+    if (this.metricas.eventos.length % 10 === 0) this.guardarMetricas();
+  }
+
+  private guardarMetricas(): void {
+    try {
+      this.storage.setItem('aequitas.metricas', JSON.stringify(this.metricas));
+    } catch {
+      /* sin espacio: se ignora */
+    }
+  }
+
+  /** Métricas en texto para copiar en el formulario de playtest. */
+  exportarMetricas(): string {
+    this.guardarMetricas();
+    const m = {
+      ...this.metricas,
+      episodio: this.episode?.manifest.id,
+      resumen: resumir(this.metricas),
+    };
+    return JSON.stringify(m, null, 1);
   }
 
   /** Quien juega (D10). */
@@ -389,6 +419,7 @@ export class Session {
   private async onPatrol(e: { name: string; rank: string; articulo?: string }): Promise<void> {
     const outcome = await this.modals.interpelacion(e, this);
     this.bus.emit('world:patrolResolved', { name: e.name, outcome });
+    this.medir(`interpelacion:${outcome}`, { patrulla: e.name, rango: e.rank });
     if (outcome === 'detenida') await this.detencion();
   }
 
@@ -469,6 +500,7 @@ export class Session {
     const region = ep.manifest.region;
     switch (a.type) {
       case 'dialogue': {
+        this.medir('dialogo', { id: a.id });
         const r = await this.modals.dialogue(a.id, this);
         for (const d of r.deferred) await this.runAction(d);
         break;
@@ -666,6 +698,8 @@ export class Session {
       `Acta «${def.titulo}»: Equilibrio ${ev.equilibrio}.`,
     );
     this.actas[def.id] = this.t(acta);
+    this.medir('pacto:firmado', { id: def.id, equilibrio: ev.equilibrio });
+    if (ev.nulasFirmadas.length) this.medir('pacto:impugnado', { id: def.id });
     const delta = Math.round((ev.equilibrio / 100) * BALANCE.legitimidad.pactoMax);
     this.addLegitimidad(region, delta, 'pacto');
     if (ev.nulasFirmadas.length) {
@@ -684,6 +718,7 @@ export class Session {
 
   /** Consulta respondida correctamente (para el Cuaderno y las estadísticas de aula). */
   markConsultaResuelta(id: string): void {
+    this.medir('consulta:correcta', { id });
     const before = this.state;
     this.state = GS.markConsultaResuelta(this.state, id);
     if (this.state !== before) this.bus.emit('state:changed', { reason: 'consulta' });

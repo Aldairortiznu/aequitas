@@ -26,6 +26,11 @@
   background: var(--paper-2);
   overflow-x: auto;
 }
+.panel__tablist {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+}
 .panel__tab {
   font: inherit;
   font-family: var(--font-mono);
@@ -120,13 +125,13 @@
   margin-right: 4px;
   color: var(--muted);
 }
-.detail h3 {
+.detail h2 {
   font-family: var(--font-display);
   font-weight: 600;
   margin: 0 0 4px;
   font-size: 1.3em;
 }
-.detail h4 {
+.detail h3 {
   font-family: var(--font-mono);
   font-size: 0.72em;
   letter-spacing: 0.1em;

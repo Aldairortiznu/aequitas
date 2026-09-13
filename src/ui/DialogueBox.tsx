@@ -48,6 +48,7 @@ export function DialogueBox({ session, dialogueId, onDone }: Props) {
     deferred.current.push(...r.deferred);
     for (const ev of r.events ?? []) {
       if (ev.type === 'consulta' && ev.correcta) session.markConsultaResuelta(ev.id);
+      else if (ev.type === 'consulta') session.medir('consulta:fallida', { id: ev.id });
     }
     if (r.effects.length) void session.applyNow(r.effects);
     if (!r.state) {

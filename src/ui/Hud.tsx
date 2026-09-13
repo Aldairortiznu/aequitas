@@ -36,6 +36,7 @@ export function Hud({ session }: { session: Session }) {
         <span
           class="hud__bar"
           role="meter"
+          aria-label="Legitimidad de la región"
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={leg}

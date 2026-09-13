@@ -48,19 +48,21 @@ export function PanelHost({ session }: { session: Session }) {
   return (
     <div class="panel" role="dialog" aria-label={TABS.find((t) => t.id === panel)?.label}>
       <div class="panel__sheet">
-        <header class="panel__tabs" role="tablist">
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              role="tab"
-              aria-selected={panel === t.id}
-              class={`panel__tab ${panel === t.id ? 'is-active' : ''}`}
-              onClick={() => (ui.panel.value = t.id)}
-            >
-              {t.label} <kbd>{t.key}</kbd>
-            </button>
-          ))}
+        <header class="panel__tabs">
+          <div role="tablist" class="panel__tablist" aria-label="Paneles">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                role="tab"
+                aria-selected={panel === t.id}
+                class={`panel__tab ${panel === t.id ? 'is-active' : ''}`}
+                onClick={() => (ui.panel.value = t.id)}
+              >
+                {t.label} <kbd>{t.key}</kbd>
+              </button>
+            ))}
+          </div>
           <button
             type="button"
             class="panel__close"
@@ -122,7 +124,7 @@ function Zurron({ session }: { session: Session }) {
     <div class="two-col">
       <ul class="list" role="listbox" aria-label="Evidencias">
         {items.map((e) => (
-          <li key={e.id}>
+          <li key={e.id} role="none">
             <button
               type="button"
               role="option"
@@ -137,7 +139,7 @@ function Zurron({ session }: { session: Session }) {
       </ul>
       {current && (
         <article class="detail">
-          <h3>{current.nombre}</h3>
+          <h2>{current.nombre}</h2>
           <p class="detail__meta">
             {current.tipo}
             {session.state.evidenceCotejada.includes(current.id) &&
@@ -219,7 +221,7 @@ function Codice({ session }: { session: Session }) {
           onInput={(e) => setQ((e.target as HTMLInputElement).value)}
           aria-label="Buscar en el Códice"
         />
-        <div class="chips" role="tablist">
+        <div class="chips" role="group" aria-label="Libros">
           {libros.map((l) => (
             <button
               key={l}
@@ -235,7 +237,7 @@ function Codice({ session }: { session: Session }) {
       <div class="two-col">
         <ul class="list" role="listbox" aria-label="Entradas">
           {visible.map((e) => (
-            <li key={e.id}>
+            <li key={e.id} role="none">
               <button
                 type="button"
                 role="option"
@@ -251,18 +253,18 @@ function Codice({ session }: { session: Session }) {
         {current && (
           <article class="detail detail--codice">
             <div class="detail__ref">{current.referencia}</div>
-            <h3>{current.titulo}</h3>
+            <h2>{current.titulo}</h2>
             <blockquote class="detail__literal">
               {current.textoLiteral}
               {current.esExtracto && <span class="detail__extracto"> (extracto)</span>}
             </blockquote>
-            <h4>En palabras simples</h4>
+            <h3>En palabras simples</h3>
             <p>{current.enPalabrasSimples}</p>
-            <h4>Cómo se usa en Audiencia</h4>
+            <h3>Cómo se usa en Audiencia</h3>
             <p>{current.usoEnAudiencia}</p>
             {current.ejemplo && (
               <>
-                <h4>Ejemplo</h4>
+                <h3>Ejemplo</h3>
                 <p>{current.ejemplo}</p>
               </>
             )}
@@ -327,14 +329,14 @@ function Cuaderno({ session }: { session: Session }) {
   return (
     <div class="cuaderno">
       <section>
-        <h3>{ep?.manifest.title ?? 'Cuaderno'}</h3>
+        <h2>{ep?.manifest.title ?? 'Cuaderno'}</h2>
         <p class="detail__meta">
           Jurista: {session.jugador.nombre} Iriarte · Día {session.state.diaDeJuego} · Consultas
           resueltas: {session.state.consultasResueltas.length}
         </p>
       </section>
       <section>
-        <h4>Notas de audiencia</h4>
+        <h3>Notas de audiencia</h3>
         {notas.length ? (
           <ul class="notas">
             {notas.map((n, i) => (
@@ -348,7 +350,35 @@ function Cuaderno({ session }: { session: Session }) {
         )}
       </section>
       <section>
-        <h4>Actas firmadas</h4>
+        <h3>Playtest</h3>
+        <p class="detail__meta">
+          Las métricas de esta sesión se guardan solo en este dispositivo. Cópialas en el formulario
+          de playtest.
+        </p>
+        <button
+          type="button"
+          class="btn btn--secundario"
+          onClick={() => {
+            const texto = session.exportarMetricas();
+            void navigator.clipboard?.writeText(texto).then(
+              () =>
+                getBus().emit('ui:toast', {
+                  text: 'Métricas copiadas al portapapeles.',
+                  kind: 'ok',
+                }),
+              () =>
+                getBus().emit('ui:toast', {
+                  text: 'No se pudo copiar. Revisa los permisos.',
+                  kind: 'warn',
+                }),
+            );
+          }}
+        >
+          Copiar métricas de la sesión
+        </button>
+      </section>
+      <section>
+        <h3>Actas firmadas</h3>
         {pactos.length ? (
           <ul class="notas">
             {pactos.map(([id, p]) => (
