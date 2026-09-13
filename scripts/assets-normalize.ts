@@ -363,6 +363,63 @@ async function loadRaw(path: string): Promise<RawImg> {
   return { data, width: info.width, height: info.height };
 }
 
+/**
+ * Retratos: el fondo oscuro conectado con las esquinas se unifica al gris del recuadro de
+ * diálogo (`#2e2d33`) para que todos los retratos se vean sobre el mismo fondo, aunque cada
+ * generación haya salido con un tono distinto. Se hace después de cuantizar (en sitio).
+ */
+function unificarFondoRetrato(img: RawImg): void {
+  const { data, width, height } = img;
+  const idx = (x: number, y: number): number => (y * width + x) * 4;
+  const esquinas = [idx(0, 0), idx(width - 1, 0), idx(0, height - 1), idx(width - 1, height - 1)];
+  const oscuras = esquinas.filter(
+    (i) => data[i + 3]! >= 128 && data[i]! < 80 && data[i + 1]! < 80 && data[i + 2]! < 90,
+  );
+  if (oscuras.length < 2) return;
+  const ref = [data[oscuras[0]!]!, data[oscuras[0]! + 1]!, data[oscuras[0]! + 2]!];
+  const parecido = (i: number): boolean =>
+    data[i + 3]! >= 128 &&
+    Math.hypot(data[i]! - ref[0]!, data[i + 1]! - ref[1]!, data[i + 2]! - ref[2]!) <= 24;
+  const marcado = new Uint8Array(width * height);
+  const cola: number[] = [];
+  const push = (x: number, y: number): void => {
+    const p = y * width + x;
+    if (marcado[p] || !parecido(p * 4)) return;
+    marcado[p] = 1;
+    cola.push(p);
+  };
+  for (let x = 0; x < width; x++) {
+    push(x, 0);
+    push(x, height - 1);
+  }
+  for (let y = 0; y < height; y++) {
+    push(0, y);
+    push(width - 1, y);
+  }
+  while (cola.length) {
+    const p = cola.pop()!;
+    const x = p % width;
+    const y = (p - x) / width;
+    if (x > 0) push(x - 1, y);
+    if (x < width - 1) push(x + 1, y);
+    if (y > 0) push(x, y - 1);
+    if (y < height - 1) push(x, y + 1);
+  }
+  let n = 0;
+  for (let p = 0; p < marcado.length; p++)
+    if (marcado[p]) {
+      data[p * 4] = 0x2e;
+      data[p * 4 + 1] = 0x2d;
+      data[p * 4 + 2] = 0x33;
+      data[p * 4 + 3] = 255;
+      n++;
+    }
+  if (n)
+    console.log(
+      `  fondo del retrato unificado a #2e2d33 (${Math.round((100 * n) / marcado.length)} %)`,
+    );
+}
+
 /** Ensambla piezas sueltas de una carpeta en una hoja (sprite 4×4 de 16×24 o tileset 4×N de 16×16). */
 async function assembleFromFolder(
   t: Target,
@@ -527,6 +584,7 @@ async function main(): Promise<void> {
   } else {
     const { data, info } = await base.raw().toBuffer({ resolveWithObject: true });
     quantize(data, alfa);
+    if (tipo === 'retrato') unificarFondoRetrato({ data, width: info.width, height: info.height });
     await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
       .png({ compressionLevel: 9 })
       .toFile(t.out);
