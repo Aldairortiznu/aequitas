@@ -117,6 +117,22 @@ commit. El orden dentro de cada épica es el orden de ejecución.
 | E12.1 | `content/gym`: un mapa con todos los interactuables, una Audiencia de tres afirmaciones (hecho, norma, combinación, cierta, maniobra), un Pacto de dos puntos, una patrulla, un Atril | Se juega de extremo a extremo; sirve de fixture para todas las pruebas |
 | E12.2 | Prueba Playwright de humo: arranque → mundo → diálogo → Audiencia → Pacto → guardar → recargar | Verde en CI |
 
+### E13 · Formas de aprender y minijuegos (`09-formas-de-aprender.md`)
+
+| ID | Ticket | Criterios de aceptación |
+|----|--------|-------------------------|
+| E13.1 | Marco común de minijuegos: acción `minijuego`, esquema con `tipo` discriminado, `MinijuegoHost` (instrucciones, intentos, pista escalonada, nota final, repetir), flags y Legitimidad por fuente `minijuego` | Un minijuego de prueba en `gym` se abre, se falla, recibe pista, se supera y deja flag y nota |
+| E13.2 | Tipo `clasificar` («¿De quién es?») | Reductor puro con pruebas; tarjetas por teclado y táctil; cada error muestra la norma |
+| E13.3 | Tipo `testigos` (nombre, trato y fama) | Elige tres testimonios del Registro de Voces; tacha explicada; se usa en el Ep. 1 con Tomás |
+| E13.4 | Tipo `repaso` en el Atril | Cinco tarjetas del Códice con repetición espaciada; registro de dominio por entrada; alimenta el certificado |
+| E13.5 | Tipo `ordenar` (torre de normas) | Una sola aparición (Prólogo); bloque equivocado explica por qué |
+| E13.6 | Tipos `cotejar` y `cuentas` | Documento con segmentos marcables; libro de cuentas fila por fila; valores del juego, tasas como referencia del Códice |
+| E13.7 | Tipo `linea-tiempo` | Cuenta de años útil con interrupción y agregación; pregunta final |
+| E13.8 | Tipos `balanza` y `redactar` | Lesión enorme por umbral; cláusula por bloques con bloques envenenados y lectura final |
+| E13.9 | Tipos `asamblea` y `ventanilla` | Grupos, turnos, quórum y mayoría; peticiones aprobar/negar/devolver con causa |
+| E13.10 | Escenas `compuertas` y `buceo` | Puzle con solución jurídica; buceo con aire y folios rescatados que se cotejan |
+| E13.11 | Variante `multitud` de la Audiencia | Varios adversarios por turnos, medidor de Tumulto, fin cuando la plaza acepta el proceso |
+
 ## Fase F3 y F6 · Contenido (por episodio)
 
 Para cada episodio `epXX`, los tickets siguen el proceso de guion (`00-PLAN-MAESTRO.md`

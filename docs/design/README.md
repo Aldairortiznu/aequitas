@@ -59,3 +59,4 @@ lanzamiento.
 4. Abrir una sesión de Opus por ticket con el prompt de arranque correspondiente
    (`07-backlog-opus.md`, final del documento). Empezar por E0.1.
 5. Para el guion, seguir el proceso de `00-PLAN-MAESTRO.md` §5, un paso por sesión.
+- `09-formas-de-aprender.md` — catálogo de mecánicas de aprendizaje y minijuegos por episodio, encaje en el motor y orden de construcción (13 sep 2026).
