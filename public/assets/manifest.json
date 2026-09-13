@@ -1,12 +1,14 @@
 {
-  "generatedAt": "2026-09-13T06:39:16.139Z",
+  "generatedAt": "2026-09-13T07:23:02.097Z",
   "sprites": [
     "renata"
   ],
   "tilesets": {},
   "portraits": {
     "pilar": [
-      "neutra"
+      "cordial",
+      "neutra",
+      "tensa"
     ],
     "renata": [
       "cordial",
