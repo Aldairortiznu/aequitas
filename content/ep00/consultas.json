@@ -67,12 +67,12 @@
   },
   {
     "id": "ep00-consulta-descargos",
-    "pregunta": "La Escuela quiere sancionar a un estudiante que faltó a clases. ¿Qué hay que hacer antes?",
+    "pregunta": "La Biblioteca quiere sancionar a un guardián que faltó a su turno de guardia. ¿Qué hay que hacer antes?",
     "opciones": [
       {
         "texto": "Oírlo y dejarlo explicar, con un procedimiento conocido de antemano.",
         "correcta": true,
-        "respuesta": "Debido proceso. Aplica a toda clase de actuaciones, también a las de una escuela escondida en la ciénaga."
+        "respuesta": "Debido proceso. Aplica a toda clase de actuaciones, también a las de una biblioteca escondida en la ciénaga."
       },
       {
         "texto": "Nada: la falta se ve sola.",

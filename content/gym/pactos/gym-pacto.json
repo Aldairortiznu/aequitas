@@ -5,7 +5,7 @@
   "partes": [
     {
       "id": "estudiantes",
-      "nombre": "Los estudiantes",
+      "nombre": "Los guardianes",
       "pide": "Que Casimiro no vuelva a presidir la audiencia.",
       "necesita": "Que las decisiones se tomen entre todos."
     },
@@ -23,8 +23,8 @@
       "clausulas": [
         {
           "id": "c-turnos",
-          "texto": "Turnos semanales entre los estudiantes; Casimiro coordina.",
-          "textoActa": "Los estudiantes regarán el herbario por turnos semanales. Casimiro coordinará los turnos y rendirá cuenta a la cohorte.",
+          "texto": "Turnos semanales entre los guardianes; Casimiro coordina.",
+          "textoActa": "Los guardianes regarán el herbario por turnos semanales. Casimiro coordinará los turnos y rendirá cuenta a los demás.",
           "legal": true,
           "intereses": {
             "estudiantes": 1,
@@ -45,8 +45,8 @@
         },
         {
           "id": "c-castigo",
-          "texto": "El estudiante que falte a su turno pierde el derecho a comer ese día.",
-          "textoActa": "El estudiante que falte a su turno perderá el derecho a la comida del día.",
+          "texto": "El guardián que falte a su turno pierde el derecho a comer ese día.",
+          "textoActa": "El guardián que falte a su turno perderá el derecho a la comida del día.",
           "legal": false,
           "nula": {
             "norma": "cp-1",
@@ -67,7 +67,7 @@
         {
           "id": "c-rotacion",
           "texto": "Rotación entre todos; Casimiro incluido.",
-          "textoActa": "El papel de contraparte rotará entre todos los miembros de la cohorte, incluido Casimiro.",
+          "textoActa": "El papel de contraparte rotará entre todos los guardianes, incluido Casimiro.",
           "legal": true,
           "intereses": {
             "estudiantes": 1,
@@ -94,7 +94,7 @@
     }
   ],
   "acta": {
-    "encabezado": "En la estación de la ciénaga, reunidos los estudiantes de la Escuela y Casimiro, con {nombre} Iriarte {como relatora|como relator|en la relatoría}, acuerdan:",
+    "encabezado": "En la estación de la ciénaga, reunidos los guardianes de la Biblioteca y Casimiro, con {nombre} Iriarte {como relatora|como relator|en la relatoría}, acuerdan:",
     "cierre": "Lo pactado obliga a quienes lo firman. Se leyó en voz alta y nadie objetó."
   }
 }

@@ -176,6 +176,7 @@ export class Session {
       'ep00-lamina-4': 'prov-biblioteca',
       'ep00-lamina-5': 'prov-biblioteca',
       'ep00-lamina-encargo': 'prov-codice',
+      'ep00-lamina-boveda': 'prov-biblioteca',
       'ep01-lamina-llegada': 'prov-fractura',
       'ep01-lamina-lobby': 'prov-fractura',
       'ep01-lamina-audiencia': 'prov-fractura',

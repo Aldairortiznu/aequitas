@@ -5,7 +5,7 @@
   "partes": [
     {
       "id": "cohorte",
-      "nombre": "La cohorte",
+      "nombre": "Los guardianes",
       "pide": "Que nadie cargue solo con el riego.",
       "necesita": "Turnos claros y justos."
     },
@@ -23,8 +23,8 @@
       "clausulas": [
         {
           "id": "c-turnos",
-          "texto": "Turnos semanales entre los estudiantes; Nepomuceno coordina y lleva la lista.",
-          "textoActa": "Los estudiantes regarán el herbario por turnos semanales. Nepomuceno coordinará los turnos y llevará la lista a la vista de todos.",
+          "texto": "Turnos semanales entre los guardianes; Nepomuceno coordina y lleva la lista.",
+          "textoActa": "Los guardianes regarán el herbario por turnos semanales. Nepomuceno coordinará los turnos y llevará la lista a la vista de todos.",
           "legal": true,
           "intereses": {
             "cohorte": 1,
@@ -49,8 +49,8 @@
         },
         {
           "id": "c-castigo",
-          "texto": "El estudiante que falte a su turno pierde el derecho a comer ese día.",
-          "textoActa": "El estudiante que falte a su turno perderá el derecho a la comida del día.",
+          "texto": "El guardián que falte a su turno pierde el derecho a comer ese día.",
+          "textoActa": "El guardián que falte a su turno perderá el derecho a la comida del día.",
           "legal": false,
           "nula": {
             "norma": "cp-1",
@@ -77,7 +77,7 @@
     }
   ],
   "acta": {
-    "encabezado": "En el herbario de la estación de la ciénaga, reunidos los estudiantes de la quinta cohorte y el botánico Nepomuceno, con {nombre} Iriarte {como relatora|como relator|en la relatoría}, acuerdan:",
+    "encabezado": "En el herbario de la estación de la ciénaga, reunidos los guardianes de la Biblioteca y el botánico Nepomuceno, con {nombre} Iriarte {como relatora|como relator|en la relatoría}, acuerdan:",
     "cierre": "Lo pactado obliga a quienes lo firman. Se leyó en voz alta y nadie objetó."
   }
 }

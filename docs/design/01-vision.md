@@ -85,3 +85,15 @@ memoria del país, y qué tiene que ver la madre de Renata con eso?
 | Costo de arte | Estados de tileset por paleta (ceniza/brote/verdor/floración) reutilizan geometría; presupuesto por episodio en `08-arte-audio.md` |
 | Fatiga de fórmula por episodio | Cada episodio altera el patrón: Ep 3 doble pacto, Ep 5 huelga, Ep 6 buceo y sin adversario humano, Ep 7 el jugador argumenta contra su propia compañera, Ep 8 pacto grande sin audiencia |
 | Alcance | Vertical slice primero (Prólogo + Ep 1) con todos los sistemas; nada nuevo de motor después del Lanzamiento 1 salvo lo listado por episodio |
+
+## Núcleo pedagógico (Dirección, 13 de septiembre de 2026)
+
+> **Legitimar el orden en una sociedad colapsada.** El aprendizaje del juego no es teórico ni
+> enciclopédico: se da en el marco de que, para restaurar el equilibrio, el personaje comienza
+> a legitimar nuevamente un orden social con las comunidades y sobrevivientes, basado en la
+> ley colombiana. El jugador aprende en la medida en que comprueba, caso a caso, cómo el
+> derecho no es un estorbo burocrático, sino la herramienta más poderosa para darle orden,
+> previsibilidad y dignidad a una sociedad fragmentada por el desastre.
+
+Esta frase manda sobre cualquier mecánica: si una mecánica no le permite al jugador
+comprobar eso en un caso concreto, no entra.

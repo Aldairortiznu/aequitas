@@ -39,7 +39,7 @@
       "id": "falta",
       "speaker": "casimiro",
       "portrait": "neutra",
-      "text": "Todavía no. Para el ejercicio necesitas el juramento del atril y un testigo de verdad. Eladio está en el muelle; el juramento, en el laboratorio.",
+      "text": "Todavía no. Para el ejercicio necesitas el juramento del guardián y un testigo de verdad. Eladio está en el muelle; el juramento, abajo, en la bóveda.",
       "requires": [
         {
           "flag": "audiencia.ep00-simulada.ganada",

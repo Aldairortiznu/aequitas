@@ -5,8 +5,14 @@
       "id": "h1",
       "speaker": "nepomuceno",
       "portrait": "neutra",
-      "text": "Aquí viene lo aburrido y lo importante. Cuando te vayas, alguien tiene que regar. La cohorte tiene opiniones. Yo tengo una mesa.",
-      "requires": [{ "flag": "ep00.pacto", "op": "eq", "value": false }],
+      "text": "Aquí viene lo aburrido y lo importante. Cuando te vayas, alguien tiene que regar. Los guardianes tienen opiniones. Yo tengo una mesa.",
+      "requires": [
+        {
+          "flag": "ep00.pacto",
+          "op": "eq",
+          "value": false
+        }
+      ],
       "next": "h2"
     },
     {
@@ -15,8 +21,19 @@
       "portrait": "neutra",
       "text": "Siéntate a la mesa y redacta el acuerdo. Una regla: lee cada cláusula dos veces. Alguna no se puede pactar aunque todos la firmen.",
       "choices": [
-        { "text": "Vamos a la mesa.", "effects": [{ "type": "startPacto", "id": "ep00-pacto" }] },
-        { "text": "Ahora vuelvo.", "next": "h3" }
+        {
+          "text": "Vamos a la mesa.",
+          "effects": [
+            {
+              "type": "startPacto",
+              "id": "ep00-pacto"
+            }
+          ]
+        },
+        {
+          "text": "Ahora vuelvo.",
+          "next": "h3"
+        }
       ]
     },
     {
@@ -30,7 +47,13 @@
       "speaker": "nepomuceno",
       "portrait": "cordial",
       "text": "Acta firmada. Ya puedes irte con la conciencia tranquila; las matas, no sé.",
-      "requires": [{ "flag": "ep00.pacto", "op": "eq", "value": true }]
+      "requires": [
+        {
+          "flag": "ep00.pacto",
+          "op": "eq",
+          "value": true
+        }
+      ]
     }
   ]
 }

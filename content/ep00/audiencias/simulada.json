@@ -1,8 +1,15 @@
 {
   "id": "ep00-simulada",
-  "titulo": "Audiencia simulada de graduación",
-  "adversario": { "id": "casimiro", "nombre": "Casimiro (como administrador)", "posicion": 60 },
-  "tension": { "inicial": 10, "provocacionPorRonda": 0 },
+  "titulo": "Audiencia simulada de salida",
+  "adversario": {
+    "id": "casimiro",
+    "nombre": "Casimiro (como administrador)",
+    "posicion": 60
+  },
+  "tension": {
+    "inicial": 10,
+    "provocacionPorRonda": 0
+  },
   "credibilidad": 3,
   "facultades": {},
   "rondas": [
@@ -13,7 +20,10 @@
         {
           "id": "af-certificado",
           "texto": "Un certificado de la Oficina de Registro vale más que un libro viejo. Es lo que hay. Aquí está el mío.",
-          "solucion": { "tipo": "norma", "codice": ["cp-4"] },
+          "solucion": {
+            "tipo": "norma",
+            "codice": ["cp-4"]
+          },
           "presionar": [
             {
               "respuesta": "¿Que quién lo firma? La Oficina. ¿Que con qué autoridad? Con la que tiene: la única."
@@ -28,7 +38,10 @@
         {
           "id": "af-autoridad",
           "texto": "Ustedes no tienen autoridad para llegar a un pueblo a decir qué es legal. ¿Quién los nombró?",
-          "solucion": { "tipo": "hecho", "evidencia": ["ep00-juramento"] },
+          "solucion": {
+            "tipo": "hecho",
+            "evidencia": ["ep00-juramento"]
+          },
           "respuestas": {
             "plena": "«No imponer. Convencer.» Ya. No vienen a mandar. Vienen a argumentar. Eso sí lo puede hacer cualquiera.",
             "fallida": "Sigo sin saber quién los nombró."

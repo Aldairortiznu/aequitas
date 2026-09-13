@@ -1,0 +1,24 @@
+{
+  "id": "ep00-boveda",
+  "nodes": [
+    {
+      "id": "v1",
+      "speaker": "narrador",
+      "lamina": "ep00-lamina-boveda",
+      "text": "La bóveda. Antes era el cuarto frío de la estación. Desde el Año 0 guarda lo que se sacó de la universidad en tres viajes de canoa: la Constitución, los códigos, las leyes. Huele a cal y a papel seco.",
+      "next": "v2"
+    },
+    {
+      "id": "v2",
+      "speaker": "renata",
+      "portrait": "neutra",
+      "text": "Diez años de turnos aquí abajo, secando páginas y aprendiendo a leerlas. Hoy salgo con lo que cabe en un tubo. El resto se queda guardado.",
+      "next": "v3"
+    },
+    {
+      "id": "v3",
+      "speaker": "narrador",
+      "text": "En la mesa del fondo, la tarjeta del juramento espera una firma más."
+    }
+  ]
+}

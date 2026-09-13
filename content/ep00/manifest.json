@@ -6,7 +6,7 @@
     "map": "estacion",
     "spawn": "inicio"
   },
-  "maps": ["estacion", "laboratorio", "herbario"],
+  "maps": ["estacion", "laboratorio", "herbario", "boveda"],
   "flagsInit": {
     "ep00.prologo-visto": false,
     "ep00.primer-paso": false,
@@ -15,7 +15,8 @@
     "ep00.casimiro-listo": false,
     "ep00.encargo": false,
     "ep00.pacto": false,
-    "ep00.final": false
+    "ep00.final": false,
+    "ep00.boveda": false
   },
   "beats": [
     {
@@ -84,6 +85,25 @@
         {
           "type": "dialogue",
           "id": "ep00-oficina"
+        }
+      ]
+    },
+    {
+      "id": "ep00-entra-boveda",
+      "trigger": {
+        "type": "interact",
+        "object": "trigger-boveda"
+      },
+      "once": true,
+      "actions": [
+        {
+          "type": "setFlag",
+          "flag": "ep00.boveda",
+          "value": true
+        },
+        {
+          "type": "dialogue",
+          "id": "ep00-boveda"
         }
       ]
     },

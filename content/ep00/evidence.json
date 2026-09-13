@@ -1,9 +1,9 @@
 [
   {
     "id": "ep00-juramento",
-    "nombre": "Juramento de la Escuela",
+    "nombre": "Juramento del guardián",
     "tipo": "documento",
-    "descripcion": "Una tarjeta escrita a mano, sin adornos: «No imponer. Convencer. No inventar. Recordar.» La firma cada cohorte al graduarse.",
+    "descripcion": "Una tarjeta escrita a mano, sin adornos: «No imponer. Convencer. No inventar. Recordar.» La firma cada guardián de la Biblioteca antes de salir por primera vez.",
     "icono": "documento",
     "autentico": true
   },

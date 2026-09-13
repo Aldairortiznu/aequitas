@@ -97,7 +97,7 @@
   },
   {
     "id": "estudiante",
-    "nombre": "Estudiante",
+    "nombre": "Guardián",
     "rol": "secundario",
     "sprite": "estudiante"
   },
@@ -110,7 +110,7 @@
   },
   {
     "id": "estudiante-2",
-    "nombre": "Estudiante",
+    "nombre": "Guardiana",
     "rol": "secundario",
     "sprite": "estudiante-2"
   },

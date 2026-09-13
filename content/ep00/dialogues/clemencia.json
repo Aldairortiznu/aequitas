@@ -18,7 +18,7 @@
       "id": "encargo",
       "speaker": "clemencia",
       "portrait": "cordial",
-      "text": "Siéntate. Te gradúas hoy y eres la primera que sale. Hay un conjunto en la playa, Altamar. Un administrador está expulsando familias.",
+      "text": "Siéntate. Diez años guardando estos libros. Hoy {eres la primera|eres el primero|eres quien primero} sale a usarlos. Hay un conjunto en la playa, Altamar. Un administrador está expulsando familias.",
       "requires": [
         {
           "flag": "audiencia.ep00-simulada.ganada",

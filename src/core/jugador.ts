@@ -25,7 +25,7 @@ export const PRESETS: readonly PresetProtagonista[] = [
     id: 'renata',
     nombre: 'Renata',
     tratamiento: 'f',
-    descripcion: 'Moño apretado, morral cruzado, camisa violeta de la Escuela.',
+    descripcion: 'Moño apretado, morral cruzado, camisa violeta de la Biblioteca.',
   },
   {
     id: 'ramiro',

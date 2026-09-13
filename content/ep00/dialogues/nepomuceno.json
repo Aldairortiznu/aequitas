@@ -5,9 +5,21 @@
       "id": "saludo",
       "speaker": "nepomuceno",
       "portrait": "cordial",
-      "text": "La graduanda. ¿Nerviosa por Casimiro? No lo estés: discute como si supiera y eso se le nota.",
-      "requires": [{ "flag": "ep00.nepomuceno", "op": "eq", "value": false }],
-      "effects": [{ "type": "setFlag", "flag": "ep00.nepomuceno", "value": true }],
+      "text": "{La que se va|El que se va|Quien se va}. ¿{Nerviosa|Nervioso|Con nervios} por Casimiro? No hace falta: discute como si supiera y eso se le nota.",
+      "requires": [
+        {
+          "flag": "ep00.nepomuceno",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "ep00.nepomuceno",
+          "value": true
+        }
+      ],
       "next": "huerta"
     },
     {
@@ -29,7 +41,13 @@
       "speaker": "nepomuceno",
       "portrait": "neutra",
       "text": "Casimiro está en el claro. Y en el herbario hay una cosa pendiente: quién riega mientras no estés.",
-      "requires": [{ "flag": "ep00.nepomuceno", "op": "eq", "value": true }]
+      "requires": [
+        {
+          "flag": "ep00.nepomuceno",
+          "op": "eq",
+          "value": true
+        }
+      ]
     }
   ]
 }

@@ -29,7 +29,7 @@ unas gafas, un sombrero, una túnica). No sumar más de dos accesorios.
 ### Protagonistas alternativos (D10): `ramiro`, `ariel`, `cruz`
 
 Quien juega elige cuerpo, nombre y tratamiento; la historia es la misma. Los cuatro presets
-comparten lo que identifica a «Iriarte» en silueta: **camisa violeta de la Escuela
+comparten lo que identifica a «Iriarte» en silueta: **camisa violeta de la Biblioteca
 `#5a3f86` con cuello claro y morral cruzado de cuero `#b5773f` con hebilla dorada** (salvo
 que el accesorio de la ficha lo sustituya). Misma edad (24), misma proporción que Renata.
 
@@ -133,7 +133,7 @@ Rutas: `public/assets/sprites/partes/<capa>.png`. Se produce después de los pre
   `alguacil-mayor` (gorra + brazalete dorado), `capitan` (gorra + saco corto).
 - Generar tres variantes: `alguacil`, `alguacil-mayor`, `capitan` (ids de sprite).
 
-### `estudiante` — estudiantes de la Escuela (genérico, dos variantes)
+### `estudiante` — guardianes jóvenes de la Biblioteca (genérico, dos variantes; el id se conserva)
 
 - Camisa turquesa `#2bb5b8`, pantalón gris, cuaderno bajo el brazo. Variante 2: camisa
   `#8fe0de`. Ids: `estudiante`, `estudiante-2`.

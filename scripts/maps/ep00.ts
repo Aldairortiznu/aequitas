@@ -121,12 +121,37 @@ export function ep00Maps(): Record<string, MapBuilder> {
   l.deco(24, 12, T.r49, false); // tanque de cría (ciénaga r49)
   l.ground(11, 17, T.puerta).solid(11, 17, false);
   l.decoAlta[17 * 26 + 11] = 0;
+  // Escalera a la bóveda (esquina inferior izquierda de la sala de audiencias)
+  l.ground(2, 15, T.escalera).ground(2, 16, T.escalera);
   l.spawn('entrada', 11, 15)
+    .spawn('desde-boveda', 3, 15)
     .npc('npc-clemencia', 18, 6, 'clemencia', 'ep00-clemencia', 'abajo')
-    .evidence('ev-juramento', 5, 3, 'ep00-juramento')
-    .folio('folio-cp29', 3, 14, 'cp-29')
+    .folio('folio-cp29', 3, 12, 'cp-29')
     .door('salida', 11, 17, 'estacion', 'desde-laboratorio')
+    .door('escalera-boveda', 2, 16, 'boveda', 'entrada')
     .trigger('trigger-oficina', 14, 8, 1, 2, 'ep00-entra-oficina');
+
+  // ------------------------------------------------------------ La bóveda (sótano de la estación)
+  const b = new MapBuilder(24, 14, T.piso, 'cienaga');
+  b.props = { region: 'cienaga', nombre: 'La bóveda', musica: 'biblioteca', interior: 'true' };
+  b.border(T.muro);
+  // Estantes en filas: la colección jurídica
+  for (const y of [3, 6, 9]) for (let x = 3; x <= 12; x++) if (x !== 8) b.deco(x, y, T.estante);
+  b.deco(15, 3, T.estante).deco(16, 3, T.estante).deco(15, 4, T.estante).deco(16, 4, T.estante);
+  // Mesa de trabajo con la tarjeta del juramento; tanque de sal para secar páginas
+  b.deco(18, 8, T.mesa).deco(19, 8, T.mesa);
+  b.deco(17, 8, T.silla, false).deco(20, 8, T.silla, false);
+  b.deco(20, 11, T.barril).deco(21, 11, T.barril).deco(15, 11, T.tanque);
+  b.deco(3, 11, T.escombro);
+  // Escalera de vuelta al laboratorio
+  b.ground(21, 1, T.escalera).ground(22, 1, T.escalera);
+  b.atril('atril-boveda', 12, 12);
+  b.spawn('entrada', 21, 2)
+    .spawn('atril', 12, 11)
+    .evidence('ev-juramento', 19, 9, 'ep00-juramento')
+    .folio('folio-cp2', 8, 6, 'cp-2')
+    .door('escalera-laboratorio', 22, 1, 'laboratorio', 'desde-boveda')
+    .trigger('trigger-boveda', 18, 2, 4, 2, 'ep00-entra-boveda');
 
   // ------------------------------------------------------------ Herbario (interior)
   const h = new MapBuilder(22, 14, T.piso, 'cienaga');
@@ -146,5 +171,5 @@ export function ep00Maps(): Record<string, MapBuilder> {
     .npc('npc-nepomuceno-herbario', 8, 6, 'nepomuceno', 'ep00-nepomuceno-herbario', 'derecha')
     .door('salida', 11, 13, 'estacion', 'desde-herbario');
 
-  return { estacion: e, laboratorio: l, herbario: h };
+  return { estacion: e, laboratorio: l, boveda: b, herbario: h };
 }

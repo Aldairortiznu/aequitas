@@ -97,8 +97,12 @@ décimo aniversario.
   de existencia para las personas, un certificado de tradición para las tierras, una
   inscripción para los negocios. Los cobradores se vuelven sus alguaciles. Nadie lo
   elige; todos acuden.
-- **Año 5.** La Biblioteca, escondida en la estación de la ciénaga desde el Año 0, abre
-  su Escuela con veinte estudiantes. Iriarte es una de las personas admitidas.
+- **Años 1 a 9. Los guardianes.** La Biblioteca no es una escuela: es una custodia. Los
+  profesores que salvaron la colección recogieron, después de la Fractura, a muchachos sin
+  familia o sin papeles (Iriarte, a los catorce; Casimiro; Ramón) y los hicieron guardianes:
+  turnos en la bóveda secando páginas, copiando índices y, con los años, aprendiendo a leer
+  la ley y a discutirla en audiencias simuladas. Nadie se gradúa: se es guardián. Durante
+  diez años la regla fue guardar; salir estaba prohibido.
 - **Año 9.** El Registrador acelera las adjudicaciones de tierras y las «cancelaciones
   de inscripción» de personas. Los desalojos se multiplican. La Biblioteca decide enviar
   a sus primeros juristas al terreno. Empieza el juego.
@@ -169,28 +173,41 @@ no existe.
 
 ## 6. La Biblioteca de Bellium
 
-Una antigua estación de investigación de la universidad en la ciénaga: laboratorios,
-un herbario, tanques de agua, paneles solares que todavía funcionan. Los fundadores
-trasladaron allí, antes de la Fractura, la colección jurídica de la universidad:
-códigos, gacetas, jurisprudencia impresa. La llamaron Biblioteca de Bellium por el
-nombre de la estación (así se llamaba la fundación que la financiaba).
+**Qué es.** La colección jurídica de la universidad de Puerto Baluarte (la Constitución, los
+códigos, las leyes, algo de jurisprudencia y los tratados) puesta a salvo en el Año −1 en
+una antigua estación de investigación marino-botánica de la ciénaga. No es una escuela ni
+una orden: es una **custodia**. Su gente se llama a sí misma «la Biblioteca»; afuera dicen
+«los de la Biblioteca» o, con sorna, «los bibliotecarios».
 
-- **La Rectora, Clemencia Vidal** (64): profesora de derecho constitucional. Rigurosa,
-  cálida, agotada. Dirige la Escuela.
-- **Nepomuceno Aguirre** (58): botánico. Cuida el herbario y la margarita. Explica las
-  plantas como si fueran expedientes.
-- **Casimiro Lugo** (35): el jurista más brillante de la primera cohorte. Sostiene que
-  la Biblioteca debe negociar con el Registrador: «primero orden, después justicia».
-- **La Escuela**: veinte estudiantes por cohorte. Se gradúan con una audiencia simulada.
-  El juramento es breve y sin solemnidad: «No imponer. Convencer. No inventar.
-  Recordar.»
+**La bóveda.** El antiguo cuarto frío de la estación, bajo el laboratorio, con paredes de
+cal y estantes metálicos. Ahí llegaron los libros en tres viajes de canoa durante la
+Fractura y ahí se secaron, hoja por hoja, después de la Crecida. Es el corazón físico del
+juego: en el Prólogo se baja a firmar el juramento y se sale con lo que cabe en un tubo de
+códices. No hay nada luminoso ni antiguo: cal, sal, papel, una lámpara. Se ve en el mapa
+`boveda` y en la lámina `ep00-lamina-boveda`.
 
-**El secreto de la Biblioteca.** El Borrado no fue un acto solitario de Petra. Fue el
-plan de Clemencia Vidal y de tres profesores más: ante el remate de barrios enteros, la
-única salida que vieron fue destruir la prueba de las deudas y reconstruir los títulos
-después «con criterio de justicia». Petra lo ejecutó porque tenía las llaves y porque
-creyó en él. Solo ella pensó en guardar una copia verdadera. La Biblioteca nunca lo
-contó. La Rectora protege a Renata por afecto y por culpa.
+**Los guardianes.** Quienes viven en la Biblioteca. Los profesores (Clemencia Vidal, la
+Rectora; Nepomuceno, el botánico que dirigía la estación) y los muchachos que recogieron
+después de la Fractura y que crecieron guardando los libros: Iriarte, Casimiro, Ramón y
+otros. Un guardián no se gradúa: hace turnos en la bóveda, copia, discute en las audiencias
+simuladas y firma el **juramento del guardián** («No imponer. Convencer. No inventar.
+Recordar.») antes de salir por primera vez. Los guardianes son los protagonistas de la
+temporada: los que salen a restablecer, comunidad por comunidad, un orden basado en la ley
+que guardaron. Quien juega es uno de ellos: Iriarte.
+
+**La regla de los diez años.** Guardar, no salir. La Rectora la impuso en el Año 0 y la
+rompe en el Año 9 (Prólogo) cuando el Registrador acelera las cancelaciones. La primera
+salida es la de Iriarte; las demás vienen en la temporada (Casimiro, en el Episodio 4, con
+otra idea de lo que es legítimo).
+
+**Qué guarda.** Códice por libros: Constitución, Civil, Comercio, Laboral, Propiedad
+horizontal, Leyes especiales, Jurisprudencia, Principios; y, desde el Episodio 7, Tratados
+(vía el bloque de constitucionalidad, art. 93 C.P.). Cada entrada lleva el texto literal, la
+explicación en palabras simples y la fecha de consulta.
+
+**Qué no es.** No es una facción, no tiene uniforme ni jerarquía ceremonial, no tiene
+poderes. Su única fuerza es que recuerda la ley cuando todos la olvidaron, y que sus
+guardianes saben usarla sin imponerla.
 
 ## 7. La margarita de Bellium
 
@@ -210,7 +227,7 @@ recupera un mercado.
 
 ### Renata Iriarte (protagonista, 24)
 
-Hija de la registradora Petra Iriarte. Tenía catorce años en la Fractura; recuerda el
+Hija de la registradora Petra Iriarte. Tenía catorce años en la Fractura; la Biblioteca la recogió esa semana y creció como guardiana; recuerda el
 mundo con leyes. Creció en la Biblioteca. Es la mejor de su cohorte en argumentación y
 la peor en paciencia: cree que el derecho es una herramienta para conseguir resultados
 justos rápido. Su arco es descubrir que el proceso no es el estorbo de la justicia sino
