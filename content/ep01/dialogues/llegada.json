@@ -5,7 +5,8 @@
       "id": "l1",
       "speaker": "narrador",
       "text": "Lobby de la torre principal. Una fila de personas espera frente a un mostrador. En la pared, cientos de carnés colgados con clavos.",
-      "next": "l2"
+      "next": "l2",
+      "lamina": "ep01-lamina-lobby"
     },
     {
       "id": "l2",

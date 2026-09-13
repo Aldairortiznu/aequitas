@@ -49,8 +49,14 @@ npm run standalone       # copia autónoma local en dist-standalone/
 npm run assets:scan      # qué arte real existe y qué falta; escribe public/assets/manifest.json
 npm run assets:normalize # convierte materia prima (art-src/) al contrato de public/assets/
 # Galería de arte: npm run dev y abrir http://localhost:5180/?escena=galeria
-npx tsx scripts/gen-gym-map.ts   # regenera los mapas del episodio de prueba
+npm run gen:maps         # regenera los mapas (gym, ep00, ep01) desde scripts/maps/*.ts
+node scripts/dev/probe-ep01.mjs   # sonda de humo del Ep. 1 en Chromium sin cabeza (requiere build)
 ```
+
+Verificación en navegador: el panel de vista previa de la app no ejecuta `requestAnimationFrame`,
+así que el juego se comprueba con Playwright sin cabeza (`npm run e2e` o las sondas de
+`scripts/dev/`). Las sondas no deben esperar la promesa de `session.runActions` con un modal
+abierto: solo resuelve cuando el modal se cierra.
 
 El puerto 5173 lo usa el prototipo antiguo; este proyecto usa el 5180.
 
@@ -70,7 +76,13 @@ El puerto 5173 lo usa el prototipo antiguo; este proyecto usa el 5180.
   `pacto.<id>.firmado` y `pacto.<id>.equilibrio`.
 - Mapas Tiled: capas `suelo`, `deco-baja`, `colision`, `deco-alta`, `objetos`; tiles de 16 px.
   Tipos de objeto y propiedades en `src/core/content/schema.ts` (`OBJECT_TYPES`) y en
-  `scripts/gen-gym-map.ts`.
+  `scripts/maps/lib.ts` (constructor `MapBuilder`, índice `T` del tileset estándar).
+- Manifiesto de episodio: `codice` son las entradas que Renata ya conoce al empezar ese episodio
+  (se desbloquean al iniciar allí o al continuar desde el anterior); `ending.nextEpisode` solo
+  si el siguiente existe y está `released` en `content/index.json`. `endEpisode` continúa con el
+  estado acumulado o vuelve al título.
+- Escenas clave: un nodo de diálogo con `lamina` muestra una ilustración a pantalla completa
+  detrás de la caja; se reserva para aperturas, cierres y giros de trama.
 - Commits: `feat(E5.2): ui de audiencia` · `content(G-01.3): audiencia marrugo` ·
   `fix(E1.4): compañeros en puertas` · `docs(engine): audiencia`.
 - No uses `any`. No desactives reglas de lint sin justificación en el commit.

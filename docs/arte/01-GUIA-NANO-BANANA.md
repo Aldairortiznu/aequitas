@@ -2,6 +2,13 @@
 
 ## 1. Estilo (léelo antes de generar nada)
 
+El juego tiene **dos registros visuales** y no se mezclan:
+
+| Registro | Activos                             | Estilo                                                                                                       |
+| -------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Mundo    | sprites, tilesets, iconos, retratos | Pixel art 16-bit sobrio, paleta cerrada, píxel exacto                                                        |
+| Cine     | láminas (`illustrations/`)          | Ilustración pintada 16:9, acabado limpio, misma luz y paleta de referencia; ver `04-LAMINAS-UI-ICONOS.md` §1 |
+
 - **Pixel art 16-bit sobrio.** Formas legibles a 16 px, sin degradados, sin desenfoque, sin
   anti-aliasing. Contorno oscuro de 1 px solo donde separa figura de fondo. Sombreado por
   bloques de dos o tres tonos, no por texturas.
@@ -10,18 +17,18 @@
 - **Paleta cerrada (32 colores).** Toda pieza se cuantiza a esta paleta al normalizarse; si
   el generador usa otros colores, se aproximan al más cercano. Genera ya con estos tonos.
 
-| Grupo | Hex |
-|-------|-----|
-| Ceniza (neutros fríos) | `#1b1b1f` `#2e2d33` `#4a4850` `#6f6c76` `#a29ea8` |
-| Bellium (violetas) | `#3b2a5c` `#5a3f86` `#8f6fc0` |
-| Dorado (sellos, margarita) | `#b8892e` `#e2b94a` `#f4dc8a` |
-| Verdes (brote a floración) | `#2f5d3a` `#4a8a4f` `#7cc46b` `#b9e39a` |
-| Aguas | `#1e6f7a` `#2bb5b8` `#8fe0de` |
-| Tierras y madera | `#7a4b2d` `#b5773f` `#d9a66b` |
-| Sal y mar rosado | `#f2c9d6` `#e69ab8` |
-| Piel (cuatro tonos) | `#f1c9a5` `#c98e5e` `#8a5a3a` `#5a3a26` |
-| Papel | `#f3ead8` `#eadfc6` `#cfc2a3` |
-| Absolutos | `#ffffff` `#000000` |
+| Grupo                      | Hex                                               |
+| -------------------------- | ------------------------------------------------- |
+| Ceniza (neutros fríos)     | `#1b1b1f` `#2e2d33` `#4a4850` `#6f6c76` `#a29ea8` |
+| Bellium (violetas)         | `#3b2a5c` `#5a3f86` `#8f6fc0`                     |
+| Dorado (sellos, margarita) | `#b8892e` `#e2b94a` `#f4dc8a`                     |
+| Verdes (brote a floración) | `#2f5d3a` `#4a8a4f` `#7cc46b` `#b9e39a`           |
+| Aguas                      | `#1e6f7a` `#2bb5b8` `#8fe0de`                     |
+| Tierras y madera           | `#7a4b2d` `#b5773f` `#d9a66b`                     |
+| Sal y mar rosado           | `#f2c9d6` `#e69ab8`                               |
+| Piel (cuatro tonos)        | `#f1c9a5` `#c98e5e` `#8a5a3a` `#5a3a26`           |
+| Papel                      | `#f3ead8` `#eadfc6` `#cfc2a3`                     |
+| Absolutos                  | `#ffffff` `#000000`                               |
 
 - **Referencias visuales** en `art-src/referencias/` (láminas del prototipo). Sirven para el
   tono de color y la luz caribeña de las láminas, no para los personajes (el elenco cambió).
@@ -32,14 +39,14 @@
 
 Ruta base: `public/assets/`. Nombres en minúsculas, kebab-case, sin espacios ni tildes.
 
-| Tipo | Ruta | Tamaño exacto | Formato | Cómo se usa |
-|------|------|---------------|---------|-------------|
-| Sprite de personaje | `sprites/<id>.png` | **64×96** (4 columnas × 4 filas de 16×24) | PNG con alfa | Mundo. `<id>` es el campo `sprite` de `content/personajes.json` |
-| Retrato | `portraits/<id>-<expresion>.png` | **96×96** | PNG con alfa o fondo | Diálogos y Audiencia. Expresiones: `neutra`, `tensa`, `cordial` |
-| Tileset | `tilesets/<region>-<estado>.png` | **64 × (16·N)**, N = 16 filas en el estándar (64 celdas) | PNG con alfa | Mapas. Estados: `ceniza`, `brote`, `verdor`, `floracion`; los cuatro archivos con la misma disposición de celdas |
-| Lámina | `illustrations/<id>.png` | **960×540** (se aceptan otras 16:9) | PNG o JPG | Cinemáticas del prólogo y cierres |
-| Icono | `icons/<nombre>.png` | 10×12 (documento, folio), 10×9 (hablar), 10×10 (testimonio), 8×10 (alerta), 9×6 (ojo) | PNG con alfa | Marcadores en el mundo |
-| Audio | `audio/<nombre>.ogg` | — | OGG (y MP3 opcional) | Música por región en capas y efectos |
+| Tipo                | Ruta                             | Tamaño exacto                                                                         | Formato              | Cómo se usa                                                                                                      |
+| ------------------- | -------------------------------- | ------------------------------------------------------------------------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Sprite de personaje | `sprites/<id>.png`               | **64×96** (4 columnas × 4 filas de 16×24)                                             | PNG con alfa         | Mundo. `<id>` es el campo `sprite` de `content/personajes.json`                                                  |
+| Retrato             | `portraits/<id>-<expresion>.png` | **96×96**                                                                             | PNG con alfa o fondo | Diálogos y Audiencia. Expresiones: `neutra`, `tensa`, `cordial`                                                  |
+| Tileset             | `tilesets/<region>-<estado>.png` | **64 × (16·N)**, N = 16 filas en el estándar (64 celdas)                              | PNG con alfa         | Mapas. Estados: `ceniza`, `brote`, `verdor`, `floracion`; los cuatro archivos con la misma disposición de celdas |
+| Lámina              | `illustrations/<id>.png`         | **1920×1080** (se acepta 960×540; siempre 16:9)                                       | PNG o JPG (< 700 KB) | Cinemáticas y escenas clave de diálogo (nodo con `lamina`)                                                       |
+| Icono               | `icons/<nombre>.png`             | 10×12 (documento, folio), 10×9 (hablar), 10×10 (testimonio), 8×10 (alerta), 9×6 (ojo) | PNG con alfa         | Marcadores en el mundo                                                                                           |
+| Audio               | `audio/<nombre>.ogg`             | —                                                                                     | OGG (y MP3 opcional) | Música por región en capas y efectos                                                                             |
 
 ### Hoja de personaje (64×96)
 
@@ -50,6 +57,7 @@ fila 1  left-0     left-1     left-2     left-3      (mirando a la izquierda)
 fila 2  right-0    right-1    right-2    right-3     (mirando a la derecha)
 fila 3  up-0       up-1       up-2       up-3        (de espaldas / arriba)
 ```
+
 - Cuadros: 0 quieto · 1 paso con pierna izquierda · 2 quieto · 3 paso con pierna derecha.
   El motor reproduce 0-1-2-3 en bucle a 8 cuadros por segundo.
 - Celda de 16×24: el personaje ocupa como máximo 14 px de ancho y 22 de alto; **los pies
@@ -108,6 +116,7 @@ una región se dejan transparentes.
 Estructura fija: **[qué es] + [estilo y restricciones] + [composición] + [paleta] + [negativos]**.
 
 Plantilla para un cuadro de sprite:
+
 > Pixel art sprite, single frame, 16-bit SNES style, {personaje: descripción física y ropa
 > de la ficha}, {vista: facing the camera | facing left | facing right | seen from behind},
 > {pose: standing idle | mid-step walking, left leg forward | mid-step walking, right leg
@@ -116,16 +125,19 @@ Plantilla para un cuadro de sprite:
 > background, limited palette: {hex de la ficha}. No text, no watermark, no background.
 
 Plantilla para una celda de tileset:
+
 > Pixel art top-down tile, 16-bit, {material: cracked grey concrete floor with dry cracks},
 > seamless tile that repeats on all four edges, orthographic top-down view, flat colors, hard
 > pixel edges, no anti-aliasing, limited palette: {hex}. Square. No text.
 
 Plantilla para un retrato:
+
 > Pixel art portrait bust, 16-bit style, {descripción}, three-quarter view facing slightly
 > right, looking at the viewer, {expresión}, plain dark background #2e2d33, flat colors,
 > hard pixel edges, no anti-aliasing, limited palette: {hex}. Square. No text.
 
 Plantilla para una lámina:
+
 > Pixel art illustration, 16-bit SNES cutscene, {escena de la ficha}, {hora y luz}, Caribbean
 > Colombia, sober and realistic mood, no fantasy glow, wide 16:9 composition, limited palette
 > dominated by {colores}, detailed but readable at 960×540. No text, no letters, no logo.

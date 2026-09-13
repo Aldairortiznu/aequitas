@@ -191,6 +191,12 @@ export const DialogueNodeSchema = z.strictObject({
   effects: z.array(ActionSchema).optional(),
   consulta: IdSchema.optional(),
   testimonio: TestimonioSchema.optional(),
+  /**
+   * Lámina cinematográfica (id de `illustrations/<id>.png`) que se muestra a pantalla completa
+   * detrás de la caja mientras dure este nodo y los siguientes hasta que otro nodo la cambie
+   * (`lamina: ""` la retira). Solo para escenas clave.
+   */
+  lamina: z.string().max(80).optional(),
 });
 export type DialogueNode = z.infer<typeof DialogueNodeSchema>;
 

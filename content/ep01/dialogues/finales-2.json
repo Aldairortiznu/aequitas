@@ -5,7 +5,8 @@
       "id": "c1",
       "speaker": "narrador",
       "text": "Al terminar, Pilar saca del bolsillo un cuaderno de la escuela y lo abre en la primera página. Renata escribe: Tomás Cantillo, nacido en el piso 7 de Altamar, según testimonio de Zoraida, partera.",
-      "next": "c2"
+      "next": "c2",
+      "lamina": "ep01-lamina-cuaderno"
     },
     {
       "id": "c2",

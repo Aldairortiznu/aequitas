@@ -5,7 +5,8 @@
       "id": "r1",
       "speaker": "narrador",
       "text": "Puerto Baluarte. Oficina de Registro. Un mensajero espera de pie mientras el Registrador termina de sellar una hoja.",
-      "next": "r2"
+      "next": "r2",
+      "lamina": "ep01-lamina-registrador"
     },
     {
       "id": "r2",

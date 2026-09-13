@@ -7,6 +7,7 @@ import { advance, availableChoices, currentNode, startDialogue } from '../core/d
 import type { DialogueState } from '../core/dialogue/runtime';
 import { ui } from './store';
 import { portraitSrc } from './portraits';
+import { hasLamina, url } from '../engine/art/registry';
 
 const CHARS_PER_SECOND = 45;
 
@@ -166,13 +167,34 @@ export function DialogueBox({ session, dialogueId, onDone }: Props) {
 
   if (!def || !ds || !node) return null;
 
+  // Lámina activa: la del último nodo visitado que la declare (cadena sin repetirla).
+  let laminaId: string | undefined;
+  for (const visited of ds.visited) {
+    const l = def.nodes.find((n) => n.id === visited)?.lamina;
+    if (l !== undefined) laminaId = l;
+  }
+  const laminaSrc = laminaId
+    ? hasLamina(laminaId)
+      ? url.lamina(laminaId)
+      : session.provisionalLamina(laminaId)
+    : null;
+
   return (
     <div
-      class="dlg"
+      class={`dlg ${laminaId ? 'dlg--lamina' : ''}`}
       ref={boxRef}
       role="dialog"
       aria-label={`Diálogo con ${speakerName || 'narrador'}`}
     >
+      {laminaId && (
+        <div class="dlg__lamina" aria-hidden="true">
+          {laminaSrc ? (
+            <img src={laminaSrc} alt="" />
+          ) : (
+            <div class="dlg__lamina-placeholder">{laminaId}</div>
+          )}
+        </div>
+      )}
       <div
         class={`dlg__box ${isNarrator ? 'dlg__box--narrador' : ''}`}
         onClick={() => (options.length && !typing ? undefined : proceed())}

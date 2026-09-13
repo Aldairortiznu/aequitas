@@ -6,7 +6,13 @@
       "speaker": "clemencia",
       "portrait": "neutra",
       "text": "Todavía no, Renata. Primero la audiencia con Casimiro. Después hablamos.",
-      "requires": [{ "flag": "audiencia.ep00-simulada.ganada", "op": "eq", "value": false }]
+      "requires": [
+        {
+          "flag": "audiencia.ep00-simulada.ganada",
+          "op": "eq",
+          "value": false
+        }
+      ]
     },
     {
       "id": "encargo",
@@ -14,10 +20,19 @@
       "portrait": "cordial",
       "text": "Siéntate. Te gradúas hoy y eres la primera que sale. Hay un conjunto en la playa, Altamar. Un administrador está expulsando familias.",
       "requires": [
-        { "flag": "audiencia.ep00-simulada.ganada", "op": "eq", "value": true },
-        { "flag": "ep00.encargo", "op": "eq", "value": false }
+        {
+          "flag": "audiencia.ep00-simulada.ganada",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "flag": "ep00.encargo",
+          "op": "eq",
+          "value": false
+        }
       ],
-      "next": "encargo2"
+      "next": "encargo2",
+      "lamina": "ep00-lamina-encargo"
     },
     {
       "id": "encargo2",
@@ -25,8 +40,14 @@
       "portrait": "neutra",
       "text": "No vas a llegar a citar artículos. Vas a escuchar. Las normas son para el final, cuando ya sepas qué pasó.",
       "choices": [
-        { "text": "¿Y si no me escuchan a mí?", "next": "r1" },
-        { "text": "¿Por qué yo?", "next": "r2" }
+        {
+          "text": "¿Y si no me escuchan a mí?",
+          "next": "r1"
+        },
+        {
+          "text": "¿Por qué yo?",
+          "next": "r2"
+        }
       ]
     },
     {
@@ -48,9 +69,19 @@
       "speaker": "narrador",
       "text": "La Rectora abre un cajón y saca la mitad de un anillo de bronce. Lo pone sobre la mesa sin ceremonia.",
       "effects": [
-        { "type": "addEvidence", "id": "ep00-anillo" },
-        { "type": "addEvidence", "id": "ep00-encargo" },
-        { "type": "setFlag", "flag": "ep00.encargo", "value": true }
+        {
+          "type": "addEvidence",
+          "id": "ep00-anillo"
+        },
+        {
+          "type": "addEvidence",
+          "id": "ep00-encargo"
+        },
+        {
+          "type": "setFlag",
+          "flag": "ep00.encargo",
+          "value": true
+        }
       ],
       "next": "anillo2"
     },
@@ -60,8 +91,14 @@
       "portrait": "neutra",
       "text": "Era de tu madre. Lo encontraron en el edificio del Registro después de la Crecida. Te lo guardé hasta hoy.",
       "choices": [
-        { "text": "¿Qué hacía mi madre ese día en el Registro?", "next": "evasiva" },
-        { "text": "Gracias.", "next": "juramento" }
+        {
+          "text": "¿Qué hacía mi madre ese día en el Registro?",
+          "next": "evasiva"
+        },
+        {
+          "text": "Gracias.",
+          "next": "juramento"
+        }
       ]
     },
     {
@@ -76,14 +113,26 @@
       "speaker": "clemencia",
       "portrait": "cordial",
       "text": "Cuando vuelvas, quiero que me cuentes qué hiciste. No qué lograste. Y pasa por el herbario: Nepomuceno necesita que dejes resuelto lo del riego.",
-      "effects": [{ "type": "legitimidad", "delta": 3, "fuente": "evento" }]
+      "effects": [
+        {
+          "type": "legitimidad",
+          "delta": 3,
+          "fuente": "evento"
+        }
+      ]
     },
     {
       "id": "despues",
       "speaker": "clemencia",
       "portrait": "neutra",
       "text": "Eladio te espera en el muelle. Lo del herbario primero, si no lo has hecho.",
-      "requires": [{ "flag": "ep00.encargo", "op": "eq", "value": true }]
+      "requires": [
+        {
+          "flag": "ep00.encargo",
+          "op": "eq",
+          "value": true
+        }
+      ]
     }
   ]
 }

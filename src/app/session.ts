@@ -164,6 +164,13 @@ export class Session {
       'ep00-lamina-3': 'prov-codice',
       'ep00-lamina-4': 'prov-biblioteca',
       'ep00-lamina-5': 'prov-biblioteca',
+      'ep00-lamina-encargo': 'prov-codice',
+      'ep01-lamina-llegada': 'prov-fractura',
+      'ep01-lamina-lobby': 'prov-fractura',
+      'ep01-lamina-audiencia': 'prov-fractura',
+      'ep01-lamina-cuaderno': 'prov-codice',
+      'ep01-lamina-registrador': 'prov-codice',
+      'ep01-lamina-cierre': 'prov-biblioteca',
     };
     const p = prov[id];
     return p && hasLamina(p) ? `assets/illustrations/${p}.jpg` : null;

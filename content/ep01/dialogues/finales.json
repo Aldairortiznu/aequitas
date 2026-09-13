@@ -5,7 +5,8 @@
       "id": "f1",
       "speaker": "narrador",
       "text": "Marrugo se queda con la licencia en la mano. Nadie aplaude. Pilar mira a la gente, no a él.",
-      "next": "f2"
+      "next": "f2",
+      "lamina": "ep01-lamina-audiencia"
     },
     {
       "id": "f2",

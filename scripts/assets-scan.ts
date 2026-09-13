@@ -179,14 +179,17 @@ for (const r of index.regiones) {
       missing.push(`tilesets/${r.id}-${e}.png (64 de ancho, filas de 16)`);
   }
 }
+const laminasEsperadas = new Set<string>(['menu-fondo']);
 for (const ep of content.episodes) {
-  for (const c of Object.values(ep.cutscenes) as { laminas?: { imagen: string }[] }[]) {
-    for (const l of c.laminas ?? []) {
-      expected.push(`lámina ${l.imagen}`);
-      if (!illustrations.includes(l.imagen))
-        missing.push(`illustrations/${l.imagen}.png (960x540)`);
-    }
-  }
+  for (const c of Object.values(ep.cutscenes) as { laminas?: { imagen: string }[] }[])
+    for (const l of c.laminas ?? []) laminasEsperadas.add(l.imagen);
+  // Escenas clave: nodos de diálogo con lámina cinematográfica
+  for (const d of Object.values(ep.dialogues) as { nodes?: { lamina?: string }[] }[])
+    for (const n of d.nodes ?? []) if (n.lamina) laminasEsperadas.add(n.lamina);
+}
+for (const id of laminasEsperadas) {
+  expected.push(`lámina ${id}`);
+  if (!illustrations.includes(id)) missing.push(`illustrations/${id}.png (960x540)`);
 }
 for (const i of ICONOS)
   if (!icons.includes(i)) missing.push(`icons/${i}.png (opcional; hay provisional)`);
