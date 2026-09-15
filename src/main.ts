@@ -4,6 +4,7 @@ import { BootScene } from './engine/scenes/BootScene';
 import { PreloadScene } from './engine/scenes/PreloadScene';
 import { TitleScene } from './engine/scenes/TitleScene';
 import { GaleriaScene } from './engine/scenes/GaleriaScene';
+import { LateralScene } from './engine/scenes/LateralScene';
 import { WorldScene } from './engine/world/WorldScene';
 import { applyIntegerScaling } from './engine/scale';
 import { mountUi } from './app/mount';
@@ -38,7 +39,7 @@ const game = new Phaser.Game({
     default: 'arcade',
     arcade: { debug: false },
   },
-  scene: [BootScene, PreloadScene, TitleScene, GaleriaScene, WorldScene],
+  scene: [BootScene, PreloadScene, TitleScene, GaleriaScene, LateralScene, WorldScene],
 });
 
 applyIntegerScaling(game);
@@ -54,12 +55,14 @@ const onBoot = (): void => {
     .then((content) => {
       const sprites = content.personajes.filter((p) => p.sprite).map((p) => p.sprite as string);
       const tilesets = ['provisional', ...content.index.regiones.map((r) => r.id)];
-      const galeria = escena === 'galeria';
+      // Escenas de herramienta: ?escena=galeria (arte) y ?escena=lateral (prueba de formato)
+      const herramienta =
+        escena === 'galeria' ? 'Galeria' : escena === 'lateral' ? 'Lateral' : null;
       game.scene.start('Preload', {
         sprites,
         tilesets,
-        next: galeria ? 'Galeria' : 'Title',
-        nextData: galeria ? { sprites, tilesets } : undefined,
+        next: herramienta ?? 'Title',
+        nextData: herramienta ? { sprites, tilesets } : undefined,
       });
     })
     .catch((err: unknown) => {

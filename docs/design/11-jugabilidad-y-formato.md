@@ -129,3 +129,7 @@ Adoptar la **estructura** metroidvania sin cambiar la vista:
 
 Si Dirección quiere ver la vista lateral antes de decidir, se puede montar una prueba de
 un solo mapa (la torre de Altamar) en un día; no conviene invertir más sin verla.
+
+La prueba lateral quedó montada ese mismo día (`?escena=lateral`, `src/engine/scenes/LateralScene.ts`). La
+revisión de referentes que Dirección pidió después, y la propuesta de bucle de juego, están en
+`13-referentes-y-dinamica.md`.

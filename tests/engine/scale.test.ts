@@ -10,6 +10,8 @@ describe('computeZoom', () => {
 
   it('usa escala fraccionaria cuando la ventana es menor (móviles)', () => {
     expect(computeZoom(360, 640)).toBe(0.75);
+    expect(computeZoom(740, 360)).toBe(1.33);
+    expect(computeZoom(800, 600)).toBe(1.66);
     expect(computeZoom(240, 800)).toBe(0.5);
   });
 
