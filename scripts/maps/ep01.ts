@@ -64,6 +64,30 @@ export function ep01Maps(): Record<string, MapBuilder> {
     .folio('folio-l675-50', 33, 8, 'l675-50')
     .folio('folio-l675-47', 25, 3, 'l675-47')
     .folio('folio-cp86', 4, 12, 'cp-86')
+    .letrero(
+      'letrero-torre',
+      35,
+      6,
+      'Escaleras a la torre: pisos 3, 4 y 7. El ascensor no funciona desde la Fractura.',
+    )
+    .letrero(
+      'letrero-sotanos',
+      5,
+      21,
+      'Sótanos. «Solo personal con carné.» Alguien tachó la última palabra.',
+    )
+    .letrero(
+      'letrero-piscina',
+      22,
+      24,
+      'Salida a la piscina. Ahí se reúne la gente cuando hay algo que decidir.',
+    )
+    .letrero(
+      'letrero-oficina',
+      30,
+      10,
+      'Oficina de administración. Cerrada desde que Marrugo atiende en el lobby.',
+    )
     .door('escalera-torre', 36, 3, 'torre', 'piso3-desde-lobby')
     .door('escalera-sotanos', 3, 23, 'sotanos', 'entrada')
     .door('salida-piscina', 20, 25, 'piscina', 'entrada')

@@ -87,6 +87,9 @@ El puerto 5173 lo usa el prototipo antiguo; este proyecto usa el 5180.
   estado acumulado o vuelve al título.
 - Escenas clave: un nodo de diálogo con `lamina` muestra una ilustración a pantalla completa
   detrás de la caja; se reserva para aperturas, cierres y giros de trama.
+- Modo guiado: `manifest.objetivos` (texto, condiciones `hecho`, `destino` mapa+objeto) da el
+  objetivo del HUD, el marcador del mundo y el viaje rápido; letreros con `letrero(...)` en los
+  mapas. Ver `docs/engine/guia.md`.
 - Commits: `feat(E5.2): ui de audiencia` · `content(G-01.3): audiencia marrugo` ·
   `fix(E1.4): compañeros en puertas` · `docs(engine): audiencia`.
 - No uses `any`. No desactives reglas de lint sin justificación en el commit.

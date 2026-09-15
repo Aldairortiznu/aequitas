@@ -209,5 +209,108 @@
   "ending": {
     "cutscene": "ep00-final",
     "nextEpisode": "ep01"
-  }
+  },
+  "objetivos": [
+    {
+      "id": "ob-nepomuceno",
+      "texto": "Habla con Nepomuceno en el claro",
+      "hecho": [
+        {
+          "flag": "ep00.nepomuceno",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "destino": {
+        "mapa": "estacion",
+        "objeto": "npc-nepomuceno"
+      }
+    },
+    {
+      "id": "ob-juramento",
+      "texto": "Baja a la bóveda (laboratorio) y recoge el juramento del guardián",
+      "hecho": [
+        {
+          "hasEvidence": "ep00-juramento"
+        }
+      ],
+      "destino": {
+        "mapa": "boveda",
+        "objeto": "ev-juramento"
+      }
+    },
+    {
+      "id": "ob-eladio",
+      "texto": "Registra el testimonio de Eladio en el muelle",
+      "hecho": [
+        {
+          "hasEvidence": "ep00-testimonio-eladio"
+        }
+      ],
+      "destino": {
+        "mapa": "estacion",
+        "objeto": "npc-eladio"
+      }
+    },
+    {
+      "id": "ob-audiencia",
+      "texto": "Sostén la audiencia simulada con Casimiro en el claro",
+      "hecho": [
+        {
+          "flag": "audiencia.ep00-simulada.ganada",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "destino": {
+        "mapa": "estacion",
+        "objeto": "npc-casimiro"
+      }
+    },
+    {
+      "id": "ob-rectora",
+      "texto": "Ve a la oficina de la Rectora, en el laboratorio",
+      "hecho": [
+        {
+          "flag": "ep00.encargo",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "destino": {
+        "mapa": "laboratorio",
+        "objeto": "npc-clemencia"
+      }
+    },
+    {
+      "id": "ob-riego",
+      "texto": "Resuelve el riego con Nepomuceno en el herbario",
+      "hecho": [
+        {
+          "flag": "pacto.ep00-pacto.firmado",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "destino": {
+        "mapa": "herbario",
+        "objeto": "mesa-herbario"
+      }
+    },
+    {
+      "id": "ob-muelle",
+      "texto": "Sal hacia Altamar con Eladio desde el muelle",
+      "hecho": [
+        {
+          "flag": "ep00.final",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "destino": {
+        "mapa": "estacion",
+        "objeto": "trigger-muelle-final"
+      }
+    }
+  ]
 }

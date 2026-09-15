@@ -209,5 +209,132 @@
   "codice": ["cp-1", "cp-4", "cp-14", "cp-29"],
   "ending": {
     "cutscene": "ep01-cierre"
-  }
+  },
+  "objetivos": [
+    {
+      "id": "ob-pilar",
+      "texto": "Habla con Pilar, la mujer del pañuelo junto a la columna",
+      "hecho": [
+        {
+          "flag": "ep01.pilar",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "destino": {
+        "mapa": "lobby",
+        "objeto": "npc-pilar"
+      }
+    },
+    {
+      "id": "ob-acta",
+      "texto": "Lee el acta del Año 1 clavada junto al muro de carnés",
+      "hecho": [
+        {
+          "hasEvidence": "ep01-acta-ano-1"
+        }
+      ],
+      "destino": {
+        "mapa": "lobby",
+        "objeto": "ev-acta"
+      }
+    },
+    {
+      "id": "ob-libro",
+      "texto": "Busca el libro de actas en la oficina de administración",
+      "hecho": [
+        {
+          "hasEvidence": "ep01-libro-actas"
+        }
+      ],
+      "destino": {
+        "mapa": "lobby",
+        "objeto": "ev-libro-actas"
+      }
+    },
+    {
+      "id": "ob-valvula",
+      "texto": "Sube a la torre: en el piso 4 está la válvula con candado",
+      "hecho": [
+        {
+          "hasEvidence": "ep01-valvula"
+        }
+      ],
+      "destino": {
+        "mapa": "torre",
+        "objeto": "ev-valvula"
+      }
+    },
+    {
+      "id": "ob-zoraida",
+      "texto": "Sigue hasta el piso 7 y habla con Zoraida, la partera",
+      "hecho": [
+        {
+          "hasEvidence": "ep01-testimonio-zoraida"
+        }
+      ],
+      "destino": {
+        "mapa": "torre",
+        "objeto": "npc-zoraida"
+      }
+    },
+    {
+      "id": "ob-tomas",
+      "texto": "Baja a los sótanos: Tomás y su carné cancelado",
+      "hecho": [
+        {
+          "hasEvidence": "ep01-carne-tomas"
+        }
+      ],
+      "destino": {
+        "mapa": "sotanos",
+        "objeto": "ev-carne"
+      }
+    },
+    {
+      "id": "ob-convocar",
+      "texto": "Vuelve con Pilar al lobby para convocar a los vecinos",
+      "hecho": [
+        {
+          "flag": "ep01.convocada",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "destino": {
+        "mapa": "lobby",
+        "objeto": "npc-pilar"
+      }
+    },
+    {
+      "id": "ob-audiencia",
+      "texto": "Ve a la piscina y enfrenta a Marrugo delante de todos",
+      "hecho": [
+        {
+          "flag": "audiencia.ep01-marrugo.ganada",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "destino": {
+        "mapa": "piscina",
+        "objeto": "npc-marrugo-piscina"
+      }
+    },
+    {
+      "id": "ob-acta-altamar",
+      "texto": "Siéntate a la mesa de conciliación y redacta el Acta de Altamar",
+      "hecho": [
+        {
+          "flag": "pacto.ep01-pacto.firmado",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "destino": {
+        "mapa": "piscina",
+        "objeto": "mesa-conciliacion"
+      }
+    }
+  ]
 }

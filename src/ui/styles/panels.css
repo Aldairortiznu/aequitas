@@ -658,3 +658,47 @@ html.font-pixel {
   padding: 4px 10px;
   cursor: pointer;
 }
+
+/* Modo guiado: objetivos en el Cuaderno y viaje rápido en el Mapa */
+.objetivos {
+  margin: 0;
+  padding-left: 22px;
+}
+.objetivos li {
+  margin: 4px 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.objetivos li.is-hecho {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.objetivos li.is-activo {
+  font-weight: 600;
+}
+.btn--chico {
+  padding: 3px 9px;
+  font-size: 0.8em;
+}
+.mapa__lugares {
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.mapa__ir {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 10px;
+  display: grid;
+  gap: 4px;
+}
+.mapa__ir li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px dashed var(--line);
+  padding: 4px 0;
+}

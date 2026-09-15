@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-14T12:48:19.687Z",
+  "generatedAt": "2026-09-14T12:56:01.851Z",
   "sprites": [
     "marrugo",
     "renata"
@@ -20,6 +20,9 @@
       "cordial",
       "neutra",
       "tensa"
+    ],
+    "tomas": [
+      "neutra"
     ]
   },
   "illustrations": [

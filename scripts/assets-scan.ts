@@ -18,7 +18,7 @@ const PORTRAIT = 96;
 const LAMINA_RATIO = 16 / 9;
 const ESTADOS = ['ceniza', 'brote', 'verdor', 'floracion'];
 const EXPRESIONES = ['neutra', 'tensa', 'cordial'];
-const ICONOS = ['hablar', 'documento', 'folio', 'testimonio', 'alerta', 'ojo'];
+const ICONOS = ['hablar', 'documento', 'folio', 'testimonio', 'alerta', 'ojo', 'objetivo'];
 
 interface Dim {
   w: number;

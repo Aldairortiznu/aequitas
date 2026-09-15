@@ -477,3 +477,25 @@ body {
   white-space: nowrap;
   border: 0;
 }
+
+/* Objetivo guiado en el HUD */
+.hud__objetivo {
+  font: inherit;
+  display: grid;
+  gap: 2px;
+  margin-top: 6px;
+  padding: 6px 8px;
+  text-align: left;
+  background: rgba(27, 27, 31, 0.55);
+  border: 1px solid rgba(226, 185, 74, 0.55);
+  color: var(--paper);
+  cursor: pointer;
+  max-width: 260px;
+}
+.hud__objetivo:hover {
+  border-color: var(--gold-2);
+}
+.hud__objetivo-texto {
+  font-size: 12.5px;
+  line-height: 1.3;
+}

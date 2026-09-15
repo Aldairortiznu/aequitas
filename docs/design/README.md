@@ -61,3 +61,4 @@ lanzamiento.
 5. Para el guion, seguir el proceso de `00-PLAN-MAESTRO.md` §5, un paso por sesión.
 - `09-formas-de-aprender.md` — catálogo de mecánicas de aprendizaje y minijuegos por episodio, encaje en el motor y orden de construcción (13 sep 2026).
 - `10-elementos-distopicos.md` — instituciones reales llevadas un paso más allá: el Sistema, el Parte de las Seis, los sin folio, el pagaré en blanco, la subasta de medianoche, el contrato de existencia, el silencio que borra, el Año Diez, el archivo sumergido, la ciénaga que recuerda y la señal que vuelve (13 sep 2026).
+- `11-jugabilidad-y-formato.md` — diagnóstico de jugabilidad, referencias (Pokémon, Zelda, FF Tactics), modo guiado y decisión de formato (15 sep 2026).

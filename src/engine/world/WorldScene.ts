@@ -62,6 +62,8 @@ export class WorldScene extends Phaser.Scene {
   private patrols: Patrol[] = [];
   private focus: Interactable | null = null;
   private focusIcon!: Phaser.GameObjects.Image;
+  private marker!: Phaser.GameObjects.Image;
+  private objetivo: { mapa: string; objeto: string } | null = null;
   private uiOpen = false;
   private frozen = false;
   /** Instante (performance.now) hasta el que se ignoran pulsaciones tras cerrar un panel. */
@@ -185,6 +187,7 @@ export class WorldScene extends Phaser.Scene {
         case 'atril':
         case 'mesa':
         case 'mecanismo':
+        case 'letrero':
           this.interactables.push({ obj, sprite: null });
           break;
         case 'door':
@@ -215,6 +218,15 @@ export class WorldScene extends Phaser.Scene {
     }
 
     this.focusIcon = this.add.image(0, 0, 'icon-hablar').setVisible(false).setDepth(20000);
+    this.marker = this.add.image(0, 0, 'icon-objetivo').setVisible(false).setDepth(19999);
+    this.tweens.add({
+      targets: this.marker,
+      y: '-=4',
+      duration: 520,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    });
     this.keys = createKeyMap(this);
 
     // --- Bus
@@ -235,6 +247,7 @@ export class WorldScene extends Phaser.Scene {
       if (e.map === d.mapKey) this.setMapState(e.state);
     };
     const onHide = (e: { name: string }): void => this.hideObject(e.name);
+    const onObjetivo = (e: { mapa: string; objeto: string } | null): void => this.setObjetivo(e);
     const onPatrolResolved = (e: { name: string; outcome: 'interpelada' | 'detenida' }): void => {
       const p = this.patrols.find((x) => x.name === e.name);
       if (!p) return;
@@ -246,6 +259,7 @@ export class WorldScene extends Phaser.Scene {
     bus.on('world:freeze', onFreeze);
     bus.on('world:setMapState', onMapState);
     bus.on('world:hideObject', onHide);
+    bus.on('world:objetivo', onObjetivo);
     bus.on('world:patrolResolved', onPatrolResolved);
     this.unsubscribe = [
       () => bus.off('ui:opened', onUiOpen),
@@ -253,6 +267,7 @@ export class WorldScene extends Phaser.Scene {
       () => bus.off('world:freeze', onFreeze),
       () => bus.off('world:setMapState', onMapState),
       () => bus.off('world:hideObject', onHide),
+      () => bus.off('world:objetivo', onObjetivo),
       () => bus.off('world:patrolResolved', onPatrolResolved),
     ];
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
@@ -299,7 +314,47 @@ export class WorldScene extends Phaser.Scene {
     this.interactables.push({ obj, sprite: s });
   }
 
+  /**
+   * Marcador del objetivo guiado: sobre el objeto destino si está en este mapa; si no, sobre
+   * la puerta que lleva a ese mapa (o a cualquier mapa, como pista de salida).
+   */
+  private setObjetivo(dest: { mapa: string; objeto: string } | null): void {
+    this.objetivo = dest;
+    if (!dest) {
+      this.marker.setVisible(false);
+      return;
+    }
+    let target: WorldObject | undefined;
+    if (dest.mapa === this.cfg.mapKey) {
+      target = this.objects.find((o) => o.name === dest.objeto);
+      // Un objeto ya retirado (evidencia recogida) no se marca.
+      if (target && (target.type === 'evidence' || target.type === 'folio'))
+        if (!this.interactables.some((i) => i.obj.name === dest.objeto)) target = undefined;
+    } else {
+      const doors = this.objects.filter((o) => o.type === 'door');
+      target =
+        doors.find((o) => o.props.map === dest.mapa) ??
+        doors.find((o) => o.props.map !== this.cfg.mapKey);
+    }
+    if (!target) {
+      this.marker.setVisible(false);
+      return;
+    }
+    const y = target.type === 'npc' ? target.cy - 34 : target.cy - 22;
+    this.marker.setVisible(true).setPosition(target.cx, y);
+    this.tweens.killTweensOf(this.marker);
+    this.tweens.add({
+      targets: this.marker,
+      y: y - 4,
+      duration: 520,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    });
+  }
+
   private hideObject(name: string): void {
+    if (this.objetivo?.objeto === name) this.marker.setVisible(false);
     const i = this.interactables.findIndex((x) => x.obj.name === name);
     if (i >= 0) {
       this.interactables[i]?.sprite?.destroy();

@@ -22,6 +22,8 @@ import { expandir } from '../core/texto/plantilla';
 import type { ContextoTexto } from '../core/texto/plantilla';
 import { invalidatePortrait } from '../ui/portraits';
 import { crearMetricas, registrar, resumir } from '../core/metricas';
+import { estadoObjetivos } from '../core/objetivos';
+import type { EstadoObjetivos } from '../core/objetivos';
 import type { Metricas } from '../core/metricas';
 import type { LoadedContent } from './contentLoader';
 import { WorldScene } from '../engine/world/WorldScene';
@@ -59,6 +61,10 @@ export interface SessionSettings {
   font: 'pixel' | 'legible';
   modoAula: boolean;
   volumen: number;
+  /** Modo guiado: objetivo en el HUD, marcador en el mundo, viaje rápido y pistas de control. */
+  guia: boolean;
+  /** Pistas de control ya mostradas (una sola vez por instalación). */
+  pistasVistas: string[];
 }
 
 export class Session {
@@ -69,6 +75,8 @@ export class Session {
     font: 'legible',
     modoAula: false,
     volumen: 0.8,
+    guia: true,
+    pistasVistas: [],
   };
   episode: ValidatedEpisode | null = null;
   content: LoadedContent | null = null;
@@ -109,10 +117,12 @@ export class Session {
   }
 
   updateSettings(next: SessionSettings): void {
+    const guiaAntes = this.settings.guia;
     this.settings = next;
     this.storage.setItem('aequitas.settings', JSON.stringify(next));
     this.applySettings();
     this.bus.emit('state:changed', { reason: 'settings' });
+    if (guiaAntes !== next.guia && this.episode) this.emitObjetivo();
   }
 
   private applySettings(): void {
@@ -277,6 +287,69 @@ export class Session {
     bus.on('ui:closed', (e) => {
       if (e.panel === 'audiencia' || e.panel === 'pacto') this.emitWorldMusic();
     });
+    bus.on('world:ready', () => {
+      this.emitObjetivo();
+      this.pistaDeControl('mover');
+    });
+    bus.on('state:changed', (e) => {
+      if (e.reason !== 'settings' && e.reason !== 'map') this.emitObjetivo();
+      if (e.reason === 'evidence') this.pistaDeControl('zurron');
+    });
+  }
+
+  // ---------------------------------------------------------------------
+  // Modo guiado (objetivos, marcador, pistas)
+  // ---------------------------------------------------------------------
+
+  /** Estado de los objetivos guiados del episodio. */
+  objetivos(): EstadoObjetivos {
+    const lista = this.episode?.manifest.objetivos ?? [];
+    return estadoObjetivos(lista, this.state);
+  }
+
+  /** Publica el destino del objetivo activo para el marcador del mundo. */
+  emitObjetivo(): void {
+    if (!this.settings.guia) {
+      this.bus.emit('world:objetivo', null);
+      return;
+    }
+    const activo = this.objetivos().activo;
+    this.bus.emit('world:objetivo', activo?.destino ?? null);
+  }
+
+  /** Pista de control breve, una sola vez por instalación (solo en modo guiado). */
+  private pistaDeControl(id: 'mover' | 'zurron' | 'atril'): void {
+    if (!this.settings.guia || this.settings.pistasVistas.includes(id)) return;
+    const textos: Record<typeof id, string> = {
+      mover:
+        'Muévete con las flechas, WASD o el mando táctil. Con E, Enter o el botón A hablas y recoges.',
+      zurron: 'Lo recogido va al Zurrón (Z). El Códice (C) guarda las normas.',
+      atril: 'En los atriles se guarda la partida.',
+    };
+    this.updateSettings({ ...this.settings, pistasVistas: [...this.settings.pistasVistas, id] });
+    // Se muestra después del aviso que la provocó (evidencia recogida, mundo listo) para no taparlo.
+    window.setTimeout(() => this.bus.emit('ui:toast', { text: textos[id], kind: 'info' }), 3200);
+  }
+
+  /** Viaje rápido del modo guiado: al mapa indicado (o al del objetivo activo). */
+  async viajar(mapKey?: string): Promise<void> {
+    const ep = this.episode;
+    if (!ep) return;
+    const destino = mapKey ?? this.objetivos().activo?.destino?.mapa;
+    if (!destino || !ep.maps[destino]) return;
+    if (destino === this.state.map) {
+      this.bus.emit('ui:toast', { text: 'Ya estás en ese lugar.', kind: 'info' });
+      return;
+    }
+    const objetos = ep.maps[destino]?.layers.find((l) => l.name === 'objetos')?.objects ?? [];
+    const spawns = objetos.filter((o) => (o.class ?? o.type) === 'spawn').map((o) => o.name);
+    const spawn =
+      (destino === ep.manifest.entry.map ? ep.manifest.entry.spawn : undefined) ??
+      spawns.find((n) => n === 'entrada' || n === 'inicio') ??
+      spawns[0];
+    if (!spawn) return;
+    ui.panel.value = null;
+    await this.runActions([{ type: 'teleport', map: destino, spawn }]);
   }
 
   /** Vuelve a la música de la región del mapa actual. */
@@ -397,7 +470,11 @@ export class Session {
         break;
       }
       case 'atril':
+        this.pistaDeControl('atril');
         ui.panel.value = 'atril';
+        break;
+      case 'letrero':
+        this.bus.emit('ui:toast', { text: this.t(props.texto ?? id), kind: 'info' });
         break;
       case 'mesa': {
         const pacto = props.pacto;

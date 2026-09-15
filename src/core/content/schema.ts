@@ -142,6 +142,18 @@ export const LegitimidadConfigSchema = z.strictObject({
     .min(1),
 });
 
+/**
+ * Objetivo guiado (modo guía): se muestra el primero de la lista cuyas condiciones `hecho`
+ * no se cumplen todavía. `destino` sitúa el marcador en el mundo (objeto de un mapa).
+ */
+export const ObjetivoSchema = z.strictObject({
+  id: IdSchema,
+  texto: z.string().min(1).max(120),
+  hecho: z.array(ConditionSchema).min(1),
+  destino: z.strictObject({ mapa: IdSchema, objeto: z.string().min(1) }).optional(),
+});
+export type Objetivo = z.infer<typeof ObjetivoSchema>;
+
 export const EpisodeManifestSchema = z.strictObject({
   id: IdSchema,
   title: z.string().min(1),
@@ -150,6 +162,7 @@ export const EpisodeManifestSchema = z.strictObject({
   maps: z.array(IdSchema).min(1),
   flagsInit: z.record(FlagNameSchema, FlagValueSchema).default({}),
   beats: z.array(BeatSchema),
+  objetivos: z.array(ObjetivoSchema).default([]),
   legitimidad: LegitimidadConfigSchema,
   party: z.array(IdSchema).default([]),
   /** Entradas del Códice que Renata ya conoce al empezar el episodio (base para empezar aquí). */
@@ -556,6 +569,7 @@ export const OBJECT_TYPES = [
   'mesa',
   'patrol',
   'mecanismo',
+  'letrero',
 ] as const;
 export type ObjectType = (typeof OBJECT_TYPES)[number];
 

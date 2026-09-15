@@ -89,6 +89,14 @@ export function ep00Maps(): Record<string, MapBuilder> {
     .folio('folio-cp1', 5, 17, 'cp-1')
     .folio('folio-cp4', 33, 16, 'cp-4')
     .folio('folio-cp14', 14, 22, 'cp-14')
+    .letrero(
+      'letrero-laboratorio',
+      13,
+      10,
+      'Laboratorio: sala de audiencias, oficina de la Rectora y, abajo, la bóveda.',
+    )
+    .letrero('letrero-herbario', 30, 10, 'Herbario de Nepomuceno. Se riega por turnos.')
+    .letrero('letrero-muelle', 18, 21, 'Muelle. Eladio sale a Altamar antes del mediodía.')
     .door('puerta-laboratorio', 11, 9, 'laboratorio', 'entrada')
     .door('puerta-herbario', 28, 9, 'herbario', 'entrada')
     .trigger('trigger-muelle-final', 19, 26, 4, 2, 'ep00-muelle-final')
@@ -128,6 +136,7 @@ export function ep00Maps(): Record<string, MapBuilder> {
     .npc('npc-clemencia', 18, 6, 'clemencia', 'ep00-clemencia', 'abajo')
     .folio('folio-cp29', 3, 12, 'cp-29')
     .door('salida', 11, 17, 'estacion', 'desde-laboratorio')
+    .letrero('letrero-boveda', 4, 16, 'Bóveda. Los libros de la ley, desde el Año 0.')
     .door('escalera-boveda', 2, 16, 'boveda', 'entrada')
     .trigger('trigger-oficina', 14, 8, 1, 2, 'ep00-entra-oficina');
 

@@ -33,6 +33,8 @@ export type BusEvents = {
   'world:patrolResolved': { name: string; outcome: 'interpelada' | 'detenida' };
   /** Emitido por app para congelar el mundo (cinemática, transición). */
   'world:freeze': { frozen: boolean };
+  /** Emitido por app con el destino del objetivo guiado (null = sin marcador). */
+  'world:objetivo': { mapa: string; objeto: string } | null;
   /** Emitidos por ui al abrir o cerrar cualquier panel modal. */
   'ui:opened': { panel: string };
   'ui:closed': { panel: string };

@@ -79,6 +79,18 @@ export function SettingsForm({ session }: { session: Session }) {
         </label>
       </fieldset>
       <fieldset class="settings__group">
+        <legend>Guía</legend>
+        <label class="settings__row">
+          <input
+            type="checkbox"
+            checked={s.guia}
+            onChange={(e) => update({ guia: (e.target as HTMLInputElement).checked })}
+          />
+          Modo guiado: objetivo en pantalla, marcador en el mundo, viaje rápido desde el mapa y
+          pistas de control
+        </label>
+      </fieldset>
+      <fieldset class="settings__group">
         <legend>Aula</legend>
         <label class="settings__row">
           <input

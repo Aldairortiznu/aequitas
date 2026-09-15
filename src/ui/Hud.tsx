@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { getBus } from '../core/bus';
 import type { Session } from '../app/session';
+import { ui } from './store';
 
 /** HUD mínimo del mundo: región, legitimidad, evidencias y Códice. Se amplía en E3/E7. */
 export function Hud({ session }: { session: Session }) {
@@ -21,6 +22,7 @@ export function Hud({ session }: { session: Session }) {
   const region = ep.manifest.region;
   const regionName = session.content?.index.regiones.find((r) => r.id === region)?.nombre ?? region;
   const leg = session.legitimidad[region]?.valor ?? 0;
+  const objetivo = session.objetivos().activo;
   const mapName =
     (ep.maps[session.state.map]?.properties?.find((p) => p.name === 'nombre')?.value as
       string | undefined) ?? session.state.map;
@@ -49,6 +51,17 @@ export function Hud({ session }: { session: Session }) {
         <span title="Evidencias en el zurrón">Zurrón {session.state.evidence.length}</span>
         <span title="Entradas del Códice">Códice {session.state.codice.length}</span>
       </div>
+      {session.settings.guia && objetivo && (
+        <button
+          type="button"
+          class="hud__objetivo"
+          title="Abrir el Cuaderno"
+          onClick={() => (ui.panel.value = 'cuaderno')}
+        >
+          <span class="hud__label">Objetivo</span>
+          <span class="hud__objetivo-texto">{session.t(objetivo.texto)}</span>
+        </button>
+      )}
     </div>
   );
 }

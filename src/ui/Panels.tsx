@@ -335,6 +335,32 @@ function Cuaderno({ session }: { session: Session }) {
           resueltas: {session.state.consultasResueltas.length}
         </p>
       </section>
+      {session.settings.guia && (ep?.manifest.objetivos.length ?? 0) > 0 && (
+        <section>
+          <h3>Objetivos</h3>
+          <ol class="objetivos">
+            {ep!.manifest.objetivos.map((o) => {
+              const est = session.objetivos();
+              const hecho = est.hechos.includes(o);
+              const activo = est.activo?.id === o.id;
+              return (
+                <li key={o.id} class={hecho ? 'is-hecho' : activo ? 'is-activo' : ''}>
+                  {session.t(o.texto)}
+                  {activo && o.destino && (
+                    <button
+                      type="button"
+                      class="btn btn--secundario btn--chico"
+                      onClick={() => void session.viajar()}
+                    >
+                      Ir
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      )}
       <section>
         <h3>Notas de audiencia</h3>
         {notas.length ? (
@@ -401,8 +427,46 @@ function Cuaderno({ session }: { session: Session }) {
 function MapaLitoral({ session }: { session: Session }) {
   const regiones = session.content?.index.regiones ?? [];
   const episodios = session.content?.index.episodes ?? [];
+  const ep = session.episode;
+  const lugares = ep
+    ? ep.manifest.maps.map((id) => ({
+        id,
+        nombre:
+          (ep.maps[id]?.properties?.find((p) => p.name === 'nombre')?.value as
+            string | undefined) ?? id,
+      }))
+    : [];
+  const activo = session.objetivos().activo;
   return (
     <div class="mapa">
+      {session.settings.guia && ep && (
+        <section class="mapa__lugares">
+          <h3>Lugares de {ep.manifest.title}</h3>
+          <p class="detail__meta">
+            Viaje rápido del modo guiado: llegas a la entrada del lugar sin caminar.
+          </p>
+          <ul class="mapa__ir">
+            {lugares.map((l) => (
+              <li key={l.id}>
+                <span>{l.nombre}</span>
+                <button
+                  type="button"
+                  class="btn btn--secundario btn--chico"
+                  disabled={l.id === session.state.map}
+                  onClick={() => void session.viajar(l.id)}
+                >
+                  {l.id === session.state.map ? 'Aquí' : 'Ir'}
+                </button>
+              </li>
+            ))}
+          </ul>
+          {activo?.destino && (
+            <button type="button" class="btn" onClick={() => void session.viajar()}>
+              Ir al objetivo: {session.t(activo.texto)}
+            </button>
+          )}
+        </section>
+      )}
       <p class="detail__meta">Estado de cada región del Litoral según la legitimidad alcanzada.</p>
       <ul class="mapa__lista">
         {regiones

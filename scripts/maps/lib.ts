@@ -354,6 +354,12 @@ export class MapBuilder {
     return this.obj(name, 'mesa', tx, ty, props);
   }
 
+  /** Letrero: cartel en el suelo que, al interactuar, muestra su texto (modo guiado y orientación). */
+  letrero(name: string, tx: number, ty: number, texto: string): this {
+    this.deco(tx, ty, T.cartel);
+    return this.obj(name, 'letrero', tx, ty, { texto });
+  }
+
   patrol(name: string, points: [number, number][], rango = 'alguacil', articulo?: string): this {
     const [x0, y0] = points[0]!;
     return this.obj(

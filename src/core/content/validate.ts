@@ -456,6 +456,23 @@ function checkEpisodeRefs(
     for (const a of b.actions) checkAction(a, w);
   }
 
+  // Objetivos guiados
+  for (const o of m.objetivos) {
+    walkConditions(o.hecho, (c) => checkCondition(c, `${where} objetivo ${o.id}`));
+    if (o.destino) {
+      const map = ep.maps[o.destino.mapa];
+      if (!map) col.error(where, `objetivo ${o.id}: mapa ${o.destino.mapa} no existe`);
+      else {
+        const objs = map.layers.find((l) => l.name === 'objetos')?.objects ?? [];
+        if (!objs.some((x) => x.name === o.destino!.objeto))
+          col.error(
+            where,
+            `objetivo ${o.id}: objeto ${o.destino.objeto} no existe en ${o.destino.mapa}`,
+          );
+      }
+    }
+  }
+
   // Diálogos
   for (const d of Object.values(ep.dialogues)) {
     const w = `${base}/dialogues (${d.id})`;
@@ -701,6 +718,10 @@ function checkEpisodeRefs(
           const rango = tiledProp(o, 'rango') ?? 'alguacil';
           if (!['alguacil', 'alguacil-mayor', 'capitan'].includes(rango))
             col.error(ow, `rango desconocido ${rango}`);
+          break;
+        }
+        case 'letrero': {
+          if (!tiledProp(o, 'texto')) col.error(ow, `letrero sin texto`);
           break;
         }
         case 'mesa': {

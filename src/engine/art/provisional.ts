@@ -568,6 +568,20 @@ export function bakeIcons(scene: Phaser.Scene): void {
     px(c, 3, 0, P.oro1, 2, 6);
     px(c, 3, 8, P.oro1, 2, 2);
   });
+  make('icon-objetivo', 11, 12, (c) => {
+    // Flecha dorada hacia abajo con borde de tinta: marcador del objetivo guiado.
+    px(c, 4, 0, P.ceniza0, 3, 7);
+    px(c, 5, 0, P.oro1, 1, 7);
+    px(c, 1, 6, P.ceniza0, 9, 1);
+    px(c, 2, 7, P.ceniza0, 7, 1);
+    px(c, 3, 8, P.ceniza0, 5, 1);
+    px(c, 4, 9, P.ceniza0, 3, 1);
+    px(c, 5, 10, P.ceniza0, 1, 2);
+    px(c, 2, 6, P.oro1, 7, 1);
+    px(c, 3, 7, P.oro1, 5, 1);
+    px(c, 4, 8, P.oro1, 3, 1);
+    px(c, 5, 9, P.oro1, 1, 1);
+  });
   make('icon-ojo', 9, 6, (c) => {
     px(c, 1, 1, P.papel, 7, 4);
     px(c, 0, 2, P.papel, 9, 2);

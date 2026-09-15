@@ -22,7 +22,7 @@ export const LAMINA = { width: 960, height: 540 } as const;
 
 export const EXPRESIONES = ['neutra', 'tensa', 'cordial'] as const;
 export const ESTADOS = ['ceniza', 'brote', 'verdor', 'floracion'] as const;
-export const ICONOS = ['hablar', 'documento', 'folio', 'testimonio', 'alerta', 'ojo'] as const;
+export const ICONOS = ['hablar', 'documento', 'folio', 'testimonio', 'alerta', 'ojo', 'objetivo'] as const;
 /** Orden de filas de la hoja de personaje. */
 export const DIRECCIONES = ['down', 'left', 'right', 'up'] as const;
 /** Orden de columnas de la hoja de personaje. */
