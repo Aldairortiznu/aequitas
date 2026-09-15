@@ -1,5 +1,6 @@
 import type Phaser from 'phaser';
 import type { MapState } from '../../core/content/schema';
+import { ajustar, estiloActivo, sepia } from './estilo';
 
 /**
  * Tileset provisional de 64 celdas (4 columnas × 16 filas) por región y estado, dibujado
@@ -83,7 +84,7 @@ function materialFor(region: string, state: MapState): Material {
         camino: [P.ceniza4, '#bdb9c2'],
         agua: verde ? [P.agua0, P.agua1, P.agua2] : ['#3d5b60', '#4f7278', '#6f9a9c'],
         muro: [P.ceniza3, P.ceniza4, P.ceniza2],
-        piso: ['#f6f2ea', '#d9d4cc'],
+        piso: ['#efe9dc', '#cfc6b8'],
         madera: [P.tierra0, P.tierra1],
         metal: '#8a8478',
       };
@@ -126,30 +127,90 @@ function drawCell(
       for (let x = 0; x < 16; x++) if (noise(x, y) > 0.74) t(x, y, m.suelo[1]);
     for (let y = 0; y < 16; y++)
       for (let x = 0; x < 16; x++) if (noise(x, y, 5) > 0.94) t(x, y, m.suelo[2]);
-  };
-  const muroBase = (): void => {
-    t(0, 0, m.muro[0], 16, 16);
-    for (let row = 0; row < 4; row++) {
-      const off = row % 2 === 0 ? 0 : 4;
-      for (let col = -1; col < 3; col++) {
-        const x = col * 8 + off + 1;
-        const w = Math.min(6, 16 - Math.max(0, x));
-        if (w > 0) t(Math.max(0, x), row * 4 + 1, m.muro[1], w, 2);
+    if (estiloActivo().texturaTiles) {
+      // vetas horizontales tenues y una mota clara: el suelo deja de ser ruido uniforme
+      for (let y = 2; y < 16; y += 5) {
+        const x0 = Math.floor(noise(0, y, 7) * 8);
+        t(x0, y, ajustar(m.suelo[0], 0.9), 5 + Math.floor(noise(1, y, 7) * 6), 1);
       }
+      t(
+        Math.floor(noise(3, 3, 8) * 14),
+        Math.floor(noise(4, 4, 8) * 14),
+        ajustar(m.suelo[0], 1.1),
+        2,
+        1,
+      );
     }
   };
+  const textura = estiloActivo().texturaTiles;
+  const osc = (c: string, f: number): string => ajustar(c, f);
+  const muroBase = (): void => {
+    if (!textura) {
+      t(0, 0, m.muro[0], 16, 16);
+      for (let row = 0; row < 4; row++) {
+        const off = row % 2 === 0 ? 0 : 4;
+        for (let col = -1; col < 3; col++) {
+          const x = col * 8 + off + 1;
+          const w = Math.min(6, 16 - Math.max(0, x));
+          if (w > 0) t(Math.max(0, x), row * 4 + 1, m.muro[1], w, 2);
+        }
+      }
+      return;
+    }
+    // Bloques con junta oscura, cara clara arriba y desgaste
+    t(0, 0, osc(m.muro[0], 0.8), 16, 16);
+    for (let row = 0; row < 2; row++) {
+      const off = row === 0 ? 0 : 8;
+      for (let col = -1; col < 2; col++) {
+        const x = col * 16 + off;
+        const w = 15;
+        const bx = Math.max(0, x);
+        const bw = Math.min(w, 16 - bx, x + w);
+        if (bw > 0) {
+          t(bx, row * 8, m.muro[1], bw, 7);
+          t(bx, row * 8, osc(m.muro[1], 1.15), bw, 1);
+          t(bx, row * 8 + 6, osc(m.muro[1], 0.85), bw, 1);
+        }
+      }
+    }
+    for (let y = 0; y < 16; y++)
+      for (let x = 0; x < 16; x++) if (noise(x, y, 9) > 0.9) t(x, y, osc(m.muro[1], 0.9));
+  };
   const pisoBase = (): void => {
-    t(0, 0, m.piso[0], 16, 16);
-    t(0, 0, m.piso[1], 16, 1);
-    t(0, 0, m.piso[1], 1, 16);
-    t(8, 0, m.piso[1], 1, 16);
-    t(0, 8, m.piso[1], 16, 1);
+    if (!textura) {
+      t(0, 0, m.piso[0], 16, 16);
+      t(0, 0, m.piso[1], 16, 1);
+      t(0, 0, m.piso[1], 1, 16);
+      t(8, 0, m.piso[1], 1, 16);
+      t(0, 8, m.piso[1], 16, 1);
+      return;
+    }
+    // Losa de 16 px con junta a la derecha y abajo, tono alterno por celda y vetas suaves
+    const par = (i + Math.floor(i / 4)) % 2 === 0;
+    t(0, 0, par ? m.piso[0] : osc(m.piso[0], 0.96), 16, 16);
+    for (let y = 0; y < 16; y++)
+      for (let x = 0; x < 16; x++) if (noise(x, y, 3) > 0.88) t(x, y, osc(m.piso[0], 0.93));
+    t(0, 15, m.piso[1], 16, 1);
+    t(15, 0, m.piso[1], 1, 16);
+    t(0, 0, osc(m.piso[0], 1.04), 15, 1);
   };
   const aguaBase = (): void => {
     t(0, 0, m.agua[0], 16, 16);
-    for (let y = 1; y < 16; y += 5) t(((y * 3) % 11) + 1, y, m.agua[1], 5, 1);
-    t(9, 6, m.agua[2], 3, 1);
-    t(2, 13, m.agua[2], 2, 1);
+    if (!textura) {
+      for (let y = 1; y < 16; y += 5) t(((y * 3) % 11) + 1, y, m.agua[1], 5, 1);
+      t(9, 6, m.agua[2], 3, 1);
+      t(2, 13, m.agua[2], 2, 1);
+      return;
+    }
+    // Ondas suaves en diagonal y dos destellos
+    for (let y = 0; y < 16; y++)
+      for (let x = 0; x < 16; x++) {
+        const v = (x + y * 2 + (i % 4) * 3) % 12;
+        if (v === 0 || v === 1) t(x, y, m.agua[1]);
+        if (v === 6 && noise(x, y, 2) > 0.6) t(x, y, osc(m.agua[0], 0.85));
+      }
+    t(3 + (i % 3), 4, m.agua[2], 2, 1);
+    t(10, 11, m.agua[2], 3, 1);
   };
   switch (i) {
     case 0:
@@ -492,6 +553,18 @@ function drawCell(
     default: {
       // 48-63: reservado por región (provisional: variantes útiles)
       const k = i - 48;
+      if (k === 15) {
+        // Techo de zinc (exteriores): láminas con canal, óxido y luz desde arriba
+        t(0, 0, '#6f6c76', 16, 16);
+        for (let x = 0; x < 16; x += 4) {
+          t(x, 0, '#8a8791', 1, 16);
+          t(x + 2, 0, '#5b5862', 1, 16);
+        }
+        for (let y = 0; y < 16; y++)
+          for (let x = 0; x < 16; x++) if (noise(x, y, 11) > 0.93) t(x, y, '#8a5a3a');
+        t(0, 0, '#a29ea8', 16, 1);
+        break;
+      }
       if (region === 'altamar') {
         if (k === 0) {
           pisoBase();
@@ -610,8 +683,111 @@ export function bakeTileset(scene: Phaser.Scene, region: string, state: MapState
   const m = materialFor(region, state);
   for (let i = 0; i < 64; i++)
     drawCell(ctx, i, (i % 4) * 16, Math.floor(i / 4) * 16, m, state, region);
+  const estilo = estiloActivo();
+  if (estilo.texturaTiles) acabar(ctx);
+  if (estilo.posproceso === 'sepia') aplicarSepia(ctx, 64, 256);
   tex.refresh();
   return key;
+}
+
+/** Celdas del estándar por familia (docs/arte/03-FICHAS-REGIONES.md §1). */
+const MUROS = new Set([8, 9, 10, 46]);
+const PISOS = new Set([12, 13]);
+const DECORADOS = new Set([
+  16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 31, 33, 34, 35, 36, 38, 39, 42, 43, 44,
+  45,
+]);
+
+/**
+ * Acabado del estilo «Litoral»: caras de muro (arriba luz, abajo sombra), juntas de baldosa,
+ * contorno oscuro y sombra proyectada en decorados. Trabaja sobre el lienzo ya pintado.
+ */
+function acabar(ctx: Ctx): void {
+  const img = ctx.getImageData(0, 0, 64, 256);
+  const d = img.data;
+  const px = (x: number, y: number): number => (y * 64 + x) * 4;
+  const mul = (i: number, f: number): void => {
+    d[i] = Math.min(255, Math.round(d[i]! * f));
+    d[i + 1] = Math.min(255, Math.round(d[i + 1]! * f));
+    d[i + 2] = Math.min(255, Math.round(d[i + 2]! * f));
+  };
+  for (let cell = 0; cell < 64; cell++) {
+    const ox = (cell % 4) * 16;
+    const oy = Math.floor(cell / 4) * 16;
+    if (MUROS.has(cell)) {
+      for (let x = 0; x < 16; x++) {
+        mul(px(ox + x, oy), 1.28);
+        mul(px(ox + x, oy + 1), 1.12);
+        mul(px(ox + x, oy + 14), 0.82);
+        mul(px(ox + x, oy + 15), 0.62);
+      }
+    } else if (PISOS.has(cell)) {
+      for (let k = 0; k < 16; k++) {
+        mul(px(ox + k, oy + 15), 0.88);
+        mul(px(ox + 15, oy + k), 0.88);
+      }
+    } else if (DECORADOS.has(cell)) {
+      // contorno: píxeles transparentes que tocan uno opaco → color vecino oscurecido
+      const marcar: [number, number, number, number, number][] = [];
+      const alpha = (x: number, y: number): number =>
+        x < 0 || y < 0 || x > 15 || y > 15 ? 0 : d[px(ox + x, oy + y) + 3]!;
+      for (let y = 0; y < 16; y++)
+        for (let x = 0; x < 16; x++) {
+          const i = px(ox + x, oy + y);
+          if (d[i + 3]! !== 0) continue;
+          const vec: [number, number][] = [
+            [x - 1, y],
+            [x + 1, y],
+            [x, y - 1],
+            [x, y + 1],
+          ];
+          const v = vec.find(([vx, vy]) => alpha(vx, vy) > 200);
+          if (!v) continue;
+          const j = px(ox + v[0], oy + v[1]);
+          marcar.push([
+            x,
+            y,
+            Math.round(d[j]! * 0.4),
+            Math.round(d[j + 1]! * 0.4),
+            Math.round(d[j + 2]! * 0.45),
+          ]);
+        }
+      for (const [x, y, r, g, b] of marcar) {
+        const i = px(ox + x, oy + y);
+        d[i] = r;
+        d[i + 1] = g;
+        d[i + 2] = b;
+        d[i + 3] = 255;
+      }
+      // sombra proyectada abajo a la derecha (semitransparente)
+      for (let y = 1; y < 16; y++)
+        for (let x = 1; x < 16; x++) {
+          const i = px(ox + x, oy + y);
+          if (d[i + 3]! !== 0) continue;
+          const arriba = d[px(ox + x - 1, oy + y - 1) + 3]!;
+          if (arriba > 200) {
+            d[i] = 27;
+            d[i + 1] = 27;
+            d[i + 2] = 31;
+            d[i + 3] = 90;
+          }
+        }
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+export function aplicarSepia(ctx: Ctx, w: number, h: number): void {
+  const img = ctx.getImageData(0, 0, w, h);
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i + 3] === 0) continue;
+    const [r, g, b] = sepia(d[i]!, d[i + 1]!, d[i + 2]!);
+    d[i] = r;
+    d[i + 1] = g;
+    d[i + 2] = b;
+  }
+  ctx.putImageData(img, 0, 0);
 }
 
 export function bakeAllTilesets(

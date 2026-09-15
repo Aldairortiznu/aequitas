@@ -11,11 +11,15 @@ import { Session } from './app/session';
 import { installModals } from './app/modals';
 import { loadGlobalContent } from './app/contentLoader';
 import { getBus } from './core/bus';
+import { fijarEstilo } from './engine/art/estilo';
 import { ui } from './ui/store';
 import { installAudio } from './engine/audio/synth';
 
 const params = new URLSearchParams(window.location.search);
 const escena = params.get('escena');
+
+// Dirección estética del arte construido (comparación): ?estilo=esmeralda|litoral|grabado
+fijarEstilo(new URLSearchParams(window.location.search).get('estilo'));
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,

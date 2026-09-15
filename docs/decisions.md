@@ -23,11 +23,13 @@ fecha, decisión y consecuencia. Las decisiones pendientes están al final.
 
 ## Pendientes
 
-| Decisión                          | Opciones                                                          | Recomendación                                                         |
-| --------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------- |
-| Ruta de producción del arte final | Pixel artist comisionado; generación asistida con limpieza; mixto | Mixto: personajes comisionados, tiles y láminas generados y limpiados |
-| Audio                             | Compositor chiptune; generación con edición                       | Compositor para temas principales; generación para efectos            |
-| Revisor jurídico                  | Un abogado fijo con suplente; rotación                            | Un abogado fijo, una hora semanal                                     |
-| Cadencia por episodio             | 5 o 6 semanas                                                     | 5 con margen cada dos episodios                                       |
-| Idiomas                           | Solo español                                                      | Solo español en la Temporada 1                                        |
-| Analítica                         | Ninguna; local anónima                                            | Ninguna                                                               |
+| Decisión                                     | Opciones                                                                                                       | Recomendación                                                                       |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Dirección estética del arte construido (D14) | A Esmeralda (GBA clásico); B Litoral (16-bit sobrio, luz por estado); C Grabado (sepia con acentos)            | B Litoral; C solo para láminas de documentos. Ver `docs/design/12-estetica.md`      |
+| Estructura de mundo (metroidvania)           | Vista lateral con salto; estructura metroidvania en vista cenital (puertas por documento, río como mapa-mundo) | Cenital con puertas por documento. Ver `docs/design/11-jugabilidad-y-formato.md` §6 |
+| Ruta de producción del arte final            | Pixel artist comisionado; generación asistida con limpieza; mixto                                              | Mixto: personajes comisionados, tiles y láminas generados y limpiados               |
+| Audio                                        | Compositor chiptune; generación con edición                                                                    | Compositor para temas principales; generación para efectos                          |
+| Revisor jurídico                             | Un abogado fijo con suplente; rotación                                                                         | Un abogado fijo, una hora semanal                                                   |
+| Cadencia por episodio                        | 5 o 6 semanas                                                                                                  | 5 con margen cada dos episodios                                                     |
+| Idiomas                                      | Solo español                                                                                                   | Solo español en la Temporada 1                                                      |
+| Analítica                                    | Ninguna; local anónima                                                                                         | Ninguna                                                                             |

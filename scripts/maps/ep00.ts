@@ -34,8 +34,8 @@ export function ep00Maps(): Record<string, MapBuilder> {
   e.path(20, 4, 21, 21);
   e.path(6, 12, 34, 13);
   // Laboratorio (edificio grande, arriba a la izquierda) y herbario (arriba a la derecha)
-  e.building(4, 2, 18, 9, T.piso, 11);
-  e.building(24, 3, 33, 9, T.piso, 28);
+  e.building(4, 2, 18, 9, T.r63, 11);
+  e.building(24, 3, 33, 9, T.r63, 28);
   e.deco(6, 1, T.panelSolar)
     .deco(8, 1, T.panelSolar)
     .deco(10, 1, T.panelSolar)
@@ -67,6 +67,29 @@ export function ep00Maps(): Record<string, MapBuilder> {
     .deco(24, 19, T.margarita, false);
   e.deco(4, 11, T.arbusto).deco(16, 17, T.arbusto).deco(30, 15, T.arbusto).deco(12, 19, T.arbusto);
   e.deco(2, 14, T.cartel);
+  // Densidad del claro: cercas alrededor de las huertas, barriles de agua, más vegetación de
+  // ciénaga en los bordes, una canoa varada y postes con red.
+  for (const x of [7, 8, 9, 10, 11]) e.deco(x, 14, T.cerca, false);
+  for (const x of [25, 26, 27, 28, 29]) e.deco(x, 15, T.cerca, false);
+  e.deco(2, 17, T.barril).deco(3, 17, T.barril).deco(36, 12, T.barril);
+  for (const [x, y] of [
+    [1, 19],
+    [2, 21],
+    [37, 18],
+    [38, 20],
+    [35, 22],
+    [5, 24],
+    [12, 25],
+  ] as const)
+    e.deco(x, y, T.arbusto);
+  for (const [x, y] of [
+    [3, 12],
+    [39, 12],
+    [40, 16],
+  ] as const)
+    e.deco(x, y, T.tronco).deco(x, y - 1, T.copaIzq);
+  e.deco(33, 24, T.canoa).deco(30, 26, T.red, false);
+  e.deco(13, 18, T.poste).deco(29, 18, T.poste);
   // Muelle largo hacia el sur
   e.groundRect(19, 22, 22, 27, T.muelle).solidRect(19, 22, 22, 27, false);
   e.ground(19, 28, T.muelleBorde)

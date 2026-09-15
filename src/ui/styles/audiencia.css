@@ -99,20 +99,84 @@
 }
 .aud__main {
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: 12px;
   padding: 12px 16px;
   min-height: 0;
 }
-.aud__adversario {
-  text-align: center;
+/* Escena de combate (E14): rival arriba a la derecha, quien juega abajo a la izquierda */
+.aud__escena {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-content: space-between;
+  gap: 10px;
+  min-height: 0;
+  padding: 10px;
+  background:
+    linear-gradient(to bottom, rgba(27, 27, 31, 0.04), rgba(27, 27, 31, 0.1)), var(--paper-2);
+  border: 1px solid var(--line);
 }
-.aud__adversario img {
+.aud__rival {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 12px;
+}
+.aud__rival-datos {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+  max-width: 300px;
+}
+.aud__rival-retrato {
   width: 96px;
   height: 96px;
   image-rendering: pixelated;
   border: 1px solid var(--line);
   background: var(--ink-2);
+  box-shadow: 3px 3px 0 rgba(27, 27, 31, 0.25);
+}
+.aud__jugador {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+.aud__jugador-retrato {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+}
+.aud__jugador-datos {
+  display: grid;
+  gap: 4px;
+}
+.aud__escena > .aud__card {
+  align-self: start;
+  overflow: auto;
+}
+.aud__movimientos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  flex: 1 1 320px;
+  max-width: 460px;
+}
+.aud__mov {
+  justify-content: flex-start;
+  text-align: left;
+  padding: 10px 12px;
+}
+.aud__mov kbd {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  opacity: 0.8;
+  margin-right: 6px;
+}
+.aud__mov:disabled {
+  opacity: 0.45;
 }
 .aud__nombre {
   font-family: var(--font-mono);
@@ -282,16 +346,25 @@
 @media (max-width: 700px) {
   .aud__main {
     grid-template-columns: 1fr;
-  }
-  .aud__adversario {
-    display: flex;
-    align-items: center;
+    grid-template-rows: auto minmax(0, 1fr);
     gap: 8px;
-    text-align: left;
+    padding: 8px 10px;
   }
-  .aud__adversario img {
-    width: 48px;
-    height: 48px;
+  .aud__escena {
+    padding: 8px;
+    gap: 6px;
+  }
+  .aud__rival-retrato {
+    width: 64px;
+    height: 64px;
+  }
+  .aud__jugador-retrato {
+    width: 40px;
+    height: 40px;
+  }
+  .aud__movimientos {
+    max-width: none;
+    flex-basis: 100%;
   }
   .aud__afirmacion {
     font-size: 1.05em;

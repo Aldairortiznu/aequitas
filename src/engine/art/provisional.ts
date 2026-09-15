@@ -1,6 +1,9 @@
 import type Phaser from 'phaser';
 import { bakeAllTilesets } from './tilesetProvisional';
 import type { LookPersonalizado } from '../../core/jugador';
+import { dibujarFigura } from './figura';
+import { estiloActivo } from './estilo';
+import { aplicarSepia } from './tilesetProvisional';
 
 /**
  * Arte provisional horneado por código (decisión D4). Paleta definitiva, formas simples.
@@ -60,6 +63,8 @@ export interface CharacterLook {
   top: string;
   bottom: string;
   accent: string;
+  cuerpo?: 'delgado' | 'medio' | 'grueso' | 'nino';
+  ropa?: 'camisa' | 'vestido' | 'chaleco' | 'saco' | 'delantal' | 'bata';
   accesorio?:
     | 'morral'
     | 'panuelo'
@@ -69,8 +74,10 @@ export interface CharacterLook {
     | 'tunica'
     | 'gorra'
     | 'baston'
-    | 'canasto';
-  pelo?: 'corto' | 'largo' | 'recogido' | 'calvo' | 'gris';
+    | 'canasto'
+    | 'llaves'
+    | 'libreta';
+  pelo?: 'corto' | 'largo' | 'recogido' | 'calvo' | 'gris' | 'rizado' | 'rapado' | 'melena';
 }
 
 export const LOOKS: Record<string, CharacterLook> = {
@@ -82,6 +89,7 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.oro1,
     accesorio: 'morral',
     pelo: 'recogido',
+    cuerpo: 'delgado',
   },
   // Protagonistas alternativos (D10): misma camisa de la Escuela y morral, otro cuerpo.
   ramiro: {
@@ -92,6 +100,7 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.oro1,
     accesorio: 'morral',
     pelo: 'corto',
+    cuerpo: 'medio',
   },
   ariel: {
     skin: P.piel2,
@@ -100,7 +109,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     bottom: P.ceniza2,
     accent: P.oro1,
     accesorio: 'gafas',
-    pelo: 'corto',
+    pelo: 'rapado',
+    cuerpo: 'delgado',
   },
   cruz: {
     skin: P.piel0,
@@ -109,7 +119,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     bottom: P.ceniza1,
     accent: P.oro1,
     accesorio: 'panuelo',
-    pelo: 'largo',
+    pelo: 'melena',
+    cuerpo: 'delgado',
   },
   pilar: {
     skin: P.piel2,
@@ -118,7 +129,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     bottom: P.tierra0,
     accent: P.oro1,
     accesorio: 'panuelo',
-    pelo: 'largo',
+    pelo: 'rizado',
+    cuerpo: 'medio',
   },
   prudencio: {
     skin: P.piel0,
@@ -128,6 +140,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.ceniza0,
     accesorio: 'gafas',
     pelo: 'corto',
+    cuerpo: 'delgado',
+    ropa: 'chaleco',
   },
   gerineldo: {
     skin: P.piel2,
@@ -135,8 +149,10 @@ export const LOOKS: Record<string, CharacterLook> = {
     top: P.ceniza3,
     bottom: P.ceniza1,
     accent: P.tierra1,
-    accesorio: 'sombrero',
+    accesorio: 'baston',
     pelo: 'gris',
+    cuerpo: 'delgado',
+    ropa: 'saco',
   },
   clemencia: {
     skin: P.piel1,
@@ -146,6 +162,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.oro2,
     accesorio: 'gafas',
     pelo: 'recogido',
+    cuerpo: 'delgado',
+    ropa: 'saco',
   },
   nepomuceno: {
     skin: P.piel1,
@@ -155,6 +173,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.verde2,
     accesorio: 'barba',
     pelo: 'calvo',
+    cuerpo: 'medio',
+    ropa: 'chaleco',
   },
   casimiro: {
     skin: P.piel0,
@@ -162,8 +182,10 @@ export const LOOKS: Record<string, CharacterLook> = {
     top: P.bellium2,
     bottom: P.ceniza1,
     accent: P.papel,
-    accesorio: 'tunica',
+    accesorio: 'morral',
     pelo: 'corto',
+    cuerpo: 'delgado',
+    ropa: 'bata',
   },
   moscote: {
     skin: P.piel0,
@@ -173,6 +195,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.oro0,
     accesorio: 'gafas',
     pelo: 'gris',
+    cuerpo: 'delgado',
+    ropa: 'saco',
   },
   alguacil: {
     skin: P.piel1,
@@ -182,6 +206,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.oro0,
     accesorio: 'gorra',
     pelo: 'corto',
+    cuerpo: 'medio',
+    ropa: 'chaleco',
   },
   estudiante: {
     skin: P.piel1,
@@ -206,6 +232,7 @@ export const LOOKS: Record<string, CharacterLook> = {
     bottom: P.ceniza2,
     accent: P.papel,
     pelo: 'largo',
+    ropa: 'vestido',
   },
   'vecino-2': {
     skin: P.piel3,
@@ -222,6 +249,7 @@ export const LOOKS: Record<string, CharacterLook> = {
     bottom: P.ceniza2,
     accent: P.tierra1,
     pelo: 'recogido',
+    ropa: 'vestido',
   },
   'vecino-4': {
     skin: P.piel1,
@@ -239,6 +267,7 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.tierra1,
     accesorio: 'sombrero',
     pelo: 'corto',
+    cuerpo: 'medio',
   },
   'estudiante-2': {
     skin: P.piel2,
@@ -254,8 +283,9 @@ export const LOOKS: Record<string, CharacterLook> = {
     top: P.papel2,
     bottom: P.ceniza1,
     accent: P.oro1,
-    accesorio: 'canasto',
+    accesorio: 'llaves',
     pelo: 'calvo',
+    cuerpo: 'grueso',
   },
   tomas: {
     skin: P.piel2,
@@ -263,7 +293,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     top: P.oro2,
     bottom: P.ceniza2,
     accent: P.papel,
-    pelo: 'corto',
+    pelo: 'rizado',
+    cuerpo: 'nino',
   },
   zoraida: {
     skin: P.piel2,
@@ -271,8 +302,10 @@ export const LOOKS: Record<string, CharacterLook> = {
     top: P.agua0,
     bottom: P.papel,
     accent: P.papel,
-    accesorio: 'panuelo',
+    accesorio: 'libreta',
     pelo: 'recogido',
+    cuerpo: 'grueso',
+    ropa: 'delantal',
   },
   vigilante: {
     skin: P.piel1,
@@ -282,6 +315,8 @@ export const LOOKS: Record<string, CharacterLook> = {
     accent: P.oro0,
     accesorio: 'baston',
     pelo: 'corto',
+    cuerpo: 'medio',
+    ropa: 'chaleco',
   },
 };
 
@@ -296,91 +331,7 @@ function drawCharacterFrame(
   dir: Dir,
   frame: number,
 ): void {
-  const t = (x: number, y: number, c: string, w = 1, h = 1): void =>
-    px(ctx, ox + x, oy + y, c, w, h);
-  const step = frame === 1 ? 1 : frame === 3 ? -1 : 0; // desplazamiento de piernas
-  const bob = step === 0 ? 0 : 1;
-  const flip = dir === 'left';
-  const X = (x: number, w = 1): number => (flip ? 16 - x - w : x);
-
-  // Sombra
-  t(4, 22, 'rgba(0,0,0,0.35)', 8, 2);
-  // Piernas
-  const legY = 16 - bob;
-  if (dir === 'up' || dir === 'down') {
-    t(5, legY, look.bottom, 2, 6 + bob);
-    t(9, legY, look.bottom, 2, 6 + bob);
-    if (step !== 0) {
-      t(5, legY + 4, look.bottom, 2, 2 + step);
-      t(9, legY + 4, look.bottom, 2, 2 - step);
-    }
-  } else {
-    t(X(6, 2), legY, look.bottom, 2, 6 + bob);
-    t(X(8 + step * 2, 2), legY, look.bottom, 2, 6 + bob);
-  }
-  // Zapatos
-  t(5, 21, P.ceniza0, 2, 1);
-  t(9, 21, P.ceniza0, 2, 1);
-  // Cuerpo
-  const bodyY = 9 - bob;
-  t(4, bodyY, look.top, 8, 8);
-  if (look.accesorio === 'tunica') t(3, bodyY + 2, look.top, 10, 7);
-  // Brazos
-  if (dir === 'up' || dir === 'down') {
-    t(3, bodyY + 1, look.skin, 1, 5);
-    t(12, bodyY + 1, look.skin, 1, 5);
-  } else {
-    t(X(7), bodyY + 1 + Math.abs(step), look.skin, 1, 5);
-  }
-  // Accesorios de cuerpo
-  if (look.accesorio === 'morral' && dir !== 'up') t(X(10, 3), bodyY + 3, look.accent, 3, 4);
-  if (look.accesorio === 'morral' && dir === 'up') t(4, bodyY + 2, look.accent, 8, 1);
-  if (look.accesorio === 'panuelo') t(4, bodyY, look.accent, 8, 1);
-  if (look.accesorio === 'canasto') t(X(11, 3), bodyY + 3, P.tierra1, 3, 3);
-  if (look.accesorio === 'baston' && dir !== 'up') t(X(13), bodyY, P.tierra0, 1, 12);
-  // Cabeza
-  const headY = 2 - bob;
-  t(5, headY, look.skin, 6, 7);
-  // Pelo
-  if (look.pelo !== 'calvo') {
-    t(5, headY, look.hair, 6, 2);
-    t(4, headY + 1, look.hair, 1, 3);
-    t(11, headY + 1, look.hair, 1, 3);
-    if (look.pelo === 'largo') {
-      t(4, headY + 1, look.hair, 1, 7);
-      t(11, headY + 1, look.hair, 1, 7);
-    }
-    if (look.pelo === 'recogido' && dir !== 'down') t(X(11, 2), headY + 3, look.hair, 2, 2);
-    if (dir === 'up') t(5, headY, look.hair, 6, 6);
-  } else {
-    t(5, headY, look.skin, 6, 2);
-    t(4, headY + 2, look.hair, 1, 2);
-    t(11, headY + 2, look.hair, 1, 2);
-  }
-  // Cara
-  if (dir === 'down') {
-    t(6, headY + 4, P.ceniza0);
-    t(9, headY + 4, P.ceniza0);
-    if (look.accesorio === 'gafas') {
-      t(5, headY + 4, look.accent, 3, 1);
-      t(8, headY + 4, look.accent, 3, 1);
-    }
-    if (look.accesorio === 'barba') t(6, headY + 6, look.hair, 4, 2);
-  } else if (dir !== 'up') {
-    t(X(9), headY + 4, P.ceniza0);
-    if (look.accesorio === 'gafas') t(X(8, 3), headY + 4, look.accent, 3, 1);
-    if (look.accesorio === 'barba') t(X(7, 3), headY + 6, look.hair, 3, 2);
-  }
-  // Sombrero / gorra
-  if (look.accesorio === 'sombrero') {
-    t(3, headY, look.accent, 10, 1);
-    t(5, headY - 2, look.accent, 6, 2);
-  }
-  if (look.accesorio === 'gorra') {
-    t(5, headY - 1, look.accent, 6, 2);
-    if (dir === 'down') t(4, headY + 1, look.accent, 8, 1);
-    else if (dir !== 'up') t(X(4, 4), headY + 1, look.accent, 4, 1);
-  }
+  dibujarFigura(ctx, ox, oy, look, dir, frame, estiloActivo());
 }
 
 export function ensureCharacterAnims(scene: Phaser.Scene, key: string): void {
@@ -418,6 +369,7 @@ export function bakeCharacter(scene: Phaser.Scene, id: string): string {
       drawCharacterFrame(ctx, frame * 16, row * 24, look, dir, frame);
     }
   });
+  if (estiloActivo().posproceso === 'sepia') aplicarSepia(ctx, 64, 96);
   tex.refresh();
   DIRS.forEach((dir, row) => {
     for (let frame = 0; frame < 4; frame++) {
@@ -486,6 +438,7 @@ export function bakeCharacterLook(scene: Phaser.Scene, key: string, look: Charac
       drawCharacterFrame(ctx, frame * 16, row * 24, look, dir, frame);
     }
   });
+  if (estiloActivo().posproceso === 'sepia') aplicarSepia(ctx, 64, 96);
   tex.refresh();
   DIRS.forEach((dir, row) => {
     for (let frame = 0; frame < 4; frame++) {

@@ -19,6 +19,7 @@ import type {
   AudienciaState,
 } from '../core/audiencia/engine';
 import { portraitSrc } from './portraits';
+import { idRetrato } from '../core/jugador';
 import { ui } from './store';
 import { expandirObjeto } from '../core/texto/plantilla';
 
@@ -253,47 +254,46 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
     def.adversario.id,
     flash === 'plena' ? 'tensa' : 'neutra',
   );
+  const jugadorPortrait = portraitSrc(
+    session.game,
+    idRetrato(session.jugador),
+    flash === 'fallida' ? 'tensa' : flash === 'plena' ? 'cordial' : 'neutra',
+  );
   const resueltaActual = cur ? st.resueltas.includes(cur.id) : false;
 
   return (
     <div class={`aud ${flash ? `aud--${flash}` : ''}`} role="dialog" aria-label={def.titulo}>
       <header class="aud__head">
-        <div class="aud__title">
-          <span class="aud__eyebrow">
-            Audiencia · ronda {st.ronda + 1} de {def.rondas.length}
-          </span>
-          <h2>{def.titulo}</h2>
-        </div>
-        <div class="aud__meters">
-          <Meter
-            label={def.adversario.medidor ?? 'Posición'}
-            value={st.posicion}
-            max={st.posicionMax}
-            kind="posicion"
-          />
-          <Meter label="Tensión" value={st.tension} max={100} kind="tension" />
-          <div class="meter">
-            <span class="meter__label">Credibilidad</span>
-            <span
-              class="meter__marks"
-              role="img"
-              aria-label={`Credibilidad ${st.credibilidad} de ${st.credibilidadMax}`}
-            >
-              {Array.from({ length: st.credibilidadMax }).map((_, i) => (
-                <span key={i} class={`meter__mark ${i < st.credibilidad ? 'is-on' : ''}`} />
-              ))}
-            </span>
-          </div>
-        </div>
+        <span class="aud__eyebrow">
+          Audiencia · ronda {st.ronda + 1} de {def.rondas.length} · {def.titulo}
+        </span>
       </header>
 
       <div class="aud__main">
-        <aside class="aud__adversario">
-          {adversarioPortrait && <img src={adversarioPortrait} alt="" width={96} height={96} />}
-          <div class="aud__nombre">{def.adversario.nombre}</div>
-        </aside>
+        {/* Escena de combate: adversario arriba a la derecha, quien juega abajo a la izquierda */}
+        <section class="aud__escena">
+          <div class="aud__rival">
+            <div class="aud__rival-datos">
+              <div class="aud__nombre">{def.adversario.nombre}</div>
+              <Meter
+                label={def.adversario.medidor ?? 'Posición'}
+                value={st.posicion}
+                max={st.posicionMax}
+                kind="posicion"
+              />
+              <Meter label="Tensión" value={st.tension} max={100} kind="tension" />
+            </div>
+            {adversarioPortrait && (
+              <img
+                class="aud__rival-retrato"
+                src={adversarioPortrait}
+                alt=""
+                width={96}
+                height={96}
+              />
+            )}
+          </div>
 
-        <section class="aud__center">
           {maniobra ? (
             <div class="aud__card aud__card--maniobra">
               <div class="aud__card-eyebrow">Maniobra</div>
@@ -334,6 +334,35 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
             )
           )}
 
+          <div class="aud__jugador">
+            {jugadorPortrait && (
+              <img
+                class="aud__jugador-retrato"
+                src={jugadorPortrait}
+                alt=""
+                width={64}
+                height={64}
+              />
+            )}
+            <div class="aud__jugador-datos">
+              <div class="aud__nombre">{session.jugador.nombre} Iriarte</div>
+              <div class="meter">
+                <span class="meter__label">Credibilidad</span>
+                <span
+                  class="meter__marks"
+                  role="img"
+                  aria-label={`Credibilidad ${st.credibilidad} de ${st.credibilidadMax}`}
+                >
+                  {Array.from({ length: st.credibilidadMax }).map((_, i) => (
+                    <span key={i} class={`meter__mark ${i < st.credibilidad ? 'is-on' : ''}`} />
+                  ))}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="aud__center">
           <div class="aud__log" ref={logRef} aria-live="polite">
             {log.map((l, i) => (
               <p key={i} class={`aud__line aud__line--${l.kind}`}>
@@ -371,38 +400,40 @@ export function AudienciaView({ session, audienciaId, onDone }: Props) {
             </>
           ) : (
             <>
-              <button
-                type="button"
-                class="btn"
-                onClick={() => dispatch({ type: 'presionar' })}
-                disabled={resueltaActual}
-              >
-                1 Presionar
-              </button>
-              <button
-                type="button"
-                class="btn"
-                onClick={() => setDrawer('hecho')}
-                disabled={resueltaActual}
-              >
-                2 Presentar hecho
-              </button>
-              <button
-                type="button"
-                class="btn"
-                onClick={() => setDrawer('norma')}
-                disabled={resueltaActual}
-              >
-                3 Presentar norma
-              </button>
-              <button
-                type="button"
-                class="btn"
-                onClick={() => setDrawer('fundamentar')}
-                disabled={resueltaActual}
-              >
-                4 Fundamentar
-              </button>
+              <div class="aud__movimientos" role="group" aria-label="Acciones">
+                <button
+                  type="button"
+                  class="btn aud__mov"
+                  onClick={() => dispatch({ type: 'presionar' })}
+                  disabled={resueltaActual}
+                >
+                  <kbd>1</kbd> Presionar
+                </button>
+                <button
+                  type="button"
+                  class="btn aud__mov"
+                  onClick={() => setDrawer('hecho')}
+                  disabled={resueltaActual}
+                >
+                  <kbd>2</kbd> Presentar hecho
+                </button>
+                <button
+                  type="button"
+                  class="btn aud__mov"
+                  onClick={() => setDrawer('norma')}
+                  disabled={resueltaActual}
+                >
+                  <kbd>3</kbd> Presentar norma
+                </button>
+                <button
+                  type="button"
+                  class="btn aud__mov"
+                  onClick={() => setDrawer('fundamentar')}
+                  disabled={resueltaActual}
+                >
+                  <kbd>4</kbd> Fundamentar
+                </button>
+              </div>
               {puedeInvocar(def, st) && (
                 <button type="button" class="btn btn--oro" onClick={() => setDrawer('invocar')}>
                   Invocar la Constitución

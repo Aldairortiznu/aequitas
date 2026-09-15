@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { CSS, FONTS, GAME_HEIGHT, GAME_WIDTH, PALETTE } from '../../config';
 import { bakeAll } from '../art/provisional';
+import { estiloActivo } from '../art/estilo';
+import { aplicarSepia } from '../art/tilesetProvisional';
 import {
   DIRECCIONES,
   ESTADOS,
@@ -83,6 +85,18 @@ export class PreloadScene extends Phaser.Scene {
     load.start();
   }
 
+  /** Estilo «Grabado»: una hoja real se vuelve a crear como lienzo con la rampa sepia. */
+  private sepiaHoja(key: string, w: number, h: number): void {
+    const src = this.textures.get(key).getSourceImage() as HTMLImageElement | HTMLCanvasElement;
+    this.textures.remove(key);
+    const tex = this.textures.createCanvas(key, w, h);
+    if (!tex) return;
+    const ctx = tex.getContext();
+    ctx.drawImage(src, 0, 0);
+    aplicarSepia(ctx, w, h);
+    tex.refresh();
+  }
+
   private finish(): void {
     const m = this.manifest;
     // Registrar lo real y añadir nombres de cuadro a las hojas cargadas.
@@ -90,6 +104,7 @@ export class PreloadScene extends Phaser.Scene {
       const key = `char-${id}`;
       if (!this.textures.exists(key)) continue;
       markReal(key);
+      if (estiloActivo().posproceso === 'sepia') this.sepiaHoja(key, 64, 96);
       const tex = this.textures.get(key);
       DIRECCIONES.forEach((dir, row) => {
         for (let f = 0; f < SPRITE_FRAME.cols; f++) {

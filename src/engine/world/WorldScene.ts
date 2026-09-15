@@ -11,6 +11,7 @@ import {
 } from '../art/provisional';
 import type { Jugador } from '../../core/jugador';
 import { claveSprite } from '../../core/jugador';
+import { estiloActivo } from '../art/estilo';
 import { createKeyMap, readInput } from '../input';
 import type { KeyMap } from '../input';
 import { Companions } from './Companions';
@@ -63,6 +64,7 @@ export class WorldScene extends Phaser.Scene {
   private focus: Interactable | null = null;
   private focusIcon!: Phaser.GameObjects.Image;
   private marker!: Phaser.GameObjects.Image;
+  private luz!: Phaser.GameObjects.Rectangle;
   private objetivo: { mapa: string; objeto: string } | null = null;
   private uiOpen = false;
   private frozen = false;
@@ -217,6 +219,59 @@ export class WorldScene extends Phaser.Scene {
       this.cameras.main.stopFollow();
     }
 
+    // --- Luz de la escena y partículas ambientales (según el estilo)
+    const interior = d.map.properties?.some((p) => p.name === 'interior' && p.value === 'true');
+    this.luz = this.add
+      .rectangle(0, 0, GAME_WIDTH * 2, GAME_HEIGHT * 2, 0x000000, 0)
+      .setOrigin(0, 0)
+      .setScrollFactor(0)
+      .setDepth(15000);
+    this.aplicarLuz(d.mapState, Boolean(interior));
+    if (estiloActivo().texturaTiles) {
+      // Viñeta: oscurece suavemente los bordes de la pantalla
+      if (!this.textures.exists('vineta')) {
+        const tex = this.textures.createCanvas('vineta', GAME_WIDTH, GAME_HEIGHT);
+        if (tex) {
+          const c = tex.getContext();
+          const g = c.createRadialGradient(
+            GAME_WIDTH / 2,
+            GAME_HEIGHT / 2,
+            GAME_HEIGHT * 0.4,
+            GAME_WIDTH / 2,
+            GAME_HEIGHT / 2,
+            GAME_WIDTH * 0.75,
+          );
+          g.addColorStop(0, 'rgba(27,27,31,0)');
+          g.addColorStop(1, 'rgba(27,27,31,0.62)');
+          c.fillStyle = g;
+          c.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+          tex.refresh();
+        }
+      }
+      this.add.image(0, 0, 'vineta').setOrigin(0, 0).setScrollFactor(0).setDepth(15001);
+    }
+    if (estiloActivo().particulas && !interior) {
+      const w = this.tilemap.widthInPixels;
+      const h = this.tilemap.heightInPixels;
+      const region = d.map.properties?.find((p) => p.name === 'region')?.value;
+      const luciernagas = region === 'cienaga' || region === 'gimnasio' || region === 'provisional';
+      this.add
+        .particles(0, 0, 'px', {
+          x: { min: 0, max: w },
+          y: { min: 0, max: h },
+          lifespan: { min: 4000, max: 9000 },
+          speedX: { min: -4, max: 4 },
+          speedY: luciernagas ? { min: -6, max: 2 } : { min: 2, max: 8 },
+          scale: { start: 1, end: luciernagas ? 1.5 : 0.5 },
+          alpha: { start: 0, end: 0, ease: 'Sine.easeInOut' },
+          tint: luciernagas ? 0xf4dc8a : 0xf3ead8,
+          quantity: 1,
+          frequency: luciernagas ? 900 : 500,
+          maxParticles: luciernagas ? 18 : 40,
+          blendMode: luciernagas ? 'ADD' : 'NORMAL',
+        })
+        .setDepth(14000);
+    }
     this.focusIcon = this.add.image(0, 0, 'icon-hablar').setVisible(false).setDepth(20000);
     this.marker = this.add.image(0, 0, 'icon-objetivo').setVisible(false).setDepth(19999);
     this.tweens.add({
@@ -381,7 +436,18 @@ export class WorldScene extends Phaser.Scene {
         layer.setVisible(name === `deco-${state}`);
     }
     this.cfg.mapState = state;
+    const interior = this.cfg.map.properties?.some(
+      (p) => p.name === 'interior' && p.value === 'true',
+    );
+    this.aplicarLuz(state, Boolean(interior));
     this.cameras.main.flash(300, 0xf4, 0xdc, 0x8a, false);
+  }
+
+  /** Tinte de luz del estilo activo para el estado del mapa (más suave en interiores). */
+  private aplicarLuz(state: MapState, interior: boolean): void {
+    const luz = estiloActivo().luz[state];
+    const color = parseInt(luz.color.replace('#', ''), 16);
+    this.luz.setFillStyle(color, interior ? luz.alpha * 0.5 : luz.alpha);
   }
 
   private onPatrolDetect(p: Patrol): void {

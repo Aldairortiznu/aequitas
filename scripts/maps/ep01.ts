@@ -46,6 +46,14 @@ export function ep01Maps(): Record<string, MapBuilder> {
     .deco(6, 16, T.banca)
     .deco(7, 16, T.banca);
   l.deco(22, 20, T.tanque);
+  // Densidad (regla «algo cada ocho pasos»): columnas del lobby, plantas en cubetas, cajas,
+  // ropa tendida entre columnas, bancas y escombros.
+  for (const x of [8, 16, 24, 32]) l.deco(x, 12, T.poste).deco(x, 19, T.poste);
+  l.deco(4, 4, T.arbusto).deco(21, 4, T.arbusto).deco(38, 14, T.arbusto).deco(38, 22, T.arbusto);
+  l.deco(12, 21, T.barril).deco(13, 21, T.barril).deco(35, 12, T.barril);
+  l.deco(2, 8, T.escombro).deco(36, 21, T.escombro).deco(27, 22, T.r54);
+  l.deco(9, 12, T.r56, false).deco(17, 12, T.r56, false).deco(25, 12, T.r56, false);
+  l.deco(4, 19, T.banca).deco(5, 19, T.banca).deco(33, 16, T.banca).deco(34, 16, T.banca);
   l.atril('atril-lobby', 24, 22);
   l.spawn('inicio', 20, 22)
     .spawn('atril', 25, 23)

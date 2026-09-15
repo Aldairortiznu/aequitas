@@ -74,3 +74,58 @@ Se mantiene el formato RPG cenital estilo GBA con confrontaciones en pantalla pr
 modo guiado y el viaje rápido quedan activados por defecto. La pantalla de Audiencia se
 rediseña como pantalla de combate en el siguiente bloque de interfaz (E14), antes del
 playtest.
+
+## 6. ¿Y si fuera un metroidvania? (pregunta de Dirección, 15 de septiembre)
+
+Un metroidvania es tres cosas: **un mundo único e interconectado** en vez de niveles
+sueltos; **puertas que solo se abren con una capacidad que se gana más adelante**, de modo
+que volver atrás con algo nuevo es parte del juego; y **un mapa que se va revelando**. Casi
+siempre viene además con vista lateral y salto (*Metroid*, *Castlevania: Symphony of the
+Night*, *Hollow Knight*), pero eso es la piel, no la estructura: *Zelda* en vista cenital es
+un metroidvania sin salto.
+
+### Qué encaja con AEQUITAS
+
+- Las **puertas por capacidad** encajan mejor que en ningún otro género, porque aquí las
+  capacidades son documentos y conocimientos: no se entra a la Oficina sin el poder; no se
+  contesta al Parte sin saber qué es la rectificación; no se abre la torre sin la válvula. Ya
+  existe en Altamar («llaves que son papeles») y en el Códice, que crece con lo aprendido.
+- El **mundo interconectado** encaja si el Litoral se juega como un solo mapa unido por el
+  río (viaje en canoa, regiones que se abren episodio a episodio), con los episodios como
+  capítulos dentro de ese mundo y no como mapas sueltos. La estructura de producción (un
+  episodio cada cinco semanas, revisión jurídica por bloque) se conserva.
+- El **mapa que se revela** es el minimapa que ya está en la lista (§4.3), con las zonas
+  cerradas en gris hasta que se tiene el papel que las abre.
+
+### Qué no encaja: la vista lateral con salto
+
+1. **Motor nuevo.** Física de plataformas, colisiones, cámara lateral: unas tres semanas de
+   motor de mundo antes de volver a tener lo que hoy funciona.
+2. **Arte.** Todo el arte cenital ya entregado o contratado (sprites de cuatro direcciones,
+   tilesets) se descarta; solo sobreviven retratos, láminas e interfaz. Habría que rehacer
+   el contrato de `docs/arte` y el bloque de Antigravity desde el principio.
+3. **Diseño de niveles.** Un mapa metroidvania bueno es el trabajo más caro del género:
+   *Hollow Knight* fue el trabajo de tres personas durante años. No hay presupuesto ni
+   calendario para eso en la Temporada 1.
+4. **Teléfono.** El plataformeo con botones virtuales es lo que peor se controla en pantalla
+   táctil, y Dirección pidió un juego guiado y no difícil. En un metroidvania lateral la
+   dificultad está en el salto; aquí tiene que estar en el derecho.
+5. **Público.** Estudiantes, comunidades y aulas: el formato cenital con toque y viaje rápido
+   es el que menos destreza pide.
+
+### Recomendación: metroidvania de papeles, en vista cenital
+
+Adoptar la **estructura** metroidvania sin cambiar la vista:
+
+- **Dentro del episodio**: el mundo del episodio como un solo espacio con puertas por
+  documento y regreso al centro con nuevas llaves. Altamar ya lo hace (válvula → torre,
+  carne → sótanos, acta → piscina); se hará explícito en el panel Mapa con las zonas en gris
+  y el papel que las abre.
+- **Entre episodios**: el río como mapa-mundo continuo con la canoa, regiones cerradas hasta
+  su episodio y abiertas después para volver (misiones secundarias, Reverdecer visible).
+- **Capacidades que abren puertas**, todas reales: poder de representación, derecho de
+  petición, acta de asamblea, certificado de existencia, cotejo de folios. Cada una se gana
+  jugando y queda en el Códice; volver atrás con ella cambia lo que se puede hacer.
+
+Si Dirección quiere ver la vista lateral antes de decidir, se puede montar una prueba de
+un solo mapa (la torre de Altamar) en un día; no conviene invertir más sin verla.
