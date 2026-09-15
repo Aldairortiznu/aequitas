@@ -19,6 +19,9 @@ import { capasPara } from '../audio/synth';
 import { Patrol } from './Patrol';
 import { findSpawn, parseObjects } from './objects';
 import type { WorldObject } from './objects';
+import { GRAVEDAD, VELOCIDAD_TREPAR, esLateral, hayEscalera, instalarEscaleras } from './lateral';
+import { crearFondoLateral } from '../art/fondoLateral';
+import type { FondoLateral } from '../art/fondoLateral';
 
 /** Datos con los que la app arranca o reinicia la escena del mundo. */
 export interface WorldSceneData {
@@ -66,6 +69,11 @@ export class WorldScene extends Phaser.Scene {
   private marker!: Phaser.GameObjects.Image;
   private luz!: Phaser.GameObjects.Rectangle;
   private objetivo: { mapa: string; objeto: string } | null = null;
+  /** Vista lateral (D15): gravedad, escaleras, puertas que se abren con la acción. */
+  private lateral = false;
+  private escaleras = new Set<string>();
+  private trepando = false;
+  private fondo: FondoLateral | null = null;
   private uiOpen = false;
   private frozen = false;
   /** Instante (performance.now) hasta el que se ignoran pulsaciones tras cerrar un panel. */
@@ -85,6 +93,10 @@ export class WorldScene extends Phaser.Scene {
     this.zones = [];
     this.patrols = [];
     this.focus = null;
+    this.lateral = false;
+    this.escaleras = new Set();
+    this.trepando = false;
+    this.fondo = null;
   }
 
   create(): void {
@@ -139,6 +151,9 @@ export class WorldScene extends Phaser.Scene {
       colision.setVisible(false);
       colision.setCollisionByExclusion([-1, 0]);
     }
+    this.lateral = esLateral(d.map);
+    this.physics.world.gravity.y = this.lateral ? GRAVEDAD : 0;
+    if (this.lateral) this.escaleras = instalarEscaleras(this.layers, colision);
     // Capas de decorado por estado (`deco-ceniza`, `deco-verdor`, …), si el mapa las trae.
     for (const l of d.map.layers) {
       if (l.type === 'tilelayer' && l.name.startsWith('deco-') && !(l.name in depthOf)) {
@@ -164,8 +179,15 @@ export class WorldScene extends Phaser.Scene {
       j.preset === 'custom' && j.custom
         ? bakeCharacterLook(this, claveSprite(j), lookDesdePersonalizado(j.custom))
         : bakeCharacter(this, j.preset === 'custom' ? 'renata' : j.preset);
-    this.player = this.physics.add.sprite(sx, sy, this.playerKey, 'down-0').setOrigin(0.5, 1);
-    this.player.body?.setSize(10, 8).setOffset(3, 16);
+    this.player = this.physics.add
+      .sprite(sx, sy, this.playerKey, this.lateral ? 'right-0' : 'down-0')
+      .setOrigin(0.5, 1);
+    if (this.lateral) {
+      this.dir = 'right';
+      this.player.body?.setSize(10, 20).setOffset(3, 4);
+    } else {
+      this.player.body?.setSize(10, 8).setOffset(3, 16);
+    }
     this.player.setCollideWorldBounds(true);
     if (colision) this.physics.add.collider(this.player, colision);
 
@@ -193,6 +215,16 @@ export class WorldScene extends Phaser.Scene {
           this.interactables.push({ obj, sprite: null });
           break;
         case 'door':
+          if (this.lateral) {
+            this.interactables.push({ obj, sprite: null });
+            break;
+          }
+          this.zones.push({
+            obj,
+            rect: new Phaser.Geom.Rectangle(obj.x, obj.y, obj.width || 16, obj.height || 16),
+            inside: false,
+          });
+          break;
         case 'trigger':
           this.zones.push({
             obj,
@@ -227,6 +259,16 @@ export class WorldScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(15000);
     this.aplicarLuz(d.mapState, Boolean(interior));
+    if (this.lateral) {
+      const region = d.map.properties?.find((p) => p.name === 'region')?.value;
+      this.fondo = crearFondoLateral(this, {
+        region: typeof region === 'string' ? region : 'provisional',
+        estado: d.mapState,
+        interior: Boolean(interior),
+        ancho: this.tilemap.widthInPixels,
+        alto: this.tilemap.heightInPixels,
+      });
+    }
     if (estiloActivo().texturaTiles) {
       // Viñeta: oscurece suavemente los bordes de la pantalla
       if (!this.textures.exists('vineta')) {
@@ -345,14 +387,15 @@ export class WorldScene extends Phaser.Scene {
         ? 'left'
         : facing === 'derecha'
           ? 'right'
-          : facing === 'arriba'
+          : facing === 'arriba' && !this.lateral
             ? 'up'
             : 'down';
     const s = this.physics.add.staticSprite(obj.cx, obj.cy + 8, key, `${dir}-0`).setOrigin(0.5, 1);
     s.body?.setSize(12, 10).setOffset(2, 14);
     s.refreshBody();
     s.setDepth(s.y);
-    this.physics.add.collider(this.player, s);
+    // En vista lateral la gente no tapona el pasillo: se pasa por delante.
+    if (!this.lateral) this.physics.add.collider(this.player, s);
     this.interactables.push({ obj, sprite: s });
   }
 
@@ -471,8 +514,10 @@ export class WorldScene extends Phaser.Scene {
     let vx = input.dx;
     let vy = input.dy;
     const len = Math.hypot(vx, vy);
-    const moving = len > 0.01;
-    if (moving) {
+    let moving = len > 0.01;
+    if (this.lateral) {
+      moving = this.moverLateral(input.dx, input.dy, input.run);
+    } else if (moving) {
       vx /= len;
       vy /= len;
       const speed = input.run ? BALANCE.mundo.velocidadCorrer : BALANCE.mundo.velocidad;
@@ -480,7 +525,7 @@ export class WorldScene extends Phaser.Scene {
       if (Math.abs(vx) > Math.abs(vy)) this.dir = vx > 0 ? 'right' : 'left';
       else this.dir = vy > 0 ? 'down' : 'up';
       this.player.play(`${this.playerKey}-walk-${this.dir}`, true);
-    } else {
+    } else if (!this.lateral) {
       this.player.setVelocity(0, 0);
       this.player.play(`${this.playerKey}-idle-${this.dir}`, true);
     }
@@ -537,7 +582,14 @@ export class WorldScene extends Phaser.Scene {
     }
 
     if (input.interact) {
-      if (best) {
+      if (best && best.obj.type === 'door') {
+        getBus().emit('world:door', {
+          name: best.obj.name,
+          map: best.obj.props.mapa ?? '',
+          spawn: best.obj.props.spawn ?? 'inicio',
+          props: best.obj.props,
+        });
+      } else if (best) {
         getBus().emit('world:interact', {
           kind: best.obj.type,
           id: best.obj.name,
@@ -551,6 +603,51 @@ export class WorldScene extends Phaser.Scene {
 
     // Patrullas
     for (const p of this.patrols) p.update(delta, this.player.x, this.player.y, busy);
+  }
+
+  /**
+   * Movimiento en vista lateral: izquierda y derecha con gravedad, arriba y abajo en las
+   * escaleras; sin salto (D15). Devuelve si se está moviendo.
+   */
+  private moverLateral(dx: number, dy: number, run: boolean): boolean {
+    const body = this.player.body as Phaser.Physics.Arcade.Body;
+    const enSuelo = body.blocked.down || body.touching.down;
+    const cx = body.center.x;
+    const enEscalera = hayEscalera(this.escaleras, cx, [
+      body.center.y,
+      body.bottom - 2,
+      body.bottom + 3,
+    ]);
+    const escaleraDebajo = hayEscalera(this.escaleras, cx, [body.bottom + 3]);
+    if (enEscalera && (dy !== 0 || this.trepando)) {
+      if (!(!this.trepando && dy > 0 && enSuelo && !escaleraDebajo)) {
+        this.trepando = true;
+        body.checkCollision.down = false;
+        body.setAllowGravity(false);
+        body.setVelocity(dx * VELOCIDAD_TREPAR * 0.8, dy * VELOCIDAD_TREPAR);
+      }
+    }
+    if (!this.trepando || !enEscalera) {
+      this.trepando = false;
+      body.checkCollision.down = true;
+      body.setAllowGravity(true);
+      const speed = run ? BALANCE.mundo.velocidadCorrer : BALANCE.mundo.velocidad;
+      body.setVelocityX(dx * speed);
+    }
+    if (dx < 0) this.dir = 'left';
+    if (dx > 0) this.dir = 'right';
+    const k = this.playerKey;
+    if (this.trepando) {
+      if (dx !== 0 || dy !== 0) this.player.play(`${k}-walk-up`, true);
+      else this.player.play(`${k}-idle-up`, true);
+      return dx !== 0 || dy !== 0;
+    }
+    if (dx !== 0) {
+      this.player.play(`${k}-walk-${this.dir}`, true);
+      return true;
+    }
+    this.player.play(`${k}-idle-${this.dir}`, true);
+    return false;
   }
 
   /** Posición del jugador (para guardar). */

@@ -1,76 +1,78 @@
-import { MapBuilder, T } from './lib';
+import { T } from './lib';
+import { FILA_SUELO, Franja } from './lateral';
 
-/** Episodio de prueba: una plaza y un sótano con todos los interactuables. */
-export function gymMaps(): Record<string, MapBuilder> {
-  const plaza = new MapBuilder(40, 24, T.suelo, 'provisional');
-  plaza.props = { region: 'gimnasio', nombre: 'Plaza del gimnasio', musica: 'gym' };
-  plaza.path(0, 11, 39, 12).path(19, 0, 20, 23);
-  plaza.water(0, 20, 39, 23);
-  plaza.groundRect(18, 20, 21, 22, T.muelle).solidRect(18, 20, 21, 22, false);
-  for (let y = 0; y < 20; y++) plaza.ground(30, y, T.canal);
-  plaza.ground(30, 11, T.camino).ground(30, 12, T.camino);
-  plaza.border(T.muro);
-  plaza.building(4, 3, 12, 8, T.piso, 8);
-  plaza.deco(6, 4, T.estante).deco(10, 4, T.estante);
-  for (const [x, y] of [
-    [14, 2],
-    [16, 5],
-    [24, 3],
-    [26, 7],
-    [35, 4],
-    [36, 15],
-    [8, 15],
-    [12, 17],
-    [24, 16],
-  ] as const)
-    plaza.deco(x, y, T.arbusto);
-  for (const [x, y] of [
-    [15, 9],
-    [33, 9],
-    [28, 17],
-    [6, 12],
-  ] as const)
-    plaza.deco(x, y, T.sueloDetalle, false);
-  plaza.atril('atril-plaza', 22, 14);
-  plaza.mesa('mesa-plaza', 26, 12, 'gym-pacto');
+/**
+ * Gimnasio (episodio de pruebas): la plaza y su sótano, en vista lateral (D15). Sirve a las
+ * pruebas e2e del mundo (caminar, hablar, recoger, puertas, patrullas) y al playtest de
+ * controles.
+ */
+export function gymMaps(): Record<string, Franja> {
+  const F = FILA_SUELO;
+  const P = F - 1;
+
+  const plaza = new Franja(64, 17, 'provisional', {
+    region: 'gimnasio',
+    nombre: 'Plaza del gimnasio',
+    musica: 'gym',
+  });
+  plaza.terreno(F, T.suelo, T.muro);
+  // Canal que cruza la plaza y ciénaga con muelle al final
+  for (const x of [40, 41]) plaza.deco(x, F, T.canal, true);
+  plaza.agua(58, 63, F);
+  for (let x = 52; x <= 57; x++) plaza.deco(x, F, T.muelle, true);
+  // Casa del sótano: fachada con puerta
+  plaza.pared(9, 7, 15, P, T.muro);
+  plaza.muro(8, 7, P).muro(16, 7, P);
+  plaza.losa(8, 16, 6, T.muroRemate);
+  plaza.planta(10, 9, T.ventana).planta(14, 9, T.ventana);
+  plaza.puerta('puerta-sotano', 12, P, 'sotano', 'entrada');
+  // Vegetación y bancas
+  for (const x of [2, 5, 19, 27, 45, 49]) plaza.planta(x, P, T.arbusto);
+  for (const x of [22, 46])
+    plaza
+      .planta(x, P, T.tronco)
+      .planta(x, P - 1, T.copaIzq)
+      .planta(x + 1, P - 1, T.copaDer);
+  plaza.planta(31, P, T.banca).planta(32, P, T.banca);
+  plaza.maleza(50, 56, P, 2, 9);
+  for (const x of [4, 25, 43]) plaza.decoEn('floracion', x, P, T.margarita);
+  plaza.atril('atril-plaza', 34, P);
+  plaza.mesa('mesa-plaza', 38, P, 'gym-pacto');
   plaza
-    .spawn('inicio', 19, 14)
-    .spawn('desde-sotano', 8, 9)
-    .npc('npc-nepomuceno', 23, 10, 'nepomuceno', 'gym-bienvenida')
-    .npc('npc-casimiro', 27, 13, 'casimiro', 'gym-casimiro', 'izquierda')
-    .npc('npc-estudiante', 14, 12, 'estudiante', 'gym-estudiante', 'derecha')
-    .evidence('ev-acta', 16, 16, 'gym-acta-sin-firma')
-    .folio('folio-cp4', 33, 14, 'cp-4')
-    .folio('folio-cp14', 6, 18, 'cp-14')
-    .door('puerta-sotano', 8, 8, 'sotano', 'entrada')
-    .trigger('trigger-muelle', 18, 20, 4, 1, 'gym-muelle')
+    .spawn('inicio', 30, P)
+    .spawn('desde-sotano', 13, P)
+    .npc('npc-nepomuceno', 36, P, 'nepomuceno', 'gym-bienvenida')
+    .npc('npc-casimiro', 44, P, 'casimiro', 'gym-casimiro', 'izquierda')
+    .npc('npc-estudiante', 24, P, 'estudiante', 'gym-estudiante', 'derecha')
+    .evidence('ev-acta', 20, P, 'gym-acta-sin-firma')
+    .folio('folio-cp4', 48, P, 'cp-4')
+    .folio('folio-cp14', 5, P, 'cp-14')
+    .trigger('trigger-muelle', 53, P, 4, 1, 'gym-muelle')
     .patrol(
       'patrulla-este',
       [
-        [33, 2],
-        [33, 16],
-        [37, 16],
-        [37, 2],
+        [40, P],
+        [50, P],
       ],
       'alguacil',
       'cp-28',
     );
 
-  const sotano = new MapBuilder(20, 14, T.piso, 'provisional');
-  sotano.props = {
+  const sotano = new Franja(32, 17, 'provisional', {
     region: 'gimnasio',
     nombre: 'Sótano del gimnasio',
     musica: 'gym',
     interior: 'true',
-  };
-  sotano.border(T.muro);
-  for (let x = 3; x < 17; x += 3) sotano.deco(x, 2, T.estante);
-  sotano.ground(10, 13, T.puerta).solid(10, 13, false);
-  sotano.decoAlta[13 * 20 + 10] = 0;
+  });
+  sotano.terreno(F, T.piso, T.muro);
+  sotano.losa(0, 31, 6, T.muro);
+  sotano.muro(0, 7, F - 1).muro(31, 7, F - 1);
+  for (const x of [12, 15, 18, 21, 24]) sotano.planta(x, P - 1, T.estante).planta(x, P, T.estante);
+  sotano.planta(27, P, T.barril).planta(28, P, T.barril).planta(9, 9, T.enredadera);
+  sotano.puerta('puerta-plaza', 4, P, 'plaza', 'desde-sotano');
   sotano
-    .spawn('entrada', 10, 11)
-    .evidence('ev-testimonio', 5, 6, 'gym-testimonio-eladio')
-    .door('puerta-plaza', 10, 13, 'plaza', 'desde-sotano')
-    .trigger('trigger-sotano', 8, 10, 4, 1, 'gym-entra-sotano');
+    .spawn('entrada', 5, P)
+    .evidence('ev-testimonio', 20, P - 1, 'gym-testimonio-eladio')
+    .trigger('trigger-sotano', 7, P, 4, 1, 'gym-entra-sotano');
   return { plaza, sotano };
 }

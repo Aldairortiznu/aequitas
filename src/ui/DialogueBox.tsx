@@ -88,12 +88,16 @@ export function DialogueBox({ session, dialogueId, onDone }: Props) {
   useEffect(() => {
     setTw({ text, shown: 0 });
     if (!text) return;
+    // El avance se calcula por tiempo transcurrido, no por tic: si el hilo va cargado (un
+    // teléfono modesto, una prueba sin GPU) el texto no se arrastra, salta lo que toque.
     const step = 1000 / CHARS_PER_SECOND;
+    const inicio = performance.now();
     timer.current = window.setInterval(() => {
+      const objetivo = Math.min(text.length, Math.floor((performance.now() - inicio) / step));
       setTw((prev) => {
         if (prev.text !== text) return { text, shown: 1 };
-        const n = Math.min(text.length, prev.shown + 1);
-        if (n % 3 === 0) getBus().emit('audio:sfx', { name: 'tecla' });
+        const n = Math.max(prev.shown, objetivo);
+        if (n !== prev.shown && n % 3 === 0) getBus().emit('audio:sfx', { name: 'tecla' });
         if (n >= text.length && timer.current !== null) {
           window.clearInterval(timer.current);
           timer.current = null;
