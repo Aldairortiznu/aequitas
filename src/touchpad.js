@@ -130,10 +130,12 @@ export function initTouchPad(game) {
   document.addEventListener('visibilitychange', () => { if (document.hidden) resetThumb(); });
   window.addEventListener('blur', resetThumb);
 
-  // Según la pantalla: en el pueblo y en los retos de moverse se ve todo; en las
+  // Según la pantalla (solo cuenta en HORIZONTAL, donde los controles flotan
+  // sobre el juego): en el pueblo y en los retos de moverse se ve todo; en las
   // que se manejan tocando (menús, personaje, diálogos, cartas, cinemáticas,
-  // audiencia, acuerdo, cierre y minijuegos de botones) se esconden palanca y
-  // botones para no tapar el texto ni la interfaz. Esos se avanzan tocando.
+  // audiencia, acuerdo, cierre y minijuegos de botones) se apartan palanca y
+  // botones para no tapar el texto ni la interfaz. En VERTICAL viven en su
+  // consola, debajo del juego, y siempre se ven (ver index.html).
   const TAP = new Set(['Menu', 'Character', 'Settings', 'CaseClosed', 'Resolution', 'Hearing', 'CaseFile', 'Interview', 'Pause', 'Dialogue', 'Card', 'Cinematic']);
   const sync = () => {
     let tap = false;

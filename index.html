@@ -68,11 +68,8 @@
       .btn.big { width: 17vmin; height: 17vmin; max-width: 84px; max-height: 84px; font-size: 6vmin; }
       .btn.lit { box-shadow: 0 0 16px var(--c), 0 3px 0 #6a6452, 0 4px 5px rgba(0,0,0,.4), inset 0 1px 0 #fff; }
       #b-menu { font-size: 2.6vmin; }
-      /* En pantallas que se manejan tocando (menús, audiencia, acuerdo...) la palanca
-         y los botones se esconden para no tapar nada; ESC sigue a mano. */
-      #pad.tap-only #joy, #pad.tap-only #btns { visibility: hidden; pointer-events: none; }
 
-      /* ===== VERTICAL: consola sólida debajo del juego ===== */
+      /* ===== VERTICAL: consola sólida debajo del juego (siempre completa) ===== */
       @media (pointer: coarse) and (orientation: portrait) {
         #pad {
           display: flex; flex: 0 0 var(--pad-h);
@@ -116,6 +113,9 @@
         #btns { position: absolute; right: 3vmin; bottom: 2.5vmin; opacity: .62; }
         #b-menu { position: absolute; top: 2vmin; right: 2vmin; width: 8vmin; height: 8vmin; max-width:42px; max-height:42px; opacity:.6; }
         #joy, #btns .btn, #b-menu { pointer-events: auto; }
+        /* Aquí sí tapan el juego: en las pantallas que se manejan tocando (menús,
+           diálogos, audiencia, acuerdo...) palanca y botones se apartan; ESC sigue. */
+        #pad.tap-only #joy, #pad.tap-only #btns { visibility: hidden; pointer-events: none; }
       }
     </style>
   </head>

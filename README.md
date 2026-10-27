@@ -40,8 +40,8 @@ npm run dev
 ```
 Abre **http://localhost:5173** y pulsa una tecla para activar el sonido. Desde el
 celular (misma red Wi‑Fi) usa la URL *Network* que muestra Vite: aparecen controles
-táctiles (en horizontal flotan sobre el juego; en las pantallas que se manejan tocando
-se esconden solos).
+táctiles. En vertical van en una consola fija debajo del juego y siempre se ven; en
+horizontal flotan sobre el juego y se apartan en las pantallas que se manejan tocando.
 
 **Controles:** flechas/WASD moverse · E hablar/examinar · X acción · I expediente ·
 B pista de Lumen · C calma de Tinto · M silencio · Esc menú.

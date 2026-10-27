@@ -1,5 +1,11 @@
 # AEQUITAS · Registro de cambios
 
+## v0.1.1 — Controles en celular
+- En vertical, la consola muestra siempre la palanca y los botones. Antes se escondían
+  en el menú, la selección de personaje, las cinemáticas y los diálogos, y la consola
+  parecía vacía.
+- En horizontal siguen apartándose en esas pantallas para no tapar el texto.
+
 ## v0.1 — Capítulo 1 jugable: Puerto Garza
 **Base**
 - Nace AEQUITAS sobre el motor de Reverdecer (Phaser 3 + Vite + Tone.js), en su propia
