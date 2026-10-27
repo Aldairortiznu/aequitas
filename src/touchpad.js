@@ -131,17 +131,16 @@ export function initTouchPad(game) {
   window.addEventListener('blur', resetThumb);
 
   // Según la pantalla: en el pueblo y en los retos de moverse se ve todo; en las
-  // que se manejan tocando (menús, personaje, audiencia, acuerdo, cierre y
-  // minijuegos de botones) se esconden palanca y botones para no tapar la interfaz.
-  const TAP = new Set(['Menu', 'Character', 'Settings', 'CaseClosed', 'Resolution', 'Hearing', 'CaseFile', 'Interview', 'Pause']);
+  // que se manejan tocando (menús, personaje, diálogos, cartas, cinemáticas,
+  // audiencia, acuerdo, cierre y minijuegos de botones) se esconden palanca y
+  // botones para no tapar el texto ni la interfaz. Esos se avanzan tocando.
+  const TAP = new Set(['Menu', 'Character', 'Settings', 'CaseClosed', 'Resolution', 'Hearing', 'CaseFile', 'Interview', 'Pause', 'Dialogue', 'Card', 'Cinematic']);
   const sync = () => {
     let tap = false;
     try {
       const act = game.scene.getScenes(true);
-      let top = act[act.length - 1];
-      let key = top && top.scene.key;
-      // Un diálogo o una carta heredan el modo de la escena de abajo.
-      if ((key === 'Dialogue' || key === 'Card') && top.returnScene) { key = top.returnScene; top = game.scene.getScene(key); }
+      const top = act[act.length - 1];
+      const key = top && top.scene.key;
       if (TAP.has(key)) tap = true;
       if (key === 'Minigame') tap = !(top.def && top.def.pad);
     } catch (e) { /* nada */ }

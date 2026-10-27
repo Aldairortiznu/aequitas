@@ -1,4 +1,6 @@
-// EL CÓDICE: cartas de ley que el Explorador gana jugando y USA en la audiencia.
+// EL CÓDICE: cartas de ley que el personaje gana jugando y USA en la audiencia.
+// Los textos de las cartas no pasan por el trato ({Explorador}...): se escriben
+// sin género para quien juega.
 // Cada carta: fuente (ley), título corto, texto en palabras sencillas (fiel a la
 // norma) y un ejemplo de cómo se aplica.
 //
@@ -17,7 +19,7 @@ const C = (id, fam, ley, titulo, texto, ejemplo) => ({ id, fam, ley, titulo, tex
 export const CODEX = {
   art116: C('art116', 'const', 'Constitución, art. 116', 'Ciudadanos que hacen justicia',
     'Personas particulares pueden ser investidas, de forma transitoria, de la función de administrar justicia como jurados, conciliadores o árbitros (los árbitros pueden fallar en derecho o en equidad).',
-    'Por eso un Explorador puede ayudar a conciliar: no castiga a nadie, ayuda a que las partes lleguen a un acuerdo justo.'),
+    'Por eso quien viaja por la Biblioteca puede ayudar a conciliar: no castiga a nadie, ayuda a que las partes lleguen a un acuerdo justo.'),
   art34: C('art34', 'const', 'Constitución, art. 34', 'Ni destierro ni confiscación',
     'Se prohíben las penas de destierro, prisión perpetua y confiscación: nadie puede ser expulsado de su tierra como castigo ni despojado de sus bienes.',
     'Ni el más fuerte del pueblo puede "montar en una canoa" a alguien y echarlo río abajo.'),
