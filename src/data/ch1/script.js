@@ -1,0 +1,247 @@
+// CAPÍTULO 1 — escenas de la historia: cinemáticas, eventos del pueblo y lo que
+// pasa al ganar cada minijuego (líneas + recompensas).
+
+const say = (s) => (t, fx) => (fx ? { s, t, fx } : { s, t });
+const F = say('fidelina');
+const R = say('ramiro');
+const Ro = say('rosa');
+const Lu = say('lucho');
+const C = say('chepe');
+const Nu = say('nubia');
+const Ca = say('carmen');
+const J = say('julian');
+const A = say('aurelio');
+const L = say('lumen');
+const Ti = say('tinto');
+const E = say('explorador');
+const P = say('pensamiento');
+const U = say('ulpiana');
+const Nar = say('narrador');
+const Nota = say('nota');
+const Pe = say('pescador');
+const Vna = say('vecina');
+const N = say('nando');
+const Pu = say('puno');
+const Pa = say('pelaa');
+const Po = say('pelao');
+
+export const CINEMATICS = {
+  biblioteca: {
+    title: 'AEQUITAS',
+    subtitle: 'El Retorno del Equilibrio',
+    palette: ['#2a1d2e', '#14232e'],
+    scene: 'biblioteca',
+    cast: ['ulpiana', 'explorador', 'lumen', 'tinto'],
+    slots: [0.2, 0.47, 0.67, 0.84],
+    lines: [
+      Nar('Primero llovió durante meses, sin descanso. Después, los ríos se salieron de madre y no volvieron a su cauce.'),
+      Nar('Se fueron la luz, las señales y los caminos. Las ciudades bajas quedaron bajo el agua. La gente la llama la Gran Creciente.'),
+      Nar('Siete años después, el país es un archipiélago de pueblos unidos por el río. Se vive del rebusque, del trueque y de lo que el agua devuelve.'),
+      Nar('En Altamar, la ciudad amurallada, resiste la Biblioteca Experimental: guardiana del Códice, la memoria de nuestras leyes.'),
+      U('{nombre}, llegó una carta de Puerto Garza. Dos familias pelean por la única lancha del pueblo... y hay quien quiere arreglarlo a puños.'),
+      E('¿Y qué puedo hacer yo, Maestra? No soy juez.'),
+      U('No vas a juzgar a nadie. Vas a ayudar a que la gente encuentre un acuerdo justo. La Constitución permite que particulares sirvan como conciliadores.'),
+      U('Tus herramientas son tres: la palabra, la prueba y la ley. Ninguna se dispara. Todas se piensan.'),
+      L('Y yo voy contigo. Lumen, archivo portátil de la Biblioteca: cuatro mil leyes en la memoria y una batería solar.', 'flash'),
+      Ti('¡Ñiiic!'),
+      L('...Y Tinto también viene. Insiste. Dice que alguien tiene que poner la calma.'),
+      U('La Constitución de 1991 y el Código Civil sobrevivieron a la Creciente en estas páginas. Son las mismas leyes de antes: ahora hay que hacerlas valer otra vez.'),
+      U('Escucha a todos, incluso al que grita. El derecho no es un estorbo: es lo que nos permite volver a vivir juntos.'),
+    ],
+  },
+  llegada: {
+    title: 'Capítulo 1',
+    subtitle: 'Puerto Garza · La lancha de la discordia',
+    palette: ['#3a6f8a', '#2b6f6c'],
+    scene: 'puerto',
+    cast: ['ramiro', 'explorador', 'fidelina'],
+    lines: [
+      Nar('Puerto Garza: palafitos remendados, techos de zinc oxidado y un río tan ancho que parece mar.'),
+      Nar('En medio del agua asoma el campanario de la iglesia vieja, hundido hasta las campanas. Más allá, el techo de un bus que el río nunca devolvió.'),
+      R('¿Y ahora quién llegó? ¡Otr{o} foraster{o}!', 'shake'),
+      R('Aquí manda el Puño. El muelle, el puente y la lancha: todo pasa por nosotros. Y el que pasa, paga peaje.'),
+      F('¡Ramiro, compórtese! Viene de la Biblioteca. L{o} llamamos nosotros.'),
+      R('Pues aquí las cosas se arreglan como se arreglan. Y esa lancha no sale del puerto.'),
+      Nar('Ramiro se va escupiendo al agua. Nadie en el muelle se atreve a mirarlo a los ojos.'),
+      F('Desde la Creciente, ellos cobran y gritan... y la gente calla. La Junta casi ni se reúne: hay miedo.'),
+      F('Bienvenid{o}. Cuando esté list{o}, búsqueme en la plaza de la Junta. Tenemos mucho de qué hablar.'),
+      L('Primer consejo de campo: la ley protege también a quien grita. Nadie puede ser desterrado ni despojado a la fuerza.'),
+    ],
+  },
+  epilogo: {
+    title: 'Caso cerrado',
+    subtitle: 'La Niña Mercedes vuelve al agua',
+    palette: ['#e8846b', '#2b4f6c'],
+    scene: 'atardecer',
+    cast: ['aurelio', 'julian', 'carmen'],
+    lines: [
+      Nar('Esa tarde, la Niña Mercedes volvió al agua.'),
+      A('Muchacho... ¿sabes manejar ese motor rojo?'),
+      J('Mejor que nadie, Don Aurelio. Y perdón... por lo de la placa.'),
+      A('Perdonado. Ahora vamos, que hay mucho río por delante.', 'heart'),
+      Ca('Gracias, {Explorador}. Nadie ganó todo... pero nadie perdió todo. Y el puerto sigue comiendo.'),
+      L('Así se ve el equilibrio: no es que todos ganen lo mismo. Es que todos puedan seguir.'),
+      R('...La próxima vez que haya un lío, primero la Junta. Y si no funciona... pues también la Junta.'),
+      Nar('Esa noche, por primera vez desde la Creciente, la Junta se reunió con las puertas abiertas.'),
+      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño.', 'flash'),
+    ],
+  },
+  // Variante: si el acuerdo fue que Aurelio se llevara la lancha.
+  epilogo_entrega: {
+    title: 'Caso cerrado',
+    subtitle: 'La Niña Mercedes se va río arriba',
+    palette: ['#e8846b', '#2b4f6c'],
+    scene: 'atardecer',
+    cast: ['aurelio', 'julian', 'carmen'],
+    lines: [
+      Nar('Esa tarde, la Niña Mercedes se fue río arriba con su dueño.'),
+      A('Señora Carmen: aquí está lo de las reparaciones, completo. Gracias por cuidarla.'),
+      J('Don Aurelio... perdón por lo de la placa.'),
+      A('Perdonado, muchacho. Cuídate.'),
+      Ca('Gracias, {Explorador}. Fue justo... aunque el muelle quedó muy vacío. ¿Ahora con qué pescamos?'),
+      L('Fue legal y nadie salió herido. Pero a veces la ley deja espacio para algo más: un acuerdo en el que todos puedan seguir.'),
+      R('...Bueno. Al menos ahora el lío se arregla en la Junta y no en el muelle.'),
+      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño.', 'flash'),
+    ],
+  },
+  siguiente: {
+    title: 'Continuará',
+    subtitle: 'Capítulo 2 · Siete Puentes',
+    palette: ['#2a1d2e', '#14232e'],
+    scene: 'biblioteca',
+    cast: ['ulpiana', 'explorador'],
+    lines: [
+      U('Buen trabajo, {nombre}. Puerto Garza ya tiene su acta... y algo más difícil de conseguir: confianza.'),
+      U('Pero el río no descansa. En Siete Puentes se cayó el puente colgante, y nadie quiere pagarlo.'),
+      E('Entonces allá voy, Maestra.'),
+      U('Prepárate: responsabilidad, daños y culpas compartidas. Te espera tu siguiente caso.'),
+    ],
+  },
+};
+
+// Eventos dentro del pueblo (diálogos normales).
+export const EVENTS = {
+  astillero: [
+    J('¡Váyase, viejo! ¡Esa lancha es nuestra!'),
+    A('¡Es mía, muchacho! ¡Tiene el nombre de mi madre debajo de esa pintura!'),
+    Ca('¡Julián, cálmate! ...Señor, nosotros no robamos nada.'),
+    J('¿Y usted qué mira, foraster{o}?'),
+    Ti('¡Ñiiiiiic!'),
+    P('Tinto se sienta en medio de los dos, muy serio. Todos se quedan callados.'),
+    L('Tinto acaba de declarar un receso. Hablemos con cada uno, por turnos. Así empieza la justicia: escuchando.'),
+  ],
+  chase_start: [
+    L('¡Rápido! Atrapa a la Copetona antes de que vuelva a la huerta. Acércate y tócala.'),
+  ],
+  chase_fail: [
+    Lu('¡Se me fue otra vez! Esa gallina corre más que un chisme.'),
+    L('Habla otra vez con Don Lucho para intentarlo de nuevo. Tip: acórralala contra una cerca.'),
+  ],
+  chase_win: [
+    Lu('¡La agarró! ¡Bendito sea!'),
+    Ro('¡Mi Copetona! ¡Suéltela, viejo cascarrabias!'),
+    Lu('¡Cascarrabias será su gallina!'),
+    L('Esto se puede poner peor... o mucho mejor. Escuchemos a los dos. Elige bien tus palabras.'),
+  ],
+  reten_abierto: [
+    { s: 'narrador', t: 'El Mono rueda los barriles a un lado. El puente queda libre.' },
+  ],
+  listo: [
+    L('¡Tenemos el caso! Pruebas, testimonios y la confianza del puerto. Vamos donde Doña Fidelina a pedir la audiencia.'),
+  ],
+};
+
+// Lo que pasa al ganar cada minijuego: líneas y recompensas.
+export const WINS = {
+  escucha: {
+    lines: [
+      L('El Código Civil es claro: el dueño de un animal responde por los daños que este cause.'),
+      Ro('...Está bien. La Copetona se comió sus tomates. Yo le resiembro las matas y le hago un corral.'),
+      Lu('Y yo... le devuelvo la gallina. Y si sobran tomates, le regalo unos.'),
+      Ro('¿Y si sobran huevos?'),
+      Lu('...Acepto huevos.'),
+      L('Escribamos el acuerdo, con fecha y firma de los dos. Un acuerdo escrito vale más que mil gritos.'),
+    ],
+    give: ['f:gallina_done', 'i:acuerdo_gallina', 'c:art2353'],
+  },
+  peso: {
+    lines: [
+      L('¡Ahí está! El platillo estaba doblado: a más peso, más se equivocaba. Nadie quiso engañar, pero el resultado era injusto.'),
+      C('¿Doblado? ¡Pero si yo...! Ay, Nubia. Le debo dos kilos. Perdóneme.'),
+      Nu('...Bueno. Si me paga y endereza esa balanza, quedamos en paz.'),
+      L('En los negocios, la buena fe no es solo no querer engañar: es cumplir bien lo pactado.'),
+    ],
+    give: ['f:peso_done', 'c:art1603'],
+  },
+  circuito: {
+    lines: [
+      Nota('Los faroles del muelle se encienden uno a uno. Desde las casas se oyen aplausos.'),
+      Pe('¡Luz! ¡Volvió la luz al muelle!'),
+      L('El muelle es como las plazas y los caminos: es de todos, y entre todos se cuida.'),
+      Nota('Al rato llega un pescador remando y amarra su canoa al muelle iluminado.'),
+    ],
+    give: ['f:alumbrado_done', 'c:art674'],
+  },
+  raspar: {
+    lines: [
+      P('«NIÑA MERCEDES». El nombre viejo aparece bajo la pintura.'),
+      L('Tenía nombre y tenía dueño. Lo perdido no se vuelve de quien lo encuentra: hay que buscar a su dueño.'),
+    ],
+    give: ['i:nombre_original', 'c:ocupacion'],
+  },
+  matricula: {
+    lines: [
+      A('¡Ahí está, completa! Niña Mercedes, motor serie MR-4471-R... ¡a mi nombre!'),
+      L('Quien posee una cosa se tiene por dueño... hasta que otro demuestra serlo. Y este documento demuestra mucho.'),
+      L('Si la placa del motor dice MR-4471-R, no quedará duda de que es la misma lancha.'),
+    ],
+    give: ['i:matricula', 'c:dominio_posesion'],
+  },
+  linterna: {
+    lines: [
+      P('Detrás de las redes viejas algo brilla: una placa metálica. «MR-4471-R».'),
+      L('Coincide con la matrícula. Y la escondieron hace poco: no tiene ni polvo.'),
+      L('Otra cosa: cuando aparece el dueño de algo perdido, se le devuelve... pagando lo que costó recogerlo y conservarlo.'),
+    ],
+    give: ['i:placa_motor', 'c:hallazgo'],
+  },
+  quiz: {
+    lines: [U('¡Bien jugado! Cada respuesta es una herramienta más para tu viaje.')],
+    give: ['c:art229', 'c:art247'],
+  },
+  // Enseñanzas: la gente adopta la norma y el puerto cambia.
+  teach_perro: {
+    lines: [
+      Vna('...Tiene razón. El Canelo es mío, y lo que dañe también. Le ayudo a remendar la red.'),
+      Pe('Así sí. Y si lo amarra de noche, el Canelo hasta puede cuidar las canoas.'),
+      L('Lo resolvieron ellos: tú solo les recordaste la regla. Así vuelve el orden, cuando la gente aprende a usar la ley.'),
+    ],
+    give: ['f:teach_perro'],
+  },
+  teach_muelle: {
+    lines: [
+      N('¿Entonces nadie puede cobrar por amarrar? ¡Se acabó el peaje!'),
+      Pu('...Bueno, bueno. Si es de todos, que lo cuiden todos. Yo me voy a pescar.'),
+      N('¡Minga el sábado para limpiar el muelle! Y pintamos otra vez el reglamento.'),
+      L('Cuando la gente conoce sus derechos, el abuso se queda sin piso.'),
+    ],
+    give: ['f:teach_muelle'],
+  },
+  teach_balanza: {
+    lines: [
+      Nu('¡Una balanza de todos! Así nadie desconfía de nadie.'),
+      C('Yo pongo las pesas y la Junta la revisa cada lunes. Palabra de comerciante.'),
+      L('La buena fe también se organiza: reglas claras y que cualquiera pueda verificar.'),
+    ],
+    give: ['f:teach_balanza'],
+  },
+  teach_cometa: {
+    lines: [
+      Po('¿Y si el dueño no aparece?'),
+      F('La anoto en el libro de hallazgos y pongo un aviso en la Junta. Mientras tanto, ustedes dos la cuidan... ¡y la elevan juntos!'),
+      Pa('¡Juntos! ¡Mire cómo vuela!'),
+      L('Hasta los pelaos ya lo saben: lo que se encuentra se anota, y se busca a su dueño.'),
+    ],
+    give: ['f:teach_cometa'],
+  },
+};

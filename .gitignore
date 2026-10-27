@@ -3,3 +3,10 @@ dist/
 .DS_Store
 *.log
 .vite/
+
+# Capturas de pruebas (regenerables)
+docs/shots/
+
+# Paquete web para compartir (regenerable: npm run build + zip de dist/)
+aequitas-web.zip
+dist/

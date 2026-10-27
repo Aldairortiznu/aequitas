@@ -1,23 +1,35 @@
-// Sistema de guardado simple sobre localStorage.
-// Se ampliará en la Fase 4 (puntos de guardado, acertijos resueltos, etc.).
+// Guardado de AEQUITAS sobre localStorage (clave propia del juego).
 
 import { SAVE_KEY } from '../config.js';
 
 const DEFAULT_SAVE = {
-  version: 2,
-  explorer: 'aurelio', // aurelio | valeria | kaelen | sora
-  level: 0, // 0 = prólogo (Biblioteca), 1 = Torre Ceniza, 2 = Ciénaga, 3 = Terrazas, 4 = Santuario
-  maxLevelReached: 0,
-  dignidad: 100, // antes hp (Dignidad del Explorador)
-  maxDignidad: 100,
-  hp: 100,
-  maxHp: 100,
-  wisdomDiary: [],
-  legalCodex: [], // Artículos de la Constitución y Códigos desbloqueados
-  solvedCases: [],
+  version: 1,
+  gender: 'm', // trato: m (Explorador), f (Exploradora), n (Exploradore)
+  hero: null, // tomas | valeria | rio | alex (ver data/heroes.js)
+  chapter: 1,
+  stage: 'prologo', // prologo → remar → pueblo → audiencia → acuerdo → cierre
+  px: null,
+  py: null,
+  flags: {}, // hitos de la historia
+  items: {}, // pruebas y testimonios del expediente
+  codex: {}, // cartas del Códice ganadas
+  seen: {}, // temas de conversación ya escuchados
+  newCards: [], // cartas por revelar (animación "¡Nueva carta!")
+  scores: {}, // mejor resultado de cada minijuego
+  medals: {},
+  stats: { wrong: 0, hints: 0, calm: 0 },
   createdAt: null,
   updatedAt: null,
 };
+
+// Una sola partida en memoria compartida por todas las escenas (si cada escena
+// tuviera su copia, la última en guardar pisaría los avances de las otras).
+let current = null;
+
+export function getSave() {
+  if (!current) current = loadSave();
+  return current;
+}
 
 export function hasSave() {
   return !!localStorage.getItem(SAVE_KEY);
@@ -27,26 +39,35 @@ export function loadSave() {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
     if (!raw) return null;
-    return { ...DEFAULT_SAVE, ...JSON.parse(raw) };
+    const s = JSON.parse(raw);
+    current = { ...clone(DEFAULT_SAVE), ...s };
+    return current;
   } catch (e) {
     console.warn('No se pudo leer el guardado:', e);
     return null;
   }
 }
 
-export function newSave(explorer = 'aurelio') {
+export function newSave(gender = 'm', hero = null) {
   const now = Date.now();
-  const data = { ...DEFAULT_SAVE, explorer, createdAt: now, updatedAt: now };
+  const data = { ...clone(DEFAULT_SAVE), gender, hero, createdAt: now, updatedAt: now };
   writeSave(data);
+  current = data;
   return data;
 }
 
 export function writeSave(data) {
+  current = data;
   data.updatedAt = Date.now();
-  localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch (e) { /* sin espacio: seguir jugando */ }
   return data;
 }
 
 export function deleteSave() {
+  current = null;
   localStorage.removeItem(SAVE_KEY);
+}
+
+function clone(o) {
+  return JSON.parse(JSON.stringify(o));
 }

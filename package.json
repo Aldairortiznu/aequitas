@@ -1,7 +1,7 @@
 {
   "name": "aequitas",
   "version": "0.1.0",
-  "description": "AEQUITAS: El Retorno del Equilibrio — RPG dialéctico y restaurativo basado en la ley colombiana. Bellium S.A.S.",
+  "description": "AEQUITAS: El Retorno del Equilibrio — aventura de rol e investigación dialéctica en un mundo postapocalíptico de lugares ficticios, con la ley colombiana real (Bellium S.A.S.).",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "playwright": "^1.61.0",
     "vite": "^5.4.0"
   },
   "dependencies": {
-    "phaser": "^3.80.1"
+    "phaser": "^3.80.1",
+    "tone": "^15.1.22"
   }
 }

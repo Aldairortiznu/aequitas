@@ -1,13 +1,14 @@
-// Sistema de diálogos de "Reverdecer" (Fase 3).
-// Caja pixel inferior con retrato, nombre coloreado y texto con efecto
+// Diálogos: caja inferior con retrato, nombre coloreado y texto con efecto
 // máquina de escribir. Se lanza sobre otra escena (que se pausa).
 //
-// Uso: this.scene.launch('Dialogue', { convo: [...], returnScene: 'World' });
+// Uso: this.scene.launch('Dialogue', { convo: [...], returnScene: 'Town' });
 //      this.scene.pause();
 
 import Phaser from 'phaser';
 import { GAME, COLORS } from '../config.js';
-import { SPEAKERS } from '../data/dialogues.js';
+import { SPEAKERS } from '../data/speakers.js';
+import { fmt } from '../systems/text.js';
+import { sfx } from '../systems/audio.js';
 
 export default class DialogueScene extends Phaser.Scene {
   constructor() {
@@ -16,8 +17,9 @@ export default class DialogueScene extends Phaser.Scene {
 
   init(data) {
     this.convo = data.convo || [];
-    this.returnScene = data.returnScene || 'World';
+    this.returnScene = data.returnScene || 'Town';
     this.index = 0;
+    this.closing = false;
   }
 
   create() {
@@ -26,8 +28,6 @@ export default class DialogueScene extends Phaser.Scene {
     const bw = WIDTH - 16;
     const bh = 76;
     const by = HEIGHT - bh - 8;
-    this.bx = bx;
-    this.bw = bw;
 
     // Caja con borde.
     const g = this.add.graphics();
@@ -40,7 +40,7 @@ export default class DialogueScene extends Phaser.Scene {
     this.portraitBox = this.add.graphics();
     this.portraitBox.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.bgGreen).color, 1);
     this.portraitBox.fillRoundedRect(bx + 8, by + 8, 40, 40, 4);
-    this.portrait = this.add.image(bx + 28, by + 47, 'aurelio').setOrigin(0.5, 1);
+    this.portrait = this.add.image(bx + 28, by + 47, 'player').setOrigin(0.5, 1);
 
     // Nombre.
     this.nameText = this.add.text(bx + 58, by + 8, '', {
@@ -67,42 +67,48 @@ export default class DialogueScene extends Phaser.Scene {
     // Controles.
     this.input.keyboard.on('keydown-SPACE', () => this.advance());
     this.input.keyboard.on('keydown-ENTER', () => this.advance());
+    this.input.keyboard.on('keydown-X', () => this.advance()); // botón X del celular
+    this.input.keyboard.on('keydown-E', () => this.advance()); // botón E (Hablar) del celular
     this.input.on('pointerdown', () => this.advance());
+    // Una línea vacía cerraría el diálogo sin mostrar nada: se protege.
+    if (!this.convo.length) { this.time.delayedCall(0, () => this.close()); return; }
 
     this.showLine();
   }
 
   showLine() {
     const line = this.convo[this.index];
-    const sp = SPEAKERS[line.s] || SPEAKERS.pensamiento;
+    const sp = SPEAKERS[line.s] || SPEAKERS.narrador;
 
-    this.nameText.setText(sp.name).setColor(sp.color);
+    this.nameText.setText(fmt(sp.name)).setColor(sp.color);
     this.bodyText.setColor(sp.color === '#ffffff' ? COLORS.cream : '#f3efe0');
     this.bodyText.setFontStyle(sp.italic ? 'italic' : 'normal');
 
-    if (sp.portrait) {
-      this.portrait.setTexture(sp.portrait).setVisible(true);
+    const portrait = sp.portrait;
+    if (portrait && this.textures.exists(portrait)) {
+      this.portrait.setTexture(portrait).setVisible(true);
+      // Escala el retrato para que quepa en el marco (~34 px).
+      const fw = this.portrait.width || 1, fh = this.portrait.height || 1;
+      this.portrait.setScale(Math.min(34 / fw, 34 / fh, 1.6));
       this.portraitBox.setVisible(true);
-      this.nameText.setX(this.bx + 58);
-      this.bodyText.setX(this.bx + 58);
-      this.bodyText.setWordWrapWidth(this.bw - 70);
     } else {
       this.portrait.setVisible(false);
-      this.portraitBox.setVisible(false);
-      this.nameText.setX(this.bx + 16);
-      this.bodyText.setX(this.bx + 16);
-      this.bodyText.setWordWrapWidth(this.bw - 32);
+      this.portraitBox.setVisible(true);
     }
 
     // Máquina de escribir.
-    this.full = line.t;
+    this.full = fmt(line.t);
+    if (line.sfx) sfx(line.sfx);
+    // Efectos de la línea: una objeción sacude la caja, una revelación destella.
+    if (line.fx === 'shake') { this.cameras.main.shake(220, 0.008); sfx('hit'); }
+    else if (line.fx === 'flash') this.cameras.main.flash(250, 240, 235, 200);
     this.shown = 0;
     this.typing = true;
     this.cont.setVisible(false);
     this.bodyText.setText('');
     if (this.typer) this.typer.remove();
     this.typer = this.time.addEvent({
-      delay: 22,
+      delay: this.registry.get('textSpeed') || 22,
       loop: true,
       callback: () => {
         this.shown++;
@@ -134,7 +140,9 @@ export default class DialogueScene extends Phaser.Scene {
   }
 
   close() {
-    this.scene.resume(this.returnScene);
+    if (this.closing) return;
+    this.closing = true;
+    if (this.scene.isPaused(this.returnScene)) this.scene.resume(this.returnScene);
     this.scene.stop();
   }
 }
