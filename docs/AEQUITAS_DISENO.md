@@ -8,19 +8,26 @@ no castiga a nadie: **escucha, investiga, prueba, concilia y enseña**, y la soc
 restablece a su alrededor.
 
 ## 2. El mundo
-- **Distopía con nombres ficticios.** Siete años después de la *Gran Creciente* (los ríos
-  se salieron y no volvieron a su cauce), el país es un archipiélago de pueblos unidos por
-  el agua. Se vive del rebusque, del trueque y de lo que el río devuelve. Moneda: *fichas*
-  de la Junta.
+- **Distopía con nombres ficticios.** Una guerra de nueve años tumbó la luz, los puentes y
+  las oficinas, y obligó a miles de familias a huir. Hace siete años se firmó el *Acuerdo
+  de Altamar*: hay paz en el papel, pero en muchos pueblos todavía manda el más fuerte. El
+  país se rehace pueblo por pueblo, unido por el río, con trueque, minga y memoria.
+  Moneda: *fichas* de la Junta. La guerra es inventada: no se nombran grupos ni hechos reales.
+- **Tono.** Respetuoso con el Caribe, su gente y su diáspora: personajes con dignidad y
+  razones propias, sin caricatura ni chiste a costa de nadie. La cultura aparece como
+  memoria viva (tambor alegre, bullerengue, décimas, la minga, el sancocho compartido) y
+  el desplazamiento y el regreso (Don Aurelio, la Maestra Ulpiana) se cuentan con cuidado.
+  La paz es también un mandato legal: la Constitución la llama derecho y deber (art. 22).
 - **Ley real.** Las normas que se usan son colombianas y vigentes (Constitución de 1991,
   Código Civil, Ley 2220 de 2022, Ley 446 de 1998, Ley 2166 de 2021). Cada carta del Códice
   cita su artículo.
 - **Lugares (todos inventados):** Altamar (la ciudad amurallada donde resiste la Biblioteca
   Experimental), Puerto Garza (capítulo 1), Puerto Alcaraván (río arriba), la Ciénaga del
   Silencio, Bahía Ceniza, el Caño Grande y Siete Puentes (capítulo 2).
-- **Lo que quedó del mundo de antes:** un bus hundido hasta las ventanas, el campanario de
-  la iglesia vieja en medio del río, torres de energía caídas, edificios sin techo, vallas
-  desteñidas, celulares que solo sirven de espejo.
+- **Lo que quedó del mundo de antes:** un bus atravesado en el río donde volaron el puente,
+  el campanario de la iglesia vieja partido en su isleta, torres de energía caídas,
+  edificios sin techo y con hollín, paredes con agujeros tapados con latas, vallas
+  desteñidas, celulares que ya no prenden.
 
 ## 3. La lógica del juego: del caos al equilibrio
 El corazón de AEQUITAS es un ciclo que se repite en cada capítulo:
@@ -80,7 +87,7 @@ ellas, en *Equilibrio* (100 %).
 
 ## 5. Capítulo 1: recorrido
 1. **Prólogo:**
-   - En la Biblioteca se cuenta la Creciente y Ulpiana encarga la misión.
+   - En la Biblioteca se cuenta la guerra y el Acuerdo, y Ulpiana encarga la misión.
    - Minijuego *Remar* para llegar al puerto.
    - Llegada: el Puño cobra peaje y la Junta casi no se reúne.
 2. **Confianza** (3 conflictos):

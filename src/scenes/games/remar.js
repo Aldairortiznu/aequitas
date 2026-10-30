@@ -1,4 +1,4 @@
-// REMAR A PUERTO GARZA: la canoa baja por el Caño Grande tras la Creciente.
+// REMAR A PUERTO GARZA: la canoa baja por el Caño Grande, entre restos de la guerra.
 // Esquiva troncos, piedras y remolinos; recoge las páginas que flotan.
 
 import Phaser from 'phaser';
@@ -12,7 +12,7 @@ const R = 388;
 export default {
   pad: true, // se juega con la palanca
   name: 'Remar a Puerto Garza',
-  how: 'El río todavía arrastra lo que dejó la Creciente. Esquiva troncos, piedras y remolinos (← →, o toca a los lados) y recoge las páginas del Códice que flotan.',
+  how: 'El río todavía arrastra lo que dejó la guerra. Esquiva troncos, piedras y remolinos (← →, o toca a los lados) y recoge las páginas del Códice que flotan.',
 
   build(s) {
     const { WIDTH, HEIGHT } = GAME;

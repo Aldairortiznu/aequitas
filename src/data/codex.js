@@ -80,7 +80,7 @@ export const CODEX = {
   // Páginas perdidas del Códice (coleccionables del puerto).
   art1: C('art1', 'const', 'Constitución, art. 1', 'Un Estado social de derecho',
     'Colombia es un Estado social de derecho, fundado en el respeto de la dignidad humana, en el trabajo y la solidaridad de las personas y en la prevalencia del interés general.',
-    'Aun después de la Creciente, esa es la brújula de la Biblioteca.'),
+    'Aun después de la guerra, esa es la brújula de la Biblioteca.'),
   art11: C('art11', 'const', 'Constitución, art. 11', 'La vida es inviolable',
     'El derecho a la vida es inviolable. No habrá pena de muerte.',
     'Ninguna asamblea, por enfurecida que esté, puede decidir sobre la vida de nadie.'),

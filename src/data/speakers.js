@@ -3,8 +3,10 @@
 // Los textos admiten {Explorador}, {o}, {el}/{El} y {nombre} (ver systems/text.js).
 //
 // ESTILO: español de Colombia, trato de "tú" entre personajes cercanos y
-// "usted" de la gente mayor del puerto; toques caribeños ("ajá", "ombe",
-// "mija", "compadre") sin caricaturizar. Frases cortas: el juego es dinámico.
+// "usted" de la gente mayor del puerto; toques caribeños ("ajá", "mija",
+// "compadre") con naturalidad. Tono respetuoso: la gente del puerto carga una
+// guerra y la honra con su memoria, su música y su palabra. El humor, si lo hay,
+// es cálido y nunca a costa de nadie. Frases cortas: el juego es dinámico.
 
 export const SPEAKERS = {
   explorador: { name: '{nombre}', color: '#e3b04b', portrait: 'player' },
@@ -59,5 +61,5 @@ export const PEOPLE = {
   npc_pelaa: { skin: 'trigueno', hair: '#2a1d18', hairStyle: 'braids', top: '#9cc36b', skirt: true, bottom: '#f2b84b', child: true },
   // Los del Puño: la gente de Ramiro que cobra peaje (se van cuando vuelve el orden).
   npc_puno: { skin: 'medio', hair: '#1d1a1c', hairStyle: 'short', hat: 'bandana', hatColor: '#2a2420', top: '#3a3532', bottom: '#2a2f33', tirepads: true, patches: true, patchColor: '#c8302a' },
-  npc_puno2: { skin: 'oscuro', hair: '#1d1a1c', hairStyle: 'bald', top: '#5c3a2a', bottom: '#2a2f33', tirepads: true, goggles: true },
+  npc_puno2: { skin: 'trigueno', hair: '#1d1a1c', hairStyle: 'bald', top: '#5c3a2a', bottom: '#2a2f33', tirepads: true, goggles: true },
 };

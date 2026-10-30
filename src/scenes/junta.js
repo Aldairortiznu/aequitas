@@ -30,8 +30,11 @@ export function drawJunta(s) {
     g.fillStyle(0x3a2a20, 1); g.fillRect(x + 1, y + 1, 1, 1); g.fillRect(x + w - 2, y + 1, 1, 1);
   }
   g.fillStyle(0x9a5a3a, 0.8); g.fillRect(450, 36, 1, 10); g.fillRect(458, 34, 1, 13);
-  // Marca de la Creciente en la pared: hasta aquí llegó el agua.
-  g.fillStyle(0x000000, 0.18); g.fillRect(0, 118, 196, 3); g.fillRect(288, 118, WIDTH - 288, 3);
+  // La pared guarda la guerra: agujeros tapados con latas, sin pintar encima.
+  for (const [x, y] of [[22, 60], [30, 66], [26, 74], [180, 84], [186, 92], [446, 64], [452, 72]]) {
+    g.fillStyle(0x8f9aa0, 1); g.fillRect(x - 3, y - 3, 6, 6);
+    g.fillStyle(0x3a2a20, 1); g.fillRect(x - 3, y - 3, 1, 1); g.fillRect(x + 2, y + 2, 1, 1);
+  }
   // Lema pintado a mano, bajo la ventana derecha: ahí no lo tapan los títulos,
   // las normas ni los recibos que aparecen en el centro.
   g.fillStyle(0xefe3c2, 0.95); g.fillRect(368, 86, 66, 24); g.lineStyle(1, 0x8a6034, 1); g.strokeRect(368, 86, 66, 24);

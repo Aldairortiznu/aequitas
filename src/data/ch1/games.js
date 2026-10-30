@@ -16,7 +16,7 @@ export const ESCUCHA = {
     },
     {
       who: 'lucho', t: 'Lo único que quiero es que respeten mi huerta.',
-      options: ['Pues compre una escopeta.', 'Entonces lo que necesita es que la huerta quede protegida.', 'Eso no es problema mío, Don Lucho.'],
+      options: ['Pues encierre usted todas las gallinas del barrio.', 'Entonces lo que necesita es que la huerta quede protegida.', 'Eso no es problema mío, Don Lucho.'],
       ok: 1, tip: 'Las posiciones chocan; las necesidades se pueden negociar.',
     },
     {
@@ -54,6 +54,7 @@ export const QUIZ = [
   { t: 'Una transacción puede evitar un pleito que todavía no ha empezado.', a: true, why: 'La transacción termina un litigio pendiente o precave uno eventual (C. C. art. 2469).' },
   { t: 'Quien poseía de buena fe debe devolver todo lo que la cosa le produjo.', a: false, why: 'No devuelve los frutos percibidos antes de contestar la demanda (C. C. art. 964).' },
   { t: 'Toda persona tiene derecho a acceder a la justicia.', a: true, why: 'Lo garantiza la Constitución (art. 229).' },
+  { t: 'La paz es un derecho y también un deber de todas las personas.', a: true, why: 'Lo dice la Constitución: es de obligatorio cumplimiento (art. 22).' },
   { t: 'Una persona particular nunca puede ayudar a administrar justicia.', a: false, why: 'Puede hacerlo de forma transitoria, por ejemplo como conciliadora o árbitra (Const. art. 116).' },
 ];
 export const QUIZ_ROUNDS = 10;

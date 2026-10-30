@@ -1,8 +1,8 @@
 // Fondos pintados de AEQUITAS: la Biblioteca, el puerto de día y el atardecer.
 // Los usan las cinemáticas y la pantalla de selección de personaje.
 //
-// Es el mundo después de la Gran Creciente: en el horizonte asoman las torres de
-// la ciudad vieja, medio hundidas; las torres de energía están caídas o torcidas
+// Es el mundo después de la guerra: en el horizonte asoman las torres rotas de
+// la ciudad vieja; las torres de energía están caídas o torcidas
 // y el campanario de la iglesia vieja tiene el agua hasta las campanas.
 
 import Phaser from 'phaser';
@@ -55,13 +55,16 @@ export function pylon(g, x, base, h, color, lean = 0) {
   L(x - hw * 1.1, top + h * 0.3, x + hw * 1.1, top + h * 0.3);
 }
 
-// El campanario de la iglesia vieja, con el agua hasta las campanas.
+// El campanario de la iglesia vieja en su isleta: le falta medio techo y la
+// cruz quedó torcida desde la guerra.
 export function belfry(g, x, water, color, light) {
   g.fillStyle(color, 1);
+  g.fillEllipse(x, water + 1, 40, 7);
   g.fillRect(x - 9, water - 34, 18, 34);
-  g.fillTriangle(x - 11, water - 34, x + 11, water - 34, x, water - 48);
-  g.fillRect(x - 1, water - 56, 2, 9);
-  g.fillRect(x - 4, water - 53, 8, 2);
+  g.fillTriangle(x - 11, water - 34, x + 2, water - 34, x - 3, water - 46);
+  g.fillTriangle(x + 2, water - 34, x + 11, water - 34, x + 6, water - 39);
+  g.fillRect(x - 4, water - 52, 2, 7);
+  g.fillRect(x - 7, water - 50, 7, 2);
   g.fillStyle(light, 1);
   g.fillRect(x - 5, water - 28, 10, 10);
   g.fillStyle(color, 1);
@@ -99,7 +102,7 @@ export function drawPlace(g, variant) {
         g.fillStyle(0x4a2e18, 1); g.fillRect(x0, y + 22, x1 - x0, 4);
         for (let x = x0 + 2; x < x1 - 4;) {
           const w = 3 + Math.floor(rnd() * 4); const h = 14 + Math.floor(rnd() * 7);
-          // Algunos lomos están manchados de agua: la Creciente también llegó aquí.
+          // Algunos lomos están chamuscados: estos libros se salvaron del fuego.
           const c = Phaser.Display.Color.HexStringToColor(cols[Math.floor(rnd() * cols.length)]).color;
           g.fillStyle(c, 1);
           if (rnd() < 0.08) { g.fillRect(x, y + 22 - h + 4, w + 3, h - 4); x += w + 4; continue; } // libro caído de lado
@@ -109,7 +112,7 @@ export function drawPlace(g, variant) {
         }
       }
     }
-    // Ventana en arco: la ciudad amurallada rodeada de agua y torres hundidas.
+    // Ventana en arco: la ciudad amurallada junto al río y las torres rotas.
     g.fillStyle(0x4a2e18, 1); g.fillRect(186, 26, 108, 140); g.fillCircle(240, 66, 54);
     g.fillGradientStyle(0x1d3a5a, 0x1d3a5a, 0x3a6f8a, 0x3a6f8a, 1); g.fillRect(192, 66, 96, 96);
     g.fillStyle(0x1d3a5a, 1); g.fillCircle(240, 66, 48);
@@ -146,7 +149,7 @@ export function drawPlace(g, variant) {
   const sy = sunset ? 150 : 64;
   for (let r = 90; r > 0; r -= 6) { g.fillStyle(sunset ? 0xffb070 : 0xfff2c0, 0.035 + (90 - r) / 1500); g.fillCircle(sx, sy, r); }
   g.fillStyle(sunset ? 0xffd38a : 0xfff6d8, 1); g.fillCircle(sx, sy, sunset ? 26 : 16);
-  // La ciudad vieja en el horizonte, medio hundida.
+  // La ciudad vieja en el horizonte, con las torres rotas por la guerra.
   const tr = rng(23);
   const far = sunset ? 0x8a5a6a : 0x86a4a8;
   const farWin = sunset ? 0xb07a7a : 0xa8c2c4;
@@ -162,7 +165,7 @@ export function drawPlace(g, variant) {
     const x = sunset ? sx - 40 + Math.floor(rnd() * 80) : Math.floor(rnd() * WIDTH);
     g.fillRect(x, 148 + Math.floor(rnd() * 54), w, 1);
   }
-  // El campanario hundido y el techo de un bus que el río no devolvió.
+  // El campanario partido en su isleta y el bus que quedó donde estaba el puente.
   belfry(g, sunset ? 112 : 300, 178, sunset ? 0x3a2030 : 0x5c6468, sunset ? 0xb05a4a : 0x2a7f86);
   g.fillStyle(sunset ? 0x3a2030 : 0xb5872a, 1); g.fillRect(170, 182, 44, 6);
   g.fillStyle(sunset ? 0x2a1824 : 0x7a5a20, 1); for (let x = 174; x < 210; x += 7) g.fillRect(x, 183, 4, 3);

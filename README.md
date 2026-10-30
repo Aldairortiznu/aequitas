@@ -5,7 +5,7 @@ Aventura de rol e **investigación dialéctica** en pixel art. Un mundo postapoc
 —lugares y personas **ficticios**— donde rige la **ley colombiana real**: la Constitución
 de 1991, el Código Civil y las leyes de conciliación.
 
-Siete años después de la Gran Creciente, un enviado de la **Biblioteca Experimental**
+Siete años después del Acuerdo que puso fin a una larga guerra, un enviado de la **Biblioteca Experimental**
 viaja entre refugios y puertos fluviales resolviendo controversias sin violencia penal.
 Todo empieza en el caos y la tiranía; a medida que el personaje **aprende, aplica y
 enseña** la ley, la gente la adopta y **la sociedad se restablece**: lo ves en el

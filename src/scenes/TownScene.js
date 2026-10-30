@@ -270,7 +270,7 @@ export default class TownScene extends Phaser.Scene {
     if (hasFlag(this.save, 'reten_open') && this.propImgs.reten) this.propImgs.reten.setPosition(this.propImgs.reten.x + 36, this.propImgs.reten.y - 20);
   }
 
-  // Lo que la Creciente dejó en el río: el bus, el campanario, un techo y una torre.
+  // Lo que la guerra dejó en el río: el bus del puente, el campanario, un techo y una torre.
   buildWrecks() {
     WRECKS.forEach((w) => {
       const im = this.add.image(w.x * TILE + 8, (w.y + 1) * TILE, w.tex).setOrigin(0.5, 1).setDepth((w.y + 1) * TILE - 8);

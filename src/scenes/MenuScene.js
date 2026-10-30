@@ -1,5 +1,5 @@
 // MENÚ PRINCIPAL de AEQUITAS: presentación animada (una vez por visita) y el río
-// al atardecer: la ciudad vieja hundida en tres capas de bruma, el sol con su
+// al atardecer: las ruinas de la ciudad vieja en tres capas de bruma, el sol con su
 // reflejo, la luz de la Biblioteca, garzas, la canoa y la balanza del título.
 // Nueva partida (lleva a elegir personaje), Continuar, Códice, Ajustes y Acerca de.
 

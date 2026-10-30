@@ -3,7 +3,7 @@
 // árbol, flor y roca).
 //
 // Mundo: un puerto fluvial de tierra caliente (lugar ficticio), siete años
-// después de la Gran Creciente. Casas de colores remendadas, techos de zinc oxidado, palmas,
+// después de una larga guerra. Casas de colores remendadas, techos de zinc oxidado, palmas,
 // tanques de agua, paneles solares rescatados, muelles de madera y un río ancho.
 //
 // Todo se hornea en texturas al arrancar (BootScene → buildAequitasTextures).
@@ -365,7 +365,7 @@ export function makeBuilding(scene, key, wT, hT, spec) {
     px(wall, 0, fy, W, facade);
     px('#00000026', 0, fy, W, 2);
     px('#00000018', W - 3, fy, 3, facade);
-    // Remiendos de tabla y lata: así se arreglan las casas después de la Creciente.
+    // Remiendos de tabla y lata: así se arreglan las casas después de la guerra.
     if (spec.patched) {
       for (let i = 0; i < 3; i++) {
         const pw = 6 + Math.floor(r() * 5);
@@ -375,8 +375,14 @@ export function makeBuilding(scene, key, wT, hT, spec) {
         px(['#8a6034', '#5c6468', '#b5a68a'][i % 3], x, y, pw, ph); px('#3a2a20', x, y, 1, 1); px('#3a2a20', x + pw - 1, y, 1, 1);
       }
     }
-    // Marca del agua: hasta aquí llegó la Creciente.
-    if (spec.waterline) px('#00000022', 0, H - 9, W, 2);
+    // Hollín de la guerra: manchas oscuras sobre la fachada, ya desteñidas.
+    if (spec.waterline) {
+      for (let i = 0; i < 3; i++) {
+        const x = 3 + Math.floor(r() * (W - 14));
+        const y = fy + 2 + Math.floor(r() * 4);
+        px('#0000002a', x, y, 8, 2); px('#0000001c', x + 1, y + 2, 6, 2); px('#00000012', x + 2, y + 4, 4, 2);
+      }
+    }
     px(trim, 0, H - 2, W, 2);
     // Puerta.
     const dw = spec.door === 'big' ? Math.min(W - 12, 28) : 8;
@@ -421,7 +427,7 @@ export const SKIN = {
 //         bottom, skirt, apron, shoes, beard, mustache, glasses, child, elder,
 //         item: 'net'|'hoe'|'cane'|'book'|'hen'|'satchel'|'ledger'|'map'|'radio',
 //         coat, trim, braid,
-//         // ropa del mundo después de la Creciente:
+//         // ropa del mundo después de la guerra:
 //         patches (remiendos), backpack (morral con cobija), ruana, ruanaStripe,
 //         neckerchief, goggles, earrings, tirepads (hombreras de llanta), hairTip }
 //   hairStyle: short | long | bun | curly | braids | pigtails | ponytail | bald | undercut | bob
@@ -719,7 +725,7 @@ function buildVignette(scene) {
 }
 
 // ------------------------------------------------------------------ RUINAS
-// Lo que dejó la Creciente: chatarra, torres caídas y casas que el río se tragó.
+// Lo que dejó la guerra: chatarra, torres caídas, el puente volado y casas en ruinas.
 
 // Línea de píxeles (Bresenham), para celosías y cables.
 function line(px, x0, y0, x1, y1, c) {
@@ -737,7 +743,7 @@ function line(px, x0, y0, x1, y1, c) {
   }
 }
 
-// Franja de río al pie de lo que está hundido (empata con el agua del mapa).
+// Franja de río al pie de lo que quedó en el agua (empata con el agua del mapa).
 function waterBand(px, w, y, h) {
   px('#2b6f6c', 0, y, w, h);
   px('#245f5d', 0, y + 2, w, 1);
@@ -746,7 +752,7 @@ function waterBand(px, w, y, h) {
 }
 
 function buildRuins(scene) {
-  // Bus amarillo hundido hasta las ventanas (56x24).
+  // Bus amarillo que quedó a medias en el río, donde estaba el puente (56x24).
   tex(scene, 'pr_bus', 56, 24, (ctx, px) => {
     px('#8a6a2a', 7, 1, 42, 2); for (let x = 9; x < 48; x += 6) px('#5c4a2a', x, 0, 1, 3);
     px('#b5872a', 2, 3, 52, 2);
@@ -761,7 +767,7 @@ function buildRuins(scene) {
     px('#4f9a3c', 12, 2, 6, 2); px('#6fbf55', 14, 1, 2, 1); px('#4f9a3c', 38, 2, 4, 2);
     waterBand(px, 56, 18, 6);
   });
-  // El campanario de la iglesia vieja, con el agua hasta las campanas (28x60).
+  // El campanario de la iglesia vieja en la isleta, partido por la guerra (28x60).
   tex(scene, 'pr_belfry', 28, 60, (ctx, px) => {
     px('#8e989c', 13, 0, 2, 7); px('#8e989c', 10, 2, 8, 2);
     for (let y = 7; y < 16; y++) { const w = 4 + (y - 7) * 2; px(y % 2 ? '#b4553a' : '#9a4a30', 14 - w / 2, y, w, 1); }
@@ -770,9 +776,14 @@ function buildRuins(scene) {
     px('#2a2420', 10, 22, 8, 12); px('#2a2420', 11, 21, 6, 1);
     px('#c9a030', 12, 26, 4, 5); px('#a8802a', 11, 30, 6, 1); px('#5c4a2a', 13, 23, 2, 3);
     px('#8a8270', 7, 36, 1, 5); px('#8a8270', 8, 40, 1, 4); px('#8a8270', 17, 38, 3, 1);
-    px('#a8a090', 5, 44, 18, 2); // marca de hasta dónde llegó el agua
     px('#3f8a35', 5, 48, 3, 5); px('#5aa648', 20, 47, 3, 6); px('#3f8a35', 12, 50, 4, 3);
-    waterBand(px, 28, 53, 7);
+    // Le falta medio techo y tiene un boquete: así quedó después de la guerra.
+    ctx.clearRect(15, 0, 13, 12);
+    px('#9a4a30', 15, 9, 2, 3); px('#8a3a28', 17, 11, 2, 2);
+    px('#2a2420', 17, 40, 4, 5); px('#5a5048', 16, 39, 6, 1); px('#5a5048', 21, 41, 1, 4);
+    // La isleta: arena y piedras al pie de la torre.
+    px('#c9b07a', 1, 53, 26, 3); px('#a8905a', 3, 52, 6, 1); px('#8a8270', 20, 52, 4, 2);
+    waterBand(px, 28, 56, 4);
   });
   // Techo de zinc que asoma del agua, con su antena torcida (40x18).
   tex(scene, 'pr_sunken_roof', 40, 18, (ctx, px) => {

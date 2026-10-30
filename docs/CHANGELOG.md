@@ -1,5 +1,27 @@
 # AEQUITAS · Registro de cambios
 
+## v0.3 — Después de la guerra · nueva presentación
+**Historia**
+- El mundo ya no viene de una inundación sino de una guerra de nueve años que terminó
+  con el Acuerdo de Altamar. Don Aurelio es un desplazado que regresa; la Maestra
+  Ulpiana salvó el Códice en el exilio; Ramiro y el Puño son excombatientes que siguen
+  mandando a la fuerza. La lógica jurídica del caso no cambia.
+- Nueva idea en la Biblioteca y en la radio: la paz es un derecho y un deber (Const., art. 22).
+
+**Tono respetuoso**
+- Fuera los chistes a costa de la gente: la gallina «secuestrada» y el «sancocho», el
+  «viejo cascarrabias», la lavandera, el farol que grita, los «¡Ñiiic!» de Tinto.
+- Los líos del barrio conservan su peso real (la cosecha, los huevos de los nietos).
+- La cultura del Caribe aparece como memoria viva: tambor alegre, bullerengue, décimas,
+  minga; un pelao que sueña con llamar a su tío, que vive lejos desde la guerra.
+
+**Ilustración**
+- Campanario partido en su isleta, hollín en las fachadas, agujeros tapados en la pared
+  de la Junta, libros chamuscados en la Biblioteca.
+- Presentación animada (Bellium S.A.S. presenta → amanecer → la balanza → AEQUITAS letra
+  por letra) y un menú nuevo: ciudad en tres capas de bruma, sol con rayos y reflejo,
+  nubes, garzas, palmas y botones enmarcados en dorado.
+
 ## v0.2 — Letras nítidas y pantallas sin montarse
 **Legibilidad**
 - El juego se pinta a 2 o 3 veces su resolución base y cada texto se dibuja a esa

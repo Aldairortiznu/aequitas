@@ -28,7 +28,6 @@ export const HEARING = {
     F('Cada parte dirá su verdad. {El} {explorador} podrá preguntar y presentar pruebas. Nadie será juzgado sin ser escuchado.'),
     L('Así funciona: si una frase no cuadra, pregunta (E) o presenta una prueba o una carta del Códice (X). Cambia de frase con ◀ ▶.'),
     L('Si te equivocas, la asamblea pierde confianza (♥). Si te atascas, pídeme una pista (B). Y Tinto puede calmar a la gente (C).'),
-    Ti('¡Ñic!'),
   ],
   rounds: [
     {
@@ -37,7 +36,7 @@ export const HEARING = {
       intro: [F('Que hable primero la familia Ortega. Julián, tiene la palabra.'), J('Con gusto. ¡Esto es muy sencillo!')],
       statements: [
         {
-          t: 'La lancha llegó sola con la Creciente. ¡Era de nadie: el río nos la regaló!',
+          t: 'La lancha llegó sola por el río. ¡Era de nadie: el río nos la regaló!',
           press: [E('¿De nadie? ¿Cómo sabes que no tenía dueño?'), J('¡Porque nadie vino a buscarla! Y no tenía ni nombre, que yo sepa.'), L('Mmm... ¿"que yo sepa"? Piensa en lo que encontramos en el casco.')],
           answer: ['nombre_original', 'ocupacion'],
           law: 'ocupacion',
@@ -81,11 +80,11 @@ export const HEARING = {
         },
         {
           t: '¡Los Ortega me la robaron del muelle de Puerto Alcaraván!',
-          press: [E('¿Usted los vio llevársela?'), A('Bueno... no. Pero desapareció la noche de la Creciente. ¡Alguien se la llevó!'), L('¿Alguien? ¿O algo? Hay quien vio la lancha esa noche...')],
+          press: [E('¿Usted los vio llevársela?'), A('Bueno... no. Pero desapareció la noche que la guerra llegó a Alcaraván. ¡Alguien se la llevó!'), L('¿Alguien? ¿O algo? Hay quien vio la lancha esa noche...')],
           answer: ['nando', 'libro_hallazgos'],
           law: 'buena_fe',
-          ok: [E('¡Objeción! Nando la vio bajar sola y vacía con la Creciente. Nadie la robó: se la llevó el río.', 'shake'), N('¡Así fue! ¡Yo la vi con estos ojos!'), A('...Entonces no fue un robo. Les pido disculpas por eso.')],
-          hint: 'Aurelio habla de robo. ¿Quién vio la lancha la noche de la Creciente?',
+          ok: [E('¡Objeción! Nando la vio bajar sola y vacía por el río esa noche. Nadie la robó: se la llevó la corriente.', 'shake'), N('¡Así fue! ¡Yo la vi con estos ojos!'), A('...Entonces no fue un robo. Les pido disculpas por eso.')],
+          hint: 'Aurelio habla de robo. ¿Quién vio la lancha la noche que la guerra llegó a Alcaraván?',
         },
         {
           t: 'La usaron siete años sin pagar: ¡que me paguen el arriendo de todos esos años!',
@@ -125,7 +124,7 @@ export const HEARING = {
           press: [E('¿Echarlo del pueblo? ¿Por reclamar lo que es suyo?'), R('¡Para que aprenda!'), L('Hay una palabra para eso en la Constitución. Y está prohibida.')],
           answer: ['art34'],
           law: 'art34',
-          ok: [E('¡Objeción! El destierro está prohibido. Nadie puede ser expulsado de un lugar como castigo.', 'shake'), Ti('¡Ñiiic!'), As('¡Bien dicho!')],
+          ok: [E('¡Objeción! El destierro está prohibido. Nadie puede ser expulsado de un lugar como castigo.', 'shake'), As('¡Bien dicho!')],
           hint: 'Ramiro quiere expulsar a Aurelio. ¿Qué pena prohíbe la Constitución?',
         },
         {
@@ -133,7 +132,7 @@ export const HEARING = {
           press: [E('¿Siempre? ¿Hoy también?'), R('¡Hoy más que nunca!'), L('Hoy, en el barrio, una pelea se arregló sin un solo golpe. ¿Te acuerdas?')],
           answer: ['acuerdo_gallina', 'justicia_comunitaria', 'art116'],
           law: 'justicia_comunitaria',
-          ok: [E('¡Objeción! Hoy mismo, Doña Rosa y Don Lucho arreglaron su pelea hablando. Aquí está su acuerdo, firmado por los dos.', 'shake'), Lu('¡Y ella me trae huevos los domingos!'), Ro('¡Y él me regala tomates!'), As('¡Jajajaja!'), R('...Bueno. De pronto... de pronto hablando también se puede.')],
+          ok: [E('¡Objeción! Hoy mismo, Doña Rosa y Don Lucho arreglaron su pelea hablando. Aquí está su acuerdo, firmado por los dos.', 'shake'), Lu('¡Y ella me trae huevos los domingos!'), Ro('¡Y él me regala tomates!'), As('¡Así es!'), R('...Bueno. De pronto... de pronto hablando también se puede.')],
           hint: '¿Hay alguna prueba de que en este puerto los problemas se pueden arreglar hablando?',
         },
       ],
@@ -207,7 +206,7 @@ export const ACTA = {
   title: 'ACTA DE CONCILIACIÓN EN EQUIDAD N.º 001 · PUERTO GARZA',
   clauses: {
     PARTES: { k: 'PARTES', t: 'Aurelio Mendoza Pacheco, propietario, y la familia Ortega, poseedores de buena fe, ante la Junta de Acción Comunal.' },
-    HECHOS: { k: 'HECHOS', t: 'La lancha Niña Mercedes se perdió en la Gran Creciente. Los Ortega la hallaron, la anotaron en el libro de la Junta y la repararon.' },
+    HECHOS: { k: 'HECHOS', t: 'La lancha Niña Mercedes se perdió cuando la guerra llegó a Puerto Alcaraván. Los Ortega la hallaron, la anotaron en el libro de la Junta y la repararon.' },
     DOMINIO: { k: 'DOMINIO', t: 'Se reconoce que la lancha es de Aurelio Mendoza Pacheco.' },
     MEJORAS: { k: 'MEJORAS', t: 'Aurelio reconoce a los Ortega {MONTO} fichas por gastos necesarios y mejoras útiles. El parlante y los banderines se los quedan ellos.', blank: { key: 'MONTO', options: [240, 300, 360] } },
     ARRIENDO: { k: 'ARRIENDO', t: 'Los Ortega arriendan la lancha por 50 fichas al mes. Los primeros {MESES} meses se pagan compensando la deuda de las mejoras.', blank: { key: 'MESES', options: [3, 6, 10] } },

@@ -74,9 +74,9 @@ export const TALK = {
   fidelina: [
     { id: 'mision', label: '¿Qué está pasando en el puerto?', req: ['!f:met_fidelina'], give: ['f:met_fidelina', 'c:justicia_comunitaria'], lines: [
       F('¡Bienvenid{o} a Puerto Garza! Soy Fidelina Carrascal, presidenta de la Junta de Acción Comunal.'),
-      F('Siete años después de la Creciente volvimos a pescar, a sembrar... y a pelear, que también es de humanos.'),
+      F('Siete años después del Acuerdo volvimos a pescar, a sembrar... y a discutir, que también es de humanos.'),
       F('Los Ortega y un señor de río arriba, Don Aurelio, se disputan la lancha. Es la única del puerto: con ella pescamos para todos.'),
-      F('Desde la Creciente, Ramiro y su gente mandan a punta de puño: cobran peaje en el puente y en el muelle, y el que reclama se las ve con ellos.'),
+      F('Ramiro y su gente estuvieron en la guerra y se quedaron con la costumbre de mandar a punta de puño: cobran peaje en el puente y en el muelle, y el que reclama se las ve con ellos.'),
       F('Quieren arreglar lo de la lancha a los golpes. Yo quiero arreglarlo bien. Por eso le escribimos a la Biblioteca.'),
       L('La Junta puede conciliar en equidad los conflictos de la comunidad. Nosotros ayudamos: escuchar, buscar pruebas, entender... y luego, la audiencia.'),
       F('Un consejo: aquí nadie le cree a un forastero. Ayude a la gente con sus líos y verá cómo se le abren las puertas. Hasta el retén del puente.'),
@@ -87,13 +87,13 @@ export const TALK = {
       F('Ramiro, Carmen, Julián, Don Aurelio... ¡todo el mundo a la Casa de la Junta!'),
     ] },
     { id: 'confianza', label: '¿Cómo me gano la confianza del puerto?', req: ['f:met_fidelina', '!f:reten_open'], repeat: true, lines: [
-      F('Hay tres líos esperando. En el barrio, Don Lucho tiene secuestrada la gallina de Doña Rosa.'),
+      F('Hay tres líos esperando. En el barrio, Don Lucho tiene encerrada la gallina de Doña Rosa: dice que le dañó la cosecha.'),
       F('En el muelle, los faroles llevan semanas apagados. Y en el mercado, Nubia jura que la balanza de Chepe roba.'),
       F('Resuelva dos y el Mono le abre el puente. Resuelva los tres y el puerto entero le va a escuchar.'),
     ] },
     { id: 'libro', label: 'Carmen dice que anotó la lancha en un libro', req: ['i:carmen', '!i:libro_hallazgos'], give: ['i:libro_hallazgos', 'c:buena_fe'], lines: [
-      F('¡El libro de hallazgos! Desde la Creciente, todo lo que el río trae se anota aquí. Para que nadie se adueñe de lo ajeno.'),
-      Nota('«Año 1 después de la Creciente. Carmen Ortega encontró una lancha encallada en la ciénaga. Motor rojo. Se guarda para su dueño.»'),
+      F('¡El libro de hallazgos! Desde la guerra, todo lo que el río trae o la gente deja atrás se anota aquí. Para que nadie se adueñe de lo ajeno.'),
+      Nota('«Año 1 después del Acuerdo. Carmen Ortega encontró una lancha encallada en la ciénaga, sin nadie a bordo. Motor rojo. Se guarda para su dueño.»'),
       L('Carmen anotó el hallazgo y esperó al dueño: eso es buena fe. Y la ley la presume. Lo que hay que probar es la mala fe.'),
     ] },
     { id: 'falta', label: '¿Podemos hacer ya la audiencia?', req: ['f:met_fidelina', '!ready'], repeat: true, act: 'missing', lines: [
@@ -103,17 +103,18 @@ export const TALK = {
       F('¡La Junta se reúne cada domingo, con las puertas abiertas! Hasta Ramiro viene... a escuchar.'),
       F('Ya nadie cobra peaje. Y cuando hay un lío, la gente dice: «llevémoslo a la Junta». ¿Quién lo hubiera creído?'),
     ] },
-    { id: 'creciente', label: '¿Qué pasó en la Creciente?', req: ['f:met_fidelina'], lines: [
-      F('El río se salió de madre y no volvió a su cauce en meses. Se cayó la luz, se cayeron los puentes, se cayeron las oficinas...'),
-      F('Pero la gente se quedó. Y donde hay gente, hay que ponerse de acuerdo. Para eso existe la Junta.'),
+    { id: 'guerra', label: '¿Qué pasó en la guerra?', req: ['f:met_fidelina'], lines: [
+      F('Nueve años, {explorador}. Se cayeron la luz, los puentes, las oficinas... y muchos tuvimos que huir. Algunos volvieron; otros todavía no.'),
+      F('Los que se quedaron y los que regresaron tuvieron que aprender a vivir juntos otra vez. Para eso existe la Junta.'),
+      L('El Acuerdo de Altamar puso fin a la guerra. Pero la paz, dice la Constitución, es también un deber de cada persona.'),
     ] },
   ],
 
   ramiro: [
     { id: 'quien', label: '¿Usted es Ramiro?', req: ['!f:met_ramiro'], give: ['f:met_ramiro'], lines: [
       R('¿Y usted quién es? ¿Otro que viene a decirnos qué hacer?'),
-      R('Aquí la ley se ahogó con la Creciente. Lo único que sirve es esto.'),
-      P('Me muestra el puño. Tinto se esconde detrás de mis botas.'),
+      R('Aquí la ley se murió en la guerra. Lo único que sirve es esto.'),
+      P('Me muestra el puño. Tinto se pega a mis botas.'),
       L('Para que conste: la Constitución prohíbe el destierro y la confiscación. Ni el más fuerte del puerto puede saltarse eso.'),
     ] },
     { id: 'lancha', label: 'Hablemos de la lancha', req: ['f:met_ramiro'], lines: [
@@ -152,43 +153,42 @@ export const TALK = {
 
   rosa: [
     { id: 'gallina', label: '¿Qué le pasa, Doña Rosa?', req: ['!f:gallina_done', '!f:rosa_hablo'], give: ['f:rosa_hablo'], lines: [
-      Ro('¡Ay, mij{o}! Don Lucho me tiene secuestrada a la Copetona, mi mejor ponedora.'),
-      Ro('Que porque se le metió a la huerta y se comió unas maticas. ¡Y dice que hoy la echa al sancocho!'),
-      Ti('¡Ñiiic!'),
-      L('Tinto opina que nadie debería terminar en un sancocho por un malentendido. Vamos a hablar con Don Lucho.'),
+      Ro('Ay, mij{o}. Don Lucho tiene encerrada a la Copetona, mi gallina. Con sus huevos comemos mis nietos y yo.'),
+      Ro('Dice que se le metió a la huerta y le dañó la cosecha, y que no la devuelve hasta que alguien responda.'),
+      L('Los dos pueden tener razón en algo. Vamos a escuchar a Don Lucho.'),
     ] },
     { id: 'espera', label: '¿Cómo sigue la Copetona?', req: ['!f:gallina_done', 'f:rosa_hablo'], repeat: true, lines: [
-      Ro('¿Ya habló con ese viejo cascarrabias? ¡Mi Copetona sola en ese patio!'),
+      Ro('¿Ya habló con Don Lucho? Mis nietos preguntan por la Copetona.'),
     ] },
     { id: 'charla', label: '¿Cómo va todo?', req: ['f:gallina_done'], repeat: true, lines: [
-      Ro('La Copetona está feliz en su corral nuevo. ¡Y Don Lucho ya me pidió huevos para el desayuno!'),
+      Ro('La Copetona tiene corral nuevo, y Don Lucho y yo nos cambiamos huevos por tomates. Así vivíamos antes de la guerra.'),
     ] },
   ],
 
   lucho: [
     { id: 'gallina', label: 'Esa gallina es de Doña Rosa...', req: ['!f:gallina_done', '!f:gallina_caught'], repeat: true, act: 'chase', lines: [
-      Lu('¡No me venga a defender a esa gallina! Tres veces se me ha metido. ¡Tres!'),
-      Lu('Mire mis tomates: picoteados. Meses de trabajo, y esa emplumada se los come de postre.'),
+      Lu('Tres veces se me ha metido esa gallina a la huerta. Tres.'),
+      Lu('Mire mis tomates: picoteados. Meses de trabajo, en un tiempo en que no sobra nada.'),
       E('Entiendo su rabia, Don Lucho. ¿Y si lo resolvemos hablando con Doña Rosa?'),
-      Lu('¿Hablando? ¡Ay, no! ¡No! ¡Se me soltó la condenada! ¡Agárrela antes de que se vuelva a meter a la huerta!'),
+      Lu('Hablando... ojalá. ¡Ay, se abrió el patio! Recójala, por favor, antes de que llegue otra vez a la huerta.'),
     ] },
     { id: 'mediar', label: 'Hablemos los tres, con calma', req: ['f:gallina_caught', '!f:gallina_done'], repeat: true, act: 'mg:escucha', lines: [
-      Lu('Bueno... hablemos. Pero que sea rápido, que los tomates no se siembran solos.'),
+      Lu('Está bien, hablemos los tres. Con respeto, eso sí.'),
     ] },
     { id: 'noche', label: '¿Ha visto algo raro en el puerto?', req: ['f:gallina_done', '!i:lucho'], give: ['i:lucho'], lines: [
       Lu('Ahora que somos amigos le cuento: la otra noche, desde la huerta, vi al pelao Julián cargando algo de metal hacia la bodega de Chepe.'),
       Lu('Brillaba con la luna. Y caminaba como quien no quiere que lo vean.'),
     ] },
     { id: 'charla', label: '¿Cómo va la huerta?', req: ['f:gallina_done'], repeat: true, lines: [
-      Lu('Rosa me va a traer huevos todas las semanas, y yo le regalo tomates. ¡Quién lo hubiera dicho!'),
+      Lu('Rosa me trae huevos cada semana y yo le llevo tomates. Volvimos a ser vecinos.'),
     ] },
   ],
 
   chepe: [
     { id: 'peso', label: '¿Qué pasa con su balanza?', req: ['!f:peso_done'], repeat: true, act: 'mg:peso', lines: [
-      C('¡Bienvenid{o} a Variedades Chepe! Aquí se cambia arroz por gasolina y gasolina por anzuelos.'),
-      Nu('¡Y se roba en el peso!'),
-      C('¡Calumnias! Mi balanza es exacta como reloj de iglesia.'),
+      C('Bienvenid{o} a Variedades Chepe. Aquí se cambia arroz por gasolina y gasolina por anzuelos.'),
+      Nu('¡Y se pierde en el peso!'),
+      C('Mi balanza es honrada, Nubia. Como yo.'),
       Nu('Le vendí diez kilos de bocachico y me pagó ocho. ¡Ocho!'),
       L('Hagamos una prueba con las pesas de la Junta. Sin acusar a nadie: que hable la balanza.'),
     ] },
@@ -198,9 +198,8 @@ export const TALK = {
       L('Estos recibos dicen cuánto se invirtió en la lancha. Ojo: la ley no trata igual un gasto necesario que un capricho.'),
     ] },
     { id: 'llave', label: '¿Me presta la llave de la bodega?', req: ['f:peso_done', 'f:met_partes', '!i:llave_bodega'], give: ['i:llave_bodega'], lines: [
-      C('¿La bodega? Ahí no hay sino cachivaches de antes de la Creciente... Pero bueno, tome.'),
-      C('Y cuidado con los ratones, que allá son del tamaño de Tinto.'),
-      Ti('¡Ñic!'),
+      C('¿La bodega? Ahí no hay sino cosas de antes de la guerra... Pero tome.'),
+      C('Entre con cuidado, que el piso está flojo.'),
     ] },
     { id: 'charla', label: '¿Cómo va el negocio?', req: ['f:peso_done'], repeat: true, lines: [
       C('Desde que arreglamos la balanza, Nubia me compra hasta el café. ¡Así da gusto!'),
@@ -222,11 +221,10 @@ export const TALK = {
 
   yuli: [
     { id: 'hola', label: '¡Hola, Yuli!', lines: [
-      Y('¿Usted es de la Biblioteca? ¿Es verdad que allá hay libros que hablan?'),
-      L('Técnicamente, yo hablo.'),
-      Y('¡AAAAH! ¡Un farol que habla! ¡Y un chigüiro! ¿Muerde?'),
-      Ti('¡Ñic!'),
-      L('Tinto dice que solo muerde mangos.'),
+      Y('¿Usted viene de la Biblioteca? ¿Es verdad que allá guardan los libros que se salvaron?'),
+      L('Muchos, Yuli. Y yo llevo copia de algunos: soy un archivo que habla.'),
+      Y('Mi abuela dice que en la guerra se quemó la escuela. ¿Usted me enseña algo?'),
+      L('Lo que quieras. Empecemos por esto: aquí todas las personas tienen derecho a ser escuchadas.'),
     ] },
     { id: 'julian', label: '¿Conoces a Julián?', req: ['f:met_partes', '!i:yuli'], give: ['i:yuli'], lines: [
       Y('Julián es mi primo. Anoche lo vi escondiendo una placa brillante en la bodega, detrás de las redes viejas.'),
@@ -239,16 +237,17 @@ export const TALK = {
   ],
 
   tule: [
-    { id: 'creciente', label: 'Cuénteme de la Creciente', lines: [
-      T('Mij{o}, yo tengo noventa años y vi tres crecientes. Pero ninguna como la Grande.'),
-      T('El agua se llevó casas y animales... y trajo cosas de río arriba. Como esa lancha.'),
+    { id: 'memoria', label: 'Cuénteme de los tiempos de antes', lines: [
+      T('Mij{o}, yo tengo noventa años. Vi este puerto con fiesta, lo vi en la guerra y ahora lo veo levantarse.'),
+      T('En la guerra nos quitaron casi todo. Lo que no pudieron quitarnos fue el canto: los bullerengues, las décimas y los nombres de los que no volvieron, que seguimos diciendo.'),
+      L('La memoria también es una forma de justicia, Mamá Tule.'),
     ] },
     { id: 'lancha', label: '¿Usted conocía esa lancha?', req: ['f:met_fidelina', '!i:tule'], give: ['i:tule'], lines: [
-      T('Esa lancha yo la vi antes, en Puerto Alcaraván, cuando iba al mercado. Motor rojo, de los que suenan como tos de viejo.'),
+      T('Esa lancha yo la vi en Puerto Alcaraván, antes de la guerra, cuando iba al mercado. Motor rojo, de los que suenan como tos de viejo.'),
       T('Y tenía nombre de niña, eso sí me acuerdo. ¿Cómo era...? Ay, la memoria.'),
     ] },
     { id: 'charla', label: '¿Algún consejo, Mamá Tule?', repeat: true, lines: [
-      T('El río da y el río quita, mij{o}. Lo que no puede quitar es lo que uno arregla con palabras.'),
+      T('Lo que la guerra rompió no lo arregla nadie solo, mij{o}. Se arregla entre todos, y hablando.'),
     ] },
   ],
 
@@ -261,8 +260,8 @@ export const TALK = {
       N('¡Por fin luz en el muelle! Ya se puede pescar de noche sin partirse una pata.'),
     ] },
     { id: 'lancha', label: '¿Qué sabe de la lancha de los Ortega?', req: ['!i:nando'], give: ['i:nando'], lines: [
-      N('La noche de la Creciente yo estaba amarrado río abajo, aguantando la corriente.'),
-      N('Vi bajar esa lancha sola, vacía, dando vueltas como una hoja. Nadie la venía manejando.'),
+      N('La noche que la guerra llegó a Puerto Alcaraván, yo estaba río abajo, escondido entre los manglares.'),
+      N('Vi bajar esa lancha sola, vacía, dando vueltas en la corriente. Nadie la venía manejando.'),
       N('Si alguien dice que se la robaron... no fue así. Se la llevó el río.'),
     ] },
     { id: 'charla', label: '¿Qué tal la pesca?', repeat: true, lines: [
@@ -273,7 +272,7 @@ export const TALK = {
   carmen: [
     { id: 'version', label: 'Cuénteme su versión', req: ['!i:carmen'], give: ['i:carmen', 'c:frutos'], lines: [
       Ca('La encontramos encallada en la ciénaga, llena de barro. La sacamos entre seis vecinos.'),
-      Ca('La anoté en el libro de la Junta, como se debe. Esperamos un año, dos, tres... nadie vino.'),
+      Ca('La anoté en el libro de la Junta, como se debe. Esperamos un año, dos, tres... nadie vino. Pensamos que su dueño no había sobrevivido.'),
       Ca('La arreglamos con lo poco que teníamos. Con ella comió este puerto siete años.'),
       L('Lo que la lancha produjo mientras la tuvieron de buena fe no se vuelve una deuda. Anótalo.'),
     ] },
@@ -300,18 +299,18 @@ export const TALK = {
   aurelio: [
     { id: 'version', label: 'Cuénteme su versión, Don Aurelio', req: ['!i:aurelio'], give: ['i:aurelio', 'c:art58'], lines: [
       A('Aurelio Mendoza Pacheco, para servirle. Esa lancha es la Niña Mercedes, como mi madre. La compré con veinte años de trabajo.'),
-      A('La perdí la noche de la Creciente, con todo lo demás. Tardé siete años en poder bajar por el río otra vez.'),
-      A('Tengo la matrícula... bueno, media. La otra mitad se la llevó el agua.'),
+      A('Cuando la guerra llegó a Alcaraván tuve que huir con lo que llevaba puesto. La lancha se quedó en el muelle.'),
+      A('Viví siete años desplazado, río arriba. Tengo la matrícula... bueno, media. La otra mitad se quemó con mi casa.'),
       L('La Constitución protege la propiedad. Y también le recuerda que tiene una función social. Las dos cosas valen.'),
     ] },
     { id: 'matricula', label: 'Encontré la otra mitad de un documento', req: ['i:media_matricula', '!i:matricula'], repeat: true, act: 'mg:matricula', lines: [
-      A('¿Usted encontró la otra mitad? ¡Déjeme ver! Ayúdeme a juntarla, que el agua la dejó hecha trizas.'),
+      A('¿Usted encontró la otra mitad? ¡Déjeme ver! Ayúdeme a juntarla, que los años la dejaron hecha trizas.'),
     ] },
     { id: 'ramiro', label: '¿Y lo del Puño?', req: ['i:aurelio'], lines: [
       A('Ese señor me quiere echar del pueblo. Yo no vine a quitarle la comida a nadie. Vine por lo que es mío... y a volver a trabajar.'),
     ] },
     { id: 'charla', label: '¿Cómo se siente, Don Aurelio?', req: ['i:aurelio'], repeat: true, lines: [
-      A('Mi madre decía: «lo que es de uno vuelve». Nunca dijo que volviera fácil.'),
+      A('Mi madre decía: «lo que es de uno vuelve». Yo también volví. Nunca dijo que fuera fácil.'),
     ] },
   ],
 
@@ -319,15 +318,15 @@ export const TALK = {
     { id: 'charla', label: '¿Qué opina del lío de la lancha?', repeat: true, lines: [
       { s: 'vecino', t: 'Yo voto porque se resuelva hablando. Con el Puño ya tuvimos suficiente.' },
     ] },
-    { id: 'antes', label: '¿Cómo era esto antes de la Creciente?', lines: [
+    { id: 'antes', label: '¿Cómo era esto antes de la guerra?', lines: [
       { s: 'vecino', t: 'Por aquí pasaba la carretera, ¿sabe? Había luz toda la noche, señal de celular, bus cada hora...' },
-      { s: 'vecino', t: 'Ahora la carretera es el caño, y el bus está hundido en el río. Uno aprende a vivir con lo que el agua deja.' },
+      { s: 'vecino', t: 'En la guerra volaron el puente, y el bus quedó ahí, a medias en el río. Uno aprende a vivir con lo que queda.' },
       L('Se cayeron los puentes y las oficinas, pero no las leyes: siguen escritas, esperando que alguien las use.'),
     ] },
   ],
   vecina: [
     { id: 'charla', label: '¡Buenas!', repeat: true, lines: [
-      { s: 'vecina', t: 'Si usted arregla lo de la lancha, le lavo la ropa un mes gratis. ¡Palabra de lavandera!' },
+      { s: 'vecina', t: 'Aquí, cuando algo se arregla, se celebra con sancocho para todos en la Junta. Ojalá sea pronto.' },
     ] },
     { id: 'fichas', label: '¿Qué son esas fichas que usan para pagar?', lines: [
       { s: 'vecina', t: 'Son la plata de ahora: tapas marcadas con el sello de la Junta. Una ficha, una libra de arroz.' },
@@ -337,7 +336,7 @@ export const TALK = {
   ],
   pescador: [
     { id: 'red', label: '¿Qué le pasó a su red?', req: ['!c:art2353', '!f:teach_perro'], lines: [
-      { s: 'pescador', t: 'El Canelo, el perro de la vecina, me la rompió. Y aquí, desde la Creciente, el que reclama termina a los golpes.' },
+      { s: 'pescador', t: 'El Canelo, el perro de la vecina, me la rompió. Y aquí, desde la guerra, el que reclama termina a los golpes.' },
       L('Guardemos esto: cuando aprendamos qué dice la ley sobre los daños de los animales, podremos ayudarles.'),
     ] },
     { id: 'ensenar', label: '📖 Enseñar: el perro de la vecina rompió la red', req: ['c:art2353', '!f:teach_perro'], repeat: true, teach: true, act: 'teach:perro', lines: [
@@ -368,18 +367,17 @@ export const TALK = {
       L('Con la lancha aprendiste qué pasa con lo que se encuentra. ¿Se lo enseñas?'),
     ] },
     { id: 'charla', label: '¡Hola!', repeat: true, lines: [
-      { s: 'pelao', t: '¿Ese chigüiro es suyo? ¿Puedo montarlo?' },
-      Ti('¡Ñiiic!'),
-      L('Tinto dice que no es un caballo, pero acepta caricias.'),
+      { s: 'pelao', t: '¿Ese chigüiro viaja con usted? ¿Lo puedo acariciar?' },
+      L('Despacio y con cuidado: así se gana su confianza. Igual que con la gente.'),
     ] },
     { id: 'celular', label: '¿Qué tienes ahí?', lines: [
-      { s: 'pelao', t: 'Un celular del mundo de antes. Lo saqué del barro. No prende... pero sirve de espejo. ¡Mire!' },
+      { s: 'pelao', t: 'Un celular del mundo de antes. Lo saqué de los escombros. No prende... pero lo guardo.' },
       P('En la pantalla rota se ve mi cara y, detrás, el cielo del puerto.'),
-      { s: 'pelao', t: 'Mi abuela dice que antes la gente se peleaba por estos aparatos. ¡Qué bobada! Ni pescan.' },
+      { s: 'pelao', t: 'Mi abuela dice que con estos se hablaba con gente de otros países. Mi tío vive lejos desde la guerra. Algún día lo voy a llamar.' },
     ] },
   ],
   pelaa: [{ id: 'charla', label: '¡Hola!', repeat: true, lines: [
-    { s: 'pelaa', t: '¡Cuando se prendan las luces del muelle vamos a bailar cumbia toda la noche!' },
+    { s: 'pelaa', t: 'Cuando vuelva la luz al muelle, mi abuela va a tocar el tambor alegre otra vez. Dice que la cumbia también es memoria.' },
   ] }],
 
   puno1: [{ id: 'peaje', label: '¿Por qué cobran peaje?', repeat: true, lines: [
@@ -439,14 +437,14 @@ export const TALK = {
     Nota('Un filtro hecho con barriles, arena y carbón. El letrero dice: «AGUA HERVIDA · GRATIS · CUIDARLA ES DE TODOS».'),
     L('El agua limpia aquí es un bien común: nadie la vende, la Junta la cuida y cada familia pone su turno de leña.'),
   ] }],
-  bus: [{ id: 'mirar', label: 'Mirar el bus hundido', repeat: true, lines: [
-    Nota('Un bus amarillo, hundido hasta las ventanas. En el letrero de la ruta todavía se lee: «ALCARAVÁN — ALTAMAR».'),
-    P('Dicen que iba lleno el día de la Creciente, y que todos alcanzaron a salir por el techo.'),
-    L('Ahora las garzas lo usan de hotel. Y los pelaos, de trampolín.'),
+  bus: [{ id: 'mirar', label: 'Mirar el bus del puente', repeat: true, lines: [
+    Nota('Un bus amarillo, a medias en el río, donde antes estaba el puente. En el letrero de la ruta todavía se lee: «ALCARAVÁN — ALTAMAR».'),
+    P('Dicen que lo atravesaron para cerrar el paso en la guerra, y que el puente cayó después.'),
+    L('Ahora las garzas anidan en él. La vida vuelve a ocupar lo que dejó la guerra.'),
   ] }],
   campanario: [{ id: 'mirar', label: 'Mirar el campanario', repeat: true, lines: [
-    Nota('El campanario de la iglesia vieja asoma en medio del río, con el agua hasta las campanas.'),
-    L('Los pescadores lo usan de faro: si ves la campana, ya estás llegando a Puerto Garza.'),
+    Nota('El campanario de la iglesia vieja, en la isleta. Le falta medio techo desde la guerra, y la campana no ha vuelto a sonar.'),
+    L('Los pescadores lo usan de faro. Dicen que el día que haya paz de verdad en el puerto, alguien la volverá a tocar.'),
   ] }],
   viaje: [
     { id: 'antes', label: 'Mirar la canoa de la Biblioteca', req: ['!f:caso_cerrado'], repeat: true, lines: [

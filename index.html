@@ -6,7 +6,7 @@
     <title>AEQUITAS — El Retorno del Equilibrio</title>
     <!-- PWA: instalable en el celular + offline -->
     <link rel="manifest" href="./manifest.webmanifest" />
-    <meta name="theme-color" content="#0d1820" />
+    <meta name="theme-color" content="#150f2a" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -20,7 +20,30 @@
       :root { --pad-h: 38vh; }
       html, body {
         margin: 0; padding: 0; height: 100%;
-        background: #0d1820; overflow: hidden;
+        overflow: hidden;
+        /* Fondo de la página: un atardecer sobre el río, del mismo tono que el menú. */
+        background-color: #120d1e;
+        background-image:
+          radial-gradient(1.5px 1.5px at 8% 6%, rgba(255, 244, 220, 0.8) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 17% 14%, rgba(255, 244, 220, 0.5) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 26% 4%, rgba(255, 244, 220, 0.7) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 34% 19%, rgba(255, 244, 220, 0.4) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 43% 9%, rgba(255, 244, 220, 0.8) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 52% 3%, rgba(255, 244, 220, 0.5) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 61% 16%, rgba(255, 244, 220, 0.6) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 70% 7%, rgba(255, 244, 220, 0.8) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 78% 21%, rgba(255, 244, 220, 0.4) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 86% 11%, rgba(255, 244, 220, 0.7) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 94% 5%, rgba(255, 244, 220, 0.5) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 12% 26%, rgba(255, 244, 220, 0.3) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 57% 27%, rgba(255, 244, 220, 0.3) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 90% 28%, rgba(255, 244, 220, 0.3) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 39% 31%, rgba(255, 244, 220, 0.25) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 73% 33%, rgba(255, 244, 220, 0.25) 50%, transparent 51%),
+          radial-gradient(ellipse 70% 45% at 50% 55%, rgba(240, 144, 96, 0.22), transparent 70%),
+          radial-gradient(ellipse 120% 60% at 50% 110%, rgba(36, 20, 40, 0.95), transparent 70%),
+          linear-gradient(180deg, #150f2a 0%, #3a1e3e 42%, #5a2a4a 58%, #241428 78%, #120d1e 100%);
+        background-attachment: fixed;
         font-family: system-ui, sans-serif;
         -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;
         touch-action: none;
@@ -29,7 +52,7 @@
       #game { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; }
       /* El lienzo ya viene casi a la resolución de la pantalla (src/systems/view.js);
          el ajuste final se suaviza para que las letras no salgan en escalones. */
-      canvas { display: block; }
+      canvas { display: block; box-shadow: 0 0 0 1px rgba(227, 176, 75, 0.35), 0 0 40px rgba(240, 160, 100, 0.25), 0 10px 40px rgba(0, 0, 0, 0.6); }
 
       #pad, #rotate-hint { display: none; }
 
@@ -101,7 +124,7 @@
       #loader {
         position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column;
         align-items: center; justify-content: center; gap: 10px;
-        background: radial-gradient(120% 120% at 50% 35%, #16303a 0%, #0d1820 70%);
+        background: radial-gradient(ellipse 70% 45% at 50% 55%, rgba(240, 144, 96, 0.25), transparent 70%), linear-gradient(180deg, #150f2a 0%, #3a1e3e 45%, #5a2a4a 60%, #120d1e 100%);
         color: #f3efe0; font-family: Georgia, serif; transition: opacity .5s ease;
       }
       #loader.hide { opacity: 0; pointer-events: none; }
