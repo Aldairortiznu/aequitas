@@ -12,6 +12,7 @@ import { GAME, COLORS } from '../config.js';
 import { SPEAKERS } from '../data/speakers.js';
 import { CINEMATICS } from '../data/ch1/script.js';
 import { fmt } from '../systems/text.js';
+import { portraitURL } from './DialogueScene.js';
 import { sfx } from '../systems/audio.js';
 import { drawPlace } from './places.js';
 import { getPostal } from '../data/postales.js';
@@ -248,6 +249,7 @@ export default class CinematicScene extends Phaser.Scene {
     const py = HEIGHT - 10 - ph;
     this.panelBox = { px, py, pw, ph };
     const g = this.add.graphics().setDepth(20);
+    this.panelG = g;
     g.fillStyle(0x06100b, 0.94);
     g.fillRoundedRect(px, py, pw, ph, 6);
     g.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.gold).color, 0.9);
@@ -300,6 +302,10 @@ export default class CinematicScene extends Phaser.Scene {
       else a.clearTint();
     }
     if (line.s === 'tinto') sfx('note');
+    // Celular en vertical: el texto va grande en el panel de la consola.
+    const big = !!window.__portraitHud && !!window.__domPad;
+    [this.panelG, this.nameText, this.bodyText, this.cont].forEach((o) => o.setAlpha(big ? 0 : 1));
+    window.__dlg = { name: fmt(sp.name), color: sp.color, text: fmt(line.t), portrait: portraitURL(this, sp.portrait), n: (window.__dlg ? window.__dlg.n : 0) + 1 };
 
     if (line.fx) this.playFx(line.fx, active);
     if (line.postal) this.setBackdrop(line.postal);
@@ -330,6 +336,8 @@ export default class CinematicScene extends Phaser.Scene {
         }
       },
     });
+    // En el panel del celular el texto sale completo: nada de toques «muertos».
+    if (big) { this.typer.remove(); this.bodyText.setText(this.full); this.typing = false; this.cont.setVisible(true); }
   }
 
   // Escena cinematográfica (data/postales.js) por encima del escenario y debajo
@@ -391,6 +399,7 @@ export default class CinematicScene extends Phaser.Scene {
     // ESC + toque a la vez reanudaba/arrancaba la escena de regreso dos veces.
     if (this.finishing) return;
     this.finishing = true;
+    window.__dlg = null;
     this.cam.fadeOut(450, 0, 0, 0);
     this.cam.once('camerafadeoutcomplete', () => {
       if (this.next) {

@@ -108,6 +108,7 @@ export default class TownScene extends Phaser.Scene {
     this.events.on('resume', onResume);
     this.events.on('pause', onPause);
     this.events.once('shutdown', () => {
+      window.__canTalk = false;
       this.events.off('resume', onResume);
       this.events.off('pause', onPause);
     });
@@ -477,7 +478,10 @@ export default class TownScene extends Phaser.Scene {
   buildHud() {
     const W = GAME.WIDTH;
     const D = 10000;
-    const sf = (o) => o.setScrollFactor(0).setDepth(D);
+    // Todo lo del HUD queda en hudObjs: en celular vertical lo muestra el panel
+    // de abajo (touchpad.js) en letra grande y aquí se esconde.
+    this.hudObjs = [];
+    const sf = (o) => { this.hudObjs.push(o); return o.setScrollFactor(0).setDepth(D); };
     const g = sf(this.add.graphics());
     // Casi opacos: los letreros del mapa no deben verse a través del texto.
     g.fillStyle(0x081016, 0.9); g.fillRoundedRect(4, 4, 262, 46, 6);
@@ -507,7 +511,8 @@ export default class TownScene extends Phaser.Scene {
     }
     this.toastY = 58;
     // Temporizador de la persecución (oculto).
-    this.chaseText = sf(this.add.text(W / 2, 46, '', { fontFamily: 'monospace', fontSize: '11px', color: '#ffe9a0', backgroundColor: '#081016cc', padding: { x: 6, y: 2 } }).setOrigin(0.5, 0).setVisible(false));
+    // (fuera de hudObjs: la persecución se ve también en vertical)
+    this.chaseText = this.add.text(W / 2, 46, '', { fontFamily: 'monospace', fontSize: '11px', color: '#ffe9a0', backgroundColor: '#081016cc', padding: { x: 6, y: 2 } }).setOrigin(0.5, 0).setVisible(false).setScrollFactor(0).setDepth(D);
     this.refreshHud();
   }
 
@@ -518,6 +523,7 @@ export default class TownScene extends Phaser.Scene {
     this.mystText.setText(om ? '❓ ' + om.q : 'CAPÍTULO 1 · PUERTO GARZA').setScale(1);
     if (this.mystText.width > 252) this.mystText.setScale(252 / this.mystText.width);
     this.checkDiscoveries();
+    this.publishHud(obj, om);
     this.objText.setText('▸ ' + fmt(obj.text)).setScale(1);
     if (this.objText.width > 252) this.objText.setScale(252 / this.objText.width); // una sola línea, que no tape la barra
     TRUST.forEach((t, i) => {
@@ -602,6 +608,30 @@ export default class TownScene extends Phaser.Scene {
     this.refreshOrderDecor(true);
     Object.values(this.npcs).forEach((n) => this.refreshNpcVisibility(n, true));
     if (lvAfter.name !== lvBefore.name) this.time.delayedCall(700, () => this.queueBanner(() => { this.stageBanner(lvAfter); return 3300; }));
+  }
+
+  // El mismo HUD, para el panel de estado del celular en vertical.
+  publishHud(obj, om) {
+    const v = this.orderShown != null ? this.orderShown : orderValue(this.save);
+    const ev = evidenceCount(this.save);
+    window.__hud = {
+      myst: om ? om.q : 'Capítulo 1 · Puerto Garza',
+      obj: fmt(obj.text),
+      order: Math.round(v),
+      level: orderLevel(v).name,
+      trust: trustCount(this.save),
+      ev: `${ev.got}/${ev.total}`,
+      cards: Object.keys(this.save.codex || {}).length,
+      last: mysteries(this.save).filter((m) => m.solved).pop() || null,
+    };
+  }
+
+  // En vertical, el HUD de arriba se esconde (lo muestra el panel de la consola).
+  syncPortraitHud() {
+    const hide = !!window.__portraitHud;
+    if (hide === this.hudHidden) return;
+    this.hudHidden = hide;
+    this.hudObjs.forEach((o) => o.setVisible(!hide));
   }
 
   // ¿Se respondió una pregunta del caso? «¡Descubriste!» con la respuesta y la
@@ -747,7 +777,8 @@ export default class TownScene extends Phaser.Scene {
     const view = this.cameras.main.worldView;
     const vx = t.x - view.x;
     const vy = t.y - view.y;
-    const inside = vx > 8 && vx < GAME.WIDTH - 8 && vy > 58 && vy < GAME.HEIGHT - 8;
+    const top = window.__portraitHud ? 14 : 58; // sin HUD arriba (vertical) hay más pantalla
+    const inside = vx > 8 && vx < GAME.WIDTH - 8 && vy > top && vy < GAME.HEIGHT - 8;
     const name = this.targetName(this.obj.target);
     const px = this.player.x;
     const py = this.player.y - 8;
@@ -765,10 +796,10 @@ export default class TownScene extends Phaser.Scene {
     if (inside) { this.edgeArrow.setVisible(false); this.guideLabel.setVisible(false); return; }
     // La flecha del borde no se mete en el HUD de arriba (objetivo + equilibrio).
     const cx = GAME.WIDTH / 2;
-    const cy = GAME.HEIGHT / 2 + 16;
+    const cy = GAME.HEIGHT / 2 + (top - 14) / 2.75;
     const a = Math.atan2(vy - cy, vx - cx);
     const rx = GAME.WIDTH / 2 - 18;
-    const ry = GAME.HEIGHT / 2 - 48;
+    const ry = GAME.HEIGHT / 2 - 48 + (58 - top) * 0.62;
     const k = Math.min(Math.abs(rx / Math.cos(a)), Math.abs(ry / Math.sin(a)));
     const ax = cx + Math.cos(a) * k;
     const ay = cy + Math.sin(a) * k;
@@ -777,7 +808,7 @@ export default class TownScene extends Phaser.Scene {
     this.guideLabel.setVisible(true).setText(`${name} · ${dist} pasos`);
     const hw = this.guideLabel.width / 2 + 2;
     const lx = Phaser.Math.Clamp(ax - Math.cos(a) * 30, hw + 2, GAME.WIDTH - hw - 2);
-    const ly = Phaser.Math.Clamp(ay - Math.sin(a) * 22, 62, GAME.HEIGHT - 12);
+    const ly = Phaser.Math.Clamp(ay - Math.sin(a) * 22, top + 4, GAME.HEIGHT - 12);
     this.guideLabel.setPosition(lx, ly);
   }
 
@@ -1128,6 +1159,10 @@ export default class TownScene extends Phaser.Scene {
   // ----------------------------------------------------------------- bucle
   update(time) {
     if (!this.player || !this.player.body) return;
+    // Para la consola del celular: HUD en vertical, «Hablar» encendido y la barra.
+    this.syncPortraitHud();
+    window.__canTalk = !!(this.hint && this.hint.visible) && !this.busy;
+    if (window.__hud && this.orderShown != null) window.__hud.order = Math.round(this.orderShown);
     // El perro suelto del barrio va y viene; los 📖 siguen a quien los lleva.
     if (this.dog && this.dog.visible && !this.busy) {
       const d = this.dog;

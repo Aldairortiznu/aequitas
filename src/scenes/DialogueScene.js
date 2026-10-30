@@ -18,6 +18,16 @@ import { getPostal } from '../data/postales.js';
 import { postalBackdrop } from '../art/postales.js';
 import { unlockPostal } from '../systems/postales.js';
 
+// Retrato de quien habla como imagen, para el panel del celular (se guarda).
+const PORTRAITS = {};
+export function portraitURL(scene, key) {
+  if (!key || !scene.textures.exists(key)) return null;
+  if (!PORTRAITS[key]) {
+    try { PORTRAITS[key] = scene.textures.get(key).getSourceImage().toDataURL(); } catch (e) { PORTRAITS[key] = null; }
+  }
+  return PORTRAITS[key];
+}
+
 export default class DialogueScene extends Phaser.Scene {
   constructor() {
     super({ key: 'Dialogue', cameras: CAMERA });
@@ -39,6 +49,7 @@ export default class DialogueScene extends Phaser.Scene {
 
     // Caja con borde.
     const g = this.add.graphics().setDepth(10);
+    this.boxG = g;
     g.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.shadow).color, 0.98);
     g.fillRoundedRect(bx, by, bw, bh, 6);
     g.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.green).color, 1);
@@ -94,6 +105,12 @@ export default class DialogueScene extends Phaser.Scene {
 
     if (line.postal) this.setBackdrop(line.postal);
 
+    // Celular en vertical: el texto va en letra grande en el panel de la consola
+    // (touchpad.js) y la escena queda libre arriba.
+    const big = !!window.__portraitHud && !!window.__domPad;
+    [this.boxG, this.portraitBox, this.portrait, this.nameText, this.bodyText, this.cont].forEach((o) => o.setAlpha(big ? 0 : 1));
+    window.__dlg = { name: fmt(sp.name), color: sp.color, text: fmt(line.t), portrait: portraitURL(this, sp.portrait), n: (window.__dlg ? window.__dlg.n : 0) + 1 };
+
     const portrait = sp.portrait;
     if (portrait && this.textures.exists(portrait)) {
       this.portrait.setTexture(portrait).setVisible(true);
@@ -131,6 +148,8 @@ export default class DialogueScene extends Phaser.Scene {
         }
       },
     });
+    // En el panel del celular el texto sale completo: nada de toques «muertos».
+    if (big) { this.typer.remove(); this.bodyText.setText(this.full); this.typing = false; this.cont.setVisible(true); }
   }
 
   // Escena cinematográfica detrás del diálogo (se funde con la anterior).
@@ -166,6 +185,7 @@ export default class DialogueScene extends Phaser.Scene {
   close() {
     if (this.closing) return;
     this.closing = true;
+    window.__dlg = null;
     if (this.scene.isPaused(this.returnScene)) this.scene.resume(this.returnScene);
     this.scene.stop();
   }

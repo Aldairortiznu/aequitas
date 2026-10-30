@@ -61,6 +61,16 @@ juego las usa en su lugar (ver `docs/PROMPT_POSTALES.md`).
 - **Guía:** flecha de borde con letrero (destino · distancia), chevrones junto al
   personaje y el nombre del objetivo sobre él.
 
+### Controles táctiles (`src/touchpad.js`)
+- **Contexto:** cada pantalla define qué hace cada botón (tabla `CONTEXT`). El rótulo cambia,
+  y lo que no sirve se atenúa. «Hablar» brilla cuando hay alguien cerca (`window.__canTalk`).
+- **Vertical:** juego arriba, panel de estado (`#band`) y consola abajo. El pueblo publica su
+  HUD en `window.__hud` y lo esconde dentro del juego. Los diálogos y las cinemáticas
+  publican la línea en `window.__dlg` y esconden su caja. La audiencia publica la frase en
+  `window.__stmt`.
+- **Horizontal:** controles translúcidos sobre el juego; se apartan en las pantallas que se
+  manejan tocando.
+
 ## 3. La lógica del juego: del caos al equilibrio
 El corazón de AEQUITAS es un ciclo que se repite en cada capítulo:
 

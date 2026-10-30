@@ -219,6 +219,8 @@ export default class HearingScene extends Phaser.Scene {
     this.pIdx.setText(`Frase ${this.idx + 1} de ${this.R.statements.length}${solved ? ' · ✓ resuelta' : ''}`);
     this.pText.setText('«' + fmt(st.t) + '»').setColor(solved ? '#8fd694' : COLORS.cream);
     this.tweens.add({ targets: this.witness, y: 182, duration: 100, yoyo: true });
+    // Para el panel del celular en vertical: la frase en letra grande.
+    window.__stmt = { who: fmt(sp.name), color: sp.color, text: fmt(st.t), idx: this.idx + 1, total: this.R.statements.length, solved };
   }
 
   nav(d) {
@@ -438,6 +440,7 @@ export default class HearingScene extends Phaser.Scene {
   }
 
   finishHearing() {
+    window.__stmt = null;
     this.balance.set(0);
     give(this.save, ['f:audiencia_ok']); // una audiencia en paz: el puerto recupera orden
     this.save.stage = 'acuerdo';

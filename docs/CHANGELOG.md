@@ -1,5 +1,29 @@
 # AEQUITAS · Registro de cambios
 
+## v0.7 — Botones que hablan claro · celular en vertical
+**Botones**
+- Cambian de rótulo según la pantalla: «Seguir» en los diálogos, «Preguntar» y
+  «Presentar» en la audiencia, «Aceptar» y «Volver» en los menús, «Caminar» o «Mover»
+  en la palanca… Los que no sirven en esa pantalla se atenúan.
+- «Hablar» (E) se enciende cuando hay alguien cerca con quien conversar.
+- Rombo de botones como en las consolas: C arriba, B a la izquierda, X grande a la
+  derecha y E abajo, donde descansa el pulgar. Expediente y Menú son botones de sistema,
+  arriba (como Select y Start).
+- Palanca de bronce con un pomo dorado y flechas guía; vibración corta al tocar (se
+  apaga en Ajustes).
+- En horizontal, los botones son más pequeños y ya no se salen del borde, y Expediente y
+  Menú pasan al costado derecho para no tapar el panel de confianza.
+
+**Celular en vertical**
+- El juego queda arriba y debajo hay un **panel de estado en letra grande**:
+  - en el pueblo: la pregunta del caso, el objetivo, el equilibrio, la confianza y lo
+    último que descubriste (el HUD de arriba se esconde y el mapa queda libre);
+  - en los diálogos y cinemáticas: el retrato, el nombre y el texto. Tocar el panel
+    sigue el diálogo, y la escena (y las postales) se ve completa arriba;
+  - en la audiencia: la frase que se discute, con lo que puedes hacer con ella;
+  - en los minijuegos: sus instrucciones.
+- Consola con los colores del juego (violeta y dorado), en lugar del verde de antes.
+
 ## v0.6 — Entender cada acierto · una historia por descubrir · una guía clara
 **Cada acierto se explica**
 - Nueva tarjeta **«¿Por qué funcionó?»** después de cada objeción correcta en la audiencia
