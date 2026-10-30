@@ -65,8 +65,8 @@ las usa automáticamente en su lugar (si falta alguna, sigue usando la de códig
 >   "asamblea": "asamblea.png", "margarita": "margarita.png", "siete_puentes": "siete_puentes.png" }
 > ```
 >
-> **Importante:** la franja de abajo de cada postal (el 25 % inferior) queda cubierta
-> por el texto del juego. No pongas a los personajes ni el objeto principal ahí:
+> **Importante:** el tercio inferior de cada imagen queda cubierto por la caja de
+> texto del juego. No pongas a los personajes ni el objeto principal ahí:
 > deja suelo, agua o camino. El título va arriba a la izquierda, así que deja esa
 > zona tranquila (cielo o pared).
 >
@@ -93,21 +93,25 @@ las usa automáticamente en su lugar (si falta alguna, sigue usando la de códig
 > { "aurelio": "aurelio.png", "valeria": "valeria.png", "kaelen": "kaelen.png", "sora": "sora.png" }
 > ```
 >
-> Comprueba con `npm run dev` que las postales se ven en el álbum («Álbum de
-> postales» en el menú) y los retratos en «Nueva partida». Luego haz commit de las
+> Comprueba con `npm run dev` que las escenas se ven en «Escenas de la
+> historia» (en el menú) y los retratos en «Nueva partida». Luego haz commit de las
 > imágenes y de los dos JSON.
 
 ---
 
 ## Dónde aparecen en el juego
+No se descargan: son escenas detrás del texto, dentro de la historia.
 
-| Postal | Momento |
+| Escena | Momento |
 |---|---|
-| `leviatan` | Al empezar, antes de la Biblioteca |
-| `boveda` | Después de la Biblioteca, antes de remar |
-| `travesia` | Al terminar de remar, antes de llegar a Puerto Garza |
-| `asamblea` | Antes de la audiencia |
-| `margarita` | Después del epílogo del caso |
-| `siete_puentes` | Después del anuncio del capítulo 2 |
+| `leviatan` | La Biblioteca (la guerra), y el recuerdo de Don Anselmo y de Mamá Tule |
+| `boveda` | La Biblioteca (la Orden y la Bóveda) |
+| `travesia` | Al llegar a Puerto Garza, y el recuerdo de Nando |
+| `asamblea` | Al abrir la audiencia |
+| `margarita` | El epílogo del caso, y la leyenda de Mamá Tule |
+| `siete_puentes` | El anuncio del capítulo 2 |
+
+Ojo: en los diálogos, la caja de texto tapa el **tercio inferior** de la imagen. Deja lo
+importante en los dos tercios de arriba.
 
 Los retratos reemplazan a los sprites en la pantalla «¿Quién viaja a Puerto Garza?».

@@ -269,41 +269,23 @@ export function paintPostal(scene, key) {
   return c;
 }
 
-// --------------------------------------------------------------- guardar
-// Genera la postal a 1920×1080: la pintura ampliada y, abajo, una franja con el
-// título, el subtítulo y la frase para recordar.
-export function downloadPostal(scene, postal, onDone) {
-  const rt = scene.add.renderTexture(0, 0, W, H).setVisible(false);
-  const c = paintPostal(scene, postal.key);
-  rt.draw(c);
-  c.destroy();
-  rt.snapshot((img) => {
-    rt.destroy();
-    const out = document.createElement('canvas');
-    out.width = 1920; out.height = 1080;
-    const ctx = out.getContext('2d');
-    ctx.imageSmoothingEnabled = scene.textures.exists('postal_' + postal.key);
-    ctx.drawImage(img, 0, 0, 1920, 1080);
-    const band = ctx.createLinearGradient(0, 760, 0, 1080);
-    band.addColorStop(0, 'rgba(8,10,16,0)');
-    band.addColorStop(0.45, 'rgba(8,10,16,0.82)');
-    band.addColorStop(1, 'rgba(8,10,16,0.95)');
-    ctx.fillStyle = band; ctx.fillRect(0, 760, 1920, 320);
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#e3b04b'; ctx.font = 'bold 72px Georgia, serif'; ctx.fillText(postal.title, 960, 896);
-    ctx.fillStyle = '#efe3c2'; ctx.font = 'italic 34px Georgia, serif'; ctx.fillText(postal.sub, 960, 944);
-    ctx.fillStyle = '#f5f1e4'; ctx.font = '30px Georgia, serif'; ctx.fillText('«' + postal.memory + '»', 960, 994);
-    ctx.fillStyle = 'rgba(227,176,75,0.8)'; ctx.font = '22px monospace'; ctx.fillText('AEQUITAS · El Retorno del Equilibrio', 960, 1036);
-    ctx.strokeStyle = '#e3b04b'; ctx.lineWidth = 6; ctx.strokeRect(18, 18, 1884, 1044);
-    let ok = true;
-    try {
-      const a = document.createElement('a');
-      a.href = out.toDataURL('image/png');
-      a.download = `aequitas-postal-${postal.key}.png`;
-      document.body.appendChild(a); a.click(); a.remove();
-    } catch (e) { ok = false; }
-    if (onDone) onDone(ok);
-  });
+// --------------------------------------------------------- dentro de una escena
+// La postal como fondo cinematográfico de un diálogo o una cinemática: ocupa
+// la pantalla, se acerca despacio y lleva su título arriba a la izquierda.
+// offsetY sube la pintura para que lo importante no quede bajo la caja de texto.
+export function postalBackdrop(scene, postal, { depth = 5, offsetY = -40 } = {}) {
+  const c = scene.add.container(W / 2, H / 2).setDepth(depth);
+  const art = paintPostal(scene, postal.key);
+  art.setPosition(-W / 2, -H / 2 + offsetY);
+  c.add(art);
+  const veil = scene.add.rectangle(-W / 2, -H / 2, W, 16, 0x05080a, 1).setOrigin(0);
+  const title = scene.add.text(-W / 2 + 12, -H / 2 + 22, postal.title, { fontFamily: 'Georgia, serif', fontSize: '13px', color: '#e3b04b', stroke: '#140c08', strokeThickness: 3 });
+  const sub = scene.add.text(-W / 2 + 13, -H / 2 + 39, postal.sub, { fontFamily: 'Georgia, serif', fontSize: '8px', fontStyle: 'italic', color: '#efe3c2', stroke: '#140c08', strokeThickness: 2 });
+  c.add([veil, title, sub]);
+  c.setAlpha(0);
+  scene.tweens.add({ targets: c, alpha: 1, duration: 700 });
+  scene.tweens.add({ targets: art, scale: 1.06, x: -W / 2 * 1.06, y: (-H / 2 + offsetY) * 1.06, duration: 14000, ease: 'Sine.inOut' });
+  return c;
 }
 
 export { W as POSTAL_W, H as POSTAL_H };

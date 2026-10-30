@@ -157,12 +157,9 @@ export default class CharacterScene extends Phaser.Scene {
     this.cameras.main.flash(200, 255, 240, 200);
     this.time.delayedCall(350, () => {
       this.cameras.main.fadeOut(600, 0, 0, 0);
-      this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Postcard', {
-        key: 'leviatan',
-        next: { scene: 'Cinematic', data: {
-          key: 'biblioteca',
-          next: { scene: 'Postcard', data: { key: 'boveda', next: { scene: 'Minigame', data: { id: 'remar', next: { scene: 'Postcard', data: { key: 'travesia', next: { scene: 'Cinematic', data: { key: 'llegada', next: { scene: 'Town' } } } } } } } } },
-        } },
+      this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', {
+        key: 'biblioteca',
+        next: { scene: 'Minigame', data: { id: 'remar', next: { scene: 'Cinematic', data: { key: 'llegada', next: { scene: 'Town' } } } } },
       }));
     });
   }

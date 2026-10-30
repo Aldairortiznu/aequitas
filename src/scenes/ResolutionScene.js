@@ -81,6 +81,7 @@ export default class ResolutionScene extends Phaser.Scene {
     if (st.type === 'talk') { this.busy = true; this.scene.launch('Dialogue', { convo: st.lines, returnScene: 'Resolution' }); this.scene.pause(); }
     else if (st.type === 'give') { give(this.save, st.list); while (this.save.newCards && this.save.newCards.length) this.steps.unshift({ type: 'card', id: this.save.newCards.pop() }); writeSave(this.save); this.runNext(); }
     else if (st.type === 'card') { this.busy = true; this.scene.launch('Card', { id: st.id, returnScene: 'Resolution' }); this.scene.pause(); }
+    else if (st.type === 'lesson') { this.busy = true; this.scene.launch('Lesson', { lesson: st.lesson, returnScene: 'Resolution' }); this.scene.pause(); }
     else if (st.type === 'fn') { st.fn(); this.runNext(); }
   }
 
@@ -160,7 +161,12 @@ export default class ResolutionScene extends Phaser.Scene {
     else if (o.v === 'meh') { sfx('select'); murmur(this, 'Mmm...', '#f2c48a'); }
     else { sfx('damage'); vibrate(40); this.cameras.main.shake(140, 0.006); cheer(this, this.crowd, 'bad'); murmur(this, '¡Nooo!', '#f3c0b8'); }
     // La carta (si la hay) se entrega al seguir, para no tapar la explicación.
-    const go = (fn) => { if (o.card) this.push({ type: 'give', list: ['c:' + o.card] }); this.push({ type: 'fn', fn }); this.runNext(); };
+    const go = (fn) => {
+      if (o.v === 'ok' && o.lesson) this.push({ type: 'lesson', lesson: o.lesson });
+      if (o.card) this.push({ type: 'give', list: ['c:' + o.card] });
+      this.push({ type: 'fn', fn });
+      this.runNext();
+    };
     const nextPoint = () => {
       this.res.chosen[i] = o;
       if (i + 1 < RESOLUTION.points.length) this.askPoint(i + 1);
@@ -481,6 +487,6 @@ export default class ResolutionScene extends Phaser.Scene {
     this.busy = true;
     const key = this.arriendo() ? 'epilogo' : 'epilogo_entrega';
     this.cameras.main.fadeOut(700, 0, 0, 0);
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key, next: { scene: 'Postcard', data: { key: 'margarita', next: { scene: 'CaseClosed' } } } }));
+    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key, next: { scene: 'CaseClosed' } }));
   }
 }

@@ -11,13 +11,14 @@ import { GAME, COLORS } from '../config.js';
 import { MAP, BUILDINGS, PROPS, WRECKS, ORDER_DECOR, BOATS, LAMPS, PAGES, HERONS, HEN_ZONE, START, ZONES } from '../data/ch1/map.js';
 import { orderValue, orderLevel, orderStep, TEACHINGS } from '../systems/order.js';
 import { NPCS, SPOTS, TALK } from '../data/ch1/talk.js';
+import { SPEAKERS } from '../data/speakers.js';
 import { EVENTS, WINS } from '../data/ch1/script.js';
 import { ITEMS, TRUST } from '../data/ch1/items.js';
 import { getCard } from '../data/codex.js';
 import { makeBuilding } from '../art/aequitasArt.js';
 import { heroFor } from '../data/heroes.js';
 import { getSave, writeSave } from '../systems/save.js';
-import { give, checkAll, check, objective, trustCount, hearingReady, missingForHearing, evidenceCount, hasFlag, hasItem } from '../systems/story.js';
+import { give, checkAll, check, objective, trustCount, hearingReady, missingForHearing, evidenceCount, hasFlag, hasItem, mysteries, openMystery } from '../systems/story.js';
 import { startAudio, playTheme, sfx, toggleMute } from '../systems/audio.js';
 import { vibrate } from '../systems/haptics.js';
 import { fmt } from '../systems/text.js';
@@ -28,6 +29,13 @@ const ROWS = 48;
 const SPEED = 96;
 const SOLID = new Set(['~', 'B', 'h', 'P', 'p', 'T', 'b', 'f', 'k', 'o', 'r', 'x']);
 const GROUND = new Set(['.', ',', ':', '#', '=', 's', 'R', '~', 'h']);
+
+// Cómo se llama cada lugar en el letrero de la flecha guía.
+const SPOT_NAMES = {
+  letrero_muelle: 'Letrero del muelle', panel: 'Panel solar', antena: 'La antena', casco: 'Casco de la lancha',
+  cabina: 'Cabina de la lancha', bodega: 'La bodega', junta_puerta: 'Casa de la Junta', viaje: 'Final del muelle',
+  valla: 'La valla', filtro: 'El filtro de agua', bus: 'El bus del río', campanario: 'El campanario',
+};
 
 export default class TownScene extends Phaser.Scene {
   constructor() {
@@ -476,7 +484,8 @@ export default class TownScene extends Phaser.Scene {
     g.lineStyle(1, 0xe3b04b, 0.35); g.strokeRoundedRect(4, 4, 262, 46, 6);
     g.fillStyle(0x081016, 0.9); g.fillRoundedRect(W - 118, 4, 114, 34, 6);
     g.lineStyle(1, 0xe3b04b, 0.35); g.strokeRoundedRect(W - 118, 4, 114, 34, 6);
-    sf(this.add.text(10, 7, 'CAPÍTULO 1 · PUERTO GARZA', { fontFamily: 'monospace', fontSize: '7px', color: COLORS.gold }).setLetterSpacing(1));
+    // Arriba, la pregunta que la historia tiene abierta ahora mismo.
+    this.mystText = sf(this.add.text(10, 6, '', { fontFamily: 'Georgia, serif', fontSize: '8px', fontStyle: 'italic', color: COLORS.gold }));
     this.objText = sf(this.add.text(10, 17, '', { fontFamily: 'Georgia, serif', fontSize: '9px', color: COLORS.cream }));
     // Equilibrio del puerto: del caos al orden.
     sf(this.add.text(10, 40, 'EQUILIBRIO', { fontFamily: 'monospace', fontSize: '7px', color: '#9fb8c0' }).setOrigin(0, 0.5));
@@ -505,6 +514,10 @@ export default class TownScene extends Phaser.Scene {
   refreshHud() {
     const obj = objective(this.save);
     this.obj = obj;
+    const om = openMystery(this.save);
+    this.mystText.setText(om ? '❓ ' + om.q : 'CAPÍTULO 1 · PUERTO GARZA').setScale(1);
+    if (this.mystText.width > 252) this.mystText.setScale(252 / this.mystText.width);
+    this.checkDiscoveries();
     this.objText.setText('▸ ' + fmt(obj.text)).setScale(1);
     if (this.objText.width > 252) this.objText.setScale(252 / this.objText.width); // una sola línea, que no tape la barra
     TRUST.forEach((t, i) => {
@@ -588,7 +601,64 @@ export default class TownScene extends Phaser.Scene {
     this.order = after;
     this.refreshOrderDecor(true);
     Object.values(this.npcs).forEach((n) => this.refreshNpcVisibility(n, true));
-    if (lvAfter.name !== lvBefore.name) this.time.delayedCall(700, () => this.stageBanner(lvAfter));
+    if (lvAfter.name !== lvBefore.name) this.time.delayedCall(700, () => this.queueBanner(() => { this.stageBanner(lvAfter); return 3300; }));
+  }
+
+  // ¿Se respondió una pregunta del caso? «¡Descubriste!» con la respuesta y la
+  // pregunta siguiente: la historia invita a seguir.
+  checkDiscoveries() {
+    const all = mysteries(this.save);
+    if (!this.save.mystSeen) {
+      // Partidas anteriores: lo ya resuelto no se anuncia de golpe.
+      this.save.mystSeen = {};
+      all.filter((m) => m.solved).forEach((m) => { this.save.mystSeen[m.id] = true; });
+      writeSave(this.save);
+      return;
+    }
+    const fresh = all.filter((m) => m.solved && !this.save.mystSeen[m.id]);
+    if (!fresh.length) return;
+    fresh.forEach((m) => { this.save.mystSeen[m.id] = true; });
+    writeSave(this.save);
+    const next = all.find((m) => !m.solved);
+    fresh.forEach((m, i) => this.queueBanner(() => this.discoveryBanner(m, i === fresh.length - 1 ? next : null)));
+  }
+
+  // Los avisos grandes salen de a uno, sin montarse.
+  queueBanner(fn) {
+    if (!this.bannerQ) this.bannerQ = [];
+    this.bannerQ.push(fn);
+    if (!this.bannerBusy) this.nextBanner();
+  }
+
+  nextBanner() {
+    const fn = this.bannerQ && this.bannerQ.shift();
+    if (!fn) { this.bannerBusy = false; return; }
+    this.bannerBusy = true;
+    const ms = fn();
+    this.time.delayedCall(ms, () => this.nextBanner());
+  }
+
+  discoveryBanner(m, next) {
+    const W = GAME.WIDTH;
+    sfx('riddle');
+    vibrate([20, 30, 20]);
+    const c = this.add.container(W / 2, GAME.HEIGHT / 2 + 34).setScrollFactor(0).setDepth(10006);
+    const t1 = this.add.text(0, 0, '✦ ¡DESCUBRISTE!', { fontFamily: 'Georgia, serif', fontSize: '13px', color: '#ffe9a0', fontStyle: 'bold' }).setOrigin(0.5, 0);
+    const t2 = this.add.text(0, 0, m.q, { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#c9b98a', fontStyle: 'italic', align: 'center', wordWrap: { width: 330 } }).setOrigin(0.5, 0);
+    const t3 = this.add.text(0, 0, m.a, { fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream, align: 'center', wordWrap: { width: 330 }, lineSpacing: 2 }).setOrigin(0.5, 0);
+    const parts = [t1, t2, t3];
+    if (next) parts.push(this.add.text(0, 0, (next.next ? 'Y río arriba: ' : 'Nueva pregunta: ') + next.q, { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#9be8a6', fontStyle: 'italic', align: 'center', wordWrap: { width: 330 } }).setOrigin(0.5, 0));
+    let y = 8;
+    parts.forEach((p, i) => { p.setY(y); y += p.height + (i === 0 ? 2 : 5); });
+    const h = y + 4;
+    const bg = this.add.rectangle(0, h / 2, 356, h, 0x081016, 0.94).setStrokeStyle(2, 0xe3b04b, 0.9);
+    c.add([bg, ...parts]);
+    c.setY(GAME.HEIGHT - 16 - h); // abajo: el personaje sigue a la vista
+    c.setScale(0.7).setAlpha(0);
+    this.tweens.add({ targets: c, scale: 1, alpha: 1, duration: 320, ease: 'Back.out' });
+    const life = 4200 + m.a.length * 25;
+    this.tweens.add({ targets: c, alpha: 0, delay: life, duration: 500, onComplete: () => c.destroy() });
+    return life + 600;
   }
 
   stageBanner(lv) {
@@ -638,7 +708,20 @@ export default class TownScene extends Phaser.Scene {
   buildMarker() {
     this.marker = this.add.text(0, 0, '▼', { fontFamily: 'monospace', fontSize: '10px', color: '#ffe070' }).setOrigin(0.5, 1).setDepth(99990);
     this.tweens.add({ targets: this.marker, alpha: 0.4, duration: 500, yoyo: true, repeat: -1 });
-    this.edgeArrow = this.add.triangle(0, 0, 0, -6, 12, 0, 0, 6, 0xffe070, 0.9).setScrollFactor(0).setDepth(10003).setVisible(false);
+    // Flecha del borde: grande, con contorno, y con un letrero que la sigue y dice
+    // a dónde ir y qué tan lejos queda.
+    this.edgeArrow = this.add.container(0, 0).setScrollFactor(0).setDepth(10003).setVisible(false);
+    const ag = this.add.graphics();
+    ag.fillStyle(0x1a1218, 1); ag.fillTriangle(-3, -11, 17, 0, -3, 11);
+    ag.fillStyle(0xffe070, 1); ag.fillTriangle(-1, -8, 13, 0, -1, 8);
+    ag.fillStyle(0xfff6c0, 1); ag.fillTriangle(1, -4, 8, 0, 1, 0);
+    this.edgeArrow.add(ag);
+    this.tweens.add({ targets: this.edgeArrow, scale: 1.18, duration: 420, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
+    this.guideLabel = this.add.text(0, 0, '', { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#081016', backgroundColor: '#ffe070', padding: { x: 4, y: 2 } }).setOrigin(0.5).setScrollFactor(0).setDepth(10003).setVisible(false);
+    // Junto al objetivo visible, su nombre.
+    this.targetLabel = this.add.text(0, 0, '', { fontFamily: 'Georgia, serif', fontSize: '8px', color: '#ffe9a0', backgroundColor: '#081016d0', padding: { x: 3, y: 1 } }).setOrigin(0.5, 1).setDepth(99990).setVisible(false);
+    // Pasos guía: tres chevrones que salen del personaje hacia el objetivo.
+    this.guideDots = [0, 1, 2].map((i) => this.add.triangle(0, 0, 0, -3, 6, 0, 0, 3, 0xffe070, 1).setDepth(99989).setVisible(false));
     this.hint = this.add.text(0, 0, 'E', { fontFamily: 'monospace', fontSize: '8px', color: '#081016', backgroundColor: '#ffe070', padding: { x: 3, y: 1 } }).setOrigin(0.5, 1).setDepth(99991).setVisible(false);
   }
 
@@ -650,23 +733,52 @@ export default class TownScene extends Phaser.Scene {
     return null;
   }
 
+  // Nombre corto del destino, para el letrero de la flecha.
+  targetName(id) {
+    const sp = SPEAKERS[id];
+    if (sp && sp.name) return fmt(sp.name);
+    return SPOT_NAMES[id] || 'tu objetivo';
+  }
+
   updateMarker() {
     const t = this.obj && this.targetPos(this.obj.target);
-    if (!t || this.busy) { this.marker.setVisible(false); this.edgeArrow.setVisible(false); return; }
+    const hideAll = () => { this.marker.setVisible(false); this.edgeArrow.setVisible(false); this.guideLabel.setVisible(false); this.targetLabel.setVisible(false); this.guideDots.forEach((d) => d.setVisible(false)); };
+    if (!t || this.busy) { hideAll(); return; }
     const view = this.cameras.main.worldView;
     const vx = t.x - view.x;
     const vy = t.y - view.y;
     const inside = vx > 8 && vx < GAME.WIDTH - 8 && vy > 58 && vy < GAME.HEIGHT - 8;
+    const name = this.targetName(this.obj.target);
+    const px = this.player.x;
+    const py = this.player.y - 8;
+    const dist = Math.round(Math.hypot(t.x - px, t.y + 30 - py) / TILE);
     this.marker.setVisible(inside).setPosition(t.x, t.y + Math.sin(this.time.now / 180) * 2);
-    if (inside) { this.edgeArrow.setVisible(false); return; }
+    this.targetLabel.setVisible(inside && dist > 2).setText(name).setPosition(t.x, t.y - 11);
+    // Chevrones desde el personaje hacia el objetivo, encendiéndose en ola.
+    const ga = Math.atan2(t.y + 20 - py, t.x - px);
+    const showDots = dist > 3;
+    this.guideDots.forEach((d, i) => {
+      const r = 16 + i * 9;
+      const ph = ((this.time.now / 160) - i) % 3;
+      d.setVisible(showDots).setPosition(px + Math.cos(ga) * r, py + Math.sin(ga) * r).setRotation(ga).setAlpha(ph < 1 ? 1 : 0.35);
+    });
+    if (inside) { this.edgeArrow.setVisible(false); this.guideLabel.setVisible(false); return; }
     // La flecha del borde no se mete en el HUD de arriba (objetivo + equilibrio).
     const cx = GAME.WIDTH / 2;
     const cy = GAME.HEIGHT / 2 + 16;
     const a = Math.atan2(vy - cy, vx - cx);
-    const rx = GAME.WIDTH / 2 - 16;
-    const ry = GAME.HEIGHT / 2 - 46;
+    const rx = GAME.WIDTH / 2 - 18;
+    const ry = GAME.HEIGHT / 2 - 48;
     const k = Math.min(Math.abs(rx / Math.cos(a)), Math.abs(ry / Math.sin(a)));
-    this.edgeArrow.setVisible(true).setPosition(cx + Math.cos(a) * k, cy + Math.sin(a) * k).setRotation(a);
+    const ax = cx + Math.cos(a) * k;
+    const ay = cy + Math.sin(a) * k;
+    this.edgeArrow.setVisible(true).setPosition(ax, ay).setRotation(a);
+    // El letrero va un poco hacia adentro de la flecha, y nunca se sale de la pantalla.
+    this.guideLabel.setVisible(true).setText(`${name} · ${dist} pasos`);
+    const hw = this.guideLabel.width / 2 + 2;
+    const lx = Phaser.Math.Clamp(ax - Math.cos(a) * 30, hw + 2, GAME.WIDTH - hw - 2);
+    const ly = Phaser.Math.Clamp(ay - Math.sin(a) * 22, 62, GAME.HEIGHT - 12);
+    this.guideLabel.setPosition(lx, ly);
   }
 
   // ----------------------------------------------------------------- entrada
@@ -924,7 +1036,7 @@ export default class TownScene extends Phaser.Scene {
     writeSave(this.save);
     this.busy = true;
     this.fadeOutAll();
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key: 'siguiente', next: { scene: 'Postcard', data: { key: 'siete_puentes', next: { scene: 'Menu' } } } }));
+    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key: 'siguiente', next: { scene: 'Menu' } }));
   }
 
   // Funde a negro el mundo y el HUD a la vez.
@@ -948,7 +1060,7 @@ export default class TownScene extends Phaser.Scene {
     writeSave(this.save);
     this.busy = true;
     this.fadeOutAll();
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Postcard', { key: 'asamblea', next: { scene: 'Hearing' } }));
+    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Hearing'));
   }
 
   // ----------------------------------------------------------------- la gallina fugitiva

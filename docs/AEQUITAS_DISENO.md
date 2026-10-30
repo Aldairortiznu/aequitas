@@ -41,12 +41,25 @@ restablece a su alrededor.
 - **La máxima:** «La ley del más fuerte solo deja ruinas. La ley civil es el suelo donde
   un pueblo siembra su futuro.»
 
-### Postales cinematográficas
-Seis momentos a pantalla completa (heredado de las postales de Reverdecer): *El Colapso
+### Escenas cinematográficas (postales)
+Seis imágenes de los momentos míticos (heredadas de las postales de Reverdecer): *El Colapso
 del Leviatán*, *La Bóveda de la Biblioteca*, *La travesía*, *La víspera*, *La Margarita
-Dorada* y *Siete Puentes*. Se coleccionan en el **Álbum de postales** del menú y se pueden
-guardar como imagen (1920×1080). Están pintadas por código; si se agregan ilustraciones en
-`public/assets/postales/` (ver `docs/PROMPT_POSTALES.md`), el juego las usa en su lugar.
+Dorada* y *Siete Puentes*. No se descargan: aparecen detrás del texto, dentro de las
+cinemáticas y los diálogos, cuando una línea lleva `postal: '<clave>'`. Una línea con
+`postal: 'off'` las quita. Se pueden volver a ver en «Escenas de la historia» (menú).
+Están pintadas por código. Si se agregan ilustraciones en `public/assets/postales/`, el
+juego las usa en su lugar (ver `docs/PROMPT_POSTALES.md`).
+
+### Aprender de cada acierto
+- **«¿Por qué funcionó?»** (`LessonScene`): después de cada objeción correcta y de cada buena
+  decisión del acuerdo aparece una tarjeta en tres pasos: la norma, por qué aplica en este
+  caso y qué recordar. Los textos están en `lesson` dentro de `data/ch1/hearing.js`.
+- **Las preguntas del caso** (`data/ch1/mysteries.js`): una pregunta abierta guía la historia
+  y se ve en el HUD. Al resolverla sale «¡Descubriste!» con la respuesta y la pregunta
+  siguiente. La pestaña Misterios del expediente las reúne, y la última queda abierta como
+  gancho del capítulo 2.
+- **Guía:** flecha de borde con letrero (destino · distancia), chevrones junto al
+  personaje y el nombre del objetivo sobre él.
 
 ## 3. La lógica del juego: del caos al equilibrio
 El corazón de AEQUITAS es un ciclo que se repite en cada capítulo:

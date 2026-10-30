@@ -136,7 +136,7 @@ export function initTouchPad(game) {
   // audiencia, acuerdo, cierre y minijuegos de botones) se apartan palanca y
   // botones para no tapar el texto ni la interfaz. En VERTICAL viven en su
   // consola, debajo del juego, y siempre se ven (ver index.html).
-  const TAP = new Set(['Menu', 'Character', 'Settings', 'CaseClosed', 'Resolution', 'Hearing', 'CaseFile', 'Interview', 'Pause', 'Dialogue', 'Card', 'Cinematic', 'Postcard', 'Album']);
+  const TAP = new Set(['Menu', 'Character', 'Settings', 'CaseClosed', 'Resolution', 'Hearing', 'CaseFile', 'Interview', 'Pause', 'Dialogue', 'Card', 'Cinematic', 'Postcard', 'Album', 'Lesson']);
   const sync = () => {
     let tap = false;
     try {

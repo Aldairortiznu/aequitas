@@ -1,6 +1,6 @@
 // POSTAL CINEMATOGRÁFICA: una imagen a pantalla completa que se acerca despacio
-// (efecto Ken Burns), barras de cine, el título y unas líneas del narrador. Al
-// final se puede guardar la postal como imagen. Se desbloquea en el álbum.
+// (efecto Ken Burns), barras de cine, el título y unas líneas del narrador.
+// Queda en el álbum «Escenas de la historia» para volver a verla.
 //
 // Uso: this.scene.start('Postcard', { key, next: { scene, data } })
 //      { key, album: true } — vista desde el álbum (vuelve al álbum).
@@ -9,7 +9,7 @@ import Phaser from 'phaser';
 import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { getPostal } from '../data/postales.js';
-import { paintPostal, downloadPostal } from '../art/postales.js';
+import { paintPostal } from '../art/postales.js';
 import { unlockPostal } from '../systems/postales.js';
 import { fmt } from '../systems/text.js';
 import { sfx } from '../systems/audio.js';
@@ -56,23 +56,18 @@ export default class PostcardScene extends Phaser.Scene {
     this.add.rectangle(WIDTH / 2, HEIGHT - 60, WIDTH - 120, 1, 0xe3b04b, 0.45).setDepth(31);
 
     // Título de la postal: arriba a la izquierda, como un rótulo de película.
-    const n = this.postal.key;
     this.titleT = this.add.text(18, 24, this.postal.title, { fontFamily: 'Georgia, serif', fontSize: '18px', color: COLORS.gold, stroke: '#140c08', strokeThickness: 3 }).setDepth(31).setAlpha(0);
     this.subT = this.add.text(19, 46, this.postal.sub, { fontFamily: 'Georgia, serif', fontSize: '10px', fontStyle: 'italic', color: COLORS.cream, stroke: '#140c08', strokeThickness: 2 }).setDepth(31).setAlpha(0);
-    this.tagT = this.add.text(WIDTH - 18, 26, '✿ POSTAL', { fontFamily: 'monospace', fontSize: '8px', color: '#f2c43b', backgroundColor: '#140c08b0', padding: { x: 4, y: 2 } }).setOrigin(1, 0).setDepth(31).setAlpha(0);
-    this.tweens.add({ targets: [this.titleT, this.subT, this.tagT], alpha: 1, duration: 900, delay: 300 });
-    this.textKey = n;
+    this.tweens.add({ targets: [this.titleT, this.subT], alpha: 1, duration: 900, delay: 300 });
 
     this.body = this.add.text(WIDTH / 2, HEIGHT - 31, '', { fontFamily: 'Georgia, serif', fontSize: '11px', color: '#f5f1e4', align: 'center', wordWrap: { width: WIDTH - 70 }, lineSpacing: 3 }).setOrigin(0.5).setDepth(31);
     this.cont = this.add.text(WIDTH - 22, HEIGHT - 18, '▼', { fontFamily: 'monospace', fontSize: '10px', color: COLORS.gold }).setDepth(31).setVisible(false);
     this.tweens.add({ targets: this.cont, y: this.cont.y - 2, duration: 500, yoyo: true, repeat: -1 });
-    this.toast = this.add.text(WIDTH / 2, 70, '', { fontFamily: 'Georgia, serif', fontSize: '10px', color: '#9be8a6', backgroundColor: '#0d1820e0', padding: { x: 6, y: 3 } }).setOrigin(0.5).setDepth(40).setAlpha(0);
 
     const adv = () => this.advance();
     ['SPACE', 'ENTER', 'X', 'E'].forEach((k) => this.input.keyboard.on('keydown-' + k, adv));
-    this.input.keyboard.on('keydown-P', () => this.save());
     this.input.keyboard.on('keydown-ESC', () => this.leave());
-    this.input.on('pointerdown', (p, over) => { if (!over || !over.length) adv(); });
+    this.input.on('pointerdown', adv);
 
     this.cam.fadeIn(900, 0, 0, 0);
     this.time.delayedCall(900, () => { if (this.index < 0) this.advance(); });
@@ -97,33 +92,12 @@ export default class PostcardScene extends Phaser.Scene {
     } });
   }
 
-  // Al final: la frase para recordar y los botones.
+  // Al final, como en el cine: la frase que queda, y la escena sigue.
   showEnd() {
-    const { WIDTH, HEIGHT } = GAME;
     this.done = true;
-    this.cont.setVisible(false);
-    this.body.setText('«' + this.postal.memory + '»').setFontStyle('italic').setColor('#f2d98a').setY(HEIGHT - 45);
-    const mk = (x, w, label, cb, fill) => {
-      const bg = this.add.rectangle(x, HEIGHT - 19, w, 18, fill, 0.95).setStrokeStyle(2, 0xe3b04b, 0.9).setDepth(32).setInteractive({ useHandCursor: true });
-      const t = this.add.text(x, HEIGHT - 19, label, { fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream }).setOrigin(0.5).setDepth(33);
-      bg.on('pointerover', () => bg.setFillStyle(0x2a5a5e, 1));
-      bg.on('pointerout', () => bg.setFillStyle(fill, 0.95));
-      bg.on('pointerdown', cb);
-      return [bg, t];
-    };
-    mk(WIDTH / 2 - 82, 150, '📷 Guardar la postal', () => this.save(), 0x2a1d2e);
-    mk(WIDTH / 2 + 82, 150, this.album ? 'Volver al álbum' : 'Continuar ▸', () => this.leave(), 0x2f6b3f);
-  }
-
-  save() {
-    if (this.saving) return;
-    this.saving = true;
-    sfx('confirm');
-    downloadPostal(this, this.postal, (ok) => {
-      this.saving = false;
-      this.toast.setText(ok ? '✿ Postal guardada' : 'No se pudo guardar').setColor(ok ? '#9be8a6' : '#e89a9a').setAlpha(1);
-      this.tweens.add({ targets: this.toast, alpha: 0, delay: 2000, duration: 700 });
-    });
+    this.body.setText('«' + this.postal.memory + '»').setFontStyle('italic').setColor('#f2d98a');
+    this.cont.setVisible(true);
+    sfx('page');
   }
 
   leave() {

@@ -1,5 +1,6 @@
 // EXPEDIENTE (I): el caso de un vistazo. Pestañas: Caso (objetivo, confianza y
-// lo que falta), Pruebas, Testimonios y Códice (las cartas de ley ganadas).
+// lo que falta), Pruebas, Testimonios, Códice (las cartas de ley ganadas) y
+// Misterios (las preguntas del caso: resueltas, la abierta y las que vienen).
 
 import Phaser from 'phaser';
 import { CAMERA } from '../systems/view.js';
@@ -7,12 +8,12 @@ import { GAME, COLORS } from '../config.js';
 import { ITEMS, REQUIRED, TRUST } from '../data/ch1/items.js';
 import { CODEX, FAMILIES } from '../data/codex.js';
 import { getSave } from '../systems/save.js';
-import { objective, hasFlag, hasItem, trustCount } from '../systems/story.js';
+import { objective, hasFlag, hasItem, trustCount, mysteries } from '../systems/story.js';
 import { orderValue, orderLevel, TEACHINGS } from '../systems/order.js';
 import { fmt } from '../systems/text.js';
 import { sfx } from '../systems/audio.js';
 
-const TABS = ['Caso', 'Pruebas', 'Testimonios', 'Códice'];
+const TABS = ['Caso', 'Pruebas', 'Testimonios', 'Códice', 'Misterios'];
 
 export default class CaseFileScene extends Phaser.Scene {
   constructor() {
@@ -34,19 +35,21 @@ export default class CaseFileScene extends Phaser.Scene {
     g.fillStyle(0xefe3c2, 1); g.fillRoundedRect(12, 12, WIDTH - 24, HEIGHT - 24, 8);
     g.fillStyle(0xd8c79e, 1); g.fillRect(12, 40, WIDTH - 24, 2);
     g.lineStyle(2, 0x8a6034, 1); g.strokeRoundedRect(12, 12, WIDTH - 24, HEIGHT - 24, 8);
-    this.add.text(24, 18, 'EXPEDIENTE · Caso de la lancha', { fontFamily: 'Georgia, serif', fontSize: '12px', color: '#5a3a20' });
+    this.add.text(24, 18, 'EXPEDIENTE', { fontFamily: 'Georgia, serif', fontSize: '12px', color: '#5a3a20' });
     const close = this.add.text(WIDTH - 22, 16, '✕', { fontFamily: 'monospace', fontSize: '13px', color: '#7a3a1a' }).setOrigin(1, 0).setInteractive({ useHandCursor: true });
     close.on('pointerdown', () => this.close());
+    let tx0 = 150;
     this.tabTexts = TABS.map((t, i) => {
-      const tx = this.add.text(214 + i * 62, 22, t, { fontFamily: 'Georgia, serif', fontSize: '10px', color: '#5a3a20', padding: { x: 4, y: 2 } }).setInteractive({ useHandCursor: true });
-      tx.on('pointerdown', () => { this.tab = i; this.sel = 0; this.render(); });
+      const tx = this.add.text(tx0, 22, t, { fontFamily: 'Georgia, serif', fontSize: '10px', color: '#5a3a20', padding: { x: 4, y: 2 } }).setInteractive({ useHandCursor: true });
+      tx.on('pointerdown', () => { this.tab = i; this.sel = 0; this.firstMyst = true; this.render(); });
+      tx0 += tx.width + 6;
       return tx;
     });
     this.body = this.add.container(0, 0);
     this.render();
     const kb = this.input.keyboard;
-    kb.on('keydown-LEFT', () => { this.tab = Phaser.Math.Wrap(this.tab - 1, 0, TABS.length); this.sel = 0; sfx('select'); this.render(); });
-    kb.on('keydown-RIGHT', () => { this.tab = Phaser.Math.Wrap(this.tab + 1, 0, TABS.length); this.sel = 0; sfx('select'); this.render(); });
+    kb.on('keydown-LEFT', () => { this.tab = Phaser.Math.Wrap(this.tab - 1, 0, TABS.length); this.sel = 0; this.firstMyst = true; sfx('select'); this.render(); });
+    kb.on('keydown-RIGHT', () => { this.tab = Phaser.Math.Wrap(this.tab + 1, 0, TABS.length); this.sel = 0; this.firstMyst = true; sfx('select'); this.render(); });
     kb.on('keydown-UP', () => { this.sel = Math.max(0, this.sel - 1); this.render(); });
     kb.on('keydown-DOWN', () => { this.sel = Math.min((this.list || []).length - 1, this.sel + 1); this.render(); });
     ['ESC', 'I', 'X'].forEach((k) => kb.on('keydown-' + k, () => this.close()));
@@ -91,6 +94,7 @@ export default class CaseFileScene extends Phaser.Scene {
       add(this.add.text(WIDTH / 2, HEIGHT - 26, '◀ ▶ cambiar de pestaña · Esc cerrar', { fontFamily: 'monospace', fontSize: '7px', color: '#8a7a62' }).setOrigin(0.5));
       return;
     }
+    if (this.tab === 4) { this.renderMysteries(add); return; }
     const list = this.entries();
     this.list = list;
     if (!list.length) {
@@ -134,5 +138,35 @@ export default class CaseFileScene extends Phaser.Scene {
     this.closing = true;
     if (this.scene.isPaused(this.returnScene)) this.scene.resume(this.returnScene);
     this.scene.stop();
+  }
+
+  // Las preguntas del caso: ✔ resueltas, ❓ la abierta, 🔒 las que vienen.
+  renderMysteries(add) {
+    const { WIDTH, HEIGHT } = GAME;
+    const all = mysteries(this.save);
+    const open = all.findIndex((m) => !m.solved);
+    this.list = all;
+    if (this.firstMyst !== false) { this.sel = Math.max(0, open); this.firstMyst = false; }
+    this.sel = Phaser.Math.Clamp(this.sel, 0, all.length - 1);
+    const got = all.filter((m) => m.solved).length;
+    add(this.add.text(26, 48, `Preguntas del caso · ${got} de ${all.length - 1} resueltas`, { fontFamily: 'monospace', fontSize: '8px', color: '#8a6034' }));
+    all.forEach((m, i) => {
+      const known = m.solved || i <= open + 1;
+      const mark = m.solved ? '✔ ' : i === open ? '❓ ' : m.next ? '➜ ' : '🔒 ';
+      const label = known || m.next ? m.q : '· · ·';
+      const on = i === this.sel;
+      const t = add(this.add.text(30, 60 + i * 12, mark + label, { fontFamily: 'Georgia, serif', fontSize: '9px', color: m.solved ? '#2f6b3f' : i === open ? '#8a3a1a' : '#8a7a62', fontStyle: i === open ? 'bold' : 'normal', backgroundColor: on ? '#d8c79e' : undefined, padding: { x: 2, y: 0 } }));
+      t.setInteractive({ useHandCursor: true }).on('pointerdown', () => { this.sel = i; this.render(); });
+    });
+    const m = all[this.sel];
+    const y = 60 + all.length * 12 + 6;
+    add(this.add.rectangle(24, y, WIDTH - 48, HEIGHT - 30 - y, 0xf7efd8, 1).setOrigin(0).setStrokeStyle(1, 0x8a6034, 0.5));
+    let txt;
+    if (m.solved) txt = m.a;
+    else if (m.next) txt = 'Esta pregunta espera río arriba, en el próximo capítulo.';
+    else if (this.sel === open) txt = 'Todavía no lo sabes. Pista: ' + fmt(objective(this.save).text) + '.';
+    else txt = 'Sigue investigando: esta pregunta se abrirá más adelante.';
+    add(this.add.text(32, y + 5, txt, { fontFamily: 'Georgia, serif', fontSize: '10px', color: '#2a2018', fontStyle: m.solved ? 'normal' : 'italic', wordWrap: { width: WIDTH - 64 }, lineSpacing: 2 }));
+    add(this.add.text(WIDTH / 2, HEIGHT - 22, '▲ ▼ elegir pregunta · ◀ ▶ pestañas · Esc cerrar', { fontFamily: 'monospace', fontSize: '7px', color: '#8a7a62' }).setOrigin(0.5));
   }
 }

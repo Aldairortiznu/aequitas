@@ -14,6 +14,9 @@ import { CINEMATICS } from '../data/ch1/script.js';
 import { fmt } from '../systems/text.js';
 import { sfx } from '../systems/audio.js';
 import { drawPlace } from './places.js';
+import { getPostal } from '../data/postales.js';
+import { postalBackdrop } from '../art/postales.js';
+import { unlockPostal } from '../systems/postales.js';
 
 // A qué miembro del reparto pertenece cada voz (el pensamiento es del protagonista).
 const OWNER = { pensamiento: 'explorador' };
@@ -299,6 +302,7 @@ export default class CinematicScene extends Phaser.Scene {
     if (line.s === 'tinto') sfx('note');
 
     if (line.fx) this.playFx(line.fx, active);
+    if (line.postal) this.setBackdrop(line.postal);
 
     // Máquina de escribir. El texto se corta en líneas ANTES de escribirlo, así
     // ninguna palabra salta de renglón a mitad de camino. Sin nombre (narrador),
@@ -326,6 +330,20 @@ export default class CinematicScene extends Phaser.Scene {
         }
       },
     });
+  }
+
+  // Escena cinematográfica (data/postales.js) por encima del escenario y debajo
+  // del texto; { postal: 'off' } vuelve al escenario.
+  setBackdrop(key) {
+    if (key === this.backKey) return;
+    this.backKey = key;
+    const old = this.backdrop;
+    if (old) this.tweens.add({ targets: old, alpha: 0, duration: 700, onComplete: () => old.destroy() });
+    this.backdrop = null;
+    const p = key !== 'off' && getPostal(key);
+    if (!p) return;
+    unlockPostal(key);
+    this.backdrop = postalBackdrop(this, p, { depth: 16, offsetY: -36 });
   }
 
   playFx(fx, actor) {

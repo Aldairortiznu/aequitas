@@ -3,6 +3,10 @@
 //
 // Uso: this.scene.launch('Dialogue', { convo: [...], returnScene: 'Town' });
 //      this.scene.pause();
+//
+// Una línea con { postal: 'clave' } abre detrás del texto esa escena
+// cinematográfica (data/postales.js) y se queda hasta que otra línea la cambie
+// o diga { postal: 'off' }: así una leyenda o un recuerdo se cuentan con imagen.
 
 import Phaser from 'phaser';
 import { CAMERA } from '../systems/view.js';
@@ -10,6 +14,9 @@ import { GAME, COLORS } from '../config.js';
 import { SPEAKERS } from '../data/speakers.js';
 import { fmt } from '../systems/text.js';
 import { sfx } from '../systems/audio.js';
+import { getPostal } from '../data/postales.js';
+import { postalBackdrop } from '../art/postales.js';
+import { unlockPostal } from '../systems/postales.js';
 
 export default class DialogueScene extends Phaser.Scene {
   constructor() {
@@ -31,24 +38,24 @@ export default class DialogueScene extends Phaser.Scene {
     const by = HEIGHT - bh - 8;
 
     // Caja con borde.
-    const g = this.add.graphics();
+    const g = this.add.graphics().setDepth(10);
     g.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.shadow).color, 0.98);
     g.fillRoundedRect(bx, by, bw, bh, 6);
     g.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.green).color, 1);
     g.strokeRoundedRect(bx, by, bw, bh, 6);
 
     // Marco del retrato.
-    this.portraitBox = this.add.graphics();
+    this.portraitBox = this.add.graphics().setDepth(10);
     this.portraitBox.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.bgGreen).color, 1);
     this.portraitBox.fillRoundedRect(bx + 8, by + 8, 40, 40, 4);
-    this.portrait = this.add.image(bx + 28, by + 47, 'player').setOrigin(0.5, 1);
+    this.portrait = this.add.image(bx + 28, by + 47, 'player').setOrigin(0.5, 1).setDepth(10);
 
     // Nombre.
     this.nameText = this.add.text(bx + 58, by + 8, '', {
       fontFamily: 'Georgia, serif',
       fontSize: '12px',
       color: COLORS.cream,
-    });
+    }).setDepth(10);
 
     // Cuerpo del texto.
     this.bodyText = this.add.text(bx + 58, by + 26, '', {
@@ -57,12 +64,12 @@ export default class DialogueScene extends Phaser.Scene {
       color: COLORS.cream,
       wordWrap: { width: bw - 70 },
       lineSpacing: 3,
-    });
+    }).setDepth(10);
 
     // Indicador "continuar".
     this.cont = this.add
       .text(bx + bw - 14, by + bh - 14, '▼', { fontFamily: 'monospace', fontSize: '10px', color: COLORS.gold })
-      .setVisible(false);
+      .setVisible(false).setDepth(10);
     this.tweens.add({ targets: this.cont, y: this.cont.y - 2, duration: 500, yoyo: true, repeat: -1 });
 
     // Controles.
@@ -84,6 +91,8 @@ export default class DialogueScene extends Phaser.Scene {
     this.nameText.setText(fmt(sp.name)).setColor(sp.color);
     this.bodyText.setColor(sp.color === '#ffffff' ? COLORS.cream : '#f3efe0');
     this.bodyText.setFontStyle(sp.italic ? 'italic' : 'normal');
+
+    if (line.postal) this.setBackdrop(line.postal);
 
     const portrait = sp.portrait;
     if (portrait && this.textures.exists(portrait)) {
@@ -122,6 +131,19 @@ export default class DialogueScene extends Phaser.Scene {
         }
       },
     });
+  }
+
+  // Escena cinematográfica detrás del diálogo (se funde con la anterior).
+  setBackdrop(key) {
+    if (key === this.backKey) return;
+    this.backKey = key;
+    const old = this.backdrop;
+    if (old) this.tweens.add({ targets: old, alpha: 0, duration: 600, onComplete: () => old.destroy() });
+    this.backdrop = null;
+    const p = key !== 'off' && getPostal(key);
+    if (!p) return;
+    unlockPostal(key);
+    this.backdrop = postalBackdrop(this, p, { depth: 1, offsetY: -44 });
   }
 
   advance() {

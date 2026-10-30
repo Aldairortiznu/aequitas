@@ -296,6 +296,6 @@ export default class CaseClosedScene extends Phaser.Scene {
     this.save.flags.cap1_visto = true;
     writeSave(this.save);
     this.cameras.main.fadeOut(600, 0, 0, 0);
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key: 'siguiente', next: { scene: 'Postcard', data: { key: 'siete_puentes', next: { scene: 'Menu' } } } }));
+    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key: 'siguiente', next: { scene: 'Menu' } }));
   }
 }

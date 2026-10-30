@@ -105,6 +105,10 @@ export default class HearingScene extends Phaser.Scene {
       this.busy = true;
       this.scene.launch('Card', { id: st.id, returnScene: 'Hearing' });
       this.scene.pause();
+    } else if (st.type === 'lesson') {
+      this.busy = true;
+      this.scene.launch('Lesson', { lesson: st.lesson, returnScene: 'Hearing' });
+      this.scene.pause();
     } else if (st.type === 'fn') {
       st.fn();
       this.runNext();
@@ -353,6 +357,7 @@ export default class HearingScene extends Phaser.Scene {
       if (st.law) this.showLaw(st.law);
       this.showStatement();
       this.push({ type: 'talk', lines: st.ok });
+      if (st.lesson) this.push({ type: 'lesson', lesson: st.lesson });
       this.push({ type: 'fn', fn: () => this.afterSolve() });
       this.afterBeat(900);
       return;

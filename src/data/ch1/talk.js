@@ -251,8 +251,8 @@ export const TALK = {
       T('Y tenía nombre de niña, eso sí me acuerdo. ¿Cómo era...? Ay, la memoria.'),
     ] },
     { id: 'margarita', label: '¿Qué es la Margarita Dorada?', lines: [
-      T('Ay, ese broche. Mi abuela contaba que cuando el Leviatán estaba en pie, en cada plaza había una margarita de oro: era la señal de que ahí la palabra valía.'),
-      T('En la guerra se secaron todas. Dicen que vuelven a brotar solas, entre el cemento, cuando la gente se pone de acuerdo sin miedo.'),
+      { ...T('Ay, ese broche. Mi abuela contaba que cuando el Leviatán estaba en pie, en cada plaza había una margarita de oro: era la señal de que ahí la palabra valía.'), postal: 'leviatan' },
+      { ...T('En la guerra se secaron todas. Dicen que vuelven a brotar solas, entre el cemento, cuando la gente se pone de acuerdo sin miedo.'), postal: 'margarita' },
       L('El Leviatán era como los abuelos llamaban al Estado: jueces, escuelas, puentes, oficinas. La ley que nos cuida a todos.'),
     ] },
     { id: 'charla', label: '¿Algún consejo, Mamá Tule?', repeat: true, lines: [
@@ -270,7 +270,7 @@ export const TALK = {
     ] },
     { id: 'lancha', label: '¿Qué sabe de la lancha de los Ortega?', req: ['!i:nando'], give: ['i:nando'], lines: [
       N('La noche que la guerra llegó a Puerto Alcaraván, yo estaba río abajo, escondido entre los manglares.'),
-      N('Vi bajar esa lancha sola, vacía, dando vueltas en la corriente. Nadie la venía manejando.'),
+      { ...N('Vi bajar esa lancha sola, vacía, dando vueltas en la corriente. Nadie la venía manejando.'), postal: 'travesia' },
       N('Si alguien dice que se la robaron... no fue así. Se la llevó el río.'),
     ] },
     { id: 'charla', label: '¿Qué tal la pesca?', repeat: true, lines: [
@@ -308,7 +308,7 @@ export const TALK = {
   aurelio: [
     { id: 'version', label: 'Cuénteme su versión, Don Anselmo', req: ['!i:aurelio'], give: ['i:aurelio', 'c:art58'], lines: [
       A('Anselmo Mendoza Pacheco, para servirle. Esa lancha es la Niña Mercedes, como mi madre. La compré con veinte años de trabajo.'),
-      A('Cuando la guerra llegó a Alcaraván tuve que huir con lo que llevaba puesto. La lancha se quedó en el muelle.'),
+      { ...A('Cuando la guerra llegó a Alcaraván tuve que huir con lo que llevaba puesto. La lancha se quedó en el muelle.'), postal: 'leviatan' },
       A('Viví siete años desplazado, río arriba. Tengo la matrícula... bueno, media. La otra mitad se quemó con mi casa.'),
       L('La Constitución protege la propiedad. Y también le recuerda que tiene una función social. Las dos cosas valen.'),
     ] },

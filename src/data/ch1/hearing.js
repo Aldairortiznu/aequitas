@@ -2,7 +2,8 @@
 // la clasificación de gastos y el acta.
 //
 // En cada declaración: E = preguntar (más detalles), X = presentar una prueba,
-// un testimonio o una carta del Códice. answer: lo que la contradice (null si
+// un testimonio o una carta del Códice. lesson: la tarjeta «¿Por qué funcionó?»
+// (norma, caso, para recordar) que se muestra al acertar. answer: lo que la contradice (null si
 // la frase es verdad: presentar algo ahí cuesta confianza). law: la carta del
 // Códice con la norma que se aplica (se muestra en pantalla al acertar).
 
@@ -23,7 +24,8 @@ const Nar = say('narrador');
 
 export const HEARING = {
   intro: [
-    Nar('Casa de la Junta. Todo el puerto se apretuja en las bancas. Afuera, hasta las garzas parecen escuchar.'),
+    { ...Nar('La noche antes de la audiencia, Puerto Garza casi no durmió. Por primera vez en años, la gente iba a la Junta a hablar y no a callar.'), postal: 'asamblea' },
+    { ...Nar('Casa de la Junta. Todo el puerto se apretuja en las bancas. Afuera, hasta las garzas parecen escuchar.'), postal: 'off' },
     F('Se abre la audiencia de conciliación de Puerto Garza. Aquí se habla, no se grita.'),
     F('Cada parte dirá su verdad. {nombre}, de la Biblioteca, podrá preguntar y presentar pruebas. Nadie será juzgado sin ser escuchado.'),
     L('Así funciona: si una frase no cuadra, pregunta (E) o presenta una prueba o una carta del Códice (X). Cambia de frase con ◀ ▶.'),
@@ -40,6 +42,7 @@ export const HEARING = {
           press: [E('¿De nadie? ¿Cómo sabes que no tenía dueño?'), J('¡Porque nadie vino a buscarla! Y no tenía ni nombre, que yo sepa.'), L('Mmm... ¿"que yo sepa"? Piensa en lo que encontramos en el casco.')],
           answer: ['nombre_original', 'ocupacion'],
           law: 'ocupacion',
+          lesson: { titulo: 'Lo perdido sigue teniendo dueño', ley: 'C. C., art. 685', regla: 'Por ocupación solo se adquieren las cosas que no son de nadie, como una concha en la playa o un pez en el río.', caso: 'La lancha tenía su nombre, «Niña Mercedes», escondido bajo la pintura: no era de nadie, era una cosa perdida. Por eso los Ortega no se volvieron dueños al encontrarla.', recordar: 'Perdido no es lo mismo que abandonado: lo perdido sigue teniendo dueño.' },
           ok: [E('¡Objeción! Bajo la pintura estaba su nombre: «Niña Mercedes». Una cosa perdida sigue teniendo dueño.', 'shake'), L('Por ocupación solo se adquiere lo que no es de nadie. Esta lancha tenía nombre... y dueño.'), J('...Bueno, sí, tenía un nombre viejo. ¡Pero eso no cambia nada!')],
           hint: 'Julián dice que la lancha "era de nadie". ¿Qué descubriste en el casco? ¿Qué dice el Códice sobre la ocupación?',
         },
@@ -53,6 +56,7 @@ export const HEARING = {
           press: [E('¿Qué dice exactamente la ley sobre el tiempo?'), J('¡Que si uno tiene algo mucho tiempo, ya es de uno! Todo el mundo lo sabe.'), L('"Todo el mundo lo sabe" no es una norma. Busca la carta de la prescripción.')],
           answer: ['prescripcion'],
           law: 'prescripcion',
+          lesson: { titulo: 'El tiempo no basta por sí solo', ley: 'C. C., arts. 2529 y 2532', regla: 'Se puede llegar a ser dueño por el paso del tiempo (prescripción), pero solo poseyendo la cosa como dueño y durante el plazo de la ley. Sin un título, como una compraventa, se necesitan diez años.', caso: 'Encontrar la lancha no es un título, así que harían falta diez años y van siete. Además, quien la guarda para devolverla a su dueño no la posee como dueño.', recordar: 'El tiempo da la propiedad solo con posesión real y con el plazo completo que fija la ley.' },
           ok: [E('¡Objeción! Sin un título, para volverse dueño por el tiempo se necesitan diez años de posesión. Ustedes llevan siete.', 'shake'), L('Encontrar una lancha no es un título, como sí lo sería una compraventa. Siete años no bastan.'), J('¿Diez? ¿Diez años? ...Nadie me había dicho eso.'), L('Y algo más: quien guarda una cosa para su dueño no la posee como dueño. Esa espera es buena fe, no un camino para quedarse con ella.')],
           hint: 'Julián cree que siete años bastan. ¿Cuánto tiempo exige la ley cuando no hay título?',
         },
@@ -61,6 +65,7 @@ export const HEARING = {
           press: [E('¿Estás seguro de que nunca tuvo placa?'), J('¡Segurísimo! ...Bueno, segurísimo no. Pero no la tiene.'), L('Alguien en el puerto vio algo brillante una noche...')],
           answer: ['placa_motor', 'yuli', 'lucho'],
           law: 'dominio_posesion',
+          lesson: { titulo: 'Una prueba vale más que una afirmación', ley: 'C. C., arts. 669 y 762', regla: 'El dominio es el derecho de ser dueño de una cosa. La posesión es tenerla como dueño, y a quien posee se le presume dueño mientras otra persona no pruebe que la cosa es suya.', caso: 'La placa del motor tiene la misma serie que la matrícula de Don Anselmo. Esa prueba derrota la presunción que favorecía a los Ortega.', recordar: 'Una afirmación se desmonta con un hecho que se pueda comprobar.' },
           ok: [E('¡Objeción! Esta es la placa del motor: MR-4471-R. Estaba escondida en la bodega, detrás de las redes.', 'shake'), As('¡Uyyyyy!'), J('Yo... yo la escondí. Tenía miedo. Sin la lancha, mi mamá no tiene nada.'), Ca('¡Julián! ...Ay, mijo.'), L('Esconder una prueba no se arregla con un castigo. Pero hay que repararlo. Lo veremos en el acuerdo.')],
           hint: 'Julián dice que no hay placa. Pero tú encontraste algo en la bodega... y hay quien lo vio.',
         },
@@ -83,6 +88,7 @@ export const HEARING = {
           press: [E('¿Usted los vio llevársela?'), A('Bueno... no. Pero desapareció la noche que la guerra llegó a Alcaraván. ¡Alguien se la llevó!'), L('¿Alguien? ¿O algo? Hay quien vio la lancha esa noche...')],
           answer: ['nando', 'libro_hallazgos'],
           law: 'buena_fe',
+          lesson: { titulo: 'La buena fe se presume', ley: 'C. C., arts. 768 y 769', regla: 'Se presume que la gente actúa de buena fe. Quien diga que alguien actuó de mala fe tiene que probarlo.', caso: 'Nando vio la lancha bajar sola por el río, y los Ortega la anotaron en el libro de hallazgos. No hubo robo: hubo un hallazgo de buena fe.', recordar: 'Antes de acusar, pregunta qué pasó: la ley parte de que la gente actúa honestamente.' },
           ok: [E('¡Objeción! Nando la vio bajar sola y vacía por el río esa noche. Nadie la robó: se la llevó la corriente.', 'shake'), N('¡Así fue! ¡Yo la vi con estos ojos!'), A('...Entonces no fue un robo. Les pido disculpas por eso.')],
           hint: 'Anselmo habla de robo. ¿Quién vio la lancha la noche que la guerra llegó a Alcaraván?',
         },
@@ -91,6 +97,7 @@ export const HEARING = {
           press: [E('¿Cobrarle a quien la cuidó de buena fe?'), A('¡Ganaron plata con mi lancha! Lo justo es que paguen.'), L('Hay una carta sobre lo que produce una cosa en manos de quien la tiene de buena fe...')],
           answer: ['frutos', 'buena_fe'],
           law: 'frutos',
+          lesson: { titulo: 'La buena fe protege', ley: 'C. C., art. 964', regla: 'Quien poseyó una cosa de buena fe no tiene que devolver los frutos que obtuvo de ella antes de contestar la demanda del dueño.', caso: 'Los Ortega pescaron con la lancha mientras la cuidaban de buena fe, y Don Anselmo nunca les puso una demanda. Lo que produjo en esos años no se vuelve deuda.', recordar: 'No se castiga a quien actuó honestamente.' },
           ok: [E('¡Objeción! Los Ortega la tuvieron de buena fe: la anotaron y esperaron al dueño. Lo que produjo en ese tiempo no se vuelve deuda.', 'shake'), L('Quien posee de buena fe no devuelve los frutos que obtuvo antes de contestar la demanda del dueño. Y aquí no hubo ni demanda.'), A('...Está bien. No voy a cobrar lo que el río me quitó.')],
           hint: '¿Debe devolver lo producido quien poseía de buena fe? Busca la carta de los frutos.',
         },
@@ -99,6 +106,7 @@ export const HEARING = {
           press: [E('¿Y si nadie la hubiera reparado?'), A('...Pues la lancha estaría hundida en la ciénaga. Pero no es mi problema.'), L('Sin esas reparaciones no habría lancha que reclamar. ¿Qué dice la ley de esos gastos?')],
           answer: ['expensas', 'recibos', 'hallazgo'],
           law: 'expensas',
+          lesson: { titulo: 'Quien recupera su cosa reconoce lo que costó salvarla', ley: 'C. C., arts. 965 y 966', regla: 'Al poseedor se le pagan los gastos necesarios que hizo para conservar la cosa. Las mejoras útiles, las que aumentan su valor, se le pagan si poseía de buena fe.', caso: 'Sin el pistón, el parche y la pintura, la Niña Mercedes estaría en el fondo del río. Los recibos de Don Chepe prueban cada gasto.', recordar: 'Lo justo no es todo o nada: el dueño recupera su cosa y paga lo que costó conservarla.' },
           ok: [E('¡Objeción! Sin esas reparaciones su lancha no existiría. La ley reconoce los gastos necesarios para conservar la cosa, y las mejoras útiles a quien poseía de buena fe.', 'shake'), L('Y todo está en el cuaderno de Don Chepe, con fecha y firma.'), A('...Tiene razón. Sin ellos, la Niña Mercedes estaría en el fondo del río.')],
           hint: 'Anselmo no quiere pagar las reparaciones. ¿Qué dice la ley de los gastos necesarios? ¿Con qué los pruebas?',
         },
@@ -116,6 +124,7 @@ export const HEARING = {
           press: [E('¿Y si fuera su casa la que el pueblo decide quedarse?'), R('...Eso es distinto. ¡Mi casa es mía!'), L('¿Distinto? Busca la carta que habla de la confiscación... o la de la propiedad.')],
           answer: ['art34', 'art58'],
           law: 'art58',
+          lesson: { titulo: 'Ni la mayoría puede quitar lo ajeno', ley: 'Constitución, arts. 34 y 58', regla: 'La Constitución garantiza la propiedad privada y prohíbe la confiscación. Solo la ley puede expropiar, por utilidad pública, con un proceso y pagando una indemnización.', caso: 'Una asamblea no puede votar para quedarse con la lancha de Don Anselmo: no es un juez, no hay ley que lo autorice y sería una confiscación.', recordar: 'Los derechos de una persona no se someten a votación.' },
           ok: [E('¡Objeción! La Constitución prohíbe la confiscación y protege la propiedad. Ni la mayoría puede quitarle a alguien lo que es suyo.', 'shake'), As('¡Eso es verdad!'), R('Grrr...')],
           hint: '¿Puede una asamblea quitarle a alguien sus bienes? Busca en la Constitución.',
         },
@@ -124,6 +133,7 @@ export const HEARING = {
           press: [E('¿Echarlo del pueblo? ¿Por reclamar lo que es suyo?'), R('¡Para que aprenda!'), L('Hay una palabra para eso en la Constitución. Y está prohibida.')],
           answer: ['art34'],
           law: 'art34',
+          lesson: { titulo: 'Nadie puede ser desterrado', ley: 'Constitución, arts. 24 y 34', regla: 'Está prohibida la pena de destierro. Toda persona tiene derecho a circular por el país y a quedarse a vivir donde quiera.', caso: 'Montar a Don Anselmo en una canoa sería desterrarlo por reclamar lo suyo. Una asamblea no puede imponer castigos, y menos uno prohibido.', recordar: 'Nadie puede ser expulsado de su comunidad como castigo.' },
           ok: [E('¡Objeción! El destierro está prohibido, y una asamblea no puede castigar a nadie: echarlo del pueblo viola su derecho a vivir donde quiera.', 'shake'), L('Constitución, artículos 24 y 34.'), As('¡Bien dicho!')],
           hint: 'Ramiro quiere expulsar a Anselmo. ¿Qué pena prohíbe la Constitución?',
         },
@@ -132,6 +142,7 @@ export const HEARING = {
           press: [E('¿Siempre? ¿Hoy también?'), R('¡Hoy más que nunca!'), L('Hoy, en el barrio, una pelea se arregló sin un solo golpe. ¿Te acuerdas?')],
           answer: ['acuerdo_gallina', 'justicia_comunitaria', 'art116'],
           law: 'justicia_comunitaria',
+          lesson: { titulo: 'La paz se demuestra con hechos', ley: 'Constitución, art. 116 · Ley 2220 de 2022', regla: 'Personas de la comunidad pueden servir como conciliadores en equidad y ayudar a que los vecinos resuelvan sus conflictos con un acuerdo.', caso: 'El acuerdo firmado por Doña Rosa y Don Lucho prueba que en este puerto ya se arregló una pelea hablando, sin un solo golpe.', recordar: 'Un ejemplo vale más que mil discursos.' },
           ok: [E('¡Objeción! Hoy mismo, Doña Rosa y Don Lucho arreglaron su pelea hablando. Aquí está su acuerdo, firmado por los dos.', 'shake'), Lu('¡Y ella me trae huevos los domingos!'), Ro('¡Y él me regala tomates!'), As('¡Así es!'), R('...Bueno. De pronto... de pronto hablando también se puede.')],
           hint: '¿Hay alguna prueba de que en este puerto los problemas se pueden arreglar hablando?',
         },
@@ -152,7 +163,7 @@ export const RESOLUTION = {
       q: '¿De quién es la lancha?',
       options: [
         { t: 'De los Ortega: la salvaron y la cuidaron siete años.', v: 'bad', fb: 'Cuidar no es ser dueño. Sin título, se necesitan diez años de posesión, y van siete (C. C., art. 2532).' },
-        { t: 'De Don Anselmo: probó que es suya.', v: 'ok', fb: 'La matrícula, la placa y el nombre prueban el dominio. Y el dueño puede reclamar su cosa a quien la tiene (C. C., arts. 669 y 946).', clause: 'DOMINIO' },
+        { t: 'De Don Anselmo: probó que es suya.', v: 'ok', fb: 'La matrícula, la placa y el nombre prueban el dominio. Y el dueño puede reclamar su cosa a quien la tiene (C. C., arts. 669 y 946).', clause: 'DOMINIO', lesson: { titulo: 'El dueño puede reclamar lo suyo', ley: 'C. C., arts. 669 y 946', regla: 'El dueño de una cosa puede pedir que se la devuelva quien la tenga. Esto se llama acción reivindicatoria.', caso: 'La matrícula, la placa y el nombre prueban que la lancha es de Don Anselmo. Por eso el acuerdo empieza por reconocerle la propiedad.', recordar: 'Primero se aclara de quién es la cosa: ese es el piso de todo acuerdo justo.' } },
         { t: 'Del pueblo: que la Junta lo decida por votación.', v: 'bad', fb: 'Ni la mayoría puede confiscar: la Constitución lo prohíbe y protege la propiedad (arts. 34 y 58).' },
       ],
     },
@@ -161,13 +172,13 @@ export const RESOLUTION = {
       options: [
         { t: 'Nada: arreglaron algo ajeno, problema de ellos.', v: 'bad', fb: 'Sin esos gastos no habría lancha. La ley los reconoce (C. C., arts. 965 y 966).' },
         { t: 'Don Anselmo paga el doble, como castigo por reclamar.', v: 'bad', fb: 'Reparar no es castigar: se paga lo que se debe, ni un peso más (Ley 446 de 1998, art. 16).', card: 'reparacion' },
-        { t: 'Don Anselmo reconoce los gastos necesarios y las mejoras útiles.', v: 'ok', fb: 'Exacto: los gastos necesarios se le pagan a todo poseedor; las mejoras útiles, al de buena fe (C. C., arts. 965 y 966).', clause: 'MEJORAS' },
+        { t: 'Don Anselmo reconoce los gastos necesarios y las mejoras útiles.', v: 'ok', fb: 'Exacto: los gastos necesarios se le pagan a todo poseedor; las mejoras útiles, al de buena fe (C. C., arts. 965 y 966).', clause: 'MEJORAS', lesson: { titulo: 'Cada quien reconoce lo que el otro aportó', ley: 'C. C., arts. 965, 966 y 967', regla: 'Los gastos necesarios se pagan a todo poseedor; las mejoras útiles, al de buena fe; las de puro gusto (voluptuarias) no se pagan, pero quien las puso se las puede llevar si no daña la cosa.', caso: 'Los Ortega salvaron la lancha y la mantuvieron de buena fe. Don Anselmo la recupera, pero reconoce lo que costó.', recordar: 'Lo justo no es todo o nada.' } },
       ],
     },
     {
       q: '¿Y el trabajo del puerto? Sin lancha no hay pesca.',
       options: [
-        { t: 'Un contrato: los Ortega le arriendan la lancha a Don Anselmo, y lo que él les debe se descuenta de los arriendos.', v: 'ok', fb: '¡Eso es equidad! El dueño recibe un arriendo, el puerto sigue pescando y las deudas se compensan (C. C., arts. 1973 y 1714).', clause: 'ARRIENDO', card: 'compensacion' },
+        { t: 'Un contrato: los Ortega le arriendan la lancha a Don Anselmo, y lo que él les debe se descuenta de los arriendos.', v: 'ok', fb: '¡Eso es equidad! El dueño recibe un arriendo, el puerto sigue pescando y las deudas se compensan (C. C., arts. 1973 y 1714).', clause: 'ARRIENDO', lesson: { titulo: 'Equidad: que todos puedan seguir', ley: 'C. C., arts. 1602, 1714, 1715 y 1973', regla: 'Un contrato bien hecho es ley para quienes lo firman. En el arrendamiento, una parte presta el uso de una cosa y la otra paga un precio. Cuando dos personas se deben dinero entre sí, las deudas se compensan.', caso: 'Don Anselmo sigue siendo el dueño y recibe un arriendo. Lo que él debe por las reparaciones se descuenta de lo que le deben a él, así que nadie tiene que sacar fichas hoy y el puerto sigue pescando.', recordar: 'La equidad aplica la ley pensando en que todos puedan seguir adelante.' }, card: 'compensacion' },
         { t: 'Don Anselmo se lleva la lancha río arriba: es suya.', v: 'meh', fb: 'Es legal: el dueño puede disponer de lo suyo (C. C., art. 669)... pero el puerto se queda sin pescar. ¿No habrá algo más equitativo?', clause: 'ENTREGA' },
         { t: 'Que la use todo el que quiera, sin pagar. Así nadie pelea.', v: 'bad', fb: 'Eso desconoce la propiedad de Anselmo (Const., art. 58). Lo que es de todos sin reglas termina siendo de nadie.' },
       ],
@@ -177,7 +188,7 @@ export const RESOLUTION = {
       options: [
         { t: 'Que se vaya del puerto.', v: 'bad', fb: 'Eso sería destierro, y está prohibido (Const., art. 34).' },
         { t: 'Mejor no decir nada y olvidarlo.', v: 'meh', fb: 'Olvidarlo deja la herida abierta. La confianza se repara reconociendo el error.' },
-        { t: 'Que devuelva la placa, pida perdón y repare: trabajará como lanchero de Don Anselmo.', v: 'ok', fb: 'Reparar el daño, sin castigos de más, y reconstruir la confianza: justicia que sana.', clause: 'REPARACION', card: 'reparacion' },
+        { t: 'Que devuelva la placa, pida perdón y repare: trabajará como lanchero de Don Anselmo.', v: 'ok', fb: 'Reparar el daño, sin castigos de más, y reconstruir la confianza: justicia que sana.', clause: 'REPARACION', lesson: { titulo: 'Reparar, no castigar', ley: 'Ley 446 de 1998, art. 16', regla: 'Los daños se valoran con los principios de reparación integral y equidad: se repara lo que se dañó, sin castigos de más.', caso: 'Julián devuelve la placa, pide perdón y repara trabajando como lanchero de Don Anselmo. No lo humillan ni lo echan: reconstruye la confianza.', recordar: 'La justicia que repara une al pueblo; la que solo castiga, lo divide.' }, card: 'reparacion' },
       ],
     },
   ],

@@ -2,6 +2,8 @@
 // pasa al ganar cada minijuego (líneas + recompensas).
 
 const say = (s) => (t, fx) => (fx ? { s, t, fx } : { s, t });
+// Una línea que abre detrás una escena cinematográfica (data/postales.js).
+const conPostal = (key, line) => ({ ...line, postal: key });
 const F = say('fidelina');
 const R = say('ramiro');
 const Ro = say('rosa');
@@ -34,12 +36,14 @@ export const CINEMATICS = {
     cast: ['ulpiana', 'explorador', 'lumen', 'tinto'],
     slots: [0.2, 0.47, 0.67, 0.84],
     lines: [
-      Nar('Hubo una guerra que duró nueve años. Pocos recuerdan cómo empezó; nadie olvida lo que se perdió.'),
+      conPostal('leviatan', Nar('Hubo una guerra que duró nueve años. Pocos recuerdan cómo empezó; nadie olvida lo que se perdió.')),
+      Nar('Los viejos dicen que el país tenía un gigante, el Leviatán, hecho de jueces, escuelas, puentes y oficinas. En la guerra, el gigante cayó.'),
       Nar('Se cayeron la luz, los puentes y las oficinas. Miles de familias huyeron río abajo con lo que llevaban puesto.'),
-      Nar('Hace siete años se firmó el Acuerdo de Altamar. Desde entonces el país se rehace pueblo por pueblo, unido por el río: con trueque, con minga y con memoria.'),
+      Nar('Después vino el Reino del Arbitrio: manda el que grita más fuerte. Hace siete años se firmó el Acuerdo de Altamar. Desde entonces el país se rehace pueblo por pueblo, unido por el río: con trueque, con minga y con memoria.'),
       Nar('En Altamar, la ciudad amurallada, la Biblioteca Experimental guarda el Códice: la memoria de nuestras leyes, que nadie logró quemar.'),
-      Nar('Sus custodios, la Orden de Bellium, lo protegieron en la Bóveda, bajo el mar. Ahora sus Emisarios del Equilibrio salen a recorrer el río.'),
-      U('{nombre}, llegó una carta de Puerto Garza. Dos familias pelean por la única lancha del pueblo... y hay quien quiere arreglarlo a puños.'),
+      conPostal('boveda', Nar('Sus custodios, la Orden de Bellium, lo protegieron en la Bóveda, bajo el mar Caribe: la Constitución, los códigos y los tratados de derechos humanos.')),
+      Nar('Ahora se abren sus compuertas y salen los Emisarios del Equilibrio. No van a conquistar a nadie: van a ayudar a cada pueblo a volver a pactar su ley.'),
+      conPostal('off', U('{nombre}, llegó una carta de Puerto Garza. Dos familias pelean por la única lancha del pueblo... y hay quien quiere arreglarlo a puños.')),
       E('¿Y qué puedo hacer yo, Maestra? No soy juez.'),
       U('No vas a juzgar a nadie. Vas a ayudar a que la gente encuentre un acuerdo justo. La Constitución permite que particulares sirvan como conciliadores.'),
       U('Tus herramientas son tres: la palabra, la prueba y la ley. Ninguna se dispara. Todas se piensan.'),
@@ -60,7 +64,8 @@ export const CINEMATICS = {
     scene: 'puerto',
     cast: ['ramiro', 'explorador', 'fidelina'],
     lines: [
-      Nar('Puerto Garza: palafitos remendados, techos de zinc con cicatrices y un río tan ancho que parece mar.'),
+      conPostal('travesia', Nar('El río lo ha visto todo: a los que huyeron, a los que regresan y a los que nunca se fueron. Dicen que de noche repite los nombres de los pueblos, para que nadie los olvide.')),
+      conPostal('off', Nar('Puerto Garza: palafitos remendados, techos de zinc con cicatrices y un río tan ancho que parece mar.')),
       Nar('En la isleta sigue en pie el campanario de la iglesia vieja, partido por la guerra. Más allá, un bus quedó a medias en el río, donde antes había un puente.'),
       R('¿Y ahora quién llegó? ¡Más gente de afuera!', 'shake'),
       R('Aquí manda el Puño. El muelle, el puente y la lancha: todo pasa por nosotros. Y el que pasa, paga peaje.'),
@@ -88,7 +93,9 @@ export const CINEMATICS = {
       L('Así se ve el equilibrio: no es que todos ganen lo mismo. Es que todos puedan seguir.'),
       R('...La próxima vez que haya un lío, primero la Junta. Y si no funciona... pues también la Junta.'),
       Nar('Esa noche, por primera vez desde la guerra, la Junta se reunió con las puertas abiertas. Mamá Tule cantó un bullerengue, y nadie tuvo miedo de cantar con ella.'),
-      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño. Y en la plaza, entre las grietas del asfalto, algo dorado empezó a brotar.', 'flash'),
+      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño.', 'flash'),
+      conPostal('margarita', Nar('A la mañana siguiente, entre las grietas del asfalto de la plaza, brotó una margarita dorada.')),
+      Nar('Así lo cuenta la Orden: la Margarita florece donde una comunidad entiende que la ley civil es el suelo donde siembra su futuro.'),
     ],
   },
   // Variante: si el acuerdo fue que Anselmo se llevara la lancha.
@@ -106,7 +113,9 @@ export const CINEMATICS = {
       Ca('Gracias, {nombre}. Fue justo... aunque el muelle quedó muy vacío. ¿Ahora con qué pescamos?'),
       L('Fue legal y nadie salió herido. Pero a veces la ley deja espacio para algo más: un acuerdo en el que todos puedan seguir.'),
       R('...Bueno. Al menos ahora el lío se arregla en la Junta y no en el muelle.'),
-      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño. Y en la plaza, entre las grietas del asfalto, algo dorado empezó a brotar.', 'flash'),
+      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño.', 'flash'),
+      conPostal('margarita', Nar('A la mañana siguiente, entre las grietas del asfalto de la plaza, brotó una margarita dorada.')),
+      Nar('Así lo cuenta la Orden: la Margarita florece donde una comunidad entiende que la ley civil es el suelo donde siembra su futuro.'),
     ],
   },
   siguiente: {
@@ -118,8 +127,9 @@ export const CINEMATICS = {
     lines: [
       U('Buen trabajo, {nombre}. Puerto Garza ya tiene su acta... y algo más difícil de conseguir: confianza.'),
       U('Me contaron que en la plaza floreció una Margarita Dorada. La primera desde la guerra.', 'heart'),
-      U('Pero el río no descansa. En Siete Puentes se cayó el puente colgante, y nadie quiere pagarlo.'),
-      E('Entonces allá voy, Maestra.'),
+      conPostal('siete_puentes', U('Pero el río no descansa. En Siete Puentes se cayó el puente colgante, y nadie quiere pagarlo.')),
+      Nar('Cada familia dice que la culpa es de otra. Allá espera la próxima Margarita.'),
+      conPostal('off', E('Entonces allá voy, Maestra.')),
       U('Prepárate: responsabilidad, daños y culpas compartidas. Te espera tu siguiente caso.'),
     ],
   },

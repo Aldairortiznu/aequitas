@@ -50,7 +50,7 @@ export default class MenuScene extends Phaser.Scene {
     if (sv) this.options.push({ label: 'Continuar', action: () => this.continueGame(sv) });
     this.options.push({ label: 'Nueva partida', action: () => (sv ? this.showConfirm() : this.goCharacter()) });
     if (sv) this.options.push({ label: 'Mi Códice', action: () => this.overlay('CaseFile', { returnScene: 'Menu' }) });
-    if (Object.keys(unlockedPostales()).length) this.options.push({ label: 'Álbum de postales', action: () => this.scene.start('Album') });
+    if (Object.keys(unlockedPostales()).length) this.options.push({ label: 'Escenas de la historia', action: () => this.scene.start('Album') });
     this.options.push({ label: 'Ajustes', action: () => this.scene.start('Settings', { returnScene: 'Menu' }) });
     this.options.push({ label: 'Acerca de', action: () => this.showAbout() });
     this.buildButtons();

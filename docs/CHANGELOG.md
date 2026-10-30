@@ -1,5 +1,38 @@
 # AEQUITAS · Registro de cambios
 
+## v0.6 — Entender cada acierto · una historia por descubrir · una guía clara
+**Cada acierto se explica**
+- Nueva tarjeta **«¿Por qué funcionó?»** después de cada objeción correcta en la audiencia
+  y de cada buena decisión en el acuerdo (13 en total). Tiene tres pasos: **la norma**
+  (qué dice y dónde), **en este caso** (por qué aplica a la lancha) y **para recordar**
+  (la idea que queda).
+- Los minijuegos ya explicaban cada respuesta (✓/✗ con su artículo); eso se mantiene.
+
+**La historia se descubre jugando**
+- **Las preguntas del caso:** arriba, en el pueblo, siempre hay una pregunta abierta
+  («¿Por qué pelean dos familias por una sola lancha?», «¿Qué esconde la pintura del
+  casco?»…). Al encontrar la pista sale **«✦ ¡Descubriste!»** con la respuesta y la
+  pregunta siguiente.
+- Nueva pestaña **Misterios** en el expediente: resueltas (✔), la abierta (❓, con pista),
+  las que vienen (🔒) y una que queda abierta para el capítulo 2.
+
+**La flecha guía**
+- Flecha más grande, con contorno y pulso. Lleva un letrero que la sigue con el destino
+  y la distancia («Doña Fidelina · 33 pasos»).
+- Junto al personaje, tres chevrones que se encienden en ola hacia el objetivo. Cuando el
+  objetivo está en pantalla, su nombre aparece sobre él.
+
+**Las escenas cinematográficas, dentro de la historia**
+- Las postales ya no se descargan y dejan de ser pantallas sueltas: aparecen **detrás del
+  texto** en los momentos que cuentan algo:
+  - la guerra y el Leviatán, y la Bóveda, en la Biblioteca;
+  - el río de noche al llegar;
+  - la víspera, al abrir la audiencia;
+  - la Margarita Dorada, en el epílogo;
+  - Siete Puentes, en el anuncio del capítulo 2;
+  - y en los recuerdos de Nando, de Don Anselmo y de Mamá Tule.
+- El álbum del menú pasa a llamarse **«Escenas de la historia»**, para volver a verlas.
+
 ## v0.5 — Los Emisarios del Equilibrio · el mito · postales
 **Personajes (del dossier narrativo)**
 - Los cuatro que viajan ahora son los Emisarios del Equilibrio: Aurelio, el Archivista;

@@ -1,6 +1,6 @@
-// ÁLBUM DE POSTALES: las postales cinematográficas que ya se han visto, en una
-// cuadrícula de 3 × 2. Tocar una (o elegirla con flechas y X) la abre otra vez,
-// con la opción de guardarla como imagen. Las que faltan se ven veladas.
+// ESCENAS DE LA HISTORIA: las escenas cinematográficas que ya se han visto, en
+// una cuadrícula de 3 × 2. Tocar una (o elegirla con flechas y X) la vuelve a
+// mostrar. Las que faltan se ven veladas.
 
 import Phaser from 'phaser';
 import { CAMERA } from '../systems/view.js';
@@ -23,7 +23,7 @@ export default class AlbumScene extends Phaser.Scene {
     const g = this.add.graphics();
     g.fillGradientStyle(0x1a1028, 0x1a1028, 0x0c1420, 0x0c1420, 1); g.fillRect(0, 0, WIDTH, HEIGHT);
     for (let i = 0; i < 60; i++) { g.fillStyle(0xffffff, 0.15 + ((i * 7) % 5) / 14); g.fillRect((i * 97) % WIDTH, (i * 53) % HEIGHT, 1, 1); }
-    this.add.text(WIDTH / 2, 12, 'Álbum de postales', { fontFamily: 'Georgia, serif', fontSize: '16px', color: COLORS.gold, stroke: '#140c08', strokeThickness: 3 }).setOrigin(0.5, 0);
+    this.add.text(WIDTH / 2, 12, 'Escenas de la historia', { fontFamily: 'Georgia, serif', fontSize: '16px', color: COLORS.gold, stroke: '#140c08', strokeThickness: 3 }).setOrigin(0.5, 0);
     const got = unlockedPostales();
     this.add.text(WIDTH / 2, 33, `${Object.keys(got).filter((k) => POSTALES.some((p) => p.key === k)).length} de ${POSTALES.length} · los momentos de la historia`, { fontFamily: 'monospace', fontSize: '8px', color: '#cfc3a8' }).setOrigin(0.5, 0);
 

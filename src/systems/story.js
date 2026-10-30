@@ -2,6 +2,7 @@
 // cartas del Códice, confianza del puerto y el objetivo actual.
 
 import { ITEMS, REQUIRED, TRUST } from '../data/ch1/items.js';
+import { MYSTERIES } from '../data/ch1/mysteries.js';
 import { getCard } from '../data/codex.js';
 import { writeSave } from './save.js';
 import { orderValue, TEACHINGS } from './order.js';
@@ -108,4 +109,15 @@ export function objective(save) {
 
 export function evidenceCount(save) {
   return { got: REQUIRED.filter((id) => hasItem(save, id)).length, total: REQUIRED.length };
+}
+
+// ------------------------------------------------------------ las preguntas del caso
+// Resueltas y pendientes (ver data/ch1/mysteries.js).
+export function mysteries(save) {
+  return MYSTERIES.map((m) => ({ ...m, solved: !m.next && checkAll(save, m.when) }));
+}
+
+// La pregunta abierta que guía la historia ahora.
+export function openMystery(save) {
+  return mysteries(save).find((m) => !m.solved) || null;
 }
