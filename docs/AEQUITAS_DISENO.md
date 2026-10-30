@@ -16,7 +16,7 @@ restablece a su alrededor.
 - **Tono.** Respetuoso con el Caribe, su gente y su diáspora: personajes con dignidad y
   razones propias, sin caricatura ni chiste a costa de nadie. La cultura aparece como
   memoria viva (tambor alegre, bullerengue, décimas, la minga, el sancocho compartido) y
-  el desplazamiento y el regreso (Don Aurelio, la Maestra Ulpiana) se cuentan con cuidado.
+  el desplazamiento y el regreso (Don Anselmo, la Maestra Ulpiana) se cuentan con cuidado.
   La paz es también un mandato legal: la Constitución la llama derecho y deber (art. 22).
 - **Ley real.** Las normas que se usan son colombianas y vigentes (Constitución de 1991,
   Código Civil, Ley 2220 de 2022, Ley 446 de 1998, Ley 2166 de 2021). Cada carta del Códice
@@ -28,6 +28,25 @@ restablece a su alrededor.
   el campanario de la iglesia vieja partido en su isleta, torres de energía caídas,
   edificios sin techo y con hollín, paredes con agujeros tapados con latas, vallas
   desteñidas, celulares que ya no prenden.
+
+### El mito
+- **El Leviatán:** así llamaban los abuelos al Estado (jueces, escuelas, puentes,
+  oficinas). En la guerra «el gigante cayó».
+- **El Reino del Arbitrio:** lo que vino después: donde nadie escucha, manda el que grita.
+- **La Bóveda de la Biblioteca Experimental**, bajo el mar Caribe: allí la **Orden de
+  Bellium** guardó el Códice (Constitución, códigos, tratados de derechos humanos). Sus
+  **Emisarios** no salen a conquistar: ayudan a cada pueblo a volver a pactar su ley.
+- **La Margarita Dorada:** brota entre el asfalto donde una comunidad vuelve a confiar en
+  su ley. Brota en la plaza de Puerto Garza al cerrar el caso.
+- **La máxima:** «La ley del más fuerte solo deja ruinas. La ley civil es el suelo donde
+  un pueblo siembra su futuro.»
+
+### Postales cinematográficas
+Seis momentos a pantalla completa (heredado de las postales de Reverdecer): *El Colapso
+del Leviatán*, *La Bóveda de la Biblioteca*, *La travesía*, *La víspera*, *La Margarita
+Dorada* y *Siete Puentes*. Se coleccionan en el **Álbum de postales** del menú y se pueden
+guardar como imagen (1920×1080). Están pintadas por código; si se agregan ilustraciones en
+`public/assets/postales/` (ver `docs/PROMPT_POSTALES.md`), el juego las usa en su lugar.
 
 ## 3. La lógica del juego: del caos al equilibrio
 El corazón de AEQUITAS es un ciclo que se repite en cada capítulo:
@@ -70,10 +89,15 @@ nombre aparece en los diálogos y en el acta. Los textos se escriben en forma ne
 
 | Personaje | Quién es | Don |
 |---|---|---|
-| Tomás (hombre) | Pescador de la Ciénaga del Silencio | +1 ♥ de confianza en la audiencia |
-| Valeria (mujer) | Radioaficionada de Bahía Ceniza | +1 pista de Lumen |
-| Río (andrógino) | Guía de balsas del delta | Tinto calma dos veces por declaración |
-| Alex (andrógino) | Artista de mapas | Camina más rápido por el puerto |
+Son los **Emisarios del Equilibrio** de la Orden de Bellium: llevan el tubo de códices al
+hombro y el broche de la Margarita Dorada en el pecho.
+
+| Personaje | Quién es | Don |
+|---|---|---|
+| Aurelio (hombre) | El Archivista: reconstruye actas y encuentra el decreto mal hecho; defiende el debido proceso | +1 pista de Lumen |
+| Valeria (mujer) | La Cartógrafa: mapea los conflictos y convoca asambleas | Camina más rápido por el puerto |
+| Kaelen (andrógino) | Custodio de los números: revisa cuentas y pagarés; sereno | Tinto calma dos veces por declaración |
+| Sora (andrógino) | Centinela de bronce: máscara de la Orden; recuerda que los derechos no se negocian | +1 ♥ de confianza en la audiencia |
 
 **Compañía:**
 - **Lumen**, farol-archivo de la Biblioteca: da pistas y explica las normas.
@@ -83,7 +107,7 @@ nombre aparece en los diálogos y en el acta. Los textos se escriben en forma ne
 **Puerto Garza:**
 - **Doña Fidelina**, presidenta de la Junta de Acción Comunal.
 - **Ramiro "El Puño"** y su gente, quienes cobran peaje.
-- **Las partes del caso:** los Ortega (Carmen y Julián) y Don Aurelio.
+- **Las partes del caso:** los Ortega (Carmen y Julián) y Don Anselmo Mendoza.
 - **Vecinos:** Rosa, Lucho, Chepe, Nubia, Nando, Mamá Tule, Yuli, el Mono, los pelaos…
 
 ## 5. Capítulo 1: recorrido
@@ -148,7 +172,7 @@ Todas las cartas citan su fuente. Textos parafraseados con fidelidad a la norma.
 |---|---|---|
 | Ciudadanos que hacen justicia | Const. art. 116 | Inicio; objeción a Ramiro |
 | Ni destierro ni confiscación | Const. art. 34 | Inicio; objeciones a Ramiro; acuerdo |
-| Propiedad con función social | Const. art. 58 | Versión de Aurelio; objeción; acuerdo |
+| Propiedad con función social | Const. art. 58 | Versión de Anselmo; objeción; acuerdo |
 | Todos merecen ser escuchados | Const. art. 29 | Apertura de la audiencia |
 | Estado social de derecho | Const. art. 1 | Página perdida |
 | La vida es inviolable | Const. art. 11 | Página perdida |
@@ -227,8 +251,8 @@ Cada capítulo repite el ciclo de restauración con su propio medidor de equilib
 - **Repositorio oficial:** https://github.com/Aldairortiznu/aequitas (rama `main`).
 - **Juego en línea:** https://aldairortiznu.github.io/aequitas/. GitHub Actions lo construye
   y lo publica en cada push a `main`.
-- **Prototipo anterior:** el de septiembre (Aurelio, Valeria, Kaelen y Sora; combate
-  dialéctico) se conserva completo en la rama `prototipo-septiembre`.
+- **Prototipo anterior:** el de septiembre (combate dialéctico; de ahí vienen los cuatro
+  Emisarios) se conserva completo en la rama `prototipo-septiembre`.
 - **Origen:** esta versión se desarrolló en la rama `claude/aequitas` del repositorio de
   Reverdecer, sobre su motor.
 - **Convivencia:** el service worker usa su propio prefijo de caché (`aequitas-`) y el

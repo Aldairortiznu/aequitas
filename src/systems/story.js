@@ -95,7 +95,7 @@ export function objective(save) {
     [!i('nando'), 'Pregúntale a Nando, el pescador del muelle, por la lancha', 'nando'],
     [!i('nombre_original'), 'Examina el casco de la lancha', 'casco'],
     [!i('media_matricula') && !i('matricula'), 'Revisa la cabina de la lancha', 'cabina'],
-    [!i('matricula'), 'Lleva la media matrícula a Don Aurelio', 'aurelio'],
+    [!i('matricula'), 'Lleva la media matrícula a Don Anselmo', 'aurelio'],
     [!i('recibos'), 'Pídele a Don Chepe las cuentas de las reparaciones', 'chepe'],
     [!i('llave_bodega') && !i('placa_motor'), 'Pídele a Don Chepe la llave de la bodega', 'chepe'],
     [!i('placa_motor'), 'Busca en la bodega oscura', 'bodega'],

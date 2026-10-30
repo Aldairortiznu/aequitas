@@ -17,6 +17,8 @@ import ResolutionScene from './scenes/ResolutionScene.js';
 import CaseClosedScene from './scenes/CaseClosedScene.js';
 import PauseScene from './scenes/PauseScene.js';
 import SettingsScene from './scenes/SettingsScene.js';
+import PostcardScene from './scenes/PostcardScene.js';
+import AlbumScene from './scenes/AlbumScene.js';
 import { buildPlayer } from './scenes/BootScene.js';
 import { ZOOM, installView } from './systems/view.js';
 
@@ -37,7 +39,7 @@ const config = {
   // El orden es el de dibujo y de lectura del teclado: las escenas base primero y
   // las superpuestas (diálogo, cartas, pausa) después, para que queden encima y
   // la tecla que cierra un diálogo no la lea también la escena de abajo.
-  scene: [BootScene, MenuScene, CharacterScene, CinematicScene, TownScene, HearingScene, ResolutionScene, CaseClosedScene, MinigameScene, InterviewScene, CaseFileScene, DialogueScene, CardScene, PauseScene, SettingsScene],
+  scene: [BootScene, MenuScene, CharacterScene, CinematicScene, PostcardScene, AlbumScene, TownScene, HearingScene, ResolutionScene, CaseClosedScene, MinigameScene, InterviewScene, CaseFileScene, DialogueScene, CardScene, PauseScene, SettingsScene],
 };
 
 const game = new Phaser.Game(config);
@@ -69,7 +71,7 @@ import('./touchpad.js').then(({ initTouchPad }) => initTouchPad(game));
 
 // Atajos de desarrollo (solo en `npm run dev`) para probar partes del capítulo.
 if (import.meta.env && import.meta.env.DEV) {
-  const ALL = ['Character', 'Town', 'Interview', 'Dialogue', 'Card', 'CaseFile', 'Minigame', 'Hearing', 'Resolution', 'CaseClosed', 'Pause', 'Settings', 'Cinematic', 'Menu'];
+  const ALL = ['Character', 'Town', 'Interview', 'Dialogue', 'Card', 'CaseFile', 'Minigame', 'Hearing', 'Resolution', 'CaseClosed', 'Pause', 'Settings', 'Cinematic', 'Postcard', 'Album', 'Menu'];
   const stopAll = () => ALL.forEach((k) => { if (game.scene.isActive(k) || game.scene.isPaused(k)) game.scene.stop(k); });
   // __aeq.town({ hero, flags:[...], items:[...], cards:[...], at:[x,y] }): pueblo con ese avance.
   window.__aeq = {

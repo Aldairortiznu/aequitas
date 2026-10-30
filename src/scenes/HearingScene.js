@@ -47,7 +47,7 @@ export default class HearingScene extends Phaser.Scene {
     this.save.stage = 'audiencia';
     writeSave(this.save);
     const mods = difficultyMods(this.game);
-    // El don del personaje suma: Tomás +1 ♥, Valeria +1 pista, Río 2 calmas.
+    // El don del personaje suma: Sora +1 ♥, Aurelio +1 pista, Kaelen 2 calmas.
     const perk = heroFor(this.save).perk || {};
     this.maxHearts = (mods.hearts || 5) + (perk.hearts || 0);
     this.hearts = this.maxHearts;

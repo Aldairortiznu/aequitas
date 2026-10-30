@@ -17,8 +17,9 @@ Códice cita su norma, pero el juego no es asesoría jurídica.
 
 ## Capítulo 1 · Puerto Garza — *La lancha de la discordia*
 Dos familias se disputan la única lancha del puerto y "El Puño" quiere arreglarlo a golpes.
-- **Elige a quien viaja:** Tomás, Valeria, Río o Alex (hombre, mujer y dos personajes
-  andróginos), con su historia y un don. Nadie elige género: en el pueblo te llaman
+- **Elige a quien viaja:** uno de los cuatro Emisarios del Equilibrio — Aurelio, el
+  Archivista; Valeria, la Cartógrafa; Kaelen, Custodio de los números; o Sora, Centinela
+  de bronce (hombre, mujer y dos personajes andróginos), con su historia y un don. Nadie elige género: en el pueblo te llaman
   por tu nombre.
 - **Gánate la confianza** resolviendo los líos del puerto (minijuegos de escucha activa,
   balanza, circuito solar…) y aprende a razonar como abogado en el tablero de la
@@ -67,5 +68,10 @@ __aeq.save()   // la partida en memoria
 Phaser 3 · Vite · Tone.js · JavaScript. Créditos en `docs/CREDITS.md`.
 
 Cada push a `main` publica el juego en GitHub Pages (GitHub Actions). El prototipo de
-septiembre (los exploradores Aurelio, Valeria, Kaelen y Sora) se conserva completo en la
-rama `prototipo-septiembre`.
+septiembre (combate dialéctico) se conserva completo en la rama `prototipo-septiembre`;
+sus cuatro exploradores son hoy los Emisarios del juego.
+
+**Postales cinematográficas:** seis momentos míticos de la historia a pantalla completa,
+que se coleccionan en el álbum del menú y se guardan como imagen. Para reemplazarlas por
+ilustraciones (y poner retratos en la elección de personaje), ver
+`docs/PROMPT_POSTALES.md`.

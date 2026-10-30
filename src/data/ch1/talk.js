@@ -75,7 +75,7 @@ export const TALK = {
     { id: 'mision', label: '¿Qué está pasando en el puerto?', req: ['!f:met_fidelina'], give: ['f:met_fidelina', 'c:justicia_comunitaria'], lines: [
       F('Le damos la bienvenida a Puerto Garza. Soy Fidelina Carrascal, presidenta de la Junta de Acción Comunal.'),
       F('Siete años después del Acuerdo volvimos a pescar, a sembrar... y a discutir, que también es de humanos.'),
-      F('Los Ortega y un señor de río arriba, Don Aurelio, se disputan la lancha. Es la única del puerto: con ella pescamos para todos.'),
+      F('Los Ortega y un señor de río arriba, Don Anselmo, se disputan la lancha. Es la única del puerto: con ella pescamos para todos.'),
       F('Ramiro y su gente estuvieron en la guerra y se quedaron con la costumbre de mandar a punta de puño: cobran peaje en el puente y en el muelle, y el que reclama se las ve con ellos.'),
       F('Quieren arreglar lo de la lancha a los golpes. Yo quiero arreglarlo bien. Por eso le escribimos a la Biblioteca.'),
       L('La Comisión de Conciliación de la Junta puede conciliar en equidad los conflictos de la comunidad. Nosotros ayudamos: escuchar, buscar pruebas, entender... y luego, la audiencia.'),
@@ -84,7 +84,7 @@ export const TALK = {
     ] },
     { id: 'audiencia', label: '⚖ ¡Tengo el caso listo! Llamemos a audiencia', req: ['ready', '!f:audiencia_ok'], act: 'hearing', lines: [
       F('¿Ya tiene todo? ¡Entonces que suene la campana de la Junta!'),
-      F('Ramiro, Carmen, Julián, Don Aurelio... ¡todo el mundo a la Casa de la Junta!'),
+      F('Ramiro, Carmen, Julián, Don Anselmo... ¡todo el mundo a la Casa de la Junta!'),
     ] },
     { id: 'confianza', label: '¿Cómo me gano la confianza del puerto?', req: ['f:met_fidelina', '!f:reten_open', '!f:audiencia_ok'], repeat: true, lines: [
       F('Hay tres líos esperando. En el barrio, Don Lucho tiene encerrada la gallina de Doña Rosa: dice que le dañó la cosecha.'),
@@ -118,7 +118,7 @@ export const TALK = {
       L('Para que conste: la Constitución prohíbe el destierro y la confiscación. Ni el más fuerte del puerto puede saltarse eso.'),
     ] },
     { id: 'lancha', label: 'Hablemos de la lancha', req: ['f:met_ramiro'], lines: [
-      R('La lancha es del pueblo, punto. Ese viejo Aurelio que se devuelva por donde vino.'),
+      R('La lancha es del pueblo, punto. Ese viejo Anselmo que se devuelva por donde vino.'),
       E('¿Y si la lancha sí es suya?'),
       R('...Pues que lo pruebe. Pero si los Ortega se quedan sin con qué pescar, ¿quién le da de comer a mis pelaos?'),
       P('Detrás del puño hay miedo. Miedo a quedarse sin nada.'),
@@ -250,6 +250,11 @@ export const TALK = {
       T('Esa lancha yo la vi en Puerto Alcaraván, antes de la guerra, cuando iba al mercado. Motor rojo, de los que suenan como tos de viejo.'),
       T('Y tenía nombre de niña, eso sí me acuerdo. ¿Cómo era...? Ay, la memoria.'),
     ] },
+    { id: 'margarita', label: '¿Qué es la Margarita Dorada?', lines: [
+      T('Ay, ese broche. Mi abuela contaba que cuando el Leviatán estaba en pie, en cada plaza había una margarita de oro: era la señal de que ahí la palabra valía.'),
+      T('En la guerra se secaron todas. Dicen que vuelven a brotar solas, entre el cemento, cuando la gente se pone de acuerdo sin miedo.'),
+      L('El Leviatán era como los abuelos llamaban al Estado: jueces, escuelas, puentes, oficinas. La ley que nos cuida a todos.'),
+    ] },
     { id: 'charla', label: '¿Algún consejo, Mamá Tule?', repeat: true, lines: [
       T('Lo que la guerra rompió no lo arregla nadie a solas, {nombre}. Se arregla entre todos, y hablando.'),
     ] },
@@ -301,8 +306,8 @@ export const TALK = {
   ],
 
   aurelio: [
-    { id: 'version', label: 'Cuénteme su versión, Don Aurelio', req: ['!i:aurelio'], give: ['i:aurelio', 'c:art58'], lines: [
-      A('Aurelio Mendoza Pacheco, para servirle. Esa lancha es la Niña Mercedes, como mi madre. La compré con veinte años de trabajo.'),
+    { id: 'version', label: 'Cuénteme su versión, Don Anselmo', req: ['!i:aurelio'], give: ['i:aurelio', 'c:art58'], lines: [
+      A('Anselmo Mendoza Pacheco, para servirle. Esa lancha es la Niña Mercedes, como mi madre. La compré con veinte años de trabajo.'),
       A('Cuando la guerra llegó a Alcaraván tuve que huir con lo que llevaba puesto. La lancha se quedó en el muelle.'),
       A('Viví siete años desplazado, río arriba. Tengo la matrícula... bueno, media. La otra mitad se quemó con mi casa.'),
       L('La Constitución protege la propiedad. Y también le recuerda que tiene una función social. Las dos cosas valen.'),
@@ -313,7 +318,7 @@ export const TALK = {
     { id: 'ramiro', label: '¿Y lo del Puño?', req: ['i:aurelio'], lines: [
       A('Ese señor me quiere echar del pueblo. Yo no vine a quitarle la comida a nadie. Vine por lo que es mío... y a volver a trabajar.'),
     ] },
-    { id: 'charla', label: '¿Cómo se siente, Don Aurelio?', req: ['i:aurelio'], repeat: true, lines: [
+    { id: 'charla', label: '¿Cómo se siente, Don Anselmo?', req: ['i:aurelio'], repeat: true, lines: [
       A('Mi madre decía: «lo que es de uno vuelve». Yo también volví. Nunca dijo que fuera fácil.'),
     ] },
   ],
@@ -419,7 +424,7 @@ export const TALK = {
     { id: 'buscar', label: 'Revisar la cabina', req: ['f:met_partes', '!i:media_matricula', '!i:matricula'], give: ['i:media_matricula'], lines: [
       P('Bajo el banco de la cabina hay un papel viejo, clavado con una tachuela.'),
       Nota('Es la mitad de un documento: «...ATRÍCULA DE EMBARC... MOTOR SERIE MR-44...»'),
-      L('¡La otra mitad de la matrícula de Don Aurelio! Llévasela.'),
+      L('¡La otra mitad de la matrícula de Don Anselmo! Llévasela.'),
     ] },
     { id: 'vacia', label: 'Mirar la cabina', req: ['i:media_matricula'], repeat: true, lines: [Nota('Bajo el banco quedó la marca de la tachuela.')] },
   ],

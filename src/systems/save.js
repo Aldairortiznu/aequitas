@@ -4,7 +4,7 @@ import { SAVE_KEY } from '../config.js';
 
 const DEFAULT_SAVE = {
   version: 1,
-  hero: null, // tomas | valeria | rio | alex (ver data/heroes.js)
+  hero: null, // aurelio | valeria | kaelen | sora (ver data/heroes.js)
   chapter: 1,
   stage: 'prologo', // prologo → remar → pueblo → audiencia → acuerdo → cierre
   px: null,

@@ -38,6 +38,7 @@ export const CINEMATICS = {
       Nar('Se cayeron la luz, los puentes y las oficinas. Miles de familias huyeron río abajo con lo que llevaban puesto.'),
       Nar('Hace siete años se firmó el Acuerdo de Altamar. Desde entonces el país se rehace pueblo por pueblo, unido por el río: con trueque, con minga y con memoria.'),
       Nar('En Altamar, la ciudad amurallada, la Biblioteca Experimental guarda el Códice: la memoria de nuestras leyes, que nadie logró quemar.'),
+      Nar('Sus custodios, la Orden de Bellium, lo protegieron en la Bóveda, bajo el mar. Ahora sus Emisarios del Equilibrio salen a recorrer el río.'),
       U('{nombre}, llegó una carta de Puerto Garza. Dos familias pelean por la única lancha del pueblo... y hay quien quiere arreglarlo a puños.'),
       E('¿Y qué puedo hacer yo, Maestra? No soy juez.'),
       U('No vas a juzgar a nadie. Vas a ayudar a que la gente encuentre un acuerdo justo. La Constitución permite que particulares sirvan como conciliadores.'),
@@ -46,6 +47,8 @@ export const CINEMATICS = {
       L('Tinto también viene. Donde él llega, la gente baja la voz.'),
       U('Estas páginas salieron conmigo al exilio y volvieron conmigo: la Constitución de 1991 y el Código Civil.'),
       U('Sobrevivieron a la guerra. Ahora hay que hacerlos valer otra vez.'),
+      U('Lleva el tubo de códices y este broche: la Margarita Dorada. Dicen que florece donde un pueblo vuelve a confiar en su ley.', 'flash'),
+      U('Y recuerda la máxima de la Biblioteca: la ley del más fuerte solo deja ruinas. La ley civil es el suelo donde un pueblo siembra su futuro.'),
       U('La Constitución dice que la paz es un derecho y un deber de obligatorio cumplimiento. El Acuerdo se firmó en Altamar; la paz hay que hacerla en cada pueblo.'),
       U('Escucha a todos, incluso al que grita. El derecho no es un estorbo: es lo que nos permite volver a vivir juntos.'),
     ],
@@ -66,6 +69,7 @@ export const CINEMATICS = {
       Nar('Ramiro se va escupiendo al agua. Nadie en el muelle se atreve a mirarlo a los ojos.'),
       F('Desde la guerra, ellos cobran y gritan... y la gente calla. Aquí ya se vivió demasiado miedo; la Junta casi ni se reúne.'),
       F('Le damos la bienvenida, {nombre}. Cuando quiera, búsqueme en la plaza de la Junta. Tenemos mucho de qué hablar.'),
+      L('Esto es lo que en la Biblioteca llaman el Reino del Arbitrio: donde no hay quien escuche, manda el que grita.'),
       L('Primer consejo de campo: la ley protege también a quien grita. A nadie se le puede echar del pueblo ni despojar a la fuerza.'),
     ],
   },
@@ -78,16 +82,16 @@ export const CINEMATICS = {
     lines: [
       Nar('Esa tarde, la Niña Mercedes volvió al agua.'),
       A('Muchacho... ¿sabes manejar ese motor rojo?'),
-      J('Mejor que nadie, Don Aurelio. Y perdón... por lo de la placa.'),
+      J('Mejor que nadie, Don Anselmo. Y perdón... por lo de la placa.'),
       A('Perdonado. Ahora vamos, que hay mucho río por delante.', 'heart'),
       Ca('Gracias, {nombre}. Nadie ganó todo... pero nadie perdió todo. Y el puerto sigue comiendo.'),
       L('Así se ve el equilibrio: no es que todos ganen lo mismo. Es que todos puedan seguir.'),
       R('...La próxima vez que haya un lío, primero la Junta. Y si no funciona... pues también la Junta.'),
       Nar('Esa noche, por primera vez desde la guerra, la Junta se reunió con las puertas abiertas. Mamá Tule cantó un bullerengue, y nadie tuvo miedo de cantar con ella.'),
-      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño.', 'flash'),
+      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño. Y en la plaza, entre las grietas del asfalto, algo dorado empezó a brotar.', 'flash'),
     ],
   },
-  // Variante: si el acuerdo fue que Aurelio se llevara la lancha.
+  // Variante: si el acuerdo fue que Anselmo se llevara la lancha.
   epilogo_entrega: {
     title: 'Caso cerrado',
     subtitle: 'La Niña Mercedes se va río arriba',
@@ -97,12 +101,12 @@ export const CINEMATICS = {
     lines: [
       Nar('Esa tarde, la Niña Mercedes se fue río arriba con su dueño.'),
       A('Señora Carmen: aquí está lo de las reparaciones, completo. Gracias por cuidarla.'),
-      J('Don Aurelio... perdón por lo de la placa.'),
+      J('Don Anselmo... perdón por lo de la placa.'),
       A('Perdonado, muchacho. Cuídate.'),
       Ca('Gracias, {nombre}. Fue justo... aunque el muelle quedó muy vacío. ¿Ahora con qué pescamos?'),
       L('Fue legal y nadie salió herido. Pero a veces la ley deja espacio para algo más: un acuerdo en el que todos puedan seguir.'),
       R('...Bueno. Al menos ahora el lío se arregla en la Junta y no en el muelle.'),
-      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño.', 'flash'),
+      Nar('En Puerto Garza, la palabra volvió a pesar más que el puño. Y en la plaza, entre las grietas del asfalto, algo dorado empezó a brotar.', 'flash'),
     ],
   },
   siguiente: {
@@ -113,6 +117,7 @@ export const CINEMATICS = {
     cast: ['ulpiana', 'explorador'],
     lines: [
       U('Buen trabajo, {nombre}. Puerto Garza ya tiene su acta... y algo más difícil de conseguir: confianza.'),
+      U('Me contaron que en la plaza floreció una Margarita Dorada. La primera desde la guerra.', 'heart'),
       U('Pero el río no descansa. En Siete Puentes se cayó el puente colgante, y nadie quiere pagarlo.'),
       E('Entonces allá voy, Maestra.'),
       U('Prepárate: responsabilidad, daños y culpas compartidas. Te espera tu siguiente caso.'),

@@ -46,7 +46,7 @@ export default class TownScene extends Phaser.Scene {
     this.npcs = {};
     this.lastSaveAt = 0;
     if (this.save.stage !== 'libre') this.save.stage = 'pueblo';
-    this.speed = SPEED * (heroFor(this.save).perk.speed || 1); // Alex conoce los atajos
+    this.speed = SPEED * (heroFor(this.save).perk.speed || 1); // Valeria conoce los atajos
 
     this.buildSolidGrid();
     this.buildGround();
@@ -924,7 +924,7 @@ export default class TownScene extends Phaser.Scene {
     writeSave(this.save);
     this.busy = true;
     this.fadeOutAll();
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key: 'siguiente', next: { scene: 'Menu' } }));
+    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key: 'siguiente', next: { scene: 'Postcard', data: { key: 'siete_puentes', next: { scene: 'Menu' } } } }));
   }
 
   // Funde a negro el mundo y el HUD a la vez.
@@ -948,7 +948,7 @@ export default class TownScene extends Phaser.Scene {
     writeSave(this.save);
     this.busy = true;
     this.fadeOutAll();
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Hearing'));
+    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Postcard', { key: 'asamblea', next: { scene: 'Hearing' } }));
   }
 
   // ----------------------------------------------------------------- la gallina fugitiva

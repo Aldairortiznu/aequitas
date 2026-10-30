@@ -1,7 +1,7 @@
 // Utilidades de texto.
 
-// En los textos, {nombre} es el nombre del personaje elegido (Tomás, Valeria,
-// Río o Alex). El juego no usa trato de género: a quien juega se le llama por
+// En los textos, {nombre} es el nombre del personaje elegido (Aurelio, Valeria,
+// Kaelen o Sora). El juego no usa trato de género: a quien juega se le llama por
 // su nombre, y las frases se escriben en forma neutra.
 let heroName = '';
 
@@ -11,7 +11,7 @@ export function setHeroName(name) {
 
 export function fmt(text) {
   if (!text) return '';
-  return String(text).replace(/\{nombre\}/g, heroName || 'Tomás');
+  return String(text).replace(/\{nombre\}/g, heroName || 'Aurelio');
 }
 
 // Normaliza: minúsculas, sin tildes/diacríticos, sin signos, espacios colapsados.

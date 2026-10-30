@@ -1,5 +1,5 @@
 // ¿QUIÉN VIAJA A PUERTO GARZA? Elige a tu personaje entre los cuatro enviados de
-// la Biblioteca (Tomás, Valeria, Río o Alex). En el juego te llaman por tu nombre,
+// la Biblioteca (Aurelio, Valeria, Kaelen o Sora). En el juego te llaman por tu nombre,
 // sin trato de género. Cada quien trae un pequeño don.
 //   ← →  personaje    X / Enter  comenzar    Esc  volver
 
@@ -68,11 +68,15 @@ export default class CharacterScene extends Phaser.Scene {
     const y = 28;
     const bg = this.add.rectangle(x, y + CARD_H / 2, CARD_W, CARD_H, 0x0d1820, 0.9).setInteractive({ useHandCursor: true });
     const glow = this.add.image(x, y + 50, 'ch_glow').setScale(1.4).setAlpha(0).setBlendMode(Phaser.BlendModes.ADD);
-    const sprite = this.add.image(x, y + 86, 'hero_' + h.id).setOrigin(0.5, 1).setScale(3);
+    // Si hay un retrato ilustrado (assets/retratos), se usa ese; si no, el sprite.
+    const portrait = this.textures.exists('retrato_' + h.id);
+    const sprite = this.add.image(x, y + 86, portrait ? 'retrato_' + h.id : 'hero_' + h.id).setOrigin(0.5, 1);
+    const base = portrait ? Math.min((CARD_W - 6) / sprite.width, 82 / sprite.height) : 3;
+    sprite.setScale(base);
     const name = this.add.text(x, y + 89, h.name, { fontFamily: 'Georgia, serif', fontSize: '12px', color: COLORS.cream }).setOrigin(0.5, 0);
     const tag = this.add.text(x, y + 104, h.tag, { fontFamily: 'monospace', fontSize: '6px', color: '#9fb8c0', align: 'center', wordWrap: { width: CARD_W - 8 } }).setOrigin(0.5, 0);
     bg.on('pointerdown', () => { if (this.sel === i) this.start(); else this.pick(i); });
-    return { h, x, bg, glow, sprite, name, tag, frame: 0 };
+    return { h, x, bg, glow, sprite, name, tag, frame: 0, portrait, base };
   }
 
   buildInfo() {
@@ -111,9 +115,10 @@ export default class CharacterScene extends Phaser.Scene {
       c.name.setColor(on ? COLORS.gold : COLORS.cream);
       c.sprite.setTint(on ? 0xffffff : 0x8a8f94);
       c.glow.setAlpha(on ? 0.35 : 0);
-      if (on && animated) { c.sprite.setScale(3.6); this.tweens.add({ targets: c.sprite, scale: 3.3, duration: 220, ease: 'Back.out' }); }
-      else c.sprite.setScale(on ? 3.3 : 3);
-      if (!on) c.sprite.setTexture('hero_' + c.h.id);
+      const k = c.base / 3;
+      if (on && animated) { c.sprite.setScale(3.6 * k); this.tweens.add({ targets: c.sprite, scale: 3.3 * k, duration: 220, ease: 'Back.out' }); }
+      else c.sprite.setScale((on ? 3.3 : 3) * k);
+      if (!on && !c.portrait) c.sprite.setTexture('hero_' + c.h.id);
     });
     const h = HEROES[this.sel];
     this.bio.setText(h.bio);
@@ -122,7 +127,7 @@ export default class CharacterScene extends Phaser.Scene {
 
   stepAnim() {
     const c = this.cards[this.sel];
-    if (!c) return;
+    if (!c || c.portrait) return;
     c.frame = (c.frame + 1) % 4;
     const key = 'hero_' + c.h.id + (c.frame === 1 ? '_walkA' : c.frame === 3 ? '_walkB' : '');
     if (this.textures.exists(key)) c.sprite.setTexture(key);
@@ -152,9 +157,12 @@ export default class CharacterScene extends Phaser.Scene {
     this.cameras.main.flash(200, 255, 240, 200);
     this.time.delayedCall(350, () => {
       this.cameras.main.fadeOut(600, 0, 0, 0);
-      this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', {
-        key: 'biblioteca',
-        next: { scene: 'Minigame', data: { id: 'remar', next: { scene: 'Cinematic', data: { key: 'llegada', next: { scene: 'Town' } } } } },
+      this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Postcard', {
+        key: 'leviatan',
+        next: { scene: 'Cinematic', data: {
+          key: 'biblioteca',
+          next: { scene: 'Postcard', data: { key: 'boveda', next: { scene: 'Minigame', data: { id: 'remar', next: { scene: 'Postcard', data: { key: 'travesia', next: { scene: 'Cinematic', data: { key: 'llegada', next: { scene: 'Town' } } } } } } } } },
+        } },
       }));
     });
   }

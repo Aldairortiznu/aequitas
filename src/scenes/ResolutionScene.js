@@ -270,8 +270,8 @@ export default class ResolutionScene extends Phaser.Scene {
     this.meses = Math.round(this.monto / GASTOS.rent);
     this.clearUi();
     const lines = [{ s: 'lumen', t: `Cuentas claras: ${t.nec} en gastos necesarios + ${t.util} en mejoras útiles = ${this.monto} fichas. Los ${t.lujo} de mejoras voluptuarias no se pagan, pero los Ortega se pueden llevar el parlante y los banderines.` }];
-    if (this.arriendo()) lines.push({ s: 'lumen', t: `Y con un arriendo de ${GASTOS.rent} fichas al mes, lo que Aurelio debe cubre los primeros ${this.meses} meses. Las dos deudas se compensan hasta donde alcanzan (C. C., art. 1714): nadie tiene que sacar fichas hoy.` });
-    else lines.push({ s: 'lumen', t: `Como Aurelio se lleva la lancha, paga hoy las ${this.monto} fichas. Con un arriendo de ${GASTOS.rent} al mes, esa deuda se habría compensado en ${this.meses} meses... y el puerto seguiría pescando.` });
+    if (this.arriendo()) lines.push({ s: 'lumen', t: `Y con un arriendo de ${GASTOS.rent} fichas al mes, lo que Anselmo debe cubre los primeros ${this.meses} meses. Las dos deudas se compensan hasta donde alcanzan (C. C., art. 1714): nadie tiene que sacar fichas hoy.` });
+    else lines.push({ s: 'lumen', t: `Como Anselmo se lleva la lancha, paga hoy las ${this.monto} fichas. Con un arriendo de ${GASTOS.rent} al mes, esa deuda se habría compensado en ${this.meses} meses... y el puerto seguiría pescando.` });
     this.push({ type: 'talk', lines });
     this.push({ type: 'give', list: ['c:compensacion'] });
     this.push({ type: 'fn', fn: () => this.startActa() });
@@ -388,7 +388,7 @@ export default class ResolutionScene extends Phaser.Scene {
       this.res.actaErrors++;
       sfx('damage');
       this.cameras.main.shake(100, 0.005);
-      this.push({ type: 'talk', lines: [{ s: 'lumen', t: key === 'MONTO' ? `Revisa las cajas: necesarias (${this.tally.nec}) + útiles (${this.tally.util}). Las voluptuarias no se pagan.` : `Divide lo que Aurelio debe (${this.monto}) entre el arriendo de cada mes (${GASTOS.rent}).` }] });
+      this.push({ type: 'talk', lines: [{ s: 'lumen', t: key === 'MONTO' ? `Revisa las cajas: necesarias (${this.tally.nec}) + útiles (${this.tally.util}). Las voluptuarias no se pagan.` : `Divide lo que Anselmo debe (${this.monto}) entre el arriendo de cada mes (${GASTOS.rent}).` }] });
       this.push({ type: 'fn', fn: () => this.askBlank(ci) });
       this.runNext();
     }, { w: 120, h: 22 });
@@ -481,6 +481,6 @@ export default class ResolutionScene extends Phaser.Scene {
     this.busy = true;
     const key = this.arriendo() ? 'epilogo' : 'epilogo_entrega';
     this.cameras.main.fadeOut(700, 0, 0, 0);
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key, next: { scene: 'CaseClosed' } }));
+    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key, next: { scene: 'Postcard', data: { key: 'margarita', next: { scene: 'CaseClosed' } } } }));
   }
 }

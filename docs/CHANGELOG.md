@@ -1,5 +1,36 @@
 # AEQUITAS · Registro de cambios
 
+## v0.5 — Los Emisarios del Equilibrio · el mito · postales
+**Personajes (del dossier narrativo)**
+- Los cuatro que viajan ahora son los Emisarios del Equilibrio: Aurelio, el Archivista;
+  Valeria, la Cartógrafa; Kaelen, Custodio de los números; y Sora, Centinela de bronce
+  (con su máscara de bronce y su capucha). Todos llevan el tubo de códices al hombro y
+  el broche de la Margarita Dorada.
+- El vecino que reclama la lancha pasa a llamarse Don Anselmo Mendoza, para no
+  confundirse con Aurelio.
+- Partidas guardadas con Tomás, Río o Alex siguen funcionando (pasan a Aurelio, Kaelen
+  y Sora).
+
+**Sprites más bonitos**
+- Todas las personas tienen ahora contorno oscuro, luz y sombra en la ropa, brillo en el
+  pelo, cejas, nariz y mejillas.
+
+**El mito**
+- El Leviatán (el Estado que cayó en la guerra), el Reino del Arbitrio, la Bóveda bajo
+  el mar Caribe, la Orden de Bellium y la Margarita Dorada que brota cuando un pueblo
+  vuelve a confiar en su ley. La Maestra Ulpiana entrega el broche y recita la máxima de
+  la Biblioteca; Mamá Tule cuenta la leyenda de la Margarita.
+- No cambia la estructura del capítulo ni el caso.
+
+**Postales cinematográficas** (heredadas de Reverdecer)
+- Seis momentos a pantalla completa, con acercamiento lento y barras de cine: el Colapso
+  del Leviatán, la Bóveda, la travesía, la víspera de la audiencia, la Margarita Dorada
+  y Siete Puentes.
+- Nuevo **Álbum de postales** en el menú; cada postal se puede guardar como imagen.
+- Espacio listo para ilustraciones: si se agregan imágenes en `public/assets/postales/`
+  y retratos en `public/assets/retratos/`, el juego los usa (ver `docs/PROMPT_POSTALES.md`).
+- El menú aprieta un poco sus botones cuando aparece el álbum, para no tapar el lema.
+
 ## v0.4 — Sin trato de género · aprender a razonar · revisión legal
 **Sin elección de género**
 - Ya no se elige *Explorador / Exploradora / Exploradore*. La pantalla de personaje solo

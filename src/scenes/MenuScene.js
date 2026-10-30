@@ -1,10 +1,12 @@
 // MENÚ PRINCIPAL de AEQUITAS: presentación animada (una vez por visita) y el río
 // al atardecer: las ruinas de la ciudad vieja en tres capas de bruma, el sol con su
 // reflejo, la luz de la Biblioteca, garzas, la canoa y la balanza del título.
-// Nueva partida (lleva a elegir personaje), Continuar, Códice, Ajustes y Acerca de.
+// Nueva partida (lleva a elegir personaje), Continuar, Códice, Álbum de postales,
+// Ajustes y Acerca de.
 
 import Phaser from 'phaser';
 import { CAMERA } from '../systems/view.js';
+import { unlockedPostales } from '../systems/postales.js';
 import { GAME, COLORS, VERSION } from '../config.js';
 import { hasSave, loadSave } from '../systems/save.js';
 import { startAudio, playTheme, toggleMute, sfx } from '../systems/audio.js';
@@ -48,6 +50,7 @@ export default class MenuScene extends Phaser.Scene {
     if (sv) this.options.push({ label: 'Continuar', action: () => this.continueGame(sv) });
     this.options.push({ label: 'Nueva partida', action: () => (sv ? this.showConfirm() : this.goCharacter()) });
     if (sv) this.options.push({ label: 'Mi Códice', action: () => this.overlay('CaseFile', { returnScene: 'Menu' }) });
+    if (Object.keys(unlockedPostales()).length) this.options.push({ label: 'Álbum de postales', action: () => this.scene.start('Album') });
     this.options.push({ label: 'Ajustes', action: () => this.scene.start('Settings', { returnScene: 'Menu' }) });
     this.options.push({ label: 'Acerca de', action: () => this.showAbout() });
     this.buildButtons();
@@ -254,9 +257,11 @@ export default class MenuScene extends Phaser.Scene {
   buildButtons() {
     const { WIDTH } = GAME;
     const n = this.options.length;
-    const y0 = 132 + (5 - n) * 9;
+    // Con seis opciones (si hay álbum) se aprietan un poco para no tapar el lema.
+    const gap = n > 5 ? 18 : 20;
+    const y0 = n > 5 ? 130 : 132 + (5 - n) * 9;
     this.buttons = this.options.map((o, i) => {
-      const c = this.add.container(WIDTH / 2, y0 + i * 20).setDepth(12);
+      const c = this.add.container(WIDTH / 2, y0 + i * gap).setDepth(12);
       const bg = this.add.graphics();
       const t = this.add.text(0, 0, o.label, { fontFamily: 'Georgia, serif', fontSize: '12px', color: COLORS.cream }).setOrigin(0.5).setShadow(1, 1, '#1a0a14', 2);
       const hit = this.add.rectangle(0, 0, 156, 17, 0x000000, 0.001).setInteractive({ useHandCursor: true });

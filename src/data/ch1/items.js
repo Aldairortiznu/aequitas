@@ -3,7 +3,7 @@
 
 export const ITEMS = {
   nombre_original: { kind: 'prueba', icon: 'ic_brush', name: 'Nombre bajo la pintura', desc: 'Bajo «La Esperanza» aparece el nombre viejo de la lancha: «Niña Mercedes».' },
-  matricula: { kind: 'prueba', icon: 'ic_doc', name: 'Matrícula de la embarcación', desc: 'Reconstruida con las dos mitades: lancha «Niña Mercedes», motor serie MR-4471-R. Propietario: Aurelio Mendoza Pacheco, de Puerto Alcaraván.' },
+  matricula: { kind: 'prueba', icon: 'ic_doc', name: 'Matrícula de la embarcación', desc: 'Reconstruida con las dos mitades: lancha «Niña Mercedes», motor serie MR-4471-R. Propietario: Anselmo Mendoza Pacheco, de Puerto Alcaraván.' },
   placa_motor: { kind: 'prueba', icon: 'ic_plate', name: 'Placa del motor', desc: 'Placa metálica del motor rojo: serie MR-4471-R. Estaba escondida en la bodega, detrás de unas redes viejas.' },
   recibos: { kind: 'prueba', icon: 'ic_receipts', name: 'Cuaderno de cuentas de Don Chepe', desc: 'Lo que los Ortega compraron para la lancha, con fecha: pistón y empaques, parche del casco, pintura, toldo, banderines y un parlante.' },
   libro_hallazgos: { kind: 'prueba', icon: 'ic_book', name: 'Libro de hallazgos de la Junta', desc: '«Año 1 después del Acuerdo. Carmen Ortega encontró una lancha encallada en la ciénaga, sin nadie a bordo. Motor rojo. Se guarda para su dueño.»' },
@@ -13,7 +13,7 @@ export const ITEMS = {
   yuli: { kind: 'testimonio', icon: 'ic_voice', name: 'Testimonio de Yuli', desc: '«Julián escondió una placa brillante en la bodega, detrás de las redes viejas.»' },
   carmen: { kind: 'testimonio', icon: 'ic_voice', name: 'Testimonio de Carmen Ortega', desc: '«La anoté en el libro de la Junta y esperé al dueño. En siete años nadie vino.»' },
   tule: { kind: 'testimonio', icon: 'ic_voice', name: 'Testimonio de Mamá Tule', desc: '«Esa lancha la vi en Puerto Alcaraván antes de la guerra: motor rojo y nombre de niña.»' },
-  aurelio: { kind: 'testimonio', icon: 'ic_voice', name: 'Testimonio de Don Aurelio', desc: '«La perdí cuando la guerra llegó a Alcaraván y tuve que huir. Tengo media matrícula; la otra mitad se quemó con mi casa.»' },
+  aurelio: { kind: 'testimonio', icon: 'ic_voice', name: 'Testimonio de Don Anselmo', desc: '«La perdí cuando la guerra llegó a Alcaraván y tuve que huir. Tengo media matrícula; la otra mitad se quemó con mi casa.»' },
   julian: { kind: 'testimonio', icon: 'ic_voice', name: 'Testimonio de Julián', desc: '«La lancha llegó sola por el río. Llevamos siete años con ella: es nuestra.»' },
   media_matricula: { kind: 'objeto', icon: 'ic_doc_torn', name: 'Media matrícula', desc: 'La mitad de un documento viejo, clavada bajo el banco de la cabina.' },
   llave_bodega: { kind: 'objeto', icon: 'ic_key', name: 'Llave de la bodega', desc: 'Don Chepe te la prestó. «Cuidado con los ratones.»' },

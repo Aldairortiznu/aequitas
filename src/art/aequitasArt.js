@@ -475,6 +475,9 @@ function drawPerson(px, s, view, frame) {
     px(topD, 11, ty, 1, torsoH);
     if (!back && s.collar) px(s.collar, 6, ty, 4, 1);
   }
+  // Volumen: luz que entra por la izquierda, sombra a la derecha.
+  if (s.coat) { px(shade(s.coat, 0.16), 3, ty, 1, torsoH + (ch ? 1 : 3)); px(shade(s.coat, -0.18), 12, ty, 1, torsoH + (ch ? 1 : 3)); }
+  else { px(shade(top, 0.16), 4, ty, 1, torsoH); px(shade(top, 0.1), 5, ty, 2, 1); }
   if (s.apron && !back) { px(s.apron, 5, ty + 2, 6, torsoH + (ch ? 1 : 3)); px(shade(s.apron, -0.15), 5, ty + 2, 6, 1); }
   if (!s.skirt && !s.coat) px('#3a2a20', 4, ty + torsoH, 8, 1); // cinturón
   // Remiendos: aquí nada se bota, todo se cose otra vez.
@@ -531,8 +534,12 @@ function drawPerson(px, s, view, frame) {
   px(skd, 4, hy + 7, 8, 1);
   px(skd, 11, hy + 1, 1, 7);
   if (!back) {
+    px(shade(sk, 0.18), 5, hy + 2, 3, 1); // luz en la frente
     px('#2a2220', 6, hy + 4, 1, 1); px('#2a2220', 9, hy + 4, 1, 1);
-    px(shade(sk, -0.25), 7, hy + 6, 2, 1);
+    px(shade(hair, 0.1), 5, hy + 3, 2, 1); px(shade(hair, 0.1), 9, hy + 3, 2, 1); // cejas
+    px(shade(sk, -0.12), 8, hy + 5, 1, 1); // nariz
+    px('#c86a5a', 5, hy + 5, 1, 1); px('#c86a5a', 10, hy + 5, 1, 1); // mejillas
+    px(shade(sk, -0.35), 7, hy + 6, 2, 1);
     if (s.glasses) { px('#2a2220', 5, hy + 4, 3, 1); px('#2a2220', 8, hy + 4, 3, 1); px('#cfe3e8', 6, hy + 4, 1, 1); px('#cfe3e8', 9, hy + 4, 1, 1); }
     if (s.mustache) px(s.beardColor || hair, 6, hy + 5, 4, 1);
     if (s.beard) { px(s.beardColor || hair, 4, hy + 5, 2, 3); px(s.beardColor || hair, 10, hy + 5, 2, 3); px(s.beardColor || hair, 5, hy + 7, 6, 2); px(shade(sk, -0.25), 7, hy + 6, 2, 1); }
@@ -540,7 +547,7 @@ function drawPerson(px, s, view, frame) {
 
   // Cabello.
   const hs = s.hairStyle || 'short';
-  const hairTop = () => { px(hair, 4, hy, 8, 2); px(hair, 3, hy + 1, 1, 3); px(hair, 12, hy + 1, 1, 3); };
+  const hairTop = () => { px(hair, 4, hy, 8, 2); px(hair, 3, hy + 1, 1, 3); px(hair, 12, hy + 1, 1, 3); px(shade(hair, 0.28), 5, hy, 3, 1); };
   if (back && hs === 'undercut') {
     px(hair, 4, hy - 1, 8, 4); px(shade(hair, 0.35), 4, hy + 3, 8, 3);
   } else if (back && hs === 'bob') {
@@ -600,7 +607,26 @@ function drawPerson(px, s, view, frame) {
     px(hc || '#f2b84b', 3, hy - 4, 10, 6); px(shade(hc || '#f2b84b', -0.2), 3, hy - 1, 10, 1); px(shade(hc || '#f2b84b', 0.2), 5, hy - 3, 4, 1); px('#c8302a', 9, hy - 4, 3, 2);
   } else if (hat === 'scarf') {
     px(hc || '#9cc36b', 3, hy - 1, 10, 4); px(hc || '#9cc36b', 3, hy + 2, 1, 6); px(hc || '#9cc36b', 12, hy + 2, 1, 6);
+  } else if (hat === 'hood') {
+    // Capucha de la Orden: cubre la cabeza y cae sobre los hombros.
+    const hd = shade(hc || '#5a3a6e', -0.25);
+    if (back) { px(hc || '#5a3a6e', 3, hy - 1, 10, 9); px(hd, 3, hy + 7, 10, 1); }
+    else { px(hc || '#5a3a6e', 3, hy - 1, 10, 3); px(hc || '#5a3a6e', 3, hy + 2, 1, 6); px(hc || '#5a3a6e', 12, hy + 2, 1, 6); px(shade(hc || '#5a3a6e', 0.18), 5, hy - 1, 4, 1); px(hd, 4, hy + 2, 8, 1); }
+    px(hc || '#5a3a6e', 3, ty - 1, 10, 1);
   }
+  // Máscara de bronce de los Centinelas (media cara, con dos ranuras).
+  if (s.mask && !back) {
+    px('#c08a42', 4, hy + 3, 8, 2); px('#c08a42', 7, hy + 5, 2, 1); px('#f0c070', 5, hy + 3, 2, 1);
+    px('#8a5a2a', 4, hy + 4, 1, 1); px('#8a5a2a', 11, hy + 4, 1, 1);
+    px('#1a1410', 6, hy + 4, 1, 1); px('#1a1410', 9, hy + 4, 1, 1);
+  }
+  // Tubo de códices al hombro: de espaldas se ve entero; de frente, la tapa.
+  if (s.tube) {
+    if (back) { for (let i = 0; i < 10; i++) px('#c9a030', 3 + i, ty + 8 - i, 2, 1); px('#8a6a20', 3, ty + 8, 2, 1); px('#f2d070', 12, ty - 2, 2, 1); }
+    else { px('#c9a030', 1, ty - 4, 2, 5); px('#f2d070', 1, ty - 4, 2, 1); px('#8a6a20', 2, ty - 3, 1, 4); }
+  }
+  // Broche de la Margarita Dorada en el pecho.
+  if (s.brooch && !back) { px('#f2c43b', 5, ty + 1, 2, 2); px('#fff2a8', 5, ty + 1, 1, 1); }
   // Gafas de soldador subidas a la frente.
   if (s.goggles) {
     if (back) px('#3a3f42', 4, hy + 2, 8, 1);
@@ -640,16 +666,25 @@ function shade(hex, f) {
 // Hornea una persona: frente quieta + dos pasos; con { back:true } también de espaldas.
 export function makePerson(scene, key, spec, opts = {}) {
   const W = 16, H = 26;
-  tex(scene, key, W, H, (ctx, px) => drawPerson(px, spec, 'front', 0));
-  if (opts.walk) {
-    tex(scene, key + '_walkA', W, H, (ctx, px) => drawPerson(px, spec, 'front', 1));
-    tex(scene, key + '_walkB', W, H, (ctx, px) => drawPerson(px, spec, 'front', 2));
+  const make = (k, view, frame) => tex(scene, k, W, H, (ctx, px) => { drawPerson(px, spec, view, frame); outline(ctx, W, H); });
+  make(key, 'front', 0);
+  if (opts.walk) { make(key + '_walkA', 'front', 1); make(key + '_walkB', 'front', 2); }
+  if (opts.back) { make(key + '_back', 'back', 0); make(key + '_back_walkA', 'back', 1); make(key + '_back_walkB', 'back', 2); }
+}
+
+// Contorno de un píxel alrededor de la figura (un tono muy oscuro y cálido, no
+// negro puro): la separa del suelo y de los fondos, y se lee mejor en celular.
+function outline(ctx, W, H) {
+  const img = ctx.getImageData(0, 0, W, H);
+  const d = img.data;
+  const solid = (x, y) => x >= 0 && y >= 0 && x < W && y < H && d[(y * W + x) * 4 + 3] > 0;
+  const mark = [];
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    if (solid(x, y)) continue;
+    if (solid(x - 1, y) || solid(x + 1, y) || solid(x, y - 1) || solid(x, y + 1)) mark.push(x, y);
   }
-  if (opts.back) {
-    tex(scene, key + '_back', W, H, (ctx, px) => drawPerson(px, spec, 'back', 0));
-    tex(scene, key + '_back_walkA', W, H, (ctx, px) => drawPerson(px, spec, 'back', 1));
-    tex(scene, key + '_back_walkB', W, H, (ctx, px) => drawPerson(px, spec, 'back', 2));
-  }
+  ctx.fillStyle = '#1a1218';
+  for (let i = 0; i < mark.length; i += 2) ctx.fillRect(mark[i], mark[i + 1], 1, 1);
 }
 
 // ------------------------------------------------------------------ COMPAÑEROS

@@ -17,7 +17,7 @@ export const SPEAKERS = {
   fidelina: { name: 'Doña Fidelina', color: '#f2c230', portrait: 'npc_fidelina' },
   carmen: { name: 'Carmen Ortega', color: '#8fc6e8', portrait: 'npc_carmen' },
   julian: { name: 'Julián Ortega', color: '#9fd3cf', portrait: 'npc_julian' },
-  aurelio: { name: 'Don Aurelio', color: '#efe3c2', portrait: 'npc_aurelio' },
+  aurelio: { name: 'Don Anselmo', color: '#efe3c2', portrait: 'npc_aurelio' },
   ramiro: { name: 'Ramiro "El Puño"', color: '#e8817a', portrait: 'npc_ramiro' },
   mono: { name: 'El Mono', color: '#f2b84b', portrait: 'npc_mono' },
   rosa: { name: 'Doña Rosa', color: '#e8a9c0', portrait: 'npc_rosa' },

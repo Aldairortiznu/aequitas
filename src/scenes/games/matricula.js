@@ -1,4 +1,4 @@
-// LA MATRÍCULA ROTA: las dos mitades (la de Aurelio y la de la cabina) están
+// LA MATRÍCULA ROTA: las dos mitades (la de Anselmo y la de la cabina) están
 // hechas trizas. Coloca cada pedazo en su lugar, en orden de lectura.
 
 import Phaser from 'phaser';
@@ -31,7 +31,7 @@ export default {
       const r = s.add.rectangle(x, y, SW, SH, 0xd8c79e, 0.6).setStrokeStyle(1, 0xb5a68a, 0.9);
       return { x, y, r, filled: false };
     });
-    s.add.text(WIDTH / 2, dy + 4 * (SH + 6) + 8, 'Mitad de Aurelio (izquierda) · mitad de la cabina (derecha)', { fontFamily: 'monospace', fontSize: '7px', color: '#bfa98a' }).setOrigin(0.5, 0);
+    s.add.text(WIDTH / 2, dy + 4 * (SH + 6) + 8, 'Mitad de Anselmo (izquierda) · mitad de la cabina (derecha)', { fontFamily: 'monospace', fontSize: '7px', color: '#bfa98a' }).setOrigin(0.5, 0);
     // Los pedazos, revueltos.
     const order = Phaser.Utils.Array.Shuffle(MATRICULA.pieces.map((p, i) => i));
     s.pieces = order.map((idx, k) => {
@@ -118,7 +118,7 @@ export default {
         s.tweens.add({ targets: stamp, alpha: 0.85, scale: 1, duration: 260, ease: 'Back.in' });
         s.cameras.main.shake(140, 0.006);
         sfx('seal');
-        s.time.delayedCall(1300, () => s.win(1, 'La matrícula dice: lancha «Niña Mercedes», motor rojo serie MR-4471-R, propietario Aurelio Mendoza Pacheco. Si encontramos la placa del motor, sabremos si es la misma.'));
+        s.time.delayedCall(1300, () => s.win(1, 'La matrícula dice: lancha «Niña Mercedes», motor rojo serie MR-4471-R, propietario Anselmo Mendoza Pacheco. Si encontramos la placa del motor, sabremos si es la misma.'));
       });
       return;
     }

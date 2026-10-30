@@ -10,6 +10,7 @@ import { applyToRegistry, loadSettings } from '../systems/settings.js';
 import { setVolume, setMuted } from '../systems/audio.js';
 import { loadSave } from '../systems/save.js';
 import { setHeroName } from '../systems/text.js';
+import { loadIllustrations } from '../systems/postales.js';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -22,12 +23,15 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('tx_flower', 'assets/tilesets/tux_flower.png');
     this.load.image('tx_rock', 'assets/tilesets/tux_rock.png');
     this.load.image('tx_sand', 'assets/tilesets/tux_sand.png');
+    loadIllustrations(this); // postales y retratos ilustrados, si los hay
   }
 
   create() {
     buildAequitasTextures(this);
     // Brillos y viñeta son degradados: con el lienzo ampliado se ven mejor suaves.
     ['p_soft', 'vignette'].forEach((k) => { if (this.textures.exists(k)) this.textures.get(k).setFilter(Phaser.Textures.FilterMode.LINEAR); });
+    // Las ilustraciones hechas a mano se ven mejor suavizadas.
+    this.textures.getTextureKeys().filter((k) => /^(postal|retrato)_/.test(k)).forEach((k) => this.textures.get(k).setFilter(Phaser.Textures.FilterMode.LINEAR));
     for (const [key, spec] of Object.entries(PEOPLE)) makePerson(this, key, spec, { walk: true });
     // Los cuatro enviados de la Biblioteca (para la pantalla de selección).
     for (const h of HEROES) makePerson(this, 'hero_' + h.id, h.spec, { walk: true });

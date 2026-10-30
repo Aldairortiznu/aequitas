@@ -65,12 +65,12 @@ export const HEARING = {
           hint: 'Julián dice que no hay placa. Pero tú encontraste algo en la bodega... y hay quien lo vio.',
         },
       ],
-      outro: [F('Gracias, Julián. Siéntese. Don Aurelio, tiene usted la palabra.')],
+      outro: [F('Gracias, Julián. Siéntese. Don Anselmo, tiene usted la palabra.')],
       wrong: [J('¿Y eso qué tiene que ver? ¡No me confunda!'), J('¡Eso no prueba nada!')],
     },
     {
       who: 'aurelio',
-      title: 'Declaración de Don Aurelio Mendoza',
+      title: 'Declaración de Don Anselmo Mendoza',
       intro: [A('Señores, yo solo vengo por lo que es mío.')],
       statements: [
         {
@@ -84,7 +84,7 @@ export const HEARING = {
           answer: ['nando', 'libro_hallazgos'],
           law: 'buena_fe',
           ok: [E('¡Objeción! Nando la vio bajar sola y vacía por el río esa noche. Nadie la robó: se la llevó la corriente.', 'shake'), N('¡Así fue! ¡Yo la vi con estos ojos!'), A('...Entonces no fue un robo. Les pido disculpas por eso.')],
-          hint: 'Aurelio habla de robo. ¿Quién vio la lancha la noche que la guerra llegó a Alcaraván?',
+          hint: 'Anselmo habla de robo. ¿Quién vio la lancha la noche que la guerra llegó a Alcaraván?',
         },
         {
           t: 'La usaron siete años sin pagar: ¡que me paguen el arriendo de todos esos años!',
@@ -100,7 +100,7 @@ export const HEARING = {
           answer: ['expensas', 'recibos', 'hallazgo'],
           law: 'expensas',
           ok: [E('¡Objeción! Sin esas reparaciones su lancha no existiría. La ley reconoce los gastos necesarios para conservar la cosa, y las mejoras útiles a quien poseía de buena fe.', 'shake'), L('Y todo está en el cuaderno de Don Chepe, con fecha y firma.'), A('...Tiene razón. Sin ellos, la Niña Mercedes estaría en el fondo del río.')],
-          hint: 'Aurelio no quiere pagar las reparaciones. ¿Qué dice la ley de los gastos necesarios? ¿Con qué los pruebas?',
+          hint: 'Anselmo no quiere pagar las reparaciones. ¿Qué dice la ley de los gastos necesarios? ¿Con qué los pruebas?',
         },
       ],
       outro: [R('¡Basta de tanta palabrería!'), F('Ramiro, usted no tiene la palabra... Bueno, hable. Aquí todos merecen ser escuchados.')],
@@ -125,7 +125,7 @@ export const HEARING = {
           answer: ['art34'],
           law: 'art34',
           ok: [E('¡Objeción! El destierro está prohibido, y una asamblea no puede castigar a nadie: echarlo del pueblo viola su derecho a vivir donde quiera.', 'shake'), L('Constitución, artículos 24 y 34.'), As('¡Bien dicho!')],
-          hint: 'Ramiro quiere expulsar a Aurelio. ¿Qué pena prohíbe la Constitución?',
+          hint: 'Ramiro quiere expulsar a Anselmo. ¿Qué pena prohíbe la Constitución?',
         },
         {
           t: 'En este puerto todo se arregla a los puños. ¡Así ha sido siempre y así será!',
@@ -152,7 +152,7 @@ export const RESOLUTION = {
       q: '¿De quién es la lancha?',
       options: [
         { t: 'De los Ortega: la salvaron y la cuidaron siete años.', v: 'bad', fb: 'Cuidar no es ser dueño. Sin título, se necesitan diez años de posesión, y van siete (C. C., art. 2532).' },
-        { t: 'De Don Aurelio: probó que es suya.', v: 'ok', fb: 'La matrícula, la placa y el nombre prueban el dominio. Y el dueño puede reclamar su cosa a quien la tiene (C. C., arts. 669 y 946).', clause: 'DOMINIO' },
+        { t: 'De Don Anselmo: probó que es suya.', v: 'ok', fb: 'La matrícula, la placa y el nombre prueban el dominio. Y el dueño puede reclamar su cosa a quien la tiene (C. C., arts. 669 y 946).', clause: 'DOMINIO' },
         { t: 'Del pueblo: que la Junta lo decida por votación.', v: 'bad', fb: 'Ni la mayoría puede confiscar: la Constitución lo prohíbe y protege la propiedad (arts. 34 y 58).' },
       ],
     },
@@ -160,16 +160,16 @@ export const RESOLUTION = {
       q: '¿Y lo que los Ortega invirtieron en repararla?',
       options: [
         { t: 'Nada: arreglaron algo ajeno, problema de ellos.', v: 'bad', fb: 'Sin esos gastos no habría lancha. La ley los reconoce (C. C., arts. 965 y 966).' },
-        { t: 'Don Aurelio paga el doble, como castigo por reclamar.', v: 'bad', fb: 'Reparar no es castigar: se paga lo que se debe, ni un peso más (Ley 446 de 1998, art. 16).', card: 'reparacion' },
-        { t: 'Don Aurelio reconoce los gastos necesarios y las mejoras útiles.', v: 'ok', fb: 'Exacto: los gastos necesarios se le pagan a todo poseedor; las mejoras útiles, al de buena fe (C. C., arts. 965 y 966).', clause: 'MEJORAS' },
+        { t: 'Don Anselmo paga el doble, como castigo por reclamar.', v: 'bad', fb: 'Reparar no es castigar: se paga lo que se debe, ni un peso más (Ley 446 de 1998, art. 16).', card: 'reparacion' },
+        { t: 'Don Anselmo reconoce los gastos necesarios y las mejoras útiles.', v: 'ok', fb: 'Exacto: los gastos necesarios se le pagan a todo poseedor; las mejoras útiles, al de buena fe (C. C., arts. 965 y 966).', clause: 'MEJORAS' },
       ],
     },
     {
       q: '¿Y el trabajo del puerto? Sin lancha no hay pesca.',
       options: [
-        { t: 'Un contrato: los Ortega le arriendan la lancha a Don Aurelio, y lo que él les debe se descuenta de los arriendos.', v: 'ok', fb: '¡Eso es equidad! El dueño recibe un arriendo, el puerto sigue pescando y las deudas se compensan (C. C., arts. 1973 y 1714).', clause: 'ARRIENDO', card: 'compensacion' },
-        { t: 'Don Aurelio se lleva la lancha río arriba: es suya.', v: 'meh', fb: 'Es legal: el dueño puede disponer de lo suyo (C. C., art. 669)... pero el puerto se queda sin pescar. ¿No habrá algo más equitativo?', clause: 'ENTREGA' },
-        { t: 'Que la use todo el que quiera, sin pagar. Así nadie pelea.', v: 'bad', fb: 'Eso desconoce la propiedad de Aurelio (Const., art. 58). Lo que es de todos sin reglas termina siendo de nadie.' },
+        { t: 'Un contrato: los Ortega le arriendan la lancha a Don Anselmo, y lo que él les debe se descuenta de los arriendos.', v: 'ok', fb: '¡Eso es equidad! El dueño recibe un arriendo, el puerto sigue pescando y las deudas se compensan (C. C., arts. 1973 y 1714).', clause: 'ARRIENDO', card: 'compensacion' },
+        { t: 'Don Anselmo se lleva la lancha río arriba: es suya.', v: 'meh', fb: 'Es legal: el dueño puede disponer de lo suyo (C. C., art. 669)... pero el puerto se queda sin pescar. ¿No habrá algo más equitativo?', clause: 'ENTREGA' },
+        { t: 'Que la use todo el que quiera, sin pagar. Así nadie pelea.', v: 'bad', fb: 'Eso desconoce la propiedad de Anselmo (Const., art. 58). Lo que es de todos sin reglas termina siendo de nadie.' },
       ],
     },
     {
@@ -177,7 +177,7 @@ export const RESOLUTION = {
       options: [
         { t: 'Que se vaya del puerto.', v: 'bad', fb: 'Eso sería destierro, y está prohibido (Const., art. 34).' },
         { t: 'Mejor no decir nada y olvidarlo.', v: 'meh', fb: 'Olvidarlo deja la herida abierta. La confianza se repara reconociendo el error.' },
-        { t: 'Que devuelva la placa, pida perdón y repare: trabajará como lanchero de Don Aurelio.', v: 'ok', fb: 'Reparar el daño, sin castigos de más, y reconstruir la confianza: justicia que sana.', clause: 'REPARACION', card: 'reparacion' },
+        { t: 'Que devuelva la placa, pida perdón y repare: trabajará como lanchero de Don Anselmo.', v: 'ok', fb: 'Reparar el daño, sin castigos de más, y reconstruir la confianza: justicia que sana.', clause: 'REPARACION', card: 'reparacion' },
       ],
     },
   ],
@@ -197,7 +197,7 @@ export const GASTOS = {
     { t: 'Pintura anticorrosiva', v: 40, k: 'nec', why: 'Protege el casco del óxido: conserva la cosa. Necesaria (C. C., art. 965).' },
     { t: 'Toldo nuevo contra el sol', v: 60, k: 'util', why: 'No es indispensable, pero aumenta el valor de la lancha: mejora útil, que se paga al poseedor de buena fe (C. C., art. 966).' },
     { t: 'Banderines y calcomanías', v: 15, k: 'lujo', why: 'Es adorno: mejora voluptuaria. No se paga, pero quien la puso se la puede llevar si no daña la lancha (C. C., art. 967).' },
-    { t: 'Parlante para la música', v: 45, k: 'lujo', why: 'Es gusto, no necesidad: mejora voluptuaria. No se paga; si Aurelio no lo quiere pagar, Julián se lo puede llevar (C. C., art. 967).' },
+    { t: 'Parlante para la música', v: 45, k: 'lujo', why: 'Es gusto, no necesidad: mejora voluptuaria. No se paga; si Anselmo no lo quiere pagar, Julián se lo puede llevar (C. C., art. 967).' },
   ],
 };
 
@@ -205,16 +205,16 @@ export const GASTOS = {
 export const ACTA = {
   title: 'ACTA DE CONCILIACIÓN EN EQUIDAD N.º 001 · PUERTO GARZA',
   clauses: {
-    PARTES: { k: 'PARTES', t: 'Aurelio Mendoza Pacheco, propietario, y la familia Ortega, que tuvo la lancha de buena fe, ante la Junta de Acción Comunal.' },
+    PARTES: { k: 'PARTES', t: 'Anselmo Mendoza Pacheco, propietario, y la familia Ortega, que tuvo la lancha de buena fe, ante la Junta de Acción Comunal.' },
     HECHOS: { k: 'HECHOS', t: 'La lancha Niña Mercedes se perdió cuando la guerra llegó a Puerto Alcaraván. Los Ortega la hallaron, la anotaron en el libro de la Junta y la repararon.' },
-    DOMINIO: { k: 'DOMINIO', t: 'Se reconoce que la lancha es de Aurelio Mendoza Pacheco.' },
-    MEJORAS: { k: 'MEJORAS', t: 'Aurelio reconoce a los Ortega {MONTO} fichas por gastos necesarios y mejoras útiles. El parlante y los banderines se los quedan ellos.', blank: { key: 'MONTO', options: [240, 300, 360] } },
+    DOMINIO: { k: 'DOMINIO', t: 'Se reconoce que la lancha es de Anselmo Mendoza Pacheco.' },
+    MEJORAS: { k: 'MEJORAS', t: 'Anselmo reconoce a los Ortega {MONTO} fichas por gastos necesarios y mejoras útiles. El parlante y los banderines se los quedan ellos.', blank: { key: 'MONTO', options: [240, 300, 360] } },
     ARRIENDO: { k: 'ARRIENDO', t: 'Los Ortega arriendan la lancha por 50 fichas al mes. Los primeros {MESES} meses se pagan compensando la deuda de las mejoras.', blank: { key: 'MESES', options: [3, 6, 10] } },
-    ENTREGA: { k: 'ENTREGA', t: 'Aurelio se lleva la lancha y paga hoy a los Ortega lo reconocido por mejoras.' },
-    REPARACION: { k: 'REPARACIÓN', t: 'Julián devuelve la placa, pide perdón y trabajará como lanchero junto a Don Aurelio.' },
+    ENTREGA: { k: 'ENTREGA', t: 'Anselmo se lleva la lancha y paga hoy a los Ortega lo reconocido por mejoras.' },
+    REPARACION: { k: 'REPARACIÓN', t: 'Julián devuelve la placa, pide perdón y trabajará como lanchero junto a Don Anselmo.' },
     EFECTOS: { k: 'EFECTOS', t: 'Esta acta presta mérito ejecutivo y tiene carácter de cosa juzgada: obliga a quienes la firman.' },
   },
   order: ['PARTES', 'HECHOS', 'DOMINIO', 'MEJORAS', 'ARRIENDO', 'ENTREGA', 'REPARACION', 'EFECTOS'],
-  signers: ['Aurelio Mendoza P.', 'Carmen Ortega', 'Julián Ortega', 'Fidelina Carrascal · Junta', '{nombre} · conciliación'],
+  signers: ['Anselmo Mendoza P.', 'Carmen Ortega', 'Julián Ortega', 'Fidelina Carrascal · Junta', '{nombre} · conciliación'],
   cards: ['contrato_ley', 'arrendamiento', 'conciliacion'],
 };
