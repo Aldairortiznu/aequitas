@@ -2,6 +2,7 @@
 // aprender una norma en palabras sencillas (y queda en el Expediente).
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { CODEX, FAMILIES } from '../data/codex.js';
 import { sfx } from '../systems/audio.js';
@@ -9,7 +10,7 @@ import { vibrate } from '../systems/haptics.js';
 
 export default class CardScene extends Phaser.Scene {
   constructor() {
-    super('Card');
+    super({ key: 'Card', cameras: CAMERA });
   }
 
   init(data) {
@@ -24,7 +25,7 @@ export default class CardScene extends Phaser.Scene {
     if (!this.card) { this.close(); return; }
     const fam = FAMILIES[this.card.fam] || FAMILIES.civil;
     const fc = Phaser.Display.Color.HexStringToColor(fam.color).color;
-    this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x05080a, 0.78).setOrigin(0);
+    this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x05080a, 0.86).setOrigin(0);
     // Rayos de luz detrás de la carta.
     const rays = this.add.graphics({ x: WIDTH / 2, y: HEIGHT / 2 });
     for (let i = 0; i < 12; i++) { rays.fillStyle(fc, 0.07); rays.slice(0, 0, 220, (i * Math.PI) / 6, (i * Math.PI) / 6 + 0.16); rays.fillPath(); }

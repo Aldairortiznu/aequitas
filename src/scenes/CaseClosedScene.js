@@ -3,6 +3,7 @@
 // una página de "Lo que aprendiste". Continuar lleva al anuncio del capítulo 2.
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { CODEX } from '../data/codex.js';
 import { PAGES } from '../data/ch1/map.js';
@@ -31,7 +32,7 @@ const LESSONS = [
 
 export default class CaseClosedScene extends Phaser.Scene {
   constructor() {
-    super('CaseClosed');
+    super({ key: 'CaseClosed', cameras: CAMERA });
   }
 
   init() {
@@ -47,7 +48,7 @@ export default class CaseClosedScene extends Phaser.Scene {
     const { WIDTH, HEIGHT } = GAME;
     this.makeDove();
     this.drawBackdrop();
-    this.add.rectangle(WIDTH / 2, HEIGHT / 2, WIDTH - 24, HEIGHT - 20, 0x081016, 0.74).setStrokeStyle(2, 0xe3b04b, 0.7).setDepth(5);
+    this.add.rectangle(WIDTH / 2, HEIGHT / 2, WIDTH - 24, HEIGHT - 20, 0x081016, 0.93).setStrokeStyle(2, 0xe3b04b, 0.7).setDepth(5);
     this.computeResult();
     this.buildResultPage();
     this.buildLessonsPage();

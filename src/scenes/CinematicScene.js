@@ -7,6 +7,7 @@
 // Al cerrarse hace resume(returnScene) si estaba pausada, o start(returnScene).
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { SPEAKERS } from '../data/speakers.js';
 import { CINEMATICS } from '../data/ch1/script.js';
@@ -22,7 +23,7 @@ const FLOAT = { lumen: 46 };
 
 export default class CinematicScene extends Phaser.Scene {
   constructor() {
-    super('Cinematic');
+    super({ key: 'Cinematic', cameras: CAMERA });
   }
 
   init(data) {
@@ -240,19 +241,21 @@ export default class CinematicScene extends Phaser.Scene {
     const { WIDTH, HEIGHT } = GAME;
     const px = 10;
     const pw = WIDTH - 20;
-    const ph = 58;
-    const py = HEIGHT - 14 - ph;
+    const ph = 62;
+    const py = HEIGHT - 10 - ph;
+    this.panelBox = { px, py, pw, ph };
     const g = this.add.graphics().setDepth(20);
-    g.fillStyle(0x06100b, 0.86);
+    g.fillStyle(0x06100b, 0.94);
     g.fillRoundedRect(px, py, pw, ph, 6);
     g.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.gold).color, 0.9);
     g.strokeRoundedRect(px, py, pw, ph, 6);
 
-    this.nameText = this.add.text(px + 12, py + 7, '', { fontFamily: 'Georgia, serif', fontSize: '13px', color: COLORS.gold })
+    this.nameText = this.add.text(px + 12, py + 6, '', { fontFamily: 'Georgia, serif', fontSize: '13px', color: COLORS.gold })
       .setDepth(21).setShadow(1, 1, '#000', 3);
-    this.bodyText = this.add.text(px + 12, py + 26, '', {
+    // Deja libre la esquina del ▼ para que no se monte sobre la última palabra.
+    this.bodyText = this.add.text(px + 12, py + 25, '', {
       fontFamily: 'Georgia, serif', fontSize: '12px', color: COLORS.cream,
-      wordWrap: { width: pw - 24 }, lineSpacing: 3,
+      wordWrap: { width: pw - 40 }, lineSpacing: 3,
     }).setDepth(21);
     this.cont = this.add.text(px + pw - 16, py + ph - 16, '▼', { fontFamily: 'monospace', fontSize: '11px', color: COLORS.gold })
       .setDepth(21).setVisible(false);
@@ -297,8 +300,14 @@ export default class CinematicScene extends Phaser.Scene {
 
     if (line.fx) this.playFx(line.fx, active);
 
-    // Máquina de escribir.
-    this.full = fmt(line.t);
+    // Máquina de escribir. El texto se corta en líneas ANTES de escribirlo, así
+    // ninguna palabra salta de renglón a mitad de camino. Sin nombre (narrador),
+    // el texto queda centrado en la caja.
+    const { py, ph } = this.panelBox;
+    this.full = this.bodyText.getWrappedText(fmt(line.t)).join('\n');
+    const named = !!fmt(sp.name).trim();
+    const h = this.bodyText.setText(this.full).height;
+    this.bodyText.setY(named ? py + 25 : Math.round(py + (ph - h) / 2));
     this.shown = 0;
     this.typing = true;
     this.cont.setVisible(false);

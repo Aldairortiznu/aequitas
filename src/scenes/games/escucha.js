@@ -28,8 +28,9 @@ export default {
     s.add.rectangle(WIDTH / 2, 62, 164, 12, 0x081016, 0.8).setDepth(30).setStrokeStyle(1, 0x2a2018);
     s.tension = 50;
     s.tBar = s.add.rectangle(WIDTH / 2 - 80, 62, 80, 8, 0xe8a04b).setOrigin(0, 0.5).setDepth(31);
-    s.bubble = s.add.text(WIDTH / 2, 92, '', { fontFamily: 'Georgia, serif', fontSize: '11px', color: '#1a1410', backgroundColor: '#f3ecd8', padding: { x: 8, y: 6 }, align: 'center', wordWrap: { width: 220 } }).setOrigin(0.5).setDepth(32);
-    s.tipText = s.add.text(WIDTH / 2, 132, '', { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#1a3a2a', fontStyle: 'italic', align: 'center', wordWrap: { width: 260 } }).setOrigin(0.5).setDepth(32);
+    // Crece hacia abajo desde debajo de la barra: con tres líneas no la tapa.
+    s.bubble = s.add.text(WIDTH / 2, 73, '', { fontFamily: 'Georgia, serif', fontSize: '11px', color: '#1a1410', backgroundColor: '#f3ecd8', padding: { x: 8, y: 6 }, align: 'center', wordWrap: { width: 220 } }).setOrigin(0.5, 0).setDepth(32);
+    s.tipText = s.add.text(WIDTH / 2, 139, '', { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#1a3a2a', fontStyle: 'italic', align: 'center', wordWrap: { width: 260 } }).setOrigin(0.5).setDepth(32);
   },
 
   setTension(s, v) {

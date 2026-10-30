@@ -3,6 +3,7 @@
 // botones X/E del celular. Se abre desde el Menú o desde la Pausa (superpuesta).
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { vibrate } from '../systems/haptics.js';
 import { GAME, COLORS } from '../config.js';
 import { getSetting, setSetting, DIFFICULTY } from '../systems/settings.js';
@@ -12,7 +13,7 @@ const SPEED_LABELS = { 38: 'Lenta', 22: 'Normal', 12: 'Rápida' };
 const DIFF_LABELS = { suave: 'Guiado', normal: 'Normal', intenso: 'Riguroso' };
 
 export default class SettingsScene extends Phaser.Scene {
-  constructor() { super('Settings'); }
+  constructor() { super({ key: 'Settings', cameras: CAMERA }); }
 
   init(data) {
     this.returnScene = (data && data.returnScene) || 'Menu';
@@ -54,7 +55,7 @@ export default class SettingsScene extends Phaser.Scene {
     });
     // Glosa de la dificultad seleccionada.
     this.diffNote = this.add.text(WIDTH / 2, py + ph - 26, '', { fontFamily: 'monospace', fontSize: '7px', color: '#9bbfa6', align: 'center', wordWrap: { width: pw - 30 } }).setOrigin(0.5).setDepth(2);
-    this.add.text(WIDTH / 2, py + ph - 12, '◀ ▶ cambiar   ·   ✕ / E / Esc: volver', { fontFamily: 'monospace', fontSize: '8px', color: '#8fc79c' }).setOrigin(0.5).setDepth(2);
+    this.add.text(WIDTH / 2, py + ph - 12, '◀ ▶ cambiar   ·   X / E / Esc: volver', { fontFamily: 'monospace', fontSize: '8px', color: '#8fc79c' }).setOrigin(0.5).setDepth(2);
     this.refresh();
 
     const kb = this.input.keyboard;

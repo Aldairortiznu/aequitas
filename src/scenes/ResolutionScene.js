@@ -6,6 +6,7 @@
 //   4. Las firmas. Luego, el epílogo y el cierre del caso.
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { RESOLUTION, GASTOS, ACTA } from '../data/ch1/hearing.js';
 import { getSave, writeSave } from '../systems/save.js';
@@ -25,7 +26,7 @@ const OK_KEYS = ['X', 'ENTER', 'SPACE', 'E'];
 
 export default class ResolutionScene extends Phaser.Scene {
   constructor() {
-    super('Resolution');
+    super({ key: 'Resolution', cameras: CAMERA });
   }
 
   init() {
@@ -93,7 +94,7 @@ export default class ResolutionScene extends Phaser.Scene {
 
   parchment(x, y, w, h) {
     const g = this.add.graphics();
-    g.fillStyle(0xefe3c2, 0.98); g.fillRoundedRect(x, y, w, h, 8);
+    g.fillStyle(0xefe3c2, 1); g.fillRoundedRect(x, y, w, h, 8);
     g.lineStyle(2, 0x8a6034, 1); g.strokeRoundedRect(x, y, w, h, 8);
     this.ui.add(g);
     return g;
@@ -115,14 +116,14 @@ export default class ResolutionScene extends Phaser.Scene {
     const pick = (i) => { if (done) return; done = true; this.keyHandlers = {}; onPick(i); };
     const rows = items.map((label, i) => {
       const y = y0 + i * (h + 5);
-      const bg = this.add.rectangle(WIDTH / 2, y, w, h, 0x16303a, 0.96).setInteractive({ useHandCursor: true });
+      const bg = this.add.rectangle(WIDTH / 2, y, w, h, 0x16303a, 1).setInteractive({ useHandCursor: true });
       const t = this.add.text(WIDTH / 2, y, label, { fontFamily: 'Georgia, serif', fontSize: opts.size || '10px', color: COLORS.cream, align: 'center', wordWrap: { width: w - 20 } }).setOrigin(0.5);
       bg.on('pointerover', () => { sel = i; paint(); });
       bg.on('pointerdown', () => { if (this.busy) return; sel = i; paint(); pick(i); });
       this.ui.add([bg, t]);
       return bg;
     });
-    const paint = () => rows.forEach((bg, i) => bg.setStrokeStyle(2, i === sel ? 0xffe070 : 0x3fa3a0, i === sel ? 1 : 0.6).setFillStyle(i === sel ? 0x2a5a5e : 0x16303a, 0.96));
+    const paint = () => rows.forEach((bg, i) => bg.setStrokeStyle(2, i === sel ? 0xffe070 : 0x3fa3a0, i === sel ? 1 : 0.6).setFillStyle(i === sel ? 0x2a5a5e : 0x16303a, 1));
     paint();
     const move = (d) => { sel = Phaser.Math.Wrap(sel + d, 0, items.length); paint(); sfx('select'); };
     this.keyHandlers.UP = () => move(-1);
@@ -206,7 +207,7 @@ export default class ResolutionScene extends Phaser.Scene {
       const x = 90 + k * 150;
       const y = 204;
       const col = Phaser.Display.Color.HexStringToColor(b.color).color;
-      const bg = this.add.rectangle(x, y, 136, 58, 0x16303a, 0.96).setInteractive({ useHandCursor: true });
+      const bg = this.add.rectangle(x, y, 136, 58, 0x16303a, 1).setInteractive({ useHandCursor: true });
       const lid = this.add.rectangle(x, y - 26, 136, 6, col, 1);
       this.ui.add([bg, lid]);
       this.text(x, y - 16, `${k + 1} · ${b.label}`, { fontSize: '11px', color: b.color }).setOrigin(0.5, 0);
@@ -326,7 +327,7 @@ export default class ResolutionScene extends Phaser.Scene {
       const inRow = Math.min(cols, remaining.length - row * cols);
       const x = WIDTH / 2 + ((i % cols) - (inRow - 1) / 2) * 112;
       const yy = 186 + row * 28;
-      const bg = this.add.rectangle(x, yy, 104, 22, 0x5a3a20, 0.96).setInteractive({ useHandCursor: true });
+      const bg = this.add.rectangle(x, yy, 104, 22, 0x5a3a20, 1).setInteractive({ useHandCursor: true });
       const t = this.add.text(x, yy, this.clauses[ci].k, { fontFamily: 'monospace', fontSize: '8px', color: '#efe3c2' }).setOrigin(0.5);
       bg.on('pointerover', () => { sel = i; paint(); });
       bg.on('pointerdown', () => { if (this.busy) return; sel = i; paint(); this.placeClause(ci, bg); });

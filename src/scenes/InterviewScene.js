@@ -3,6 +3,7 @@
 // que reproduce el diálogo y aplica sus efectos.
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { SPEAKERS } from '../data/speakers.js';
 import { fmt } from '../systems/text.js';
@@ -10,7 +11,7 @@ import { sfx } from '../systems/audio.js';
 
 export default class InterviewScene extends Phaser.Scene {
   constructor() {
-    super('Interview');
+    super({ key: 'Interview', cameras: CAMERA });
   }
 
   init(data) {
@@ -24,10 +25,12 @@ export default class InterviewScene extends Phaser.Scene {
     const { WIDTH, HEIGHT } = GAME;
     const sp = SPEAKERS[this.npc] || {};
     const col = Phaser.Display.Color.HexStringToColor(sp.color || '#efe3c2').color;
-    this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x081016, 0.55).setOrigin(0);
+    this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x081016, 0.8).setOrigin(0);
     const panel = this.add.graphics();
-    panel.fillStyle(0x0d1820, 0.96); panel.fillRoundedRect(16, 22, WIDTH - 32, HEIGHT - 44, 10);
-    panel.lineStyle(2, 0xe3b04b, 0.8); panel.strokeRoundedRect(16, 22, WIDTH - 32, HEIGHT - 44, 10);
+    // Cubre también la franja del HUD del pueblo (si no, el objetivo se asomaba
+    // cortado por el borde del panel).
+    panel.fillStyle(0x0d1820, 1); panel.fillRoundedRect(16, 8, WIDTH - 32, HEIGHT - 16, 10);
+    panel.lineStyle(2, 0xe3b04b, 0.8); panel.strokeRoundedRect(16, 8, WIDTH - 32, HEIGHT - 16, 10);
     // Retrato.
     const glow = this.add.graphics();
     for (let r = 58; r > 0; r -= 6) { glow.fillStyle(col, 0.02 + (58 - r) / 1600); glow.fillCircle(92, 128, r); }

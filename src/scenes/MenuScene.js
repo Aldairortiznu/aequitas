@@ -3,6 +3,7 @@
 // Códice, Ajustes y Acerca de.
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS, VERSION } from '../config.js';
 import { hasSave, loadSave } from '../systems/save.js';
 import { startAudio, playTheme, toggleMute, sfx } from '../systems/audio.js';
@@ -17,7 +18,7 @@ function rng(seed) {
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
-    super('Menu');
+    super({ key: 'Menu', cameras: CAMERA });
   }
 
   init() {
@@ -215,8 +216,9 @@ export default class MenuScene extends Phaser.Scene {
     const { WIDTH, HEIGHT } = GAME;
     const c = this.add.container(0, 0).setVisible(false).setDepth(60);
     const g = this.add.graphics();
-    g.fillStyle(0x0d1820, 0.96); g.fillRoundedRect(20, 16, WIDTH - 40, HEIGHT - 32, 10);
-    g.lineStyle(2, 0xe3b04b, 0.8); g.strokeRoundedRect(20, 16, WIDTH - 40, HEIGHT - 32, 10);
+    // Opaco y sin tocar el pie de página (antes se veía el título por detrás).
+    g.fillStyle(0x0d1820, 1); g.fillRoundedRect(20, 12, WIDTH - 40, HEIGHT - 36, 10);
+    g.lineStyle(2, 0xe3b04b, 0.8); g.strokeRoundedRect(20, 12, WIDTH - 40, HEIGHT - 36, 10);
     c.add(g);
     const txt = [
       'AEQUITAS: El Retorno del Equilibrio es una aventura de rol e investigación dialéctica en un mundo postapocalíptico. Los lugares y las personas son ficticios; las leyes son reales.',
@@ -229,8 +231,8 @@ export default class MenuScene extends Phaser.Scene {
       '',
       'Arte de terreno: Tuxemon (CC BY-SA 3.0). Todo lo demás, dibujado por código.',
     ].join('\n');
-    c.add(this.add.text(36, 30, txt, { fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream, wordWrap: { width: WIDTH - 72 }, lineSpacing: 2 }));
-    c.add(this.add.text(WIDTH / 2, HEIGHT - 26, 'Esc / X para volver', { fontFamily: 'monospace', fontSize: '8px', color: '#9fb8c0' }).setOrigin(0.5));
+    c.add(this.add.text(36, 26, txt, { fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream, wordWrap: { width: WIDTH - 72 }, lineSpacing: 2 }));
+    c.add(this.add.text(WIDTH / 2, HEIGHT - 34, 'Toca la pantalla o pulsa X para volver', { fontFamily: 'monospace', fontSize: '8px', color: '#9fb8c0' }).setOrigin(0.5));
     const z = this.add.zone(0, 0, WIDTH, HEIGHT).setOrigin(0).setInteractive();
     z.on('pointerdown', () => this.back());
     c.add(z);

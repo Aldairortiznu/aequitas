@@ -18,7 +18,7 @@ const DEFAULTS = { difficulty: 'normal', textSpeed: 22, volume: 0.6, muted: fals
 // asamblea y pistas de Lumen. 'suave' es el modo guiado.
 export const DIFFICULTY = {
   suave: { hearts: 7, hints: 9, label: 'Guiado · más confianza y pistas' },
-  normal: { hearts: 5, hints: 3, label: 'Normal · El explorador' },
+  normal: { hearts: 5, hints: 3, label: 'Normal · la experiencia pensada' },
   intenso: { hearts: 3, hints: 1, label: 'Riguroso · sin red' },
 };
 

@@ -8,6 +8,7 @@
 //   llegar): al terminar arranca la escena siguiente.
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { getSave, writeSave } from '../systems/save.js';
 import { sfx } from '../systems/audio.js';
@@ -27,7 +28,7 @@ export const GAMES = { remar, escucha, peso, circuito, linterna, raspar, matricu
 
 export default class MinigameScene extends Phaser.Scene {
   constructor() {
-    super('Minigame');
+    super({ key: 'Minigame', cameras: CAMERA });
   }
 
   init(data) {
@@ -94,15 +95,35 @@ export default class MinigameScene extends Phaser.Scene {
 
   panel(x, y, w, h, depth = 40) {
     const g = this.add.graphics().setDepth(depth);
-    g.fillStyle(0x0d1820, 0.94); g.fillRoundedRect(x, y, w, h, 8);
+    g.fillStyle(0x0d1820, 0.98); g.fillRoundedRect(x, y, w, h, 8);
     g.lineStyle(2, 0xe3b04b, 0.85); g.strokeRoundedRect(x, y, w, h, 8);
     return g;
   }
 
+  // Aviso centrado (instrucciones, victoria, derrota): el panel se ajusta al
+  // texto y los botones van justo debajo. buttons: [[dx, ancho, rótulo, cb, opts]].
+  notice(head, color, body, buttons) {
+    const { WIDTH, HEIGHT } = GAME;
+    const w = WIDTH - 150;
+    const objs = [this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x05080a, 0.6).setOrigin(0).setDepth(100)];
+    const title = this.add.text(WIDTH / 2, 0, head, { fontFamily: 'Georgia, serif', fontSize: '16px', color }).setOrigin(0.5, 0).setDepth(102);
+    const text = body ? this.add.text(WIDTH / 2, 0, body, { fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream, align: 'center', wordWrap: { width: w - 34 }, lineSpacing: 3 }).setOrigin(0.5, 0).setDepth(102) : null;
+    const h = 14 + title.height + (text ? 8 + text.height : 0) + 16 + 24 + 12;
+    const y = Math.round((HEIGHT - h) / 2);
+    title.setY(y + 14);
+    if (text) text.setY(title.y + title.height + 8);
+    objs.push(this.panel((WIDTH - w) / 2, y, w, h, 101), title);
+    if (text) objs.push(text);
+    const by = y + h - 12 - 12;
+    buttons.forEach(([dx, bw, label, cb, opts]) => objs.push(this.button(WIDTH / 2 + dx, by, bw, 24, label, cb, { depth: 103, ...opts })));
+    return objs;
+  }
+
   title(text, sub) {
     const { WIDTH } = GAME;
-    this.add.text(WIDTH / 2, 8, text, { fontFamily: 'Georgia, serif', fontSize: '13px', color: COLORS.gold }).setOrigin(0.5, 0).setDepth(30).setShadow(1, 1, '#000', 3);
-    if (sub) this.subText = this.add.text(WIDTH / 2, 25, sub, { fontFamily: 'monospace', fontSize: '8px', color: '#bfe0d8' }).setOrigin(0.5, 0).setDepth(30);
+    // Contorno oscuro: el título se lee igual sobre cielo claro, toldos o noche.
+    this.add.text(WIDTH / 2, 8, text, { fontFamily: 'Georgia, serif', fontSize: '13px', color: COLORS.gold, stroke: '#1a1410', strokeThickness: 2 }).setOrigin(0.5, 0).setDepth(30);
+    if (sub) this.subText = this.add.text(WIDTH / 2, 25, sub, { fontFamily: 'monospace', fontSize: '8px', color: '#d8efe8', backgroundColor: '#0d1820b0', padding: { x: 4, y: 1 } }).setOrigin(0.5, 0).setDepth(30);
   }
 
   // Barra de tiempo arriba. Devuelve { left(), stop(), add(ms) }.
@@ -143,24 +164,16 @@ export default class MinigameScene extends Phaser.Scene {
 
   // ------------------------------------------------------------ flujo
   showIntro() {
-    const { WIDTH, HEIGHT } = GAME;
     const d = this.def;
-    const objs = [];
-    objs.push(this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x05080a, 0.6).setOrigin(0).setDepth(100));
-    const g = this.panel(70, 52, WIDTH - 140, 160, 101);
-    objs.push(g);
-    objs.push(this.add.text(WIDTH / 2, 64, d.name, { fontFamily: 'Georgia, serif', fontSize: '16px', color: COLORS.gold }).setOrigin(0.5, 0).setDepth(102));
-    objs.push(this.add.text(WIDTH / 2, 88, fmt(d.how), { fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream, align: 'center', wordWrap: { width: WIDTH - 170 }, lineSpacing: 3 }).setOrigin(0.5, 0).setDepth(102));
     const go = () => {
       if (this.started) return;
       this.started = true;
       objs.forEach((o) => o.destroy());
-      btn.destroy();
       this.playing = true;
       sfx('confirm');
       if (d.start) d.start(this);
     };
-    const btn = this.button(WIDTH / 2, 192, 150, 24, '▶ ¡Vamos!', go, { depth: 103 });
+    const objs = this.notice(d.name, COLORS.gold, fmt(d.how), [[0, 150, '▶ ¡Vamos!', go]]);
     ['X', 'E', 'ENTER', 'SPACE'].forEach((k) => this.input.keyboard.once('keydown-' + k, go));
   }
 
@@ -176,12 +189,8 @@ export default class MinigameScene extends Phaser.Scene {
     if (!this.save.scores) this.save.scores = {};
     if (score != null && score > best) { this.save.scores[this.id] = score; writeSave(this.save); }
     this.time.delayedCall(450, () => {
-      this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x05080a, 0.55).setOrigin(0).setDepth(100);
-      this.panel(80, 60, WIDTH - 160, 150, 101);
-      this.add.text(WIDTH / 2, 72, '¡Logrado!', { fontFamily: 'Georgia, serif', fontSize: '18px', color: '#8fd694' }).setOrigin(0.5, 0).setDepth(102);
-      if (lesson) this.add.text(WIDTH / 2, 100, fmt(lesson), { fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream, align: 'center', wordWrap: { width: WIDTH - 190 }, lineSpacing: 3 }).setOrigin(0.5, 0).setDepth(102);
       const done = () => this.finish(true, score);
-      this.button(WIDTH / 2, 190, 140, 24, 'Continuar', done, { depth: 103 });
+      this.notice('¡Logrado!', '#8fd694', lesson ? fmt(lesson) : null, [[0, 140, 'Continuar', done]]);
       ['X', 'E', 'ENTER', 'SPACE'].forEach((k) => this.input.keyboard.once('keydown-' + k, done));
     });
   }
@@ -190,17 +199,14 @@ export default class MinigameScene extends Phaser.Scene {
     if (this.ended) return;
     this.ended = true;
     this.playing = false;
-    const { WIDTH, HEIGHT } = GAME;
     sfx('death');
     this.time.delayedCall(350, () => {
-      this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x05080a, 0.6).setOrigin(0).setDepth(100);
-      this.panel(80, 60, WIDTH - 160, 150, 101);
-      this.add.text(WIDTH / 2, 72, '¡Uy!', { fontFamily: 'Georgia, serif', fontSize: '18px', color: '#e8817a' }).setOrigin(0.5, 0).setDepth(102);
-      this.add.text(WIDTH / 2, 100, fmt(msg), { fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream, align: 'center', wordWrap: { width: WIDTH - 190 }, lineSpacing: 3 }).setOrigin(0.5, 0).setDepth(102);
       const retry = () => { if (!this.finished) { this.finished = true; this.scene.restart(this.data0); } };
       const out = () => this.finish(allowSkip, 0);
-      this.button(WIDTH / 2 - 62, 186, 110, 24, 'Reintentar', retry, { depth: 103 });
-      this.button(WIDTH / 2 + 62, 186, 110, 24, allowSkip ? 'Seguir igual' : 'Salir', out, { depth: 103, fill: 0x2a1d2e });
+      this.notice('¡Uy!', '#e8817a', fmt(msg), [
+        [-62, 110, 'Reintentar', retry],
+        [62, 110, allowSkip ? 'Seguir igual' : 'Salir', out, { fill: 0x2a1d2e }],
+      ]);
       this.input.keyboard.once('keydown-X', retry);
       this.input.keyboard.once('keydown-ENTER', retry);
       this.input.keyboard.once('keydown-ESC', out);

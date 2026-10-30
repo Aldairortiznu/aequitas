@@ -18,12 +18,17 @@ import CaseClosedScene from './scenes/CaseClosedScene.js';
 import PauseScene from './scenes/PauseScene.js';
 import SettingsScene from './scenes/SettingsScene.js';
 import { buildPlayer } from './scenes/BootScene.js';
+import { ZOOM, installView } from './systems/view.js';
+
+// El lienzo mide ZOOM veces la resolución base y los textos se dibujan a esa
+// resolución (ver systems/view.js): letras nítidas en celular y computador.
+installView();
 
 const config = {
   type: Phaser.AUTO,
   parent: 'game',
-  width: GAME.WIDTH,
-  height: GAME.HEIGHT,
+  width: GAME.WIDTH * ZOOM,
+  height: GAME.HEIGHT * ZOOM,
   backgroundColor: COLORS.bgDeep,
   pixelArt: true,
   roundPixels: true,

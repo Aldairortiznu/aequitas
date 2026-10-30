@@ -49,8 +49,8 @@ export default {
   },
 
   start(s) {
-    s.input.on('pointerdown', (p) => { s.scraping = true; this.scrape(s, p.x, p.y); });
-    s.input.on('pointermove', (p) => { if (p.isDown) this.scrape(s, p.x, p.y); });
+    s.input.on('pointerdown', (p) => { s.scraping = true; this.scrape(s, p.worldX, p.worldY); });
+    s.input.on('pointermove', (p) => { if (p.isDown) this.scrape(s, p.worldX, p.worldY); });
     s.input.on('pointerup', () => { s.scraping = false; });
     s.onUpdate((t, dt) => {
       const d = s.dir();

@@ -6,6 +6,7 @@
 // calma a la gente (C, una vez por declaración).
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { HEARING } from '../data/ch1/hearing.js';
 import { ITEMS } from '../data/ch1/items.js';
@@ -24,7 +25,7 @@ const PICK_TABS = ['Pruebas', 'Testimonios', 'Códice'];
 
 export default class HearingScene extends Phaser.Scene {
   constructor() {
-    super('Hearing');
+    super({ key: 'Hearing', cameras: CAMERA });
   }
 
   init() {
@@ -114,7 +115,7 @@ export default class HearingScene extends Phaser.Scene {
   buildHud() {
     const { WIDTH } = GAME;
     const pill = this.add.graphics().setDepth(40);
-    pill.fillStyle(0x081016, 0.8); pill.fillRoundedRect(4, 4, 112, 18, 8); pill.fillRoundedRect(WIDTH - 140, 4, 136, 18, 8);
+    pill.fillStyle(0x081016, 0.92); pill.fillRoundedRect(4, 4, 112, 18, 8); pill.fillRoundedRect(WIDTH - 140, 4, 136, 18, 8);
     this.heartText = this.add.text(10, 7, '', { fontFamily: 'monospace', fontSize: '10px', color: '#ff9e9e' }).setDepth(41);
     this.helpText = this.add.text(WIDTH - 134, 8, '', { fontFamily: 'monospace', fontSize: '8px', color: '#ffe9a0' }).setDepth(41);
     this.banner = this.add.text(WIDTH / 2, 56, '', { fontFamily: 'Georgia, serif', fontSize: '14px', color: COLORS.gold, backgroundColor: '#081016dd', padding: { x: 10, y: 4 } }).setOrigin(0.5).setDepth(45).setAlpha(0);
@@ -129,7 +130,7 @@ export default class HearingScene extends Phaser.Scene {
   buildPanel() {
     const { WIDTH, HEIGHT } = GAME;
     const g = this.add.graphics().setDepth(30);
-    g.fillStyle(0x081016, 0.93); g.fillRoundedRect(6, 188, WIDTH - 12, HEIGHT - 192, 6);
+    g.fillStyle(0x081016, 0.97); g.fillRoundedRect(6, 188, WIDTH - 12, HEIGHT - 192, 6);
     g.lineStyle(2, 0xe3b04b, 0.85); g.strokeRoundedRect(6, 188, WIDTH - 12, HEIGHT - 192, 6);
     this.panelBg = g;
     this.pName = this.add.text(16, 192, '', { fontFamily: 'Georgia, serif', fontSize: '11px', color: COLORS.gold }).setDepth(31);
@@ -198,6 +199,8 @@ export default class HearingScene extends Phaser.Scene {
   }
 
   showBanner(text) {
+    // La norma de la declaración anterior ya cumplió: no se monta con el título.
+    if (this.lawChip) { this.lawChip.destroy(); this.lawChip = null; }
     this.banner.setText(text).setAlpha(0).setScale(0.7);
     this.tweens.add({ targets: this.banner, alpha: 1, scale: 1, duration: 300, ease: 'Back.out' });
     this.tweens.add({ targets: this.banner, alpha: 0, delay: 2200, duration: 500 });
@@ -380,9 +383,11 @@ export default class HearingScene extends Phaser.Scene {
     const { WIDTH } = GAME;
     if (this.lawChip) this.lawChip.destroy();
     const col = Phaser.Display.Color.HexStringToColor(FAMILIES[c.fam].color).color;
-    const box = this.add.container(WIDTH / 2, 40).setDepth(160);
+    // Justo encima del panel de la declaración, donde el jugador está leyendo
+    // (arriba se montaba con el título y los letreros de la pared).
+    const box = this.add.container(WIDTH / 2, 166).setDepth(160);
     const t = this.add.text(0, 0, `⚖ Norma aplicada · ${c.ley}\n${c.titulo}`, { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#2a2018', align: 'center', lineSpacing: 1, wordWrap: { width: WIDTH - 60 } }).setOrigin(0.5);
-    const bg = this.add.rectangle(0, 0, t.width + 16, t.height + 6, 0xefe3c2, 0.97).setStrokeStyle(2, col, 1);
+    const bg = this.add.rectangle(0, 0, t.width + 16, t.height + 6, 0xefe3c2, 1).setStrokeStyle(2, col, 1);
     box.add([bg, t]);
     box.setAlpha(0).setScale(0.8);
     this.tweens.add({ targets: box, alpha: 1, scale: 1, duration: 260, delay: 500, ease: 'Back.out' });

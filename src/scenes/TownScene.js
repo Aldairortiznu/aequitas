@@ -6,6 +6,7 @@
 // se pausa) y al volver (evento 'resume') sigue el siguiente paso.
 
 import Phaser from 'phaser';
+import { CAMERA, ZOOM } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { MAP, BUILDINGS, PROPS, WRECKS, ORDER_DECOR, BOATS, LAMPS, PAGES, HERONS, HEN_ZONE, START, ZONES } from '../data/ch1/map.js';
 import { orderValue, orderLevel, orderStep, TEACHINGS } from '../systems/order.js';
@@ -30,7 +31,7 @@ const GROUND = new Set(['.', ',', ':', '#', '=', 's', 'R', '~', 'h']);
 
 export default class TownScene extends Phaser.Scene {
   constructor() {
-    super('Town');
+    super({ key: 'Town', cameras: CAMERA });
   }
 
   init() {
@@ -67,6 +68,11 @@ export default class TownScene extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, COLS * TILE, ROWS * TILE);
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12);
     this.cameras.main.setBackgroundColor(COLORS.bgDeep);
+    // Lo fijo a la pantalla (HUD, luz, viñeta: scrollFactor 0) va en una cámara
+    // aparte que no se mueve; la principal sigue al personaje con el zoom.
+    this.uiCam = this.cameras.add(0, 0, this.scale.width, this.scale.height).setOrigin(0).setZoom(ZOOM);
+    this.events.on('prerender', this.splitCameras, this);
+    this.events.once('shutdown', () => this.events.off('prerender', this.splitCameras, this));
     this.physics.world.setBounds(0, 0, COLS * TILE, ROWS * TILE);
     this.player.setCollideWorldBounds(true);
 
@@ -101,6 +107,7 @@ export default class TownScene extends Phaser.Scene {
     this.theme = this.themeFor(this.order);
     startAudio().then(() => playTheme(this.theme));
     this.cameras.main.fadeIn(600, 13, 24, 32);
+    this.uiCam.fadeIn(600, 13, 24, 32);
     writeSave(this.save);
     // Si quedaron cartas por mostrar (p. ej. ganadas en una cinemática), se ven ya.
     this.time.delayedCall(700, () => this.runNext());
@@ -464,16 +471,17 @@ export default class TownScene extends Phaser.Scene {
     const D = 10000;
     const sf = (o) => o.setScrollFactor(0).setDepth(D);
     const g = sf(this.add.graphics());
-    g.fillStyle(0x081016, 0.62); g.fillRoundedRect(4, 4, 262, 46, 6);
+    // Casi opacos: los letreros del mapa no deben verse a través del texto.
+    g.fillStyle(0x081016, 0.9); g.fillRoundedRect(4, 4, 262, 46, 6);
     g.lineStyle(1, 0xe3b04b, 0.35); g.strokeRoundedRect(4, 4, 262, 46, 6);
-    g.fillStyle(0x081016, 0.62); g.fillRoundedRect(W - 118, 4, 114, 34, 6);
+    g.fillStyle(0x081016, 0.9); g.fillRoundedRect(W - 118, 4, 114, 34, 6);
     g.lineStyle(1, 0xe3b04b, 0.35); g.strokeRoundedRect(W - 118, 4, 114, 34, 6);
     sf(this.add.text(10, 7, 'CAPÍTULO 1 · PUERTO GARZA', { fontFamily: 'monospace', fontSize: '7px', color: COLORS.gold }).setLetterSpacing(1));
     this.objText = sf(this.add.text(10, 17, '', { fontFamily: 'Georgia, serif', fontSize: '9px', color: COLORS.cream }));
     // Equilibrio del puerto: del caos al orden.
-    sf(this.add.text(10, 40, 'EQUILIBRIO', { fontFamily: 'monospace', fontSize: '6px', color: '#9fb8c0' }).setOrigin(0, 0.5));
-    sf(this.add.rectangle(52, 40, 102, 6, 0x05080a, 0.9).setOrigin(0, 0.5).setStrokeStyle(1, 0xe3b04b, 0.4));
-    this.orderBar = sf(this.add.rectangle(53, 40, 0, 4, 0xe3b04b).setOrigin(0, 0.5));
+    sf(this.add.text(10, 40, 'EQUILIBRIO', { fontFamily: 'monospace', fontSize: '7px', color: '#9fb8c0' }).setOrigin(0, 0.5));
+    sf(this.add.rectangle(56, 40, 98, 6, 0x05080a, 0.9).setOrigin(0, 0.5).setStrokeStyle(1, 0xe3b04b, 0.4));
+    this.orderBar = sf(this.add.rectangle(57, 40, 0, 4, 0xe3b04b).setOrigin(0, 0.5));
     this.orderText = sf(this.add.text(160, 40, '', { fontFamily: 'monospace', fontSize: '7px', color: '#ffe9a0' }).setOrigin(0, 0.5));
     this.orderShown = this.order;
     // Confianza del puerto (3 íconos) y expediente.
@@ -482,7 +490,7 @@ export default class TownScene extends Phaser.Scene {
       im.setScale(t.icon === 'pr_lamp_on' ? 0.42 : t.icon === 'pr_scale' ? 0.6 : 1.1);
       return im;
     });
-    sf(this.add.text(W - 112, 23, 'confianza', { fontFamily: 'monospace', fontSize: '6px', color: '#9fb8c0' }));
+    sf(this.add.text(W - 112, 23, 'confianza', { fontFamily: 'monospace', fontSize: '7px', color: '#9fb8c0' }));
     this.fileText = sf(this.add.text(W - 58, 8, '', { fontFamily: 'monospace', fontSize: '8px', color: COLORS.cream, lineSpacing: 3 }));
     // Ayuda de controles (escritorio).
     if (!window.__domPad) {
@@ -512,7 +520,7 @@ export default class TownScene extends Phaser.Scene {
 
   drawOrderBar(v) {
     const lv = orderLevel(v);
-    this.orderBar.width = Math.round(v);
+    this.orderBar.width = Math.round(v * 0.96);
     this.orderBar.setFillStyle(v >= 80 ? 0x8fd694 : v >= 60 ? 0xe3b04b : v >= 40 ? 0xe8a04b : 0xe8604b);
     this.orderText.setText(`${Math.round(v)}% · ${lv.name}`);
   }
@@ -645,9 +653,9 @@ export default class TownScene extends Phaser.Scene {
   updateMarker() {
     const t = this.obj && this.targetPos(this.obj.target);
     if (!t || this.busy) { this.marker.setVisible(false); this.edgeArrow.setVisible(false); return; }
-    const cam = this.cameras.main;
-    const vx = t.x - cam.scrollX;
-    const vy = t.y - cam.scrollY;
+    const view = this.cameras.main.worldView;
+    const vx = t.x - view.x;
+    const vy = t.y - view.y;
     const inside = vx > 8 && vx < GAME.WIDTH - 8 && vy > 58 && vy < GAME.HEIGHT - 8;
     this.marker.setVisible(inside).setPosition(t.x, t.y + Math.sin(this.time.now / 180) * 2);
     if (inside) { this.edgeArrow.setVisible(false); return; }
@@ -915,8 +923,22 @@ export default class TownScene extends Phaser.Scene {
     this.save.py = this.player.y;
     writeSave(this.save);
     this.busy = true;
-    this.cameras.main.fadeOut(700, 0, 0, 0);
+    this.fadeOutAll();
     this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Cinematic', { key: 'siguiente', next: { scene: 'Menu' } }));
+  }
+
+  // Funde a negro el mundo y el HUD a la vez.
+  fadeOutAll() {
+    this.cameras.main.fadeOut(700, 0, 0, 0);
+    this.uiCam.fadeOut(700, 0, 0, 0);
+  }
+
+  // Cada objeto se dibuja en una sola cámara: lo fijo a la pantalla, en la del
+  // HUD; lo demás, en la que sigue al personaje.
+  splitCameras() {
+    const main = this.cameras.main.id;
+    const ui = this.uiCam.id;
+    this.children.list.forEach((o) => { o.cameraFilter = o.scrollFactorX === 0 ? main : ui; });
   }
 
   goHearing() {
@@ -925,7 +947,7 @@ export default class TownScene extends Phaser.Scene {
     this.save.py = this.player.y;
     writeSave(this.save);
     this.busy = true;
-    this.cameras.main.fadeOut(700, 0, 0, 0);
+    this.fadeOutAll();
     this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Hearing'));
   }
 
@@ -1103,6 +1125,12 @@ export default class TownScene extends Phaser.Scene {
         const ty = n.home.y + Phaser.Math.Between(-n.wander, n.wander) * 8;
         if (!this.walkable(Math.floor(tx / TILE), Math.floor((ty - 2) / TILE))) continue;
         if (Phaser.Math.Distance.Between(tx, ty, this.player.x, this.player.y) < 20) continue;
+        // Sin atravesar puestos ni barriles en el camino, y sin pararse encima de otra persona.
+        if (!this.clearPath(n.img.x, n.img.y, tx, ty)) continue;
+        const crowded = Object.values(this.npcs).some((o) => o !== n && !o.hidden
+          && Phaser.Math.Distance.Between(tx, ty, (o.goal || o.img).x, (o.goal || o.img).y) < 16);
+        if (crowded) continue;
+        n.goal = { x: tx, y: ty };
         n.moving = true;
         n.img.setFlipX(tx < n.img.x);
         const dur = Math.max(400, Phaser.Math.Distance.Between(n.img.x, n.img.y, tx, ty) * 30);
@@ -1114,10 +1142,21 @@ export default class TownScene extends Phaser.Scene {
             n.body.setPosition(n.img.x, n.img.y - 3);
             n.body.body.updateFromGameObject();
           },
-          onComplete: () => { n.moving = false; n.img.setTexture(n.tex); },
+          onComplete: () => { n.moving = false; n.goal = null; n.img.setTexture(n.tex); },
         });
       }
     }
+  }
+
+  // ¿Se puede ir en línea recta de (x0,y0) a (x1,y1) sin pisar baldosas sólidas?
+  clearPath(x0, y0, x1, y1) {
+    const steps = Math.max(1, Math.ceil(Phaser.Math.Distance.Between(x0, y0, x1, y1) / 4));
+    for (let k = 1; k <= steps; k++) {
+      const x = x0 + ((x1 - x0) * k) / steps;
+      const y = y0 + ((y1 - y0) * k) / steps;
+      if (!this.walkable(Math.floor(x / TILE), Math.floor((y - 2) / TILE))) return false;
+    }
+    return true;
   }
 
   updateCritters(time) {

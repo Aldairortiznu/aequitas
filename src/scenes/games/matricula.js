@@ -41,18 +41,19 @@ export default {
       const x = 86 + col * 154;
       const y = 184 + row * 26;
       const c = s.add.container(x, y).setDepth(10);
-      const bg = s.add.rectangle(0, 0, 144, 20, p.side === 'A' ? 0xefe3c2 : 0xd8cbb0).setStrokeStyle(1, 0x8a7a62);
-      const t = s.add.text(0, 0, p.t, { fontFamily: 'monospace', fontSize: '7px', color: '#2a2018' }).setOrigin(0.5);
-      const stain = s.add.rectangle(p.side === 'A' ? 64 : -64, 0, 10, 20, 0x8a7a62, 0.35);
+      const bg = s.add.rectangle(0, 0, 148, 20, p.side === 'A' ? 0xefe3c2 : 0xd8cbb0).setStrokeStyle(1, 0x8a7a62);
+      const t = s.add.text(0, 0, p.t, { fontFamily: 'monospace', fontSize: '8px', color: '#2a2018' }).setOrigin(0.5);
+      const stain = s.add.rectangle(p.side === 'A' ? 68 : -68, 0, 8, 20, 0x8a7a62, 0.35);
       c.add([bg, stain, t]);
       bg.setInteractive({ useHandCursor: true });
       bg.on('pointerdown', () => { if (s.playing && !s.ended) this.place(s, k); });
-      c.setAngle(Phaser.Math.Between(-6, 6));
-      return { idx, c, bg, placed: false, home: { x, y } };
+      // Torcidos apenas: revueltos, pero sin taparse unos a otros.
+      c.setAngle(Phaser.Math.Between(-2, 2));
+      return { idx, c, bg, t, placed: false, home: { x, y } };
     });
     s.next = 0;
     s.sel = 0;
-    s.selBox = s.add.rectangle(0, 0, 150, 26).setStrokeStyle(2, 0xffe070).setDepth(9);
+    s.selBox = s.add.rectangle(0, 0, 154, 26).setStrokeStyle(2, 0xffe070).setDepth(9).setVisible(false);
   },
 
   start(s) {
@@ -105,7 +106,9 @@ export default {
     const sl = s.slots[s.next];
     s.tweens.killTweensOf(sl.r);
     sl.r.setAlpha(1);
-    s.tweens.add({ targets: p.c, x: sl.x, y: sl.y, angle: 0, scaleX: SW / 144, duration: 260, ease: 'Cubic.out' });
+    // El papel se estira al ancho del espacio; la letra no (se compensa).
+    s.tweens.add({ targets: p.c, x: sl.x, y: sl.y, angle: 0, scaleX: SW / 148, scaleY: SH / 20, duration: 260, ease: 'Cubic.out' });
+    s.tweens.add({ targets: p.t, scaleX: 148 / SW, scaleY: 20 / SH, duration: 260, ease: 'Cubic.out' });
     sfx('page');
     s.next++;
     if (s.next >= MATRICULA.pieces.length) {

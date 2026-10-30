@@ -2,12 +2,13 @@
 // Reanudar, Expediente, Ajustes y Menú principal.
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { sfx } from '../systems/audio.js';
 
 export default class PauseScene extends Phaser.Scene {
   constructor() {
-    super('Pause');
+    super({ key: 'Pause', cameras: CAMERA });
   }
 
   init(data) {
@@ -23,7 +24,7 @@ export default class PauseScene extends Phaser.Scene {
     const px = WIDTH / 2 - pw / 2;
     const py = HEIGHT / 2 - ph / 2;
     const g = this.add.graphics();
-    g.fillStyle(0x0d1820, 0.96); g.fillRoundedRect(px, py, pw, ph, 8);
+    g.fillStyle(0x0d1820, 1); g.fillRoundedRect(px, py, pw, ph, 8);
     g.lineStyle(2, 0xe3b04b, 0.9); g.strokeRoundedRect(px, py, pw, ph, 8);
     this.add.text(WIDTH / 2, py + 14, 'Pausa', { fontFamily: 'Georgia, serif', fontSize: '15px', color: COLORS.gold }).setOrigin(0.5);
     this.options = [

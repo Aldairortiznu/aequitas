@@ -1,5 +1,34 @@
 # AEQUITAS · Registro de cambios
 
+## v0.2 — Letras nítidas y pantallas sin montarse
+**Legibilidad**
+- El juego se pinta a 2 o 3 veces su resolución base y cada texto se dibuja a esa
+  resolución: las letras ya no salen borrosas ni en escalones, en celular ni en computador.
+- Paneles opacos (HUD del pueblo, audiencia, acuerdo, cierre, entrevistas, «Acerca de»):
+  ya no se ven letreros ni siluetas detrás del texto.
+- Títulos de los minijuegos con contorno y subtítulos sobre fondo oscuro: se leen sobre
+  cielo claro, toldos o noche.
+- Etiquetas pequeñas del HUD, de 6 a 7 px; las piezas de «La matrícula rota», de 7 a 8 px.
+- Diálogos y cinemáticas: las palabras ya no saltan de renglón mientras se escriben, y el
+  texto del narrador queda centrado en su caja.
+- En celular vertical, un consejo discreto: girar el celular agranda el juego.
+
+**Sin superposiciones**
+- Audiencia: la placa «Norma aplicada» sale justo encima de la declaración y ya no se
+  monta con el título ni con los letreros; el lema «AQUÍ SE HABLA, NO SE GRITA» pasa bajo
+  la ventana (el recibo de gastos lo tapaba y solo se leía «HABLA, GRITA»).
+- Las sacudidas de cámara volvieron a su tamaño (con la nueva resolución eran 9 veces más
+  fuertes y desplazaban el diálogo de la objeción).
+- Minijuegos: avisos de inicio, victoria y derrota ajustados a su texto; la burbuja de
+  «Escucha activa» ya no tapa la barra de tensión; los pedazos de la matrícula ya no se
+  montan entre sí ni estiran la letra al colocarlos.
+- La entrevista cubre el HUD del pueblo; el expediente indica cuántas entradas hay
+  y permite bajar o subir la lista con flechas tocables.
+- La gente del puerto ya no atraviesa puestos ni se para encima de otra persona al pasear.
+
+**Otros**
+- Ajustes: la dificultad «Normal» ya no dice «El explorador» (el trato es el que elijas).
+
 ## v0.1.1 — Controles en celular
 - En vertical, la consola muestra siempre la palanca y los botones. Antes se escondían
   en el menú, la selección de personaje, las cinemáticas y los diálogos, y la consola

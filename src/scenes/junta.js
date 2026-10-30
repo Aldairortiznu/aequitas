@@ -32,9 +32,10 @@ export function drawJunta(s) {
   g.fillStyle(0x9a5a3a, 0.8); g.fillRect(450, 36, 1, 10); g.fillRect(458, 34, 1, 13);
   // Marca de la Creciente en la pared: hasta aquí llegó el agua.
   g.fillStyle(0x000000, 0.18); g.fillRect(0, 118, 196, 3); g.fillRect(288, 118, WIDTH - 288, 3);
-  // Lema pintado a mano.
-  g.fillStyle(0xefe3c2, 0.95); g.fillRect(302, 56, 60, 24); g.lineStyle(1, 0x8a6034, 1); g.strokeRect(302, 56, 60, 24);
-  s.add.text(332, 68, 'AQUÍ SE HABLA,\nNO SE GRITA', { fontFamily: 'monospace', fontSize: '6px', color: '#a8302a', align: 'center' }).setOrigin(0.5).setDepth(1);
+  // Lema pintado a mano, bajo la ventana derecha: ahí no lo tapan los títulos,
+  // las normas ni los recibos que aparecen en el centro.
+  g.fillStyle(0xefe3c2, 0.95); g.fillRect(368, 86, 66, 24); g.lineStyle(1, 0x8a6034, 1); g.strokeRect(368, 86, 66, 24);
+  s.add.text(401, 98, 'AQUÍ SE HABLA,\nNO SE GRITA', { fontFamily: 'monospace', fontSize: '7px', color: '#a8302a', align: 'center' }).setOrigin(0.5).setDepth(1);
   // Un bombillo colgado de un cable que baja hasta una batería de carro.
   g.lineStyle(1, 0x2a2420, 1); g.lineBetween(120, 0, 128, 22); g.lineBetween(128, 0, 470, 4); g.lineBetween(470, 4, 470, 146);
   g.fillStyle(0xfff3c0, 1); g.fillCircle(128, 25, 3);

@@ -4,6 +4,7 @@
 //   ← →  personaje    ↑ ↓  trato    X / Enter  comenzar    Esc  volver
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { HEROES, TRATOS } from '../data/heroes.js';
 import { newSave, writeSave } from '../systems/save.js';
@@ -16,7 +17,7 @@ const CARD_H = 122;
 
 export default class CharacterScene extends Phaser.Scene {
   constructor() {
-    super('Character');
+    super({ key: 'Character', cameras: CAMERA });
   }
 
   init() {
@@ -43,6 +44,7 @@ export default class CharacterScene extends Phaser.Scene {
       gr.addColorStop(0, 'rgba(255,240,190,0.9)'); gr.addColorStop(1, 'rgba(255,240,190,0)');
       c.context.fillStyle = gr; c.context.fillRect(0, 0, 64, 64);
       c.refresh();
+      c.setFilter(Phaser.Textures.FilterMode.LINEAR);
     }
     this.cards = HEROES.map((h, i) => this.buildCard(h, i));
     this.buildInfo();

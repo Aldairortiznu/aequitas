@@ -52,8 +52,8 @@ export default {
     this.moveCursor(s, 0, 0);
     s.input.on('pointerdown', (p) => {
       if (!s.playing || s.ended) return;
-      const x = Math.floor((p.x - s.ox) / SZ);
-      const y = Math.floor((p.y - s.oy) / SZ);
+      const x = Math.floor((p.worldX - s.ox) / SZ);
+      const y = Math.floor((p.worldY - s.oy) / SZ);
       if (s.cells[x + ',' + y]) { s.cursor = { x, y }; this.moveCursor(s, 0, 0); this.turn(s, x, y); }
     });
     s.key(['LEFT', 'A'], () => this.moveCursor(s, -1, 0));

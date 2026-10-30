@@ -62,8 +62,8 @@ export default {
     s.timer(LINTERNA.seconds, () => s.lose('Se agotó la batería de Lumen. Recárgala al sol y vuelve a intentarlo.'));
     const items = s.save.items || {};
     s.say.setText(items.yuli || items.lucho ? 'Lumen: Yuli dijo que la escondieron detrás de las redes viejas...' : 'Lumen: Busca algo metálico. Una placa de motor brilla con la luz.');
-    s.input.on('pointerdown', (p) => { s.touch = { x: p.x, y: p.y }; this.tap(s, p.x, p.y); });
-    s.input.on('pointermove', (p) => { if (p.isDown) s.touch = { x: p.x, y: p.y }; });
+    s.input.on('pointerdown', (p) => { s.touch = { x: p.worldX, y: p.worldY }; this.tap(s, p.worldX, p.worldY); });
+    s.input.on('pointermove', (p) => { if (p.isDown) s.touch = { x: p.worldX, y: p.worldY }; });
     s.input.on('pointerup', () => { s.touch = null; });
     s.key(['X', 'E', 'SPACE', 'ENTER'], () => this.examine(s));
     s.nextRat = 3000;

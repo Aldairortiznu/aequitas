@@ -5,6 +5,7 @@
 //      this.scene.pause();
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { SPEAKERS } from '../data/speakers.js';
 import { fmt } from '../systems/text.js';
@@ -12,7 +13,7 @@ import { sfx } from '../systems/audio.js';
 
 export default class DialogueScene extends Phaser.Scene {
   constructor() {
-    super('Dialogue');
+    super({ key: 'Dialogue', cameras: CAMERA });
   }
 
   init(data) {
@@ -31,7 +32,7 @@ export default class DialogueScene extends Phaser.Scene {
 
     // Caja con borde.
     const g = this.add.graphics();
-    g.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.shadow).color, 0.92);
+    g.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.shadow).color, 0.98);
     g.fillRoundedRect(bx, by, bw, bh, 6);
     g.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.green).color, 1);
     g.strokeRoundedRect(bx, by, bw, bh, 6);
@@ -96,8 +97,9 @@ export default class DialogueScene extends Phaser.Scene {
       this.portraitBox.setVisible(true);
     }
 
-    // Máquina de escribir.
-    this.full = fmt(line.t);
+    // Máquina de escribir. El texto se corta en líneas antes de escribirlo, así
+    // ninguna palabra salta de renglón a mitad de camino.
+    this.full = this.bodyText.getWrappedText(fmt(line.t)).join('\n');
     if (line.sfx) sfx(line.sfx);
     // Efectos de la línea: una objeción sacude la caja, una revelación destella.
     if (line.fx === 'shake') { this.cameras.main.shake(220, 0.008); sfx('hit'); }

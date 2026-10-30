@@ -2,6 +2,7 @@
 // lo que falta), Pruebas, Testimonios y Códice (las cartas de ley ganadas).
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
 import { ITEMS, REQUIRED, TRUST } from '../data/ch1/items.js';
 import { CODEX, FAMILIES } from '../data/codex.js';
@@ -15,7 +16,7 @@ const TABS = ['Caso', 'Pruebas', 'Testimonios', 'Códice'];
 
 export default class CaseFileScene extends Phaser.Scene {
   constructor() {
-    super('CaseFile');
+    super({ key: 'CaseFile', cameras: CAMERA });
   }
 
   init(data) {
@@ -110,6 +111,18 @@ export default class CaseFileScene extends Phaser.Scene {
       if (fc) add(this.add.rectangle(22, y - 2, 3, 15, Phaser.Display.Color.HexStringToColor(fc).color).setOrigin(0));
       add(this.add.text(41, y + 5, e.name, { fontFamily: 'Georgia, serif', fontSize: '9px', color: on ? '#efe3c2' : '#2a2018' }).setOrigin(0, 0.5));
     });
+    // Si la lista no cabe, se dice qué parte se ve; las flechas (tocables) bajan o suben.
+    if (list.length > per) {
+      const y = 50 + per * 16 + 3;
+      const style = { fontFamily: 'monospace', fontSize: '8px', color: '#8a6034' };
+      add(this.add.text(120, y, `${start + 1}–${start + per} de ${list.length}`, style).setOrigin(0.5));
+      const arrow = (x, label, to, on) => {
+        const t = add(this.add.text(x, y, label, { ...style, fontSize: '10px', color: on ? '#8a6034' : '#d6c6a0' }).setOrigin(0.5));
+        if (on) { t.setInteractive({ useHandCursor: true }); t.on('pointerdown', () => { this.sel = to; this.render(); }); }
+      };
+      arrow(44, '▲', Math.max(0, start - 1), start > 0);
+      arrow(196, '▼', Math.min(list.length - 1, start + per), start + per < list.length);
+    }
     const e = list[this.sel];
     add(this.add.text(232, 52, e.name, { fontFamily: 'Georgia, serif', fontSize: '12px', color: '#5a3a20', wordWrap: { width: WIDTH - 262 } }));
     add(this.add.text(232, 74, e.desc, { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#2a2018', wordWrap: { width: WIDTH - 262 }, lineSpacing: 2 }));

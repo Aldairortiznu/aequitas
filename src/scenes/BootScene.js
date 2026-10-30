@@ -2,6 +2,7 @@
 // arte por código y pasa al menú.
 
 import Phaser from 'phaser';
+import { CAMERA } from '../systems/view.js';
 import { buildAequitasTextures, makePerson } from '../art/aequitasArt.js';
 import { PEOPLE } from '../data/speakers.js';
 import { HEROES, heroFor } from '../data/heroes.js';
@@ -12,7 +13,7 @@ import { setGender, setHeroName } from '../systems/text.js';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
-    super('Boot');
+    super({ key: 'Boot', cameras: CAMERA });
   }
 
   preload() {
@@ -25,6 +26,8 @@ export default class BootScene extends Phaser.Scene {
 
   create() {
     buildAequitasTextures(this);
+    // Brillos y viñeta son degradados: con el lienzo ampliado se ven mejor suaves.
+    ['p_soft', 'vignette'].forEach((k) => { if (this.textures.exists(k)) this.textures.get(k).setFilter(Phaser.Textures.FilterMode.LINEAR); });
     for (const [key, spec] of Object.entries(PEOPLE)) makePerson(this, key, spec, { walk: true });
     // Los cuatro enviados de la Biblioteca (para la pantalla de selección).
     for (const h of HEROES) makePerson(this, 'hero_' + h.id, h.spec, { walk: true });

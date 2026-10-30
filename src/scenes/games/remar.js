@@ -74,8 +74,8 @@ export default {
     s.timer(total, () => this.arrive(s));
     s.add.text(WIDTH / 2, 46, 'Puerto Garza', { fontFamily: 'monospace', fontSize: '7px', color: '#bfe0d8' }).setOrigin(0.5, 0).setDepth(31);
     s.nextSpawn = 600;
-    s.input.on('pointerdown', (p) => { s.touchX = p.x; });
-    s.input.on('pointermove', (p) => { if (p.isDown) s.touchX = p.x; });
+    s.input.on('pointerdown', (p) => { s.touchX = p.worldX; });
+    s.input.on('pointermove', (p) => { if (p.isDown) s.touchX = p.worldX; });
     s.input.on('pointerup', () => { s.touchX = null; });
     s.onUpdate((t, dt) => this.tick(s, dt));
   },
