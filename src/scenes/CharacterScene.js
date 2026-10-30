@@ -1,12 +1,12 @@
 // ¿QUIÉN VIAJA A PUERTO GARZA? Elige a tu personaje entre los cuatro enviados de
-// la Biblioteca (Tomás, Valeria, Río o Alex) y cómo quieres que te nombren
-// (Explorador, Exploradora o Exploradore). Cada quien trae un pequeño don.
-//   ← →  personaje    ↑ ↓  trato    X / Enter  comenzar    Esc  volver
+// la Biblioteca (Tomás, Valeria, Río o Alex). En el juego te llaman por tu nombre,
+// sin trato de género. Cada quien trae un pequeño don.
+//   ← →  personaje    X / Enter  comenzar    Esc  volver
 
 import Phaser from 'phaser';
 import { CAMERA } from '../systems/view.js';
 import { GAME, COLORS } from '../config.js';
-import { HEROES, TRATOS } from '../data/heroes.js';
+import { HEROES } from '../data/heroes.js';
 import { newSave, writeSave } from '../systems/save.js';
 import { startAudio, playTheme, sfx } from '../systems/audio.js';
 import { buildPlayer } from './BootScene.js';
@@ -22,7 +22,6 @@ export default class CharacterScene extends Phaser.Scene {
 
   init() {
     this.sel = 0;
-    this.trato = HEROES[0].trato;
     this.leaving = false;
   }
 
@@ -48,7 +47,6 @@ export default class CharacterScene extends Phaser.Scene {
     }
     this.cards = HEROES.map((h, i) => this.buildCard(h, i));
     this.buildInfo();
-    this.buildTrato();
     this.buildButtons();
     this.refresh(false);
 
@@ -57,8 +55,6 @@ export default class CharacterScene extends Phaser.Scene {
     kb.on('keydown-RIGHT', () => this.pick(this.sel + 1));
     kb.on('keydown-A', () => this.pick(this.sel - 1));
     kb.on('keydown-D', () => this.pick(this.sel + 1));
-    kb.on('keydown-UP', () => this.cycleTrato(-1));
-    kb.on('keydown-DOWN', () => this.cycleTrato(1));
     ['X', 'ENTER', 'SPACE', 'E'].forEach((k) => kb.on('keydown-' + k, () => this.start()));
     kb.on('keydown-ESC', () => this.back());
     startAudio().then(() => playTheme('biblioteca')).catch(() => {});
@@ -81,22 +77,9 @@ export default class CharacterScene extends Phaser.Scene {
 
   buildInfo() {
     const { WIDTH } = GAME;
-    this.add.rectangle(WIDTH / 2, 180, WIDTH - 20, 44, 0x0d1820, 0.92).setStrokeStyle(1, 0xe3b04b, 0.6);
-    this.bio = this.add.text(20, 161, '', { fontFamily: 'Georgia, serif', fontSize: '9px', color: COLORS.cream, wordWrap: { width: WIDTH - 40 }, lineSpacing: 1 });
-    this.perk = this.add.text(20, 190, '', { fontFamily: 'monospace', fontSize: '8px', color: '#9fd3cf' });
-  }
-
-  buildTrato() {
-    const { WIDTH } = GAME;
-    this.add.text(20, 214, 'Que me nombren:', { fontFamily: 'Georgia, serif', fontSize: '9px', color: COLORS.cream }).setOrigin(0, 0.5);
-    this.chips = TRATOS.map((t, i) => {
-      const x = 156 + i * 104;
-      const bg = this.add.rectangle(x, 214, 96, 17, 0x16303a, 0.95).setInteractive({ useHandCursor: true });
-      const label = this.add.text(x, 214, t.label, { fontFamily: 'Georgia, serif', fontSize: '9px', color: COLORS.cream }).setOrigin(0.5);
-      bg.on('pointerdown', () => { this.trato = t.k; sfx('select'); this.refresh(true); });
-      return { t, bg, label };
-    });
-    this.add.text(WIDTH - 12, 214, '↑ ↓', { fontFamily: 'monospace', fontSize: '7px', color: '#6f9a9f' }).setOrigin(1, 0.5);
+    this.add.rectangle(WIDTH / 2, 190, WIDTH - 20, 64, 0x0d1820, 0.95).setStrokeStyle(1, 0xe3b04b, 0.6);
+    this.bio = this.add.text(20, 164, '', { fontFamily: 'Georgia, serif', fontSize: '10px', color: COLORS.cream, wordWrap: { width: WIDTH - 40 }, lineSpacing: 2 });
+    this.perk = this.add.text(20, 205, '', { fontFamily: 'monospace', fontSize: '8px', color: '#9fd3cf' });
   }
 
   buildButtons() {
@@ -117,15 +100,6 @@ export default class CharacterScene extends Phaser.Scene {
     const n = Phaser.Math.Wrap(i, 0, HEROES.length);
     if (n === this.sel) return;
     this.sel = n;
-    this.trato = HEROES[n].trato; // cada quien trae su trato por defecto; se puede cambiar
-    sfx('select');
-    this.refresh(true);
-  }
-
-  cycleTrato(d) {
-    if (this.leaving) return;
-    const i = TRATOS.findIndex((t) => t.k === this.trato);
-    this.trato = TRATOS[Phaser.Math.Wrap(i + d, 0, TRATOS.length)].k;
     sfx('select');
     this.refresh(true);
   }
@@ -144,11 +118,6 @@ export default class CharacterScene extends Phaser.Scene {
     const h = HEROES[this.sel];
     this.bio.setText(h.bio);
     this.perk.setText(`Don · ${h.perk.name}: ${h.perk.desc}`);
-    this.chips.forEach((c) => {
-      const on = c.t.k === this.trato;
-      c.bg.setFillStyle(on ? 0x8a6034 : 0x16303a, 0.95).setStrokeStyle(on ? 2 : 1, on ? 0xffe070 : 0x3fa3a0, on ? 1 : 0.5);
-      c.label.setColor(on ? '#ffffff' : '#c9d2d8');
-    });
   }
 
   stepAnim() {
@@ -172,7 +141,7 @@ export default class CharacterScene extends Phaser.Scene {
     this.leaving = true;
     const h = HEROES[this.sel];
     sfx('confirm');
-    const save = newSave(this.trato, h.id);
+    const save = newSave(h.id);
     // Las dos primeras cartas llegan con la historia del comienzo.
     save.codex = { art116: true, art34: true };
     save.newCards = ['art116', 'art34'];

@@ -47,9 +47,9 @@ export const QUIZ = [
   { t: 'Un acuerdo de conciliación no sirve de nada si una parte se arrepiente.', a: false, why: 'El acta presta mérito ejecutivo y tiene carácter de cosa juzgada (Ley 2220 de 2022, art. 64).' },
   { t: 'Particulares y autoridades deben actuar de buena fe.', a: true, why: 'Lo manda la Constitución, que además presume la buena fe en las gestiones ante las autoridades (art. 83).' },
   { t: 'Quien por su culpa le causa un daño a otro debe indemnizarlo.', a: true, why: 'Es la responsabilidad civil extracontractual (C. C. art. 2341).' },
-  { t: 'El dueño de una cosa puede reclamarla a quien la tenga en su poder.', a: true, why: 'Es la acción reivindicatoria o de dominio (C. C. art. 946).' },
+  { t: 'El dueño de una cosa puede reclamarla a quien la posea.', a: true, why: 'Es la acción reivindicatoria o de dominio (C. C. art. 946).' },
   { t: 'Con siete años de posesión, sin ningún título, ya eres dueño.', a: false, why: 'Sin título, la prescripción extraordinaria exige 10 años (C. C. art. 2532).' },
-  { t: 'Las mejoras de lujo (voluptuarias) siempre se tienen que pagar.', a: false, why: 'No se pagan, aunque quien las hizo puede retirarlas si no daña la cosa (C. C. art. 967).' },
+  { t: 'Las mejoras de lujo (voluptuarias) siempre se tienen que pagar.', a: false, why: 'No se pagan: quien las hizo puede llevárselas si no daña la cosa y el dueño no quiere pagarlas (C. C. art. 967).' },
   { t: 'La ley puede crear jueces de paz que resuelvan conflictos en equidad.', a: true, why: 'Lo permite la Constitución (art. 247).' },
   { t: 'Una transacción puede evitar un pleito que todavía no ha empezado.', a: true, why: 'La transacción termina un litigio pendiente o precave uno eventual (C. C. art. 2469).' },
   { t: 'Quien poseía de buena fe debe devolver todo lo que la cosa le produjo.', a: false, why: 'No devuelve los frutos percibidos antes de contestar la demanda (C. C. art. 964).' },
@@ -59,7 +59,7 @@ export const QUIZ = [
 ];
 export const QUIZ_ROUNDS = 10;
 
-// ENSEÑAR: {el} {explorador} aplica una norma que ya aprendió y se la explica a
+// ENSEÑAR: quien juega aplica una norma que ya aprendió y se la explica a
 // la gente con palabras sencillas. Paso 1: ¿qué carta del Códice aplica?
 // Paso 2: ¿cómo lo explicas? Si la entienden, la adoptan y el puerto recupera
 // orden. left/right: quienes están en el lío.
@@ -84,7 +84,7 @@ export const TEACH = {
     q: '¿Qué le explicas a Nando?',
     options: [
       { t: 'El muelle es de quien lo vigila: si el Puño lo cuida, puede cobrar.', ok: false, fb: 'No: los bienes de uso público son de todos y nadie se los puede apropiar (C. C., art. 674).' },
-      { t: 'El muelle es de uso público: su uso es de todos y nadie puede cobrar por él. Por eso lo cuidamos entre todos.', ok: true, fb: 'Los bienes de uso público pertenecen a la Nación y su uso es de todos los habitantes (C. C., art. 674).' },
+      { t: 'El muelle es de uso público: es de todos, y nadie se lo puede apropiar ni cobrar por su cuenta. Por eso lo cuidamos entre todos.', ok: true, fb: 'Los bienes de uso público pertenecen a la Nación y su uso es de todos los habitantes (C. C., art. 674).' },
       { t: 'Es del que llegue primero cada mañana.', ok: false, fb: 'Tampoco: su uso pertenece a todos los habitantes, no al más madrugador (C. C., art. 674).' },
     ],
   },
@@ -182,3 +182,68 @@ export const MATRICULA = {
 
 // "Remar a Puerto Garza": esquivar troncos y recoger páginas que flotan.
 export const REMAR = { seconds: 38, lives: 3 };
+
+// EL TABLERO DE LA JUNTA: el silogismo jurídico. Cada caso son unos hechos; quien
+// juega elige la norma que aplica y luego la conclusión que se sigue de ambas.
+// norm: [fuente, título]. Las normas de los otros casos sirven de distractores.
+export const SILOGISMO = {
+  rounds: 4,
+  cases: [
+    {
+      hechos: 'La cabra de Don Efraín se metió al cultivo de yuca de la vecina y se comió media cosecha.',
+      norm: ['Código Civil, art. 2353', 'El dueño de un animal responde por sus daños'],
+      ok: 'Don Efraín debe reparar el daño a la vecina.',
+      bad: ['La vecina se queda con la cabra como pago.', 'Nadie responde: los animales andan libres.'],
+    },
+    {
+      hechos: 'Unos hombres cerraron con alambre el camino que lleva al muelle y cobran por pasar.',
+      norm: ['Código Civil, art. 674', 'Calles, plazas, puentes y caminos son de uso público'],
+      ok: 'Nadie puede apropiarse del camino ni cobrar por su cuenta: su uso es de todos.',
+      bad: ['Como lo cerraron primero, ahora es de ellos.', 'Pueden cobrar si la mayoría no se queja.'],
+    },
+    {
+      hechos: 'La asamblea quiere expulsar del pueblo a un muchacho que se llevó un racimo de plátanos.',
+      norm: ['Constitución, art. 24', 'Toda persona puede circular y quedarse a vivir donde quiera'],
+      ok: 'Una asamblea no puede echarlo ni imponerle penas; sí puede buscar que repare lo que tomó.',
+      bad: ['Pueden expulsarlo si lo vota la mayoría.', 'Pueden quitarle su casa como castigo.'],
+    },
+    {
+      hechos: 'Al repartir las semillas, la Junta quiere darles menos a las familias que llegaron desplazadas por la guerra.',
+      norm: ['Constitución, art. 13', 'Igualdad ante la ley y protección a quien está en desventaja'],
+      ok: 'Deben recibir el mismo trato, y si están en desventaja, una protección especial.',
+      bad: ['Llegaron después, así que les toca menos.', 'La Junta reparte como quiera: es su decisión.'],
+    },
+    {
+      hechos: 'Un vendedor entregó ocho kilos de arroz, aunque cobró diez: su balanza marcaba de más.',
+      norm: ['Código Civil, art. 1603', 'Los contratos se cumplen de buena fe'],
+      ok: 'Debe entregar lo que falta y arreglar la balanza.',
+      bad: ['No debe nada: él no quiso engañar.', 'El comprador pierde por no revisar.'],
+    },
+    {
+      hechos: 'La Junta decidió quitarle el puesto en el mercado a una vendedora sin dejarla explicar su versión.',
+      norm: ['Constitución, art. 29', 'Debido proceso: nadie es juzgado sin ser escuchado'],
+      ok: 'Antes de decidir, hay que escucharla y revisar las pruebas.',
+      bad: ['Si la mayoría ya decidió, no hace falta escucharla.', 'Solo se escucha a quien tiene abogado.'],
+    },
+    {
+      hechos: 'Dos pescadores discuten por un puesto en el muelle y uno propone arreglarlo a los golpes.',
+      norm: ['Constitución, art. 22', 'La paz es un derecho y un deber'],
+      ok: 'Deben buscar una salida pacífica: dialogar o ir a la Junta a conciliar.',
+      bad: ['Que gane el más fuerte; así ha sido siempre.', 'Que se aparten los dos del muelle para siempre.'],
+    },
+  ],
+};
+
+// ARMA LA NORMA: casi todo artículo tiene dos mitades. El supuesto de hecho
+// («si pasa esto...») y la consecuencia jurídica («...entonces esto»).
+export const NORMAS = {
+  rounds: 4,
+  pairs: [
+    { si: 'Si tu animal le causa un daño a alguien...', entonces: '...respondes tú por ese daño.', ley: 'C. C., art. 2353' },
+    { si: 'Si por tu culpa le causas un daño a otra persona...', entonces: '...debes indemnizarla.', ley: 'C. C., art. 2341' },
+    { si: 'Si firmas un contrato válido...', entonces: '...es ley para las partes y te obliga.', ley: 'C. C., art. 1602' },
+    { si: 'Si encuentras algo que parece perdido...', entonces: '...debes ponerlo a disposición de su dueño o de la autoridad.', ley: 'C. C., arts. 704 y 705' },
+    { si: 'Si alguien comete una falta en el pueblo...', entonces: '...la asamblea no puede echarlo: puede vivir donde quiera.', ley: 'Const., art. 24' },
+    { si: 'Si una decisión va a afectarte...', entonces: '...tienes derecho a ser escuchado antes.', ley: 'Const., art. 29' },
+  ],
+};

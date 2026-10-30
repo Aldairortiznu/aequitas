@@ -59,14 +59,14 @@ export const CINEMATICS = {
     lines: [
       Nar('Puerto Garza: palafitos remendados, techos de zinc con cicatrices y un río tan ancho que parece mar.'),
       Nar('En la isleta sigue en pie el campanario de la iglesia vieja, partido por la guerra. Más allá, un bus quedó a medias en el río, donde antes había un puente.'),
-      R('¿Y ahora quién llegó? ¡Otr{o} foraster{o}!', 'shake'),
+      R('¿Y ahora quién llegó? ¡Más gente de afuera!', 'shake'),
       R('Aquí manda el Puño. El muelle, el puente y la lancha: todo pasa por nosotros. Y el que pasa, paga peaje.'),
-      F('¡Ramiro, compórtese! Viene de la Biblioteca. L{o} llamamos nosotros.'),
+      F('¡Ramiro, compórtese! Viene de la Biblioteca. Nosotros le escribimos.'),
       R('Pues aquí las cosas se arreglan como se arreglan. Y esa lancha no sale del puerto.'),
       Nar('Ramiro se va escupiendo al agua. Nadie en el muelle se atreve a mirarlo a los ojos.'),
       F('Desde la guerra, ellos cobran y gritan... y la gente calla. Aquí ya se vivió demasiado miedo; la Junta casi ni se reúne.'),
-      F('Bienvenid{o}. Cuando esté list{o}, búsqueme en la plaza de la Junta. Tenemos mucho de qué hablar.'),
-      L('Primer consejo de campo: la ley protege también a quien grita. Nadie puede ser desterrado ni despojado a la fuerza.'),
+      F('Le damos la bienvenida, {nombre}. Cuando quiera, búsqueme en la plaza de la Junta. Tenemos mucho de qué hablar.'),
+      L('Primer consejo de campo: la ley protege también a quien grita. A nadie se le puede echar del pueblo ni despojar a la fuerza.'),
     ],
   },
   epilogo: {
@@ -80,7 +80,7 @@ export const CINEMATICS = {
       A('Muchacho... ¿sabes manejar ese motor rojo?'),
       J('Mejor que nadie, Don Aurelio. Y perdón... por lo de la placa.'),
       A('Perdonado. Ahora vamos, que hay mucho río por delante.', 'heart'),
-      Ca('Gracias, {Explorador}. Nadie ganó todo... pero nadie perdió todo. Y el puerto sigue comiendo.'),
+      Ca('Gracias, {nombre}. Nadie ganó todo... pero nadie perdió todo. Y el puerto sigue comiendo.'),
       L('Así se ve el equilibrio: no es que todos ganen lo mismo. Es que todos puedan seguir.'),
       R('...La próxima vez que haya un lío, primero la Junta. Y si no funciona... pues también la Junta.'),
       Nar('Esa noche, por primera vez desde la guerra, la Junta se reunió con las puertas abiertas. Mamá Tule cantó un bullerengue, y nadie tuvo miedo de cantar con ella.'),
@@ -99,7 +99,7 @@ export const CINEMATICS = {
       A('Señora Carmen: aquí está lo de las reparaciones, completo. Gracias por cuidarla.'),
       J('Don Aurelio... perdón por lo de la placa.'),
       A('Perdonado, muchacho. Cuídate.'),
-      Ca('Gracias, {Explorador}. Fue justo... aunque el muelle quedó muy vacío. ¿Ahora con qué pescamos?'),
+      Ca('Gracias, {nombre}. Fue justo... aunque el muelle quedó muy vacío. ¿Ahora con qué pescamos?'),
       L('Fue legal y nadie salió herido. Pero a veces la ley deja espacio para algo más: un acuerdo en el que todos puedan seguir.'),
       R('...Bueno. Al menos ahora el lío se arregla en la Junta y no en el muelle.'),
       Nar('En Puerto Garza, la palabra volvió a pesar más que el puño.', 'flash'),
@@ -126,7 +126,7 @@ export const EVENTS = {
     J('¡Váyase, señor! ¡Esa lancha es nuestra!'),
     A('¡Es mía, muchacho! ¡Tiene el nombre de mi madre debajo de esa pintura!'),
     Ca('¡Julián, cálmate! ...Señor, nosotros no robamos nada.'),
-    J('¿Y usted qué mira, foraster{o}?'),
+    J('¿Y usted qué mira?'),
     P('Tinto se sienta en medio de los dos, muy quieto. Poco a poco, todos bajan la voz.'),
     L('Tinto acaba de declarar un receso. Hablemos con cada uno, por turnos. Así empieza la justicia: escuchando.'),
   ],
@@ -201,13 +201,28 @@ export const WINS = {
     lines: [
       P('Detrás de las redes viejas algo brilla: una placa metálica. «MR-4471-R».'),
       L('Coincide con la matrícula. Y la escondieron hace poco: no tiene ni polvo.'),
-      L('Otra cosa: cuando aparece el dueño de algo perdido, se le devuelve... pagando lo que costó recogerlo y conservarlo.'),
+      L('Otra cosa: cuando aparece el dueño de algo perdido, se le devuelve... pagando lo que costó recogerlo y conservarlo, y lo que la ley reconozca a quien lo encontró.'),
     ],
     give: ['i:placa_motor', 'c:hallazgo'],
   },
   quiz: {
     lines: [U('¡Bien jugado! Cada respuesta es una herramienta más para tu viaje.')],
     give: ['c:art229', 'c:art247'],
+  },
+  // Práctica de razonamiento jurídico (se puede repetir).
+  silogismo: {
+    lines: [
+      L('Hechos, norma y conclusión. Cuando uno de los tres falla, la decisión falla. Por eso en la audiencia preguntamos y probamos.'),
+      L('Y una norma nueva para el Códice: la paz no es solo un derecho; también es un deber de cada persona.'),
+    ],
+    give: ['c:art22'],
+  },
+  norma: {
+    lines: [
+      { s: 'yuli', t: '¡Ya sé leerlas! Primero el «si», y después el «entonces».' },
+      L('Supuesto de hecho y consecuencia jurídica. Con eso, Yuli, ya puedes leer casi cualquier artículo.'),
+    ],
+    give: ['c:art2341'],
   },
   // Enseñanzas: la gente adopta la norma y el puerto cambia.
   teach_perro: {

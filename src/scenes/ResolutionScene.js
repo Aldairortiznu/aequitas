@@ -1,4 +1,4 @@
-// EL ACUERDO: después de la audiencia, {el} {explorador} propone la solución.
+// EL ACUERDO: después de la audiencia, quien juega propone la solución.
 //   1. Cuatro decisiones (dueño, gastos, futuro de la lancha, Julián). Lo ilegal
 //      no se puede mantener; lo "regular" sí, pero el acuerdo queda más débil.
 //   2. Los recibos: cada gasto a su caja (necesario, útil o de lujo).

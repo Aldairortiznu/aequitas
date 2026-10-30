@@ -12,7 +12,6 @@ import { getSave, writeSave } from '../systems/save.js';
 import { orderValue, orderLevel, LEVELS } from '../systems/order.js';
 import { startAudio, playTheme, sfx } from '../systems/audio.js';
 import { vibrate } from '../systems/haptics.js';
-import { trato } from '../systems/text.js';
 
 const SEALS = [
   { k: 'legalidad', name: 'LEGALIDAD', icon: 'ic_law', yes: 'Tu propuesta se ajustó a la ley desde el primer intento.', no: 'Pista: decide con las pruebas y el Códice, a la primera.' },
@@ -125,8 +124,7 @@ export default class CaseClosedScene extends Phaser.Scene {
   }
 
   rankName(n) {
-    const who = trato('Conciliador', 'Conciliadora', 'Conciliadore');
-    return n >= 3 ? `${who} de Oro` : n === 2 ? `${who} de Plata` : n === 1 ? `${who} de Bronce` : `Aprendiz de ${who.toLowerCase()}`;
+    return n >= 3 ? 'Conciliación de Oro' : n === 2 ? 'Conciliación de Plata' : n === 1 ? 'Conciliación de Bronce' : 'Primeros pasos en conciliación';
   }
 
   buildResultPage() {

@@ -1,4 +1,4 @@
-// ENSEÑAR: {el} {explorador} ayuda a dos vecinos a resolver su lío con una norma
+// ENSEÑAR: quien juega ayuda a dos vecinos a resolver su lío con una norma
 // que ya aprendió. Paso 1 (aplicar): ¿qué carta del Códice sirve aquí? Paso 2
 // (enseñar): ¿cómo se lo explicas con palabras sencillas? Si lo entienden, lo
 // adoptan, y el puerto recupera un poco de orden.

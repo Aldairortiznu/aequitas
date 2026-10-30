@@ -1,6 +1,6 @@
 // Voces de AEQUITAS. Cada línea de diálogo es { s: clave, t: texto }.
 // portrait: textura que se muestra en el diálogo y en las cinemáticas.
-// Los textos admiten {Explorador}, {o}, {el}/{El} y {nombre} (ver systems/text.js).
+// Los textos admiten {nombre} (ver systems/text.js). Sin trato de género.
 //
 // ESTILO: español de Colombia, trato de "tú" entre personajes cercanos y
 // "usted" de la gente mayor del puerto; toques caribeños ("ajá", "mija",

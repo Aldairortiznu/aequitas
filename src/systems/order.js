@@ -1,7 +1,7 @@
 // EQUILIBRIO DEL PUERTO: cuánto orden ha recuperado la comunidad.
 //
 // La lógica del juego: todo empieza en el caos y la tiranía (manda el Puño,
-// cobran peaje, la Junta casi no se reúne). Cada vez que {el} {explorador}
+// cobran peaje, la Junta casi no se reúne). Cada vez que quien juega
 // aprende una norma, la aplica para resolver un conflicto o se la enseña a la
 // gente —y la gente la adopta—, el puerto recupera un poco de orden. Se nota en
 // el mapa: vuelve el color, desaparecen los grafitis y la basura del Puño,

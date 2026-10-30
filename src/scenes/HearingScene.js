@@ -1,5 +1,5 @@
 // LA AUDIENCIA: investigación dialéctica en la Casa de la Junta.
-// Cada parte declara; {el} {explorador} recorre las frases (◀ ▶), pregunta (E) y
+// Cada parte declara; quien juega recorre las frases (◀ ▶), pregunta (E) y
 // presenta pruebas, testimonios o cartas del Códice (X) cuando una frase no
 // cuadra. Aciertos: ¡OBJECIÓN!, el público celebra y la balanza se equilibra.
 // Errores: la asamblea pierde confianza (♥). Lumen da pistas (B) y Tinto
@@ -60,7 +60,7 @@ export default class HearingScene extends Phaser.Scene {
     // La balanza empieza inclinada: el conflicto pesa más de un lado.
     this.balance = buildBalance(this);
     this.balance.set(-18, false);
-    // Estrados: el testigo a la izquierda, {el} {explorador} a la derecha.
+    // Estrados: el testigo a la izquierda, quien juega a la derecha.
     const pod = this.add.graphics().setDepth(9);
     pod.fillStyle(0x4a2e18, 1); pod.fillRect(36, 170, 76, 18); pod.fillRect(370, 170, 76, 18);
     pod.fillStyle(0x5a3a20, 1); pod.fillRect(36, 170, 76, 3); pod.fillRect(370, 170, 76, 3);

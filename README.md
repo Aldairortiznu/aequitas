@@ -18,11 +18,12 @@ Códice cita su norma, pero el juego no es asesoría jurídica.
 ## Capítulo 1 · Puerto Garza — *La lancha de la discordia*
 Dos familias se disputan la única lancha del puerto y "El Puño" quiere arreglarlo a golpes.
 - **Elige a quien viaja:** Tomás, Valeria, Río o Alex (hombre, mujer y dos personajes
-  andróginos), con su historia y un don. Eliges también el trato: *Explorador*,
-  *Exploradora* o *Exploradore*.
+  andróginos), con su historia y un don. Nadie elige género: en el pueblo te llaman
+  por tu nombre.
 - **Gánate la confianza** resolviendo los líos del puerto (minijuegos de escucha activa,
-  balanza, circuito solar…).
-- **Investiga:** testimonios, pruebas y cartas del Códice (27 normas reales).
+  balanza, circuito solar…) y aprende a razonar como abogado en el tablero de la
+  Junta (hechos + norma = conclusión) y con Yuli (si pasa esto… entonces la ley dice esto).
+- **Investiga:** testimonios, pruebas y cartas del Códice (29 normas reales).
 - **Enseña** lo aprendido a la gente (4 enseñanzas): así se recupera el orden.
 - **Audiencia:** contrainterroga, objeta con pruebas o normas; la balanza se equilibra.
 - **Acuerdo y acta:** decide, clasifica gastos (necesarios, útiles, voluptuarios),
@@ -57,7 +58,7 @@ __aeq.save()   // la partida en memoria
 - `src/data/` — contenido: `heroes.js` (personajes), `codex.js` (normas), `speakers.js`
   (voces y aspecto) y `ch1/` (mapa, diálogos, pruebas, audiencia, minijuegos, guion).
 - `src/systems/` — guardado, historia (condiciones y objetivos), **orden** (equilibrio
-  del puerto), texto con trato, audio generativo, ajustes.
+  del puerto), texto con el nombre del personaje, audio generativo, ajustes.
 - `src/scenes/` — Menú, Personaje, Pueblo, Audiencia, Acuerdo, Cierre, Cinemáticas,
   Minijuegos (`games/`), Expediente, Diálogo, Cartas…
 - `src/art/aequitasArt.js` — todo el arte dibujado por código.

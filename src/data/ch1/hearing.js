@@ -25,7 +25,7 @@ export const HEARING = {
   intro: [
     Nar('Casa de la Junta. Todo el puerto se apretuja en las bancas. Afuera, hasta las garzas parecen escuchar.'),
     F('Se abre la audiencia de conciliación de Puerto Garza. Aquí se habla, no se grita.'),
-    F('Cada parte dirá su verdad. {El} {explorador} podrá preguntar y presentar pruebas. Nadie será juzgado sin ser escuchado.'),
+    F('Cada parte dirá su verdad. {nombre}, de la Biblioteca, podrá preguntar y presentar pruebas. Nadie será juzgado sin ser escuchado.'),
     L('Así funciona: si una frase no cuadra, pregunta (E) o presenta una prueba o una carta del Códice (X). Cambia de frase con ◀ ▶.'),
     L('Si te equivocas, la asamblea pierde confianza (♥). Si te atascas, pídeme una pista (B). Y Tinto puede calmar a la gente (C).'),
   ],
@@ -44,7 +44,7 @@ export const HEARING = {
           hint: 'Julián dice que la lancha "era de nadie". ¿Qué descubriste en el casco? ¿Qué dice el Códice sobre la ocupación?',
         },
         {
-          t: 'Mi mamá la anotó en el libro de la Junta y la cuidó para su dueño.',
+          t: 'Mi mamá la anotó en el libro de la Junta y avisó que la guardaba para su dueño.',
           press: [Ca('Es verdad. Lo anoté yo misma, con mi letra.'), L('Esto es cierto, y habla bien de ellos: es buena fe. No todo lo que dice un testigo es falso.')],
           answer: null,
         },
@@ -53,7 +53,7 @@ export const HEARING = {
           press: [E('¿Qué dice exactamente la ley sobre el tiempo?'), J('¡Que si uno tiene algo mucho tiempo, ya es de uno! Todo el mundo lo sabe.'), L('"Todo el mundo lo sabe" no es una norma. Busca la carta de la prescripción.')],
           answer: ['prescripcion'],
           law: 'prescripcion',
-          ok: [E('¡Objeción! Sin un título, para volverse dueño por el tiempo se necesitan diez años de posesión. Ustedes llevan siete.', 'shake'), L('Encontrar una lancha no es un título, como sí lo sería una compraventa. Siete años no bastan.'), J('¿Diez? ¿Diez años? ...Nadie me había dicho eso.')],
+          ok: [E('¡Objeción! Sin un título, para volverse dueño por el tiempo se necesitan diez años de posesión. Ustedes llevan siete.', 'shake'), L('Encontrar una lancha no es un título, como sí lo sería una compraventa. Siete años no bastan.'), J('¿Diez? ¿Diez años? ...Nadie me había dicho eso.'), L('Y algo más: quien guarda una cosa para su dueño no la posee como dueño. Esa espera es buena fe, no un camino para quedarse con ella.')],
           hint: 'Julián cree que siete años bastan. ¿Cuánto tiempo exige la ley cuando no hay título?',
         },
         {
@@ -66,7 +66,7 @@ export const HEARING = {
         },
       ],
       outro: [F('Gracias, Julián. Siéntese. Don Aurelio, tiene usted la palabra.')],
-      wrong: [J('¿Y eso qué tiene que ver? ¡No me confunda!'), J('¡Eso no prueba nada, foraster{o}!')],
+      wrong: [J('¿Y eso qué tiene que ver? ¡No me confunda!'), J('¡Eso no prueba nada!')],
     },
     {
       who: 'aurelio',
@@ -91,7 +91,7 @@ export const HEARING = {
           press: [E('¿Cobrarle a quien la cuidó de buena fe?'), A('¡Ganaron plata con mi lancha! Lo justo es que paguen.'), L('Hay una carta sobre lo que produce una cosa en manos de quien la tiene de buena fe...')],
           answer: ['frutos', 'buena_fe'],
           law: 'frutos',
-          ok: [E('¡Objeción! Los Ortega la tuvieron de buena fe: la anotaron y esperaron al dueño. Lo que produjo en ese tiempo no se vuelve deuda.', 'shake'), L('Quien posee de buena fe no tiene que devolver los frutos obtenidos antes de que se le reclamara la cosa.'), A('...Está bien. No voy a cobrar lo que el río me quitó.')],
+          ok: [E('¡Objeción! Los Ortega la tuvieron de buena fe: la anotaron y esperaron al dueño. Lo que produjo en ese tiempo no se vuelve deuda.', 'shake'), L('Quien posee de buena fe no devuelve los frutos que obtuvo antes de contestar la demanda del dueño. Y aquí no hubo ni demanda.'), A('...Está bien. No voy a cobrar lo que el río me quitó.')],
           hint: '¿Debe devolver lo producido quien poseía de buena fe? Busca la carta de los frutos.',
         },
         {
@@ -120,11 +120,11 @@ export const HEARING = {
           hint: '¿Puede una asamblea quitarle a alguien sus bienes? Busca en la Constitución.',
         },
         {
-          t: 'Y al foraster{o} lo montamos en una canoa río abajo esta misma noche.',
+          t: 'Y a ese señor de río arriba lo montamos en una canoa esta misma noche.',
           press: [E('¿Echarlo del pueblo? ¿Por reclamar lo que es suyo?'), R('¡Para que aprenda!'), L('Hay una palabra para eso en la Constitución. Y está prohibida.')],
           answer: ['art34'],
           law: 'art34',
-          ok: [E('¡Objeción! El destierro está prohibido. Nadie puede ser expulsado de un lugar como castigo.', 'shake'), As('¡Bien dicho!')],
+          ok: [E('¡Objeción! El destierro está prohibido, y una asamblea no puede castigar a nadie: echarlo del pueblo viola su derecho a vivir donde quiera.', 'shake'), L('Constitución, artículos 24 y 34.'), As('¡Bien dicho!')],
           hint: 'Ramiro quiere expulsar a Aurelio. ¿Qué pena prohíbe la Constitución?',
         },
         {
@@ -136,7 +136,7 @@ export const HEARING = {
           hint: '¿Hay alguna prueba de que en este puerto los problemas se pueden arreglar hablando?',
         },
       ],
-      outro: [F('Muy bien. Ya escuchamos a todos y vimos las pruebas.'), F('{Explorador}, usted que conoce el Códice: ¿qué acuerdo propone?')],
+      outro: [F('Muy bien. Ya escuchamos a todos y vimos las pruebas.'), F('{nombre}, usted que conoce el Códice: ¿qué acuerdo propone?')],
       wrong: [R('¡Ja! ¿Eso es todo lo que tiene la Biblioteca?'), R('¡Palabras, palabras! ¡Eso no me convence!')],
     },
   ],
@@ -146,7 +146,7 @@ export const HEARING = {
 // Propuesta de acuerdo: cuatro decisiones. 'bad' no se puede mantener (hay que
 // elegir otra vez); 'meh' se puede mantener, pero el acuerdo queda más débil.
 export const RESOLUTION = {
-  intro: [F('Proponga, {explorador}. La asamblea escucha.')],
+  intro: [F('Proponga, {nombre}. La asamblea escucha.')],
   points: [
     {
       q: '¿De quién es la lancha?',
@@ -177,7 +177,7 @@ export const RESOLUTION = {
       options: [
         { t: 'Que se vaya del puerto.', v: 'bad', fb: 'Eso sería destierro, y está prohibido (Const., art. 34).' },
         { t: 'Mejor no decir nada y olvidarlo.', v: 'meh', fb: 'Olvidarlo deja la herida abierta. La confianza se repara reconociendo el error.' },
-        { t: 'Que devuelva la placa, pida perdón y repare: trabajará como lanchero de Don Aurelio.', v: 'ok', fb: 'Reparar el daño y reconstruir la confianza: justicia que sana (Ley 446 de 1998, art. 16).', clause: 'REPARACION', card: 'reparacion' },
+        { t: 'Que devuelva la placa, pida perdón y repare: trabajará como lanchero de Don Aurelio.', v: 'ok', fb: 'Reparar el daño, sin castigos de más, y reconstruir la confianza: justicia que sana.', clause: 'REPARACION', card: 'reparacion' },
       ],
     },
   ],
@@ -189,7 +189,7 @@ export const GASTOS = {
   bins: [
     { k: 'nec', label: 'Necesaria', sub: 'se paga · C. C. art. 965', color: '#8fd694' },
     { k: 'util', label: 'Útil', sub: 'se paga si hubo buena fe · art. 966', color: '#6fc3d8' },
-    { k: 'lujo', label: 'Voluptuaria', sub: 'de lujo: no se paga, se retira · art. 967', color: '#e8a9c0' },
+    { k: 'lujo', label: 'Voluptuaria', sub: 'de lujo: no se paga · se puede retirar · art. 967', color: '#e8a9c0' },
   ],
   items: [
     { t: 'Pistón y empaques del motor', v: 120, k: 'nec', why: 'Sin motor, la lancha no navega: es un gasto necesario para conservarla (C. C., art. 965).' },
@@ -197,7 +197,7 @@ export const GASTOS = {
     { t: 'Pintura anticorrosiva', v: 40, k: 'nec', why: 'Protege el casco del óxido: conserva la cosa. Necesaria (C. C., art. 965).' },
     { t: 'Toldo nuevo contra el sol', v: 60, k: 'util', why: 'No es indispensable, pero aumenta el valor de la lancha: mejora útil, que se paga al poseedor de buena fe (C. C., art. 966).' },
     { t: 'Banderines y calcomanías', v: 15, k: 'lujo', why: 'Es adorno: mejora voluptuaria. No se paga, pero quien la puso se la puede llevar si no daña la lancha (C. C., art. 967).' },
-    { t: 'Parlante para la música', v: 45, k: 'lujo', why: 'Es gusto, no necesidad: mejora voluptuaria. No se paga, y Julián se lo puede llevar (C. C., art. 967).' },
+    { t: 'Parlante para la música', v: 45, k: 'lujo', why: 'Es gusto, no necesidad: mejora voluptuaria. No se paga; si Aurelio no lo quiere pagar, Julián se lo puede llevar (C. C., art. 967).' },
   ],
 };
 
@@ -205,7 +205,7 @@ export const GASTOS = {
 export const ACTA = {
   title: 'ACTA DE CONCILIACIÓN EN EQUIDAD N.º 001 · PUERTO GARZA',
   clauses: {
-    PARTES: { k: 'PARTES', t: 'Aurelio Mendoza Pacheco, propietario, y la familia Ortega, poseedores de buena fe, ante la Junta de Acción Comunal.' },
+    PARTES: { k: 'PARTES', t: 'Aurelio Mendoza Pacheco, propietario, y la familia Ortega, que tuvo la lancha de buena fe, ante la Junta de Acción Comunal.' },
     HECHOS: { k: 'HECHOS', t: 'La lancha Niña Mercedes se perdió cuando la guerra llegó a Puerto Alcaraván. Los Ortega la hallaron, la anotaron en el libro de la Junta y la repararon.' },
     DOMINIO: { k: 'DOMINIO', t: 'Se reconoce que la lancha es de Aurelio Mendoza Pacheco.' },
     MEJORAS: { k: 'MEJORAS', t: 'Aurelio reconoce a los Ortega {MONTO} fichas por gastos necesarios y mejoras útiles. El parlante y los banderines se los quedan ellos.', blank: { key: 'MONTO', options: [240, 300, 360] } },

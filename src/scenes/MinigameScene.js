@@ -23,8 +23,10 @@ import raspar from './games/raspar.js';
 import matricula from './games/matricula.js';
 import quiz from './games/quiz.js';
 import ensenar from './games/ensenar.js';
+import silogismo from './games/silogismo.js';
+import norma from './games/norma.js';
 
-export const GAMES = { remar, escucha, peso, circuito, linterna, raspar, matricula, quiz, ensenar };
+export const GAMES = { remar, escucha, peso, circuito, linterna, raspar, matricula, quiz, ensenar, silogismo, norma };
 
 export default class MinigameScene extends Phaser.Scene {
   constructor() {

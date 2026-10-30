@@ -1,6 +1,5 @@
 // Los cuatro enviados de la Biblioteca Experimental. Cada quien tiene su aspecto,
-// su historia y un pequeño don. El trato —cómo le nombra la gente: Explorador,
-// Exploradora o Exploradore— se elige aparte en la pantalla de selección.
+// su historia y un pequeño don. En el juego se les llama por su nombre.
 //
 // spec: apariencia para makePerson (ver drawPerson en art/aequitasArt.js).
 // perk: hearts (+♥ en la audiencia), hints (+pistas), calm (calmas de Tinto por
@@ -10,7 +9,6 @@ export const HEROES = [
   {
     id: 'tomas',
     name: 'Tomás',
-    trato: 'm',
     tag: 'Pescador de la Ciénaga del Silencio',
     bio: 'Aprendió a leer en la Biblioteca y desde entonces no suelta un libro. Remienda redes, remienda canoas... y ahora, acuerdos. Paciente como el río.',
     perk: { name: 'Paciencia', desc: '+1 ♥ de confianza en la audiencia', hearts: 1 },
@@ -19,7 +17,6 @@ export const HEROES = [
   {
     id: 'valeria',
     name: 'Valeria',
-    trato: 'f',
     tag: 'Radioaficionada de Bahía Ceniza',
     bio: 'Arma radios con chatarra y capta voces de pueblos que nadie más oye. Escucha hasta lo que la gente no dice.',
     perk: { name: 'Buena señal', desc: '+1 pista de Lumen en la audiencia', hints: 1 },
@@ -28,7 +25,6 @@ export const HEROES = [
   {
     id: 'rio',
     name: 'Río',
-    trato: 'n',
     tag: 'Guía de balsas del delta',
     bio: 'Creció en una balsa, entre pueblos que la guerra dejó vacíos. Habla poco, lo observa todo, y Tinto no se le despega.',
     perk: { name: 'Amistad con Tinto', desc: 'Tinto calma a la asamblea 2 veces por declaración', calm: 2 },
@@ -37,7 +33,6 @@ export const HEROES = [
   {
     id: 'alex',
     name: 'Alex',
-    trato: 'n',
     tag: 'Artista de mapas',
     bio: 'Dibuja los mapas del país nuevo: lo que la guerra borró y lo que la paz está levantando. Conoce todos los atajos.',
     perk: { name: 'Atajos', desc: 'Caminas más rápido por el puerto', speed: 1.2 },
@@ -45,11 +40,6 @@ export const HEROES = [
   },
 ];
 
-export const TRATOS = [
-  { k: 'm', label: 'Explorador' },
-  { k: 'f', label: 'Exploradora' },
-  { k: 'n', label: 'Exploradore' },
-];
 
 export function getHero(id) {
   return HEROES.find((h) => h.id === id) || null;
@@ -57,5 +47,5 @@ export function getHero(id) {
 
 // El héroe de una partida (las partidas antiguas solo guardaban el género).
 export function heroFor(save) {
-  return (save && getHero(save.hero)) || (save && save.gender === 'f' ? HEROES[1] : HEROES[0]);
+  return (save && getHero(save.hero)) || (save && save.gender === 'f' ? HEROES[1] : HEROES[0]); // partidas antiguas
 }

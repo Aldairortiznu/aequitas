@@ -73,20 +73,20 @@ export const SPOTS = [
 export const TALK = {
   fidelina: [
     { id: 'mision', label: '¿Qué está pasando en el puerto?', req: ['!f:met_fidelina'], give: ['f:met_fidelina', 'c:justicia_comunitaria'], lines: [
-      F('¡Bienvenid{o} a Puerto Garza! Soy Fidelina Carrascal, presidenta de la Junta de Acción Comunal.'),
+      F('Le damos la bienvenida a Puerto Garza. Soy Fidelina Carrascal, presidenta de la Junta de Acción Comunal.'),
       F('Siete años después del Acuerdo volvimos a pescar, a sembrar... y a discutir, que también es de humanos.'),
       F('Los Ortega y un señor de río arriba, Don Aurelio, se disputan la lancha. Es la única del puerto: con ella pescamos para todos.'),
       F('Ramiro y su gente estuvieron en la guerra y se quedaron con la costumbre de mandar a punta de puño: cobran peaje en el puente y en el muelle, y el que reclama se las ve con ellos.'),
       F('Quieren arreglar lo de la lancha a los golpes. Yo quiero arreglarlo bien. Por eso le escribimos a la Biblioteca.'),
-      L('La Junta puede conciliar en equidad los conflictos de la comunidad. Nosotros ayudamos: escuchar, buscar pruebas, entender... y luego, la audiencia.'),
-      F('Un consejo: aquí nadie le cree a un forastero. Ayude a la gente con sus líos y verá cómo se le abren las puertas. Hasta el retén del puente.'),
+      L('La Comisión de Conciliación de la Junta puede conciliar en equidad los conflictos de la comunidad. Nosotros ayudamos: escuchar, buscar pruebas, entender... y luego, la audiencia.'),
+      F('Un consejo: aquí nadie le cree a la gente de afuera. Ayude a la gente con sus líos y verá cómo se le abren las puertas. Hasta el retén del puente.'),
       L('Y algo más: cada norma que aprendas, enséñala. Cuando la gente sabe usar la ley, el Puño se queda sin poder. Mira la barra de Equilibrio del puerto.'),
     ] },
-    { id: 'audiencia', label: '⚖ ¡Tengo el caso listo! Llamemos a audiencia', req: ['ready'], act: 'hearing', lines: [
+    { id: 'audiencia', label: '⚖ ¡Tengo el caso listo! Llamemos a audiencia', req: ['ready', '!f:audiencia_ok'], act: 'hearing', lines: [
       F('¿Ya tiene todo? ¡Entonces que suene la campana de la Junta!'),
       F('Ramiro, Carmen, Julián, Don Aurelio... ¡todo el mundo a la Casa de la Junta!'),
     ] },
-    { id: 'confianza', label: '¿Cómo me gano la confianza del puerto?', req: ['f:met_fidelina', '!f:reten_open'], repeat: true, lines: [
+    { id: 'confianza', label: '¿Cómo me gano la confianza del puerto?', req: ['f:met_fidelina', '!f:reten_open', '!f:audiencia_ok'], repeat: true, lines: [
       F('Hay tres líos esperando. En el barrio, Don Lucho tiene encerrada la gallina de Doña Rosa: dice que le dañó la cosecha.'),
       F('En el muelle, los faroles llevan semanas apagados. Y en el mercado, Nubia jura que la balanza de Chepe roba.'),
       F('Resuelva dos y el Mono le abre el puente. Resuelva los tres y el puerto entero le va a escuchar.'),
@@ -96,7 +96,7 @@ export const TALK = {
       Nota('«Año 1 después del Acuerdo. Carmen Ortega encontró una lancha encallada en la ciénaga, sin nadie a bordo. Motor rojo. Se guarda para su dueño.»'),
       L('Carmen anotó el hallazgo y esperó al dueño: eso es buena fe. Y la ley la presume. Lo que hay que probar es la mala fe.'),
     ] },
-    { id: 'falta', label: '¿Podemos hacer ya la audiencia?', req: ['f:met_fidelina', '!ready'], repeat: true, act: 'missing', lines: [
+    { id: 'falta', label: '¿Podemos hacer ya la audiencia?', req: ['f:met_fidelina', '!ready', '!f:audiencia_ok'], repeat: true, act: 'missing', lines: [
       F('Todavía no. Si vamos a la audiencia sin pruebas, el Puño nos come vivos.'),
     ] },
     { id: 'despues', label: '¿Cómo sigue el puerto, Doña Fidelina?', req: ['f:caso_cerrado'], repeat: true, lines: [
@@ -104,7 +104,7 @@ export const TALK = {
       F('Ya nadie cobra peaje. Y cuando hay un lío, la gente dice: «llevémoslo a la Junta». ¿Quién lo hubiera creído?'),
     ] },
     { id: 'guerra', label: '¿Qué pasó en la guerra?', req: ['f:met_fidelina'], lines: [
-      F('Nueve años, {explorador}. Se cayeron la luz, los puentes, las oficinas... y muchos tuvimos que huir. Algunos volvieron; otros todavía no.'),
+      F('Nueve años, {nombre}. Se cayeron la luz, los puentes, las oficinas... y muchos tuvimos que huir. Algunos volvieron; otros todavía no.'),
       F('Los que se quedaron y los que regresaron tuvieron que aprender a vivir juntos otra vez. Para eso existe la Junta.'),
       L('El Acuerdo de Altamar puso fin a la guerra. Pero la paz, dice la Constitución, es también un deber de cada persona.'),
     ] },
@@ -139,7 +139,7 @@ export const TALK = {
 
   mono: [
     { id: 'reten', label: '¿Puedo pasar al astillero?', req: ['!f:reten_open', 'trust<2'], repeat: true, act: 'trust', lines: [
-      M('¡Alto ahí! Por orden del Puño, ningún forastero pasa al astillero.'),
+      M('¡Alto ahí! Por orden del Puño, nadie de afuera pasa al astillero.'),
       M('...A menos que la gente del puerto responda por usted. Ahí sí, de pronto.'),
     ] },
     { id: 'abre', label: '¿Ahora sí puedo pasar?', req: ['!f:reten_open', 'trust>=2'], give: ['f:reten_open'], act: 'open_reten', lines: [
@@ -153,7 +153,7 @@ export const TALK = {
 
   rosa: [
     { id: 'gallina', label: '¿Qué le pasa, Doña Rosa?', req: ['!f:gallina_done', '!f:rosa_hablo'], give: ['f:rosa_hablo'], lines: [
-      Ro('Ay, mij{o}. Don Lucho tiene encerrada a la Copetona, mi gallina. Con sus huevos comemos mis nietos y yo.'),
+      Ro('Ay, {nombre}. Don Lucho tiene encerrada a la Copetona, mi gallina. Con sus huevos comemos mis nietos y yo.'),
       Ro('Dice que se le metió a la huerta y le dañó la cosecha, y que no la devuelve hasta que alguien responda.'),
       L('Los dos pueden tener razón en algo. Vamos a escuchar a Don Lucho.'),
     ] },
@@ -186,7 +186,7 @@ export const TALK = {
 
   chepe: [
     { id: 'peso', label: '¿Qué pasa con su balanza?', req: ['!f:peso_done'], repeat: true, act: 'mg:peso', lines: [
-      C('Bienvenid{o} a Variedades Chepe. Aquí se cambia arroz por gasolina y gasolina por anzuelos.'),
+      C('Le doy la bienvenida a Variedades Chepe. Aquí se cambia arroz por gasolina y gasolina por anzuelos.'),
       Nu('¡Y se pierde en el peso!'),
       C('Mi balanza es honrada, Nubia. Como yo.'),
       Nu('Le vendí diez kilos de bocachico y me pagó ocho. ¡Ocho!'),
@@ -231,6 +231,10 @@ export const TALK = {
       Y('No le diga que yo le dije... ¿Eso es chismear o es decir la verdad?'),
       L('Decir la verdad para que nadie salga perjudicado no es chisme, Yuli. Es valentía.'),
     ] },
+    { id: 'norma', label: '📖 Enseñarle a Yuli a leer una norma', req: ['f:met_fidelina'], repeat: true, act: 'mg:norma', lines: [
+      Y('En la escuela de antes enseñaban las leyes. ¿Cómo se lee una?'),
+      L('Casi todas tienen dos mitades: «si pasa esto...» y «...entonces la ley dice esto». Armémoslas con Yuli.'),
+    ] },
     { id: 'charla', label: '¿Qué quieres ser de grande?', repeat: true, lines: [
       Y('¡Exploradora de la Biblioteca! O piloto de lancha. O las dos cosas.'),
     ] },
@@ -238,7 +242,7 @@ export const TALK = {
 
   tule: [
     { id: 'memoria', label: 'Cuénteme de los tiempos de antes', lines: [
-      T('Mij{o}, yo tengo noventa años. Vi este puerto con fiesta, lo vi en la guerra y ahora lo veo levantarse.'),
+      T('{nombre}, yo tengo noventa años. Vi este puerto con fiesta, lo vi en la guerra y ahora lo veo levantarse.'),
       T('En la guerra nos quitaron casi todo. Lo que no pudieron quitarnos fue el canto: los bullerengues, las décimas y los nombres de los que no volvieron, que seguimos diciendo.'),
       L('La memoria también es una forma de justicia, Mamá Tule.'),
     ] },
@@ -247,7 +251,7 @@ export const TALK = {
       T('Y tenía nombre de niña, eso sí me acuerdo. ¿Cómo era...? Ay, la memoria.'),
     ] },
     { id: 'charla', label: '¿Algún consejo, Mamá Tule?', repeat: true, lines: [
-      T('Lo que la guerra rompió no lo arregla nadie solo, mij{o}. Se arregla entre todos, y hablando.'),
+      T('Lo que la guerra rompió no lo arregla nadie a solas, {nombre}. Se arregla entre todos, y hablando.'),
     ] },
   ],
 
@@ -280,7 +284,7 @@ export const TALK = {
       Ca('Todo está en el cuaderno de Chepe: el pistón, el parche, la pintura... Chepe anota hasta los suspiros.'),
     ] },
     { id: 'miedo', label: '¿Qué es lo que más le preocupa?', req: ['i:carmen'], lines: [
-      Ca('No me da miedo perder la lancha, {explorador}. Me da miedo que el puerto vuelva a pasar hambre.'),
+      Ca('No me da miedo perder la lancha, {nombre}. Me da miedo que el puerto vuelva a pasar hambre.'),
     ] },
   ],
 
@@ -401,7 +405,7 @@ export const TALK = {
     { id: 'listo', label: 'Revisar el panel', req: ['f:alumbrado_done'], repeat: true, lines: [Nota('El panel zumba contento. Los faroles brillan sobre el agua.')] },
   ],
   antena: [{ id: 'radio', label: 'Usar la radio de la Biblioteca', repeat: true, act: 'mg:quiz', lines: [
-    { s: 'ulpiana', t: 'Aquí la Biblioteca. ¿Me escuchas, {Explorador}? ¿List{o} para una Ronda Relámpago? Diez preguntas, seis segundos cada una.' },
+    { s: 'ulpiana', t: 'Aquí la Biblioteca. ¿Me escuchas, {nombre}? ¿Te animas a una Ronda Relámpago? Diez preguntas, seis segundos cada una.' },
   ] }],
   casco: [
     { id: 'antes', label: 'Mirar la lancha', req: ['!f:met_partes'], repeat: true, lines: [Nota('Una lancha turquesa sobre los rieles. En el casco dice «LA ESPERANZA».')] },
@@ -454,7 +458,13 @@ export const TALK = {
       L('Puerto Garza ya puede andar sin nosotros. ¿Seguimos río abajo?'),
     ] },
   ],
-  junta_puerta: [{ id: 'puerta', label: 'Mirar la Casa de la Junta', repeat: true, lines: [
+  junta_puerta: [
+    { id: 'tablero', label: '⚖ Resolver los casos del tablero', req: ['f:met_fidelina'], repeat: true, act: 'mg:silogismo', lines: [
+      Nota('En la puerta de la Junta hay un tablero con casos de otros pueblos del río, pegados con tachuelas.'),
+      L('Practiquemos cómo razona el derecho: primero los hechos, luego la norma que aplica y al final la conclusión.'),
+    ] },
+    { id: 'puerta', label: 'Mirar la Casa de la Junta', repeat: true, lines: [
     Nota('JUNTA DE ACCIÓN COMUNAL · PUERTO GARZA. En la puerta, una campana de bronce y un letrero: «Aquí se habla, no se grita».'),
-  ] }],
+  ] },
+  ],
 };

@@ -1,5 +1,41 @@
 # AEQUITAS · Registro de cambios
 
+## v0.4 — Sin trato de género · aprender a razonar · revisión legal
+**Sin elección de género**
+- Ya no se elige *Explorador / Exploradora / Exploradore*. La pantalla de personaje solo
+  pide a quién quieres llevar, y en el pueblo te llaman por tu nombre. Todas las frases que
+  dependían del trato se reescribieron en forma neutra («Le damos la bienvenida», «gente de
+  afuera», «¿Te animas…?»).
+
+**Fidelina**
+- Arreglado: después de cerrar el caso, hablar con Fidelina ya no ofrecía otra vez
+  «Empezar la audiencia» ni las preguntas de antes; solo quedan las conversaciones del
+  después.
+- Se fue el «Nueve años, exploradore.» y frases parecidas.
+
+**Dos minijuegos nuevos para aprender derecho**
+- *El tablero de la Junta* (en la puerta de la Casa de la Junta, después de conocer a
+  Fidelina): el silogismo jurídico. Lees los hechos de un caso, eliges la norma que aplica y
+  luego la conclusión; al final ves la cadena HECHOS → NORMA → CONCLUSIÓN. Siete casos
+  (animales, caminos públicos, destierro, igualdad de los desplazados, buena fe, debido
+  proceso, la paz). Da la carta *La paz es un derecho y un deber* (Const., art. 22).
+- *Arma la norma* (con Yuli): unes cada «Si…» con su «…entonces» y aparece el artículo.
+  Enseña que toda norma tiene un supuesto de hecho y una consecuencia. Da la carta *Quien
+  causa un daño, lo repara* (C. C., art. 2341).
+- El Códice pasa de 27 a 29 cartas.
+
+**Revisión legal**
+- Se cotejaron todas las citas con los textos de la Secretaría del Senado (Constitución,
+  Código Civil, Ley 2220 de 2022, Ley 2166 de 2021 y Ley 446 de 1998). Los números de artículo estaban bien;
+  se corrigieron diez frases imprecisas:
+  - art. 34: prohíbe el destierro y la confiscación (no «echar del pueblo»); expulsar a
+    alguien de donde vive se apoya también en el art. 24;
+  - hallazgo (art. 708), frutos (art. 964, «antes de contestar la demanda»), mejoras
+    voluptuarias (art. 967: se las lleva si no daña la cosa y el dueño no quiere pagarlas);
+  - compensación (arts. 1714 y 1715), conciliación en equidad de la Junta (Ley 2220,
+    arts. 5 y 84, y Ley 2166: solo si su conciliador está formado y nombrado), bienes de uso público (art. 674);
+  - la audiencia, el acta y la Ronda Relámpago se ajustaron con las mismas precisiones.
+
 ## v0.3 — Después de la guerra · nueva presentación
 **Historia**
 - El mundo ya no viene de una inundación sino de una guerra de nueve años que terminó

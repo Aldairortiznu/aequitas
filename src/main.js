@@ -71,11 +71,11 @@ import('./touchpad.js').then(({ initTouchPad }) => initTouchPad(game));
 if (import.meta.env && import.meta.env.DEV) {
   const ALL = ['Character', 'Town', 'Interview', 'Dialogue', 'Card', 'CaseFile', 'Minigame', 'Hearing', 'Resolution', 'CaseClosed', 'Pause', 'Settings', 'Cinematic', 'Menu'];
   const stopAll = () => ALL.forEach((k) => { if (game.scene.isActive(k) || game.scene.isPaused(k)) game.scene.stop(k); });
-  // __aeq.town({ hero, gender, flags:[...], items:[...], cards:[...], at:[x,y] }): pueblo con ese avance.
+  // __aeq.town({ hero, flags:[...], items:[...], cards:[...], at:[x,y] }): pueblo con ese avance.
   window.__aeq = {
     save: () => getSave(), // la partida en memoria (no recargar: las escenas comparten este objeto)
     fresh(opts = {}) {
-      const s = newSave(opts.gender || 'm', opts.hero || null);
+      const s = newSave(opts.hero || null);
       s.stage = opts.stage || 'pueblo';
       (opts.flags || []).forEach((f) => { s.flags[f] = true; });
       (opts.items || []).forEach((i) => { s.items[i] = 1; });

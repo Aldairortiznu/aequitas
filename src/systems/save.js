@@ -4,7 +4,6 @@ import { SAVE_KEY } from '../config.js';
 
 const DEFAULT_SAVE = {
   version: 1,
-  gender: 'm', // trato: m (Explorador), f (Exploradora), n (Exploradore)
   hero: null, // tomas | valeria | rio | alex (ver data/heroes.js)
   chapter: 1,
   stage: 'prologo', // prologo → remar → pueblo → audiencia → acuerdo → cierre
@@ -48,9 +47,9 @@ export function loadSave() {
   }
 }
 
-export function newSave(gender = 'm', hero = null) {
+export function newSave(hero = null) {
   const now = Date.now();
-  const data = { ...clone(DEFAULT_SAVE), gender, hero, createdAt: now, updatedAt: now };
+  const data = { ...clone(DEFAULT_SAVE), hero, createdAt: now, updatedAt: now };
   writeSave(data);
   current = data;
   return data;

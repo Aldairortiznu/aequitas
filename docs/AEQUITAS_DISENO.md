@@ -64,8 +64,9 @@ ellas, en *Equilibrio* (100 %).
 - **Personajes:** sus líneas cambian con el orden. Ramiro pasa de amenazar a aceptar la Junta.
 
 ## 4. Personajes
-**Elige a quien viaja.** La gente le nombra *Explorador*, *Exploradora* o *Exploradore*
-(trato elegible), y su nombre aparece en los diálogos y en el acta.
+**Elige a quien viaja.** No hay elección de género: la gente le llama por su nombre, y su
+nombre aparece en los diálogos y en el acta. Los textos se escriben en forma neutra
+(«le damos la bienvenida», «gente de afuera») y usan `{nombre}` donde hace falta.
 
 | Personaje | Quién es | Don |
 |---|---|---|
@@ -137,6 +138,8 @@ ellas, en *Equilibrio* (100 %).
 | Linterna | Buscar la placa en la bodega a oscuras | Hallazgo: restituir pagando gastos (art. 708) |
 | Ronda relámpago | ¿Legal o no? 10 de 24 afirmaciones, 6 s c/u | Repaso con artículo en cada respuesta |
 | Enseñar | Elegir la norma y explicarla | Aplicar y transmitir la ley (4 lecciones) |
+| El tablero de la Junta | 4 casos: elegir la norma y luego la conclusión; al final se ve la cadena completa | El silogismo jurídico: hechos + norma = conclusión (arts. 2353, 674, 1603; Const. arts. 13, 22, 24, 29) |
+| Arma la norma | Unir cada «Si…» con su «…entonces» y ver el artículo | Estructura de la norma: supuesto de hecho y consecuencia (arts. 2341, 2353, 1602, 704–705; Const. arts. 24, 29) |
 
 ## 7. Mapa legal (el Códice)
 Todas las cartas citan su fuente. Textos parafraseados con fidelidad a la norma.
@@ -213,7 +216,7 @@ Cada capítulo repite el ciclo de restauración con su propio medidor de equilib
 - `story.js`: condiciones, objetivos y recompensas.
 - `order.js`: equilibrio y etapas.
 - `save.js`: guardado único en memoria.
-- `text.js`: trato y nombre del personaje.
+- `text.js`: nombre del personaje (`{nombre}`) y normalización.
 
 **Pruebas:**
 - Recorridos automáticos con Playwright, de la pantalla de inicio al capítulo 2, en

@@ -9,7 +9,7 @@ import { HEROES, heroFor } from '../data/heroes.js';
 import { applyToRegistry, loadSettings } from '../systems/settings.js';
 import { setVolume, setMuted } from '../systems/audio.js';
 import { loadSave } from '../systems/save.js';
-import { setGender, setHeroName } from '../systems/text.js';
+import { setHeroName } from '../systems/text.js';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -40,10 +40,9 @@ export default class BootScene extends Phaser.Scene {
   }
 }
 
-// Hornea el sprite del protagonista elegido y ajusta el trato de los textos.
+// Hornea el sprite del protagonista elegido y pone su nombre en los textos.
 export function buildPlayer(scene, save) {
   const hero = heroFor(save);
-  setGender(save && save.gender ? save.gender : hero.trato);
   setHeroName(hero.name);
   makePerson(scene, 'player', hero.spec, { walk: true, back: true });
   return hero;

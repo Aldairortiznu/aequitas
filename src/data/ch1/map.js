@@ -167,7 +167,7 @@ export const PAGES = [
 export const HERONS = [{ x: 58, y: 34 }, { x: 16, y: 35 }, { x: 48, y: 34 }];
 export const HEN_ZONE = { x0: 2, y0: 20, x1: 9, y1: 30 };
 
-// Dónde aparece {el} {explorador} al llegar en canoa.
+// Dónde aparece quien juega al llegar en canoa.
 export const START = { x: 31, y: 42 };
 
 // Zonas que disparan una escena al entrar (una sola vez).
