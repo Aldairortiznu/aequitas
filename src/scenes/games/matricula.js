@@ -51,7 +51,7 @@ export default {
       c.setAngle(Phaser.Math.Between(-2, 2));
       return { idx, c, bg, t, placed: false, home: { x, y } };
     });
-    s.next = 0;
+    s.slotIdx = 0;
     s.sel = 0;
     s.selBox = s.add.rectangle(0, 0, 154, 26).setStrokeStyle(2, 0xffe070).setDepth(9).setVisible(false);
   },
@@ -88,30 +88,30 @@ export default {
   },
 
   highlight(s) {
-    s.slots.forEach((sl, i) => sl.r.setStrokeStyle(i === s.next ? 2 : 1, i === s.next ? 0xe3b04b : 0xb5a68a, 1));
-    const sl = s.slots[s.next];
+    s.slots.forEach((sl, i) => sl.r.setStrokeStyle(i === s.slotIdx ? 2 : 1, i === s.slotIdx ? 0xe3b04b : 0xb5a68a, 1));
+    const sl = s.slots[s.slotIdx];
     if (sl) { s.tweens.killTweensOf(sl.r); sl.r.setAlpha(1); s.tweens.add({ targets: sl.r, alpha: 0.5, duration: 400, yoyo: true, repeat: -1 }); }
   },
 
   place(s, k) {
     const p = s.pieces[k];
     if (!p || p.placed) return;
-    if (p.idx !== s.next) {
+    if (p.idx !== s.slotIdx) {
       s.bad();
       s.tweens.add({ targets: p.c, x: p.home.x + 6, duration: 50, yoyo: true, repeat: 3 });
       s.pop('No encaja ahí', '#e8817a', 150, '12px');
       return;
     }
     p.placed = true;
-    const sl = s.slots[s.next];
+    const sl = s.slots[s.slotIdx];
     s.tweens.killTweensOf(sl.r);
     sl.r.setAlpha(1);
     // El papel se estira al ancho del espacio; la letra no (se compensa).
     s.tweens.add({ targets: p.c, x: sl.x, y: sl.y, angle: 0, scaleX: SW / 148, scaleY: SH / 20, duration: 260, ease: 'Cubic.out' });
     s.tweens.add({ targets: p.t, scaleX: 148 / SW, scaleY: 20 / SH, duration: 260, ease: 'Cubic.out' });
     sfx('page');
-    s.next++;
-    if (s.next >= MATRICULA.pieces.length) {
+    s.slotIdx++;
+    if (s.slotIdx >= MATRICULA.pieces.length) {
       s.selBox.setVisible(false);
       s.time.delayedCall(400, () => {
         const stamp = s.add.text(GAME.WIDTH / 2, 92, 'COMPLETA', { fontFamily: 'Georgia, serif', fontSize: '30px', color: '#b5302a' }).setOrigin(0.5).setAngle(-12).setAlpha(0).setScale(2.2).setDepth(20);

@@ -1,5 +1,16 @@
 # AEQUITAS · Registro de cambios
 
+## v0.8.1 — Arreglo: la matrícula de Don Anselmo
+- **Después de armar la matrícula, el juego no avanzaba:** Don Anselmo pedía otra vez
+  el mismo documento. El minijuego guardaba su contador de pedazos con el mismo nombre
+  que usa la escena para saber a dónde ir al terminar, así que al completarlo se perdía
+  el resultado y la matrícula no llegaba al expediente. Ahora cada uno tiene su nombre.
+- Revisión de los demás minijuegos: el de la balanza también usaba un nombre reservado
+  (el cargador de Phaser) y se corrigió. Los diez minijuegos del pueblo devuelven su
+  resultado (comprobado uno por uno).
+- Las partidas que se quedaron trabadas siguen: basta hablar con Don Anselmo y armar la
+  matrícula otra vez.
+
 ## v0.8 — Las ilustraciones de la historia
 - Llegaron las **seis escenas ilustradas** (el Colapso del Leviatán, la Bóveda, la
   travesía, la víspera, la Margarita Dorada y Siete Puentes) y los **retratos de los

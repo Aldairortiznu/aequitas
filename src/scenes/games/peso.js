@@ -30,8 +30,8 @@ export default {
     s.panL = s.add.container(CX - 80, CY).setDepth(10);
     s.panR = s.add.container(CX + 80, CY).setDepth(10);
     [s.panL, s.panR].forEach((p) => p.add(s.add.image(0, 0, 'ui_pan').setOrigin(0.5, 0).setScale(2.2)));
-    s.load = s.add.container(0, 0);
-    s.panL.add(s.load);
+    s.cargaBox = s.add.container(0, 0);
+    s.panL.add(s.cargaBox);
     s.rightStack = s.add.container(0, 0);
     s.panR.add(s.rightStack);
     s.readout = s.add.text(CX, 36, '', { fontFamily: 'monospace', fontSize: '10px', color: '#2a2018', backgroundColor: '#efe3c2', padding: { x: 6, y: 3 }, align: 'center' }).setOrigin(0.5, 0).setDepth(30);
@@ -59,7 +59,7 @@ export default {
     s.locked = false;
     s.weights.forEach((w) => { w.on = false; });
     this.refreshButtons(s);
-    s.load.removeAll(true);
+    s.cargaBox.removeAll(true);
     const basket = s.add.graphics();
     basket.fillStyle(0x8a6034, 1); basket.fillRoundedRect(-22, -2, 44, 18, 4); basket.fillStyle(0xa8783f, 1); basket.fillRect(-20, 0, 40, 3);
     const n = Math.min(8, r.real + 1);
@@ -69,8 +69,8 @@ export default {
       basket.fillStyle(s.round === 0 ? 0xf2c230 : 0x9fb8c0, 1); basket.fillEllipse(fx, fy, 12, 6);
     }
     basket.y = 26;
-    s.load.add(basket);
-    s.load.add(s.add.text(0, 50, r.what, { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#2a2018' }).setOrigin(0.5, 0));
+    s.cargaBox.add(basket);
+    s.cargaBox.add(s.add.text(0, 50, r.what, { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#2a2018' }).setOrigin(0.5, 0));
     s.readout.setText(`Ronda ${s.round + 1}/${PESO.rounds.length} · La balanza de Chepe marca: ${r.shown} kg\n¿Cuánto pesa de verdad?`);
     this.rebalance(s);
   },

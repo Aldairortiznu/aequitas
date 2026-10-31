@@ -37,7 +37,9 @@ export default class MinigameScene extends Phaser.Scene {
     this.data0 = data || {};
     this.id = data.id;
     this.returnScene = data.returnScene || 'Town';
-    this.next = data.next || null;
+    // (no se llama «next»: los juegos guardan su estado en la escena y uno usó
+    // s.next como contador, lo que borraba el resultado al terminar)
+    this.afterScene = data.next || null;
     this.save = getSave() || {};
     this.ended = false;
     this.playing = false;
@@ -218,10 +220,10 @@ export default class MinigameScene extends Phaser.Scene {
   finish(win, score) {
     if (this.finished) return;
     this.finished = true;
-    if (!this.next) this.registry.set('mgResult', { id: this.id, win, score: score || 0, lesson: this.data0.lesson || null });
-    if (this.next) {
+    if (!this.afterScene) this.registry.set('mgResult', { id: this.id, win, score: score || 0, lesson: this.data0.lesson || null });
+    if (this.afterScene) {
       this.cameras.main.fadeOut(400, 0, 0, 0);
-      this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start(this.next.scene, this.next.data || {}));
+      this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start(this.afterScene.scene, this.afterScene.data || {}));
       return;
     }
     if (this.scene.isPaused(this.returnScene)) this.scene.resume(this.returnScene);
