@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import { GAME, COLORS, VERSION } from './config.js';
 import { getSave, newSave, writeSave } from './systems/save.js';
 import BootScene from './scenes/BootScene.js';
+import AssetsScene from './scenes/AssetsScene.js';
 import MenuScene from './scenes/MenuScene.js';
 import CharacterScene from './scenes/CharacterScene.js';
 import CinematicScene from './scenes/CinematicScene.js';
@@ -40,7 +41,7 @@ const config = {
   // El orden es el de dibujo y de lectura del teclado: las escenas base primero y
   // las superpuestas (diálogo, cartas, pausa) después, para que queden encima y
   // la tecla que cierra un diálogo no la lea también la escena de abajo.
-  scene: [BootScene, MenuScene, CharacterScene, CinematicScene, PostcardScene, AlbumScene, TownScene, HearingScene, ResolutionScene, CaseClosedScene, MinigameScene, InterviewScene, CaseFileScene, DialogueScene, CardScene, LessonScene, PauseScene, SettingsScene],
+  scene: [BootScene, AssetsScene, MenuScene, CharacterScene, CinematicScene, PostcardScene, AlbumScene, TownScene, HearingScene, ResolutionScene, CaseClosedScene, MinigameScene, InterviewScene, CaseFileScene, DialogueScene, CardScene, LessonScene, PauseScene, SettingsScene],
 };
 
 const game = new Phaser.Game(config);

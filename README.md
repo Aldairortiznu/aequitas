@@ -71,9 +71,10 @@ Cada push a `main` publica el juego en GitHub Pages (GitHub Actions). El prototi
 septiembre (combate dialéctico) se conserva completo en la rama `prototipo-septiembre`;
 sus cuatro exploradores son hoy los Emisarios del juego.
 
-**Escenas cinematográficas:** seis momentos míticos que aparecen detrás del texto en la
-historia y se vuelven a ver en «Escenas de la historia». Para cambiarlas por ilustraciones
-(y poner retratos en la elección de personaje), ver `docs/PROMPT_POSTALES.md`.
+**Escenas cinematográficas:** seis momentos míticos ilustrados que aparecen detrás del
+texto en la historia y se vuelven a ver en «Escenas de la historia». Los retratos de los
+cuatro Emisarios están en la elección de personaje. Los originales están en `art-src/`;
+para cambiarlos, ver `docs/PROMPT_POSTALES.md`.
 
 **Aprender jugando:** cada acierto en la audiencia y en el acuerdo se explica en una
 tarjeta «¿Por qué funcionó?», y la historia avanza con preguntas que se van descubriendo.

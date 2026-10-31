@@ -1,5 +1,11 @@
 # Prompt para Antigravity: postales y retratos de AEQUITAS
 
+> **Estado (v0.8):** las seis escenas y los cuatro retratos ya están en el juego. Los
+> originales en PNG están en `art-src/postales/` y `art-src/retratos/`. El juego usa
+> copias WebP (1600×900 las escenas, 360×480 los retratos) listadas en
+> `public/assets/postales/postales.json` y `public/assets/retratos/retratos.json`. Para
+> cambiar una imagen, reemplaza el PNG en `art-src/` y genera de nuevo su WebP.
+
 El juego ya trae las seis postales y los cuatro retratos **pintados por código**.
 Si se generan ilustraciones con este prompt y se guardan donde se indica, el juego
 las usa automáticamente en su lugar (si falta alguna, sigue usando la de código).

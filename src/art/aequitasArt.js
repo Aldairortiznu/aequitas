@@ -12,8 +12,16 @@ const T = 16;
 
 // Crea una textura de canvas y entrega (ctx, px) para dibujar pixel a pixel.
 function tex(scene, key, w, h, draw) {
-  if (scene.textures.exists(key)) scene.textures.remove(key);
-  const c = scene.textures.createCanvas(key, w, h);
+  // Si ya existe (p. ej. el protagonista al cambiar de personaje), se repinta en
+  // el mismo lienzo: borrar la textura dejaría sin imagen a lo que la esté
+  // mostrando en ese momento (el bote del menú durante su fundido, por ejemplo).
+  let c = scene.textures.exists(key) ? scene.textures.get(key) : null;
+  if (c && c.context && c.width === w && c.height === h) {
+    c.context.clearRect(0, 0, w, h);
+  } else {
+    if (c) scene.textures.remove(key);
+    c = scene.textures.createCanvas(key, w, h);
+  }
   if (!c) return null;
   const ctx = c.context;
   ctx.imageSmoothingEnabled = false;

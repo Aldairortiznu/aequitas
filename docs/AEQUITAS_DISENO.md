@@ -47,8 +47,9 @@ del Leviatán*, *La Bóveda de la Biblioteca*, *La travesía*, *La víspera*, *L
 Dorada* y *Siete Puentes*. No se descargan: aparecen detrás del texto, dentro de las
 cinemáticas y los diálogos, cuando una línea lleva `postal: '<clave>'`. Una línea con
 `postal: 'off'` las quita. Se pueden volver a ver en «Escenas de la historia» (menú).
-Están pintadas por código. Si se agregan ilustraciones en `public/assets/postales/`, el
-juego las usa en su lugar (ver `docs/PROMPT_POSTALES.md`).
+Las ilustraciones (hechas con Antigravity) están en `public/assets/postales/` en WebP y
+se cargan en segundo plano (`AssetsScene`). La pintura por código queda como respaldo.
+Los originales están en `art-src/` (ver `docs/PROMPT_POSTALES.md`).
 
 ### Aprender de cada acierto
 - **«¿Por qué funcionó?»** (`LessonScene`): después de cada objeción correcta y de cada buena

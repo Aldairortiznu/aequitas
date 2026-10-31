@@ -1,5 +1,21 @@
 # AEQUITAS · Registro de cambios
 
+## v0.8 — Las ilustraciones de la historia
+- Llegaron las **seis escenas ilustradas** (el Colapso del Leviatán, la Bóveda, la
+  travesía, la víspera, la Margarita Dorada y Siete Puentes) y los **retratos de los
+  cuatro Emisarios**, hechos con Antigravity. Reemplazan a la pintura por código, que se
+  queda como respaldo.
+- **Livianas:** se pasaron a WebP con el tamaño que el juego usa (de 10 MB a menos de
+  1 MB). Los originales quedan en `art-src/`.
+- **Sin esperas:** se cargan en segundo plano mientras ya se ve el menú (escena
+  `Assets`). Si alguna no ha llegado, se usa la pintura por código.
+- **Arreglo del modo sin conexión:** el service worker guardaba para siempre la lista de
+  ilustraciones y el juego no se enteraba de las nuevas. Ahora las listas y las
+  ilustraciones van por red primero, y los caches viejos se borran (`aequitas-v2`).
+- **Arreglo:** al cambiar de personaje o continuar una partida, el sprite del protagonista
+  se repinta en el mismo lienzo en lugar de borrarse. Antes, si el menú lo estaba
+  dibujando en ese instante, podía salir un error de imagen sin textura.
+
 ## v0.7 — Botones que hablan claro · celular en vertical
 **Botones**
 - Cambian de rótulo según la pantalla: «Seguir» en los diálogos, «Preguntar» y
