@@ -75,7 +75,7 @@ export default class HearingScene extends Phaser.Scene {
 
     const onResume = () => { this.busy = false; this.runNext(); };
     this.events.on('resume', onResume);
-    this.events.once('shutdown', () => this.events.off('resume', onResume));
+    this.events.once('shutdown', () => { this.events.off('resume', onResume); window.__stmt = null; window.__pick = null; });
     startAudio().then(() => playTheme('audiencia'));
     this.cameras.main.fadeIn(700, 0, 0, 0);
 
@@ -179,7 +179,8 @@ export default class HearingScene extends Phaser.Scene {
     kb.on('keydown-ENTER', () => (this.picker ? this.pickerKey('ok') : this.openPicker()));
     kb.on('keydown-B', when(() => this.hint()));
     kb.on('keydown-C', when(() => this.calm()));
-    kb.on('keydown-ESC', () => (this.picker ? this.closePicker() : null));
+    // Esc: cierra el selector; si no hay selector, abre la pausa (como en el pueblo).
+    kb.on('keydown-ESC', () => (this.picker ? this.closePicker() : this.openPause()));
   }
 
   // ----------------------------------------------------------- rondas
@@ -261,6 +262,13 @@ export default class HearingScene extends Phaser.Scene {
     this.refreshHud();
   }
 
+  openPause() {
+    if (this.busy) return;
+    this.busy = true;
+    this.scene.launch('Pause', { returnScene: 'Hearing' });
+    this.scene.pause();
+  }
+
   // ----------------------------------------------------------- presentar
   openPicker() {
     if (!this.cross || this.busy || this.picker) return;
@@ -279,6 +287,7 @@ export default class HearingScene extends Phaser.Scene {
     if (!this.picker) return;
     this.picker.objs.destroy();
     this.picker = null;
+    window.__pick = null;
   }
 
   pickerKey(k) {
@@ -314,6 +323,7 @@ export default class HearingScene extends Phaser.Scene {
     close.on('pointerdown', () => this.closePicker());
     const list = p.lists[p.tab];
     if (!list.length) {
+      window.__pick = { tab: PICK_TABS[p.tab], n: 0, i: 0, name: '', desc: '' };
       add(this.add.text(WIDTH / 2, 140, 'Nada aquí todavía.', { fontFamily: 'Georgia, serif', fontSize: '11px', color: '#8a7a62' }).setOrigin(0.5));
       return;
     }
@@ -331,6 +341,8 @@ export default class HearingScene extends Phaser.Scene {
       add(this.add.text(47, y + 6, it.name, { fontFamily: 'Georgia, serif', fontSize: '9px', color: on ? '#efe3c2' : '#2a2018' }).setOrigin(0, 0.5));
     });
     const it = list[p.sel];
+    // Para el panel del celular en vertical: lo elegido, en letra grande.
+    window.__pick = { tab: PICK_TABS[p.tab], n: list.length, i: p.sel + 1, name: it.name, desc: it.desc };
     add(this.add.text(242, 80, it.name, { fontFamily: 'Georgia, serif', fontSize: '11px', color: '#5a3a20', wordWrap: { width: WIDTH - 272 } }));
     add(this.add.text(242, 100, it.desc, { fontFamily: 'Georgia, serif', fontSize: '9px', color: '#2a2018', wordWrap: { width: WIDTH - 272 }, lineSpacing: 2 }));
     const go = add(this.add.rectangle(WIDTH - 90, HEIGHT - 36, 120, 22, 0xb5562c).setStrokeStyle(2, 0x7a3a1a).setInteractive({ useHandCursor: true }));
@@ -364,6 +376,12 @@ export default class HearingScene extends Phaser.Scene {
       this.afterBeat(900);
       return;
     }
+    // Una frase ya resuelta no castiga: solo se avisa.
+    if (this.solved.has(this.idx)) {
+      this.push({ type: 'talk', lines: [{ s: 'lumen', t: 'Esa frase ya quedó resuelta. Busca otra con ◀ ▶.' }] });
+      this.runNext();
+      return;
+    }
     // Error: la asamblea pierde confianza.
     this.hearts--;
     this.save.stats.wrong = (this.save.stats.wrong || 0) + 1;
@@ -373,7 +391,7 @@ export default class HearingScene extends Phaser.Scene {
     murmur(this, 'Mmm...', '#c9d2d8');
     cheer(this, this.crowd, 'bad');
     const wl = this.R.wrong[Math.floor(Math.random() * this.R.wrong.length)];
-    const tip = this.solved.has(this.idx) ? 'Esa frase ya quedó resuelta. Busca otra con ◀ ▶.' : !st.answer ? 'Esa frase es cierta: no había nada que objetar ahí.' : 'Eso no contradice esta frase. Fíjate bien en lo que dice... y en lo que tienes.';
+    const tip = !st.answer ? 'Esa frase es cierta: no había nada que objetar ahí.' : 'Eso no contradice esta frase. Fíjate bien en lo que dice... y en lo que tienes.';
     this.push({ type: 'talk', lines: [wl, { s: 'lumen', t: tip }] });
     if (this.hearts <= 0) {
       this.push({ type: 'talk', lines: HEARING.failLines });
@@ -441,6 +459,7 @@ export default class HearingScene extends Phaser.Scene {
 
   finishHearing() {
     window.__stmt = null;
+    window.__pick = null;
     this.balance.set(0);
     give(this.save, ['f:audiencia_ok']); // una audiencia en paz: el puerto recupera orden
     this.save.stage = 'acuerdo';

@@ -1,5 +1,17 @@
 # AEQUITAS · Registro de cambios
 
+## v0.8.2 — Arreglos de la audiencia
+- **Texto encimado:** durante los diálogos de la audiencia se transparentaba la frase
+  de abajo y se mezclaba con el texto nuevo. La caja de diálogo ahora es opaca.
+- **Menú en la audiencia:** el botón Menú (ESC) no hacía nada. Ahora abre la pausa
+  (reanudar, expediente, ajustes, menú principal) y se vuelve a la audiencia sin perder
+  el avance.
+- **Selector de pruebas en el celular:** con el selector abierto, los botones dicen
+  «Presentar» y «Cerrar», y el panel de abajo muestra en grande la prueba, el testimonio
+  o la carta elegida, con su descripción.
+- **Más justa:** presentar algo contra una frase ya resuelta ya no quita confianza (♥);
+  Lumen solo avisa que busques otra frase.
+
 ## v0.8.1 — Arreglo: la matrícula de Don Anselmo
 - **Después de armar la matrícula, el juego no avanzaba:** Don Anselmo pedía otra vez
   el mismo documento. El minijuego guardaba su contador de pedazos con el mismo nombre

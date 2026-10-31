@@ -24,6 +24,8 @@ const ELEGIR = { joy: 'Elegir', X: 'Aceptar', E: null, B: null, C: null, I: null
 const CONTEXT = {
   Town: { joy: 'Caminar', X: 'Acción', E: 'Hablar', B: 'Pista', C: 'Tinto', I: 'Expediente', ESC: 'Menú' },
   Hearing: { joy: 'Frases', X: 'Presentar', E: 'Preguntar', B: 'Pista', C: 'Calma', I: null, ESC: 'Menú' },
+  // La audiencia con el selector de pruebas abierto.
+  HearingPick: { joy: 'Elegir', X: 'Presentar', E: null, B: null, C: null, I: null, ESC: 'Cerrar' },
   Dialogue: SEGUIR,
   Card: SEGUIR,
   Lesson: SEGUIR,
@@ -221,6 +223,12 @@ export function initTouchPad(game) {
         + (d.name ? `<div class="who" style="color:${d.color}">${esc(d.name)}</div>` : '')
         + `<div class="say${d.name ? '' : ' narr'}">${esc(d.text)}</div></div></div>`
         + '<div class="next">▼ toca aquí o X para seguir</div>';
+    } else if (key === 'Hearing' && window.__pick) {
+      // El selector de pruebas: lo que vas a presentar, grande.
+      const pk = window.__pick;
+      html = `<div class="who" style="color:#e3b04b">¿Qué presentas? <span class="idx">· ${esc(pk.tab)}${pk.n ? ` · ${pk.i} de ${pk.n}` : ''}</span></div>`
+        + (pk.n ? `<div class="say">${esc(pk.name)}</div><div class="tip">${esc(pk.desc)}</div>` : '<div class="tip">Nada aquí todavía. Cambia de grupo con la palanca ◀ ▶.</div>')
+        + '<div class="tip"><b>◀ ▶</b> pruebas, testimonios o Códice · <b>▲ ▼</b> elegir · <b>X</b> presentar · <b>ESC</b> cerrar</div>';
     } else if (key === 'Hearing' && window.__stmt && top && top.cross) {
       // La frase que se discute, grande, con lo que se puede hacer con ella.
       const st = window.__stmt;
@@ -260,7 +268,8 @@ export function initTouchPad(game) {
     let tap = key !== 'Town';
     if (key === 'Minigame') tap = !(top.def && top.def.pad);
     pad.classList.toggle('tap-only', tap);
-    if (key !== lastKey) { applyContext(key, top); lastKey = key; }
+    const ck = key === 'Hearing' && window.__pick ? 'HearingPick' : key;
+    if (ck !== lastKey) { applyContext(ck, top); lastKey = ck; }
     // «Hablar» brilla cuando hay alguien cerca.
     KEYS.E.classList.toggle('lit', key === 'Town' && !!window.__canTalk);
     renderBand(key, top);

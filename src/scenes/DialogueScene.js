@@ -50,7 +50,7 @@ export default class DialogueScene extends Phaser.Scene {
     // Caja con borde.
     const g = this.add.graphics().setDepth(10);
     this.boxG = g;
-    g.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.shadow).color, 0.98);
+    g.fillStyle(Phaser.Display.Color.HexStringToColor(COLORS.shadow).color, 1); // opaca: en la audiencia, la frase de abajo se transparentaba
     g.fillRoundedRect(bx, by, bw, bh, 6);
     g.lineStyle(2, Phaser.Display.Color.HexStringToColor(COLORS.green).color, 1);
     g.strokeRoundedRect(bx, by, bw, bh, 6);
