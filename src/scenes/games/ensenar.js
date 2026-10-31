@@ -128,21 +128,25 @@ export default {
       this.move(s, 1);
       return;
     }
-    // Acierto.
+    // Acierto: se marca al instante y nada más responde a toques (si la carta
+    // elegida seguía activa, tocarla otra vez en el paso 2 elegía una respuesta).
     s.locked = true;
+    s.choices.forEach((o) => o.b.bg.disableInteractive());
+    this.paint(s);
     s.good(c.b.x, c.b.y);
     this.react(s, true);
     if (s.step === 1) {
-      c.b.bg.setFillStyle(0x2f6b3f, 0.95);
+      c.b.bg.setFillStyle(0x2f6b3f, 0.95).setStrokeStyle(2, 0x8fd694, 1);
+      s.pop('¡Esa es!', '#8fd694', 92, '16px');
       this.feedback(s, '¡Esa es! Ahora explícala de forma que la entiendan.', true);
-      s.time.delayedCall(700, () => {
-        s.choices.forEach((o) => { if (o !== c) s.tweens.add({ targets: o.b, alpha: 0, duration: 250, onComplete: () => o.b.destroy() }); });
-        s.tweens.add({ targets: c.b, x: GAME.WIDTH / 2, y: 122, scale: 1, duration: 300, ease: 'Cubic.out' });
-        s.time.delayedCall(320, () => { s.locked = false; s.fbText.setVisible(false); this.showOptions(s); });
+      s.time.delayedCall(450, () => {
+        s.choices.forEach((o) => { if (o !== c) s.tweens.add({ targets: o.b, alpha: 0, duration: 200, onComplete: () => o.b.destroy() }); });
+        s.tweens.add({ targets: c.b, x: GAME.WIDTH / 2, y: 122, scale: 1, duration: 250, ease: 'Cubic.out' });
+        s.time.delayedCall(260, () => { s.locked = false; s.fbText.setVisible(false); this.showOptions(s); });
       });
       return;
     }
-    c.b.bg.setFillStyle(0x2f6b3f, 0.95);
+    c.b.bg.setFillStyle(0x2f6b3f, 0.95).setStrokeStyle(2, 0x8fd694, 1);
     s.choices.forEach((o) => { if (o !== c) o.b.setAlpha(0.35); });
     this.feedback(s, c.fb, true);
     s.pop('¡Lo entendieron!', '#8fd694', 150, '18px');

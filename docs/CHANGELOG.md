@@ -1,5 +1,15 @@
 # AEQUITAS · Registro de cambios
 
+## v0.8.3 — Arreglo: enseñarle a Doña Nubia
+- **La ley elegida ya responde:** en «Enseñar», al tocar la norma correcta en el
+  celular no pasaba nada visible: el color verde se borraba al levantar el dedo y el
+  recuadro seguía en otra tarjeta. Ahora la carta se marca en verde al instante, sale
+  «¡Esa es!» y el paso 2 aparece más rápido.
+- **Sin respuestas por accidente:** la carta elegida seguía activa y, si se tocaba otra
+  vez, elegía una respuesta del paso 2. Ahora deja de responder a toques.
+- **Todos los minijuegos:** el verde de acierto y el rojo de error de los botones ya no
+  se borran al levantar el dedo.
+
 ## v0.8.2 — Arreglos de la audiencia
 - **Texto encimado:** durante los diálogos de la audiencia se transparentaba la frase
   de abajo y se mezclaba con el texto nuevo. La caja de diálogo ahora es opaca.

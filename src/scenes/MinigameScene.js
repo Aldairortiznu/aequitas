@@ -89,8 +89,13 @@ export default class MinigameScene extends Phaser.Scene {
     const t = this.add.text(0, 0, label, { fontFamily: 'Georgia, serif', fontSize: opts.size || '11px', color: opts.color || COLORS.cream, align: 'center', wordWrap: { width: w - 12 } }).setOrigin(0.5);
     c.add([bg, t]);
     bg.setInteractive({ useHandCursor: true });
-    bg.on('pointerover', () => bg.setFillStyle(opts.hover || 0x2a5a5e, 1));
-    bg.on('pointerout', () => bg.setFillStyle(opts.fill || 0x16303a, 0.95));
+    // Al salir, vuelve al color que tenía antes del resaltado... salvo que el
+    // juego lo haya pintado mientras tanto (verde de acierto, rojo de error):
+    // en el celular «salir» llega al levantar el dedo y borraba esa señal.
+    const hover = opts.hover || 0x2a5a5e;
+    let rest = [opts.fill || 0x16303a, 0.95];
+    bg.on('pointerover', () => { if (bg.fillColor !== hover) rest = [bg.fillColor, bg.fillAlpha]; bg.setFillStyle(hover, 1); });
+    bg.on('pointerout', () => { if (bg.fillColor === hover) bg.setFillStyle(rest[0], rest[1]); });
     bg.on('pointerdown', () => cb());
     c.bg = bg;
     c.label = t;

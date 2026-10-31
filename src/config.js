@@ -10,7 +10,7 @@ export const GAME = {
 };
 
 // Versión del juego (visible en el menú y en la carga). Súbela en cada cambio.
-export const VERSION = 'v0.8.2';
+export const VERSION = 'v0.8.3';
 
 // Paleta: río al atardecer, óxido de un mundo que se cayó, pergamino de la
 // Biblioteca y el dorado de la balanza.
